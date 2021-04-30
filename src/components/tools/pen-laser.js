@@ -1,5 +1,6 @@
 const InterpolationBuffer = require("buffered-interpolation");
 import { convertStandardMaterial } from "../../utils/material-utils";
+import { getThemeColor } from "../../utils/theme";
 
 function almostEquals(epsilon, u, v) {
   return Math.abs(u.x - v.x) < epsilon && Math.abs(u.y - v.y) < epsilon && Math.abs(u.z - v.z) < epsilon;
@@ -7,7 +8,7 @@ function almostEquals(epsilon, u, v) {
 
 AFRAME.registerComponent("pen-laser", {
   schema: {
-    color: { type: "color", default: "#FF0033" },
+    color: { type: "color", default: getThemeColor("laser-pen-color") },
     laserVisible: { default: false },
     laserInHand: { default: false },
     laserOrigin: { default: { x: 0, y: 0, z: 0 } },
@@ -16,7 +17,7 @@ AFRAME.registerComponent("pen-laser", {
   },
 
   init() {
-    let material = new THREE.MeshStandardMaterial({ color: "red", opacity: 0.5, transparent: true, visible: true });
+    let material = new THREE.MeshStandardMaterial({ color: "red" , opacity: 0.5, transparent: true, visible: true });
     const quality = window.APP.store.materialQualitySetting;
     material = convertStandardMaterial(material, quality);
 

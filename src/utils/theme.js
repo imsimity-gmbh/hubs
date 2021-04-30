@@ -14,7 +14,8 @@ const DEFAULT_COLORS = {
   "action-subtitle-color": "#F0F0F0",
   "notice-background-color": "#2F80ED",
   "notice-text-color": "#FFFFFF",
-  "favorited-color": "#FFC000"
+  "favorited-color": "#FFC000",
+  "laser-pen-color": "#72AE28"
 };
 
 function getThemeColor(name) {
