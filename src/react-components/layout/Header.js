@@ -41,7 +41,7 @@ export function Header({
               </a>
             </li>
             <li>
-              <Button sm preset="primary" as="a" href="/changeavatar">
+              <Button disabled={true} sm preset="primary" href="/changeavatar">
                 <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
               </Button>
             </li>

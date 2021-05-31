@@ -213,8 +213,8 @@ export function HomePage() {
             <li style={{paddingBottom: '20px'}}>3. Paste this link in the avatar settings under "Custom Avatar URL".</li>
             <li style={{paddingBottom: '20px'}}>4. After that step, you are able to use your new avatar.</li>
           </ol>
-            <Button lg preset="primary" as="a" href="/changeavatar">
-              <FormattedMessage id="home-page.change-avatar" defaultMessage="Change my avatar" />
+            <Button disabled={true}  lg preset="primary" href="/changeavatar">
+              <FormattedMessage id="home-page.change-avatar" defaultMessage="Create my avatar" />
             </Button>
           </Column>
         </Container>
