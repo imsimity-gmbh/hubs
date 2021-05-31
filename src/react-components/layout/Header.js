@@ -6,6 +6,7 @@ import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
 import maskEmail from "../../utils/mask-email";
 import styles from "./Header.scss";
 import { Container } from "./Container";
+import { Button } from "../input/Button";
 
 export function Header({
   appName,
@@ -32,6 +33,17 @@ export function Header({
               <a href="/" className={styles.homeLink}>
                 <img alt={appName} src={appLogo} />
               </a>
+            </li>
+
+            <li>
+              <a href="/" className={styles.homeTextLink}>
+                CYBERCINITY
+              </a>
+            </li>
+            <li>
+              <Button sm preset="primary" as="a" href="/changeavatar">
+                <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
+              </Button>
             </li>
             {showCloud && (
               <li>

@@ -7,8 +7,9 @@ export function LoadingScreenLayout({ center, bottom, logoSrc }) {
   return (
     <div className={styles.loadingScreenLayout}>
       <Column center padding gap="lg" className={styles.center}>
-        <img className={styles.logo} src={logoSrc} />
-        {center}
+        <p className={styles.homeTextLink}>
+          CYBERCINITY
+        </p>
       </Column>
       {bottom && (
         <Column center className={styles.bottom}>

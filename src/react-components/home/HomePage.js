@@ -6,6 +6,7 @@ import { CreateRoomButton } from "./CreateRoomButton";
 import { PWAButton } from "./PWAButton";
 import { useFavoriteRooms } from "./useFavoriteRooms";
 import { usePublicRooms } from "./usePublicRooms";
+import { useAvatarList } from "./useAvatarList";
 import styles from "./HomePage.scss";
 import { AuthContext } from "../auth/AuthContext";
 import { createAndRedirectToNewHub } from "../../utils/phoenix-utils";
@@ -16,6 +17,10 @@ import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
 import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
+import avatarImage  from '../../assets/images/avatarImages/myavatar.png';
+import threeDIconImage  from '../../assets/images/icons/3d_icon.png';
+import crossplatformImage  from '../../assets/images/icons/crossplatform_icon.png';
+import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
 
 export function HomePage() {
   const auth = useContext(AuthContext);
@@ -23,9 +28,11 @@ export function HomePage() {
 
   const { results: favoriteRooms } = useFavoriteRooms();
   const { results: publicRooms } = usePublicRooms();
+  const { results: avatarList } = useAvatarList();
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
+  const sortedAvatarList = Array.from(avatarList).sort();
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -57,6 +64,9 @@ export function HomePage() {
           </div>
           <div className={styles.appInfo}>
             <div className={styles.appDescription}>{configs.translation("app-description")}</div>
+              <Button lg preset="primary" as="a" href="/link">
+                <FormattedMessage id="home-page.have-code" defaultMessage="Have a room code?" />
+              </Button>
             {canCreateRooms && <CreateRoomButton />}
             <PWAButton />
           </div>
@@ -117,7 +127,7 @@ export function HomePage() {
       {sortedPublicRooms.length > 0 && (
         <Container className={styles.roomsContainer}>
           <h3 className={styles.roomsHeading}>
-            <FormattedMessage id="home-page.public--rooms" defaultMessage="Public Rooms" />
+            <FormattedMessage id="home-page.public--rooms" defaultMessage="Current events" />
           </h3>
           <Column grow padding className={styles.rooms}>
             <MediaGrid center>
@@ -158,12 +168,59 @@ export function HomePage() {
           </Column>
         </Container>
       )}
-      <Container>
-        <Column padding center grow>
-          <Button lg preset="primary" as="a" href="/link">
-            <FormattedMessage id="home-page.have-code" defaultMessage="Have a room code?" />
-          </Button>
+      <Container className={styles.featureContainer}>
+        <Column padding grow className={styles.featureMainColumn}>
+          <Column padding center grow className={styles.featureSingleColumn}>
+            <img
+              className={styles.avatarImage}
+              src={threeDIconImage}
+              alt='3D_icon'
+            />
+          <p className={styles.featureText}>{`Collaborative interaction & editing of virtual 3D objects`}</p>
+          </Column>
+          <Column padding center grow className={styles.featureSingleColumn}>
+            <img
+              className={styles.avatarImage}
+              src={crossplatformImage}
+              alt='crossplatform_icon'
+            />
+          <p className={styles.featureText}>{`Cross platform setup - participation via VR glasses or web browser`}</p>
+          </Column>
+          <Column padding center grow className={styles.featureSingleColumn}>
+            <img
+              className={styles.avatarImage}
+              src={permissionsImage}
+              alt='permissions_icon'
+            />
+          <p className={styles.featureText}>{`Different permissions`}</p>
+          </Column>
         </Column>
+      </Container>
+      <Container className={styles.avatarContainer}>
+        <h3 className={styles.avatarHeading}>
+          <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
+        </h3>
+        <Container className={styles.innerAvatarContainer}>
+          <Column left grow padding  className={styles.avatarColumn}>
+            <img
+              className={styles.avatarImage}
+              src={avatarImage}
+              alt='changeAvatarImage'
+            />
+
+          </Column>
+          <Column padding center grow className={styles.avatarColumn}>
+            <ol style={{textAlign: 'left'}}>
+            <li style={{paddingBottom: '20px'}}>1. Customize your avatar.</li>
+            <li style={{paddingBottom: '20px'}}>2. Copy the link of your avatar.</li>
+            <li style={{paddingBottom: '20px'}}>3. Paste this link in the avatar settings under "Custom Avatar URL".</li>
+            <li style={{paddingBottom: '20px'}}>4. After that step, you are able to use your new avatar.</li>
+          </ol>
+            <Button lg preset="primary" as="a" href="/changeavatar">
+              <FormattedMessage id="home-page.change-avatar" defaultMessage="Change my avatar" />
+            </Button>
+          </Column>
+        </Container>
       </Container>
     </PageContainer>
   );

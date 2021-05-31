@@ -1,14 +1,15 @@
 
 @use "./theme.scss";
 @import "~normalize.css";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:regular,bold,italic&subset=latin,latin-ext');
 
 // Theme CSS Variables
 // Injected theme will overwrite these defaults
 :root {
-  --font-family-default: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-default: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 
-  --text1-color: #{theme.$black};
+  --text1-color: #{theme.$white};
   --text1-color-hover: #{theme.$black-hover};
   --text1-color-pressed: #{theme.$black-pressed};
   --text2-color: #{theme.$darkgrey};
@@ -67,7 +68,7 @@
   --secondary-color-hover: #{theme.$lightgrey-hover};
   --secondary-color-pressed: #{theme.$lightgrey-pressed};
 
-  --background1-color: #{theme.$white};
+  --background1-color: #{theme.$black};
   --background2-color: #{theme.$recessed-bg};
   --background3-color: #{theme.$lightgrey};
   --background4-color: #{theme.$grey};
@@ -256,6 +257,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "Montserrat";
   font-size: inherit;
   font-weight: theme.$font-weight-bold;
 }

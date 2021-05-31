@@ -60,7 +60,7 @@
   & > * {
     margin-bottom: 20px;
   }
-  
+
   @media (min-width: theme.$breakpoint-lg) {
     margin-bottom: 0;
     margin-left: 16px;
@@ -106,7 +106,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
-  
+
   & > * {
     margin-bottom: 24px;
 
@@ -125,7 +125,7 @@
       }
     }
   }
-  
+
   img {
     width: 100%;
     border-radius: 12px;
@@ -143,10 +143,52 @@
   font-size: 24px;
   margin-bottom: 16px;
 }
- 
+
 :local(.rooms) {
   background-color: theme.$background2-color;
   border-radius: 16px;
+}
+
+:local(.avatar-container) {
+  margin-top: 120px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.avatar-heading) {
+  margin-left: 40px;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+:local(.avatar-image) {
+  border-radius: 50%;
+  max-width: 80%;
+}
+
+:local(.avatar-column) {
+  max-width: 50%;
+  align-items: left;
+  justify-content: center;
+}
+
+:local(.inner-avatar-container) {
+  flex-direction: row;
+  margin-top: 66px !important;
+  max-width: 60% !important;
+  margin: 0 !important;
+}
+
+:local(.feature-main-column) {
+  margin-top: 30px !important;
+  display: flex;
+  flex-direction: row !important;
+}
+
+:local(.feature-single-column) {
+  display: flex;
+  flex-direction: column;
+  max-width: 33%;
 }
 
 :local(.row) {
