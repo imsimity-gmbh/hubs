@@ -6,7 +6,6 @@ import { CreateRoomButton } from "./CreateRoomButton";
 import { PWAButton } from "./PWAButton";
 import { useFavoriteRooms } from "./useFavoriteRooms";
 import { usePublicRooms } from "./usePublicRooms";
-import { useAvatarList } from "./useAvatarList";
 import styles from "./HomePage.scss";
 import { AuthContext } from "../auth/AuthContext";
 import { createAndRedirectToNewHub } from "../../utils/phoenix-utils";
@@ -28,11 +27,9 @@ export function HomePage() {
 
   const { results: favoriteRooms } = useFavoriteRooms();
   const { results: publicRooms } = usePublicRooms();
-  const { results: avatarList } = useAvatarList();
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
-  const sortedAvatarList = Array.from(avatarList).sort();
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
