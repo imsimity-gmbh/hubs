@@ -92,7 +92,8 @@ export function Header({
           </ul>
         </nav>
         <div className={styles.signIn}>
-          {isSignedIn ? (
+          {isSignedIn  && (
+            //Antoine 01.06.21 : Hotfix, hiding "Sign in" button
             <div>
               <span>
                 <FormattedMessage
@@ -105,11 +106,7 @@ export function Header({
                 <FormattedMessage id="header.sign-out" defaultMessage="Sign Out" />
               </a>
             </div>
-          ) : (
-            <a href="/signin" rel="noreferrer noopener">
-              <FormattedMessage id="header.sign-in" defaultMessage="Sign In" />
-            </a>
-          )}
+          ) }
         </div>
       </Container>
     </header>
