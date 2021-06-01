@@ -220,6 +220,5 @@ export function HomePage() {
         </Container>
       </Container>
     </PageContainer>
-    
   );
 }
