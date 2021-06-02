@@ -17,6 +17,7 @@ const room = {
     name: "Scene Name",
     account_id: "123",
     allow_promotion: false,
+    allow_spectate: true,
     allow_remixing: false,
     url: "#",
     screenshot_url: backgroundUrl,

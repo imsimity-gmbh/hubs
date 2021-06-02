@@ -151,6 +151,19 @@ export function RoomSettingsSidebar({
             ref={register}
           />
         )}
+        {
+          <ToggleInput
+            name="allow_spectate"
+            label={<FormattedMessage id="room-settings-sidebar.access-spectate" defaultMessage="Spectate" />}
+            description={
+              <FormattedMessage
+                id="room-settings-sidebar.access-spectate-description"
+                defaultMessage="People can spectate"
+              />
+            }
+            ref={register}
+          />
+        }
         <InputField
           label={<FormattedMessage id="room-settings-sidebar.permissions" defaultMessage="Room Member Permissions" />}
           fullWidth
