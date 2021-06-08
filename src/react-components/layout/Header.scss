@@ -2,6 +2,7 @@
 
 header {
   display: block;
+  background-color: theme.$background2-color;
   padding: 20px;
 
   @media(min-width: theme.$breakpoint-lg) {
