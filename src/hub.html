@@ -804,33 +804,23 @@
 
             <template id="pager-hover-menu">
                 <a-entity class="ui interactable-ui hover-container" visible="false">
-                    <a-entity class="prev-button" position="-0.35 0 0">
+                    <a-entity class="prev-button" position="-0.5 0 0"  scale="0.5 0.5 0.5">
                         <a-entity is-remote-hover-target tags="singleActionButton:true; isHoverMenuChild: true;" mixin="rounded-text-button" slice9="width: 0.2">
                             <a-entity
                                 sprite
                                 icon-button="image: prev.png; hoverImage: prev.png;"
-                                scale="0.075 0.075 0.075"
+                                scale="0.05 0.05 0.05"
                                 position="0 0 0.001"
                             ></a-entity>
                         </a-entity>
                     </a-entity>
                     <a-entity class="page-label" position="0 -0.2 0" text="value:.; width:2; align:center;" text-raycast-hack></a-entity>
-                    <a-entity class="snap-button" position="0 0.175 0" scale="0.75 0.75 1">
-                        <a-entity is-remote-hover-target tags="singleActionButton:true; isHoverMenuChild: true;" mixin="rounded-text-button" slice9="width: 0.2">
-                            <a-entity
-                                sprite
-                                icon-button="image: snap-page.png; hoverImage: snap-page.png;"
-                                scale="0.115 0.115 0.115"
-                                position="0 0 0.001"
-                            ></a-entity>
-                        </a-entity>
-                    </a-entity>
-                    <a-entity class="next-button" position="0.35 0 0">
+                    <a-entity class="next-button" position="0.5 0 0" scale="0.5 0.5 0.5>
                         <a-entity is-remote-hover-target tags="singleActionButton:true; isHoverMenuChild: true;" mixin="rounded-text-button" slice9="width: 0.2">
                             <a-entity
                                 sprite
                                 icon-button="image: next.png; hoverImage: next.png;"
-                                scale="0.075 0.075 0.075"
+                                scale="0.05 0.05 0.05"
                                 position="0 0 0.001"
                             ></a-entity>
                         </a-entity>
