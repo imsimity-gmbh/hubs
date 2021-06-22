@@ -695,6 +695,18 @@ AFRAME.registerComponent("media-pager", {
     }
 
     if (this.prevButton && this.nextButton) {
+
+      //CCi: Hiding & showing correctly the buttons 
+      if (this.data.index == 0)
+        this.prevButton.object3D.visible = false;
+      else
+        this.prevButton.object3D.visible = true;
+
+      if (this.data.index == this.data.maxIndex)
+        this.nextButton.object3D.visible = false;
+      else
+        this.nextButton.object3D.visible = true;
+
       const pinnableElement = this.el.components["media-loader"].data.linkedEl || this.el;
       const isPinned = pinnableElement.components.pinnable && pinnableElement.components.pinnable.data.pinned;
       this.prevButton.object3D.visible = this.nextButton.object3D.visible =
