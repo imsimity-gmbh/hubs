@@ -54,7 +54,7 @@ function loadFont(src) {
     .then(resp => resp.json())
     .then(font => {
       // Fix negative Y offsets for Roboto MSDF font from tool. Experimentally determined.
-      if (src.indexOf("/Raleway-Regular.json") >= 0) {
+      if (src.indexOf("/Roboto-msdf.json") >= 0) {
         for (const ch of font.chars) {
           ch.yoffset += 30;
         }
@@ -85,9 +85,9 @@ function loadTexture(src) {
 }
 
 const FONTS = {
-  raleway: {
-    json: loadFont("https://cci.imsimity.com/fonts/Raleway-Regular.json"),
-    texture: loadTexture("https://cci.imsimity.com/fonts/Raleway-Regular.png")
+  roboto: {
+    json: loadFont("https://cdn.aframe.io/fonts/Roboto-msdf.json"),
+    texture: loadTexture("https://cdn.aframe.io/fonts/Roboto-msdf.png")
   }
 };
 
@@ -100,7 +100,7 @@ AFRAME.registerComponent("text", {
     anchor: { default: "center", oneOf: ["left", "right", "center", "align"] },
     baseline: { default: "center", oneOf: ["top", "center", "bottom"] },
     color: { type: "color", default: "#FFF" },
-    font: { type: "string", default: "raleway" },
+    font: { type: "string", default: "roboto" },
     // `height` has no default, will be populated at layout.
     height: { type: "number" },
     letterSpacing: { type: "number", default: 0 },
