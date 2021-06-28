@@ -60,7 +60,9 @@ export function HomePage() {
             <img alt={configs.translation("app-name")} src={configs.image("logo")} />
           </div>
           <div className={styles.appInfo}>
-            <div className={styles.appDescription}>{configs.translation("app-description")}</div>
+            <div className={styles.appDescription}>
+              <FormattedMessage id="home-page.app-description" defaultMessage="CyberCinity - The immersive and collaborative communication platform for all devices" />
+            </div>
               <Button lg preset="primary" as="a" href="/link">
                 <FormattedMessage id="home-page.have-code" defaultMessage="Have a room code?" />
               </Button>
@@ -173,7 +175,9 @@ export function HomePage() {
               src={threeDIconImage}
               alt='3D_icon'
             />
-          <p className={styles.featureText}>{`Collaborative interaction & editing of virtual 3D objects`}</p>
+            <p className={styles.featureText}>
+              <FormattedMessage id="home-page.icon-3d" defaultMessage="Collaborative interaction & editing of virtual 3D objects" />
+            </p>
           </Column>
           <Column padding center grow className={styles.featureSingleColumn}>
             <img
@@ -181,7 +185,9 @@ export function HomePage() {
               src={crossplatformImage}
               alt='crossplatform_icon'
             />
-          <p className={styles.featureText}>{`Cross platform setup - participation via VR glasses or web browser`}</p>
+            <p className={styles.featureText}>
+              <FormattedMessage id="home-page.icon-crossplatform" defaultMessage="Cross platform setup - participation via VR glasses or web browsers" />
+            </p>
           </Column>
           <Column padding center grow className={styles.featureSingleColumn}>
             <img
@@ -189,7 +195,9 @@ export function HomePage() {
               src={permissionsImage}
               alt='permissions_icon'
             />
-          <p className={styles.featureText}>{`Different permissions`}</p>
+            <p className={styles.featureText}>
+              <FormattedMessage id="home-page.icon-permissions" defaultMessage="Different permissions" />
+            </p>
           </Column>
         </Column>
       </Container>
@@ -208,10 +216,18 @@ export function HomePage() {
           </Column>
           <Column padding center grow className={styles.avatarColumn}>
             <ol style={{textAlign: 'left'}}>
-            <li style={{paddingBottom: '20px'}}>1. Customize your avatar.</li>
-            <li style={{paddingBottom: '20px'}}>2. Copy the link of your avatar.</li>
-            <li style={{paddingBottom: '20px'}}>3. Paste this link in the avatar settings under "Custom Avatar URL".</li>
-            <li style={{paddingBottom: '20px'}}>4. After that step, you are able to use your new avatar.</li>
+            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
+              <FormattedMessage id="home-page.customzie-avatar" defaultMessage="1. Customize your avatar." />
+            </li>
+            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
+              <FormattedMessage id="home-page.copy-link-avatar" defaultMessage="2. Copy the link of your avatar." />
+            </li>
+            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
+              <FormattedMessage id="home-page.paste-link-avatar" defaultMessage="3. Paste this link in the avatar settings under 'Custom Avatar URL'." />
+            </li>
+            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
+              <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
+            </li>
           </ol>
             <Button disabled={true}  lg preset="primary" href="/changeavatar">
               <FormattedMessage id="home-page.change-avatar" defaultMessage="Create my avatar" />

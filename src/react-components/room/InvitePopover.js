@@ -29,7 +29,7 @@ function InvitePopoverContent({ url, shortUrl, code, embed, inviteRequired, fetc
             buttonPreset="accent4"
             description={
               <>
-                Enter code on{" "}
+                <FormattedMessage id="invite-popover.code-description" defaultMessage="Enter code on "/>{" "}
                 <a href={shortUrl} target="_blank" rel="noopener noreferrer">
                   {shortUrl.replace("https://", "")}
                 </a>

@@ -25,7 +25,7 @@ export function AutoExitWarningModal({ onCancel, reason, secondsRemaining }) {
   const intl = useIntl();
 
   return (
-    <Modal title="Warning">
+    <Modal title={<FormattedMessage id="auto-exit-warning-modal.title" defaultMessage="Warning" />}>
       <Column padding center>
         <b>
           <FormattedMessage
