@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { FormattedMessage } from "react-intl";
 import { WrappedIntlProvider } from "./react-components/wrapped-intl-provider";
 import registerTelemetry from "./telemetry";
 import Store from "./storage/store";
