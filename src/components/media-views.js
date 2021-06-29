@@ -281,11 +281,8 @@ AFRAME.registerComponent("media-video", {
     this.isMineOrLocal = this.isMineOrLocal.bind(this);
     this.updateSrc = this.updateSrc.bind(this);
 
-    this.seekForward = this.seekForward.bind(this);
-    this.seekBack = this.seekBack.bind(this);
     this.volumeUp = this.volumeUp.bind(this);
     this.volumeDown = this.volumeDown.bind(this);
-    this.snap = this.snap.bind(this);
     this.changeVolumeBy = this.changeVolumeBy.bind(this);
     this.togglePlaying = this.togglePlaying.bind(this);
 
@@ -309,19 +306,19 @@ AFRAME.registerComponent("media-video", {
       this.playPauseButton = this.el.querySelector(".video-playpause-button");
       this.volumeUpButton = this.el.querySelector(".video-volume-up-button");
       this.volumeDownButton = this.el.querySelector(".video-volume-down-button");
-      this.seekForwardButton = this.el.querySelector(".video-seek-forward-button");
-      this.seekBackButton = this.el.querySelector(".video-seek-back-button");
-      this.snapButton = this.el.querySelector(".video-snap-button");
+      //this.seekForwardButton = this.el.querySelector(".video-seek-forward-button");
+      //this.seekBackButton = this.el.querySelector(".video-seek-back-button");
+      //this.snapButton = this.el.querySelector(".video-snap-button");
       this.timeLabel = this.el.querySelector(".video-time-label");
       this.volumeLabel = this.el.querySelector(".video-volume-label");
       this.linkButton = this.el.querySelector(".video-link-button");
 
       this.playPauseButton.object3D.addEventListener("interact", this.togglePlaying);
-      this.seekForwardButton.object3D.addEventListener("interact", this.seekForward);
-      this.seekBackButton.object3D.addEventListener("interact", this.seekBack);
+      //this.seekForwardButton.object3D.addEventListener("interact", this.seekForward);
+      //this.seekBackButton.object3D.addEventListener("interact", this.seekBack);
       this.volumeUpButton.object3D.addEventListener("interact", this.volumeUp);
       this.volumeDownButton.object3D.addEventListener("interact", this.volumeDown);
-      this.snapButton.object3D.addEventListener("interact", this.snap);
+      //this.snapButton.object3D.addEventListener("interact", this.snap);
 
       this.updateVolumeLabel();
       this.updateHoverMenu();
@@ -389,20 +386,6 @@ AFRAME.registerComponent("media-video", {
     );
   },
 
-  seekForward() {
-    if (!this.videoIsLive && this.ensureOwned()) {
-      this.video.currentTime += 30;
-      this.el.setAttribute("media-video", "time", this.video.currentTime);
-    }
-  },
-
-  seekBack() {
-    if (!this.videoIsLive && this.ensureOwned()) {
-      this.video.currentTime -= 10;
-      this.el.setAttribute("media-video", "time", this.video.currentTime);
-    }
-  },
-
   changeVolumeBy(v) {
     this.el.setAttribute("media-video", "volume", THREE.Math.clamp(this.data.volume + v, 0, 1));
     this.updateVolumeLabel();
@@ -414,23 +397,6 @@ AFRAME.registerComponent("media-video", {
 
   volumeDown() {
     this.changeVolumeBy(-0.1);
-  },
-
-  async snap() {
-    if (this.isSnapping) return;
-    this.isSnapping = true;
-    this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_CAMERA_TOOL_TOOK_SNAPSHOT);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = this.video.videoWidth;
-    canvas.height = this.video.videoHeight;
-    canvas.getContext("2d").drawImage(this.video, 0, 0, canvas.width, canvas.height);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve));
-    const file = new File([blob], "snap.png", TYPE_IMG_PNG);
-
-    this.localSnapCount++;
-    const { entity } = addAndArrangeMedia(this.el, file, "photo-snapshot", this.localSnapCount);
-    entity.addEventListener("image-loaded", this.onSnapImageLoaded, ONCE_TRUE);
   },
 
   togglePlaying() {
@@ -897,14 +863,16 @@ AFRAME.registerComponent("media-video", {
     this.playbackControls.object3D.visible = !this.data.hidePlaybackControls && !!this.video;
     this.timeLabel.object3D.visible = !this.data.hidePlaybackControls;
 
+    /*
     this.snapButton.object3D.visible =
       !!this.video && !this.data.contentType.startsWith("audio/") && window.APP.hubChannel.can("spawn_and_move_media");
     this.seekForwardButton.object3D.visible = !!this.video && !this.videoIsLive;
+    */
 
     const mayModifyPlayHead =
       !!this.video && !this.videoIsLive && (!isPinned || window.APP.hubChannel.can("pin_objects"));
 
-    this.playPauseButton.object3D.visible = this.seekForwardButton.object3D.visible = this.seekBackButton.object3D.visible = mayModifyPlayHead;
+    this.playPauseButton.object3D.visible = mayModifyPlayHead;
 
     this.linkButton.object3D.visible = !!mediaLoader.mediaOptions.href;
 
@@ -1025,8 +993,6 @@ AFRAME.registerComponent("media-video", {
       this.playPauseButton.object3D.removeEventListener("interact", this.togglePlaying);
       this.volumeUpButton.object3D.removeEventListener("interact", this.volumeUp);
       this.volumeDownButton.object3D.removeEventListener("interact", this.volumeDown);
-      this.seekForwardButton.object3D.removeEventListener("interact", this.seekForward);
-      this.seekBackButton.object3D.removeEventListener("interact", this.seekBack);
     }
 
     window.APP.store.removeEventListener("statechanged", this.onPreferenceChanged);
