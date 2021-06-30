@@ -24,15 +24,24 @@ import AvatarPreview from "./react-components/avatar-preview";
 
 import { fetchAvatar, remixAvatar } from "./utils/avatar-utils";
 
+import styles from "./react-components/home/HomePage.scss";
+import avatarStyles from "./assets/stylesheets/avatar.scss";
 import "./react-components/styles/global.scss";
-import styles from "./assets/stylesheets/avatar.scss";
+import { PageContainer } from "./react-components/layout/PageContainer";
+import { Container } from "./react-components/layout/Container";
+import { AuthContextProvider } from "./react-components/auth/AuthContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClone } from "@fortawesome/free-solid-svg-icons/faClone";
 import { ThemeProvider } from "./react-components/styles/theme";
+import registerTelemetry from "./telemetry";
+import Store from "./storage/store";
 
-const qs = new URLSearchParams(location.search);
-window.APP = new App();
+
+
+registerTelemetry("/changeAvatar", "Hubs Avatar Page");
+
+const store = new Store();
 
 class ChangeAvatar extends React.Component {
 
@@ -43,32 +52,32 @@ class ChangeAvatar extends React.Component {
 
 
 
-
-
-
   render() {
       return (
-        <div>
-          <iframe
-            src="https://imsimity.readyplayer.me/"
-            allow="fullscreen"
-            allowFullScreen=""
-            frameBorder="0"
-          />
-        </div>
+        <PageContainer className={styles.homePage}>
+          <Container>
+            <iframe
+              className={avatarStyles.avatariframe}
+              src="https://imsimity.readyplayer.me/"
+              fullscreen
+              frameBorder="0"
+            />
+          </Container>
+        </PageContainer>
       );
 
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log('Avatar ID:');
   ReactDOM.render(
     <WrappedIntlProvider>
-      <ThemeProvider store={window.APP.store}>
-        <ChangeAvatar />
+      <ThemeProvider store={ store }>
+        <AuthContextProvider store={ store }>
+          <ChangeAvatar />
+        </AuthContextProvider>
       </ThemeProvider>
     </WrappedIntlProvider>,
-    document.getElementById("ui-root")
+    document.getElementById("changeavatar-root")
   );
 });
