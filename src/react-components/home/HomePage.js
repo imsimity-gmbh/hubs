@@ -16,7 +16,7 @@ import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
 import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
-import avatarImage  from '../../assets/images/avatarImages/myavatar.png';
+import avatarImage from '../../assets/images/avatarImages/myavatar.png';
 import threeDIconImage  from '../../assets/images/icons/3d_icon.png';
 import crossplatformImage  from '../../assets/images/icons/crossplatform_icon.png';
 import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
@@ -229,7 +229,7 @@ export function HomePage() {
               <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
             </li>
           </ol>
-            <Button disabled={true}  lg preset="primary" href="/changeavatar">
+            <Button lg preset="primary" as="a" href="/changeavatar">
               <FormattedMessage id="home-page.change-avatar" defaultMessage="Create my avatar" />
             </Button>
           </Column>

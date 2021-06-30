@@ -294,6 +294,8 @@ module.exports = async (env, argv) => {
           { from: /^\/discord/, to: "/discord.html" },
           { from: /^\/cloud/, to: "/cloud.html" },
           { from: /^\/verify/, to: "/verify.html" },
+          { from: /^\/link/, to: "/link.html" },
+          { from: /^\/changeavatar/, to: "/changeAvatar.html" },
           { from: /^\/whats-new/, to: "/whats-new.html" }
         ]
       },
@@ -554,7 +556,7 @@ module.exports = async (env, argv) => {
       new HTMLWebpackPlugin({
         filename: "changeAvatar.html",
         template: path.join(__dirname, "src", "changeAvatar.html"),
-        chunks: ["support", "changeAvatar"],
+        chunks: ["support", "changeavatar"],
         chunksSortMode: "manual",
         minify: {
           removeComments: false
