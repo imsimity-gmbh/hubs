@@ -696,7 +696,7 @@ AFRAME.registerComponent("media-pager", {
 
     if (this.prevButton && this.nextButton) {
 
-      //CCi: Hiding & showing correctly the buttons 
+      //CCi: Hiding & showing correctly the buttons (does not work)
       if (this.data.index == 0)
         this.prevButton.object3D.visible = false;
       else
