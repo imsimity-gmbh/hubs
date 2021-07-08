@@ -14,6 +14,24 @@
   max-width: 360px;
 }
 
+:local(.modalAvatarPage) {
+
+  display: flex;
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  flex-direction: column;
+  background-color: theme.$background1-color;
+  border: 1px solid theme.$border1-color;
+  border-radius: theme.$border-radius-regular;
+  margin: auto !important;
+  z-index: 1;
+  min-width: 90%;
+  min-height: 90%;
+}
+
 :local(.header) {
   display: flex;
   height: 48px;
@@ -24,8 +42,8 @@
 
 :local(.before-title) {
   position: absolute;
-  left: 0;
-  margin-left: 16px;
+  right: 0;
+  margin-right: 16px;
 }
 
 :local(.after-title) {

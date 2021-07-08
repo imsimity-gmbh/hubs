@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import classNames from "classnames";
 import configs from "../../utils/configs";
@@ -6,30 +6,51 @@ import { CreateRoomButton } from "./CreateRoomButton";
 import { PWAButton } from "./PWAButton";
 import { useFavoriteRooms } from "./useFavoriteRooms";
 import { usePublicRooms } from "./usePublicRooms";
+import { useActiveRooms } from "./useActiveRooms";
 import styles from "./HomePage.scss";
 import { AuthContext } from "../auth/AuthContext";
 import { createAndRedirectToNewHub } from "../../utils/phoenix-utils";
 import { MediaGrid } from "../room/MediaGrid";
 import { MediaTile } from "../room/MediaTiles";
+import { ChangeAvatarModal } from "../room/ChangeAvatarModal";
 import { PageContainer } from "../layout/PageContainer";
 import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
 import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
+import modalStyles from "../../react-components/modal/Modal.scss";
 import avatarImage from '../../assets/images/avatarImages/myavatar.png';
 import threeDIconImage  from '../../assets/images/icons/3d_icon.png';
 import crossplatformImage  from '../../assets/images/icons/crossplatform_icon.png';
 import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
 
 export function HomePage() {
+
+  const [isChangeAvatarModalVisible, setIsChangeAvatarModalVisible] = useState(false);
   const auth = useContext(AuthContext);
   const intl = useIntl();
 
   const { results: favoriteRooms } = useFavoriteRooms();
   const { results: publicRooms } = usePublicRooms();
+  const { results: activeRooms } = useActiveRooms();
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
+  const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
+
+  console.log(sortedActiveRooms);
+
+  const onClickChangeAvatarButton = useCallback(
+    () => {
+      if (isChangeAvatarModalVisible === false) {
+        setIsChangeAvatarModalVisible(true);
+      } else {
+        setIsChangeAvatarModalVisible(false);
+      }
+    },
+    [isChangeAvatarModalVisible]
+  );
+
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -54,6 +75,7 @@ export function HomePage() {
 
   return (
     <PageContainer className={styles.homePage}>
+      {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClose={onClickChangeAvatarButton} />}
       <Container>
         <div className={styles.hero}>
           <div className={styles.logoContainer}>
@@ -167,6 +189,28 @@ export function HomePage() {
           </Column>
         </Container>
       )}
+      {sortedActiveRooms.length > 0 && (
+        <Container className={styles.roomsContainer}>
+          <h3 className={styles.roomsHeading}>
+            <FormattedMessage id="home-page.my-rooms" defaultMessage="My Rooms" />
+          </h3>
+          <Column grow padding className={styles.rooms}>
+            <MediaGrid center>
+              {sortedActiveRooms.map(room => {
+                return (
+                  <MediaTile
+                    key={room.id}
+                    entry={room}
+                    processThumbnailUrl={(entry, width, height) =>
+                      scaledThumbnailUrlFor(entry.images.preview.url, width, height)
+                    }
+                  />
+                );
+              })}
+            </MediaGrid>
+          </Column>
+        </Container>
+      )}
       <Container className={styles.featureContainer}>
         <Column padding grow className={styles.featureMainColumn}>
           <Column padding center grow className={styles.featureSingleColumn}>
@@ -229,8 +273,8 @@ export function HomePage() {
               <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
             </li>
           </ol>
-            <Button lg preset="primary" as="a" href="/changeavatar">
-              <FormattedMessage id="home-page.change-avatar" defaultMessage="Create my avatar" />
+            <Button lg preset="primary" onClick={onClickChangeAvatarButton}>
+              <FormattedMessage id="change-avatar" defaultMessage="Create my avatar" />
             </Button>
           </Column>
         </Container>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback} from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,8 @@ import maskEmail from "../../utils/mask-email";
 import styles from "./Header.scss";
 import { Container } from "./Container";
 import { Button } from "../input/Button";
+import modalStyles from "../../react-components/modal/Modal.scss";
+import { ChangeAvatarModal } from "../room/ChangeAvatarModal";
 
 export function Header({
   appName,
@@ -24,9 +26,25 @@ export function Header({
   email,
   onSignOut
 }) {
+
+  const [isChangeAvatarModalVisible, setIsChangeAvatarModalVisible] = useState(false);
+
+  const onClickChangeAvatarButton = useCallback(
+    () => {
+      if (isChangeAvatarModalVisible === false) {
+        setIsChangeAvatarModalVisible(true);
+      } else {
+        setIsChangeAvatarModalVisible(false);
+      }
+    },
+    [isChangeAvatarModalVisible]
+  );
+
+
   return (
     <header>
       <Container as="div" className={styles.container}>
+        {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClose={onClickChangeAvatarButton} />}
         <nav>
           <ul>
             <li>
@@ -41,7 +59,7 @@ export function Header({
               </a>
             </li>
             <li>
-              <Button sm preset="primary" as="a" href="/changeavatar">
+              <Button sm preset="primary" onClick={onClickChangeAvatarButton}>
                 <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
               </Button>
             </li>

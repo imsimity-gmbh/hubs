@@ -27,6 +27,8 @@ import { fetchAvatar, remixAvatar } from "./utils/avatar-utils";
 import styles from "./react-components/home/HomePage.scss";
 import avatarStyles from "./assets/stylesheets/avatar.scss";
 import "./react-components/styles/global.scss";
+import { Modal } from "./react-components/modal/Modal";
+import modalStyles from "./react-components/modal/Modal.scss";
 import { PageContainer } from "./react-components/layout/PageContainer";
 import { Container } from "./react-components/layout/Container";
 import { AuthContextProvider } from "./react-components/auth/AuthContext";
@@ -39,7 +41,7 @@ import Store from "./storage/store";
 
 
 
-registerTelemetry("/changeAvatar", "Hubs Avatar Page");
+registerTelemetry("/changeavatar", "Hubs Avatar Page");
 
 const store = new Store();
 
@@ -54,7 +56,7 @@ class ChangeAvatar extends React.Component {
 
   render() {
       return (
-        <PageContainer className={styles.homePage}>
+        <Modal className={modalStyles.modalAvatarPage}>
           <Container>
             <iframe
               className={avatarStyles.avatariframe}
@@ -63,7 +65,7 @@ class ChangeAvatar extends React.Component {
               frameBorder="0"
             />
           </Container>
-        </PageContainer>
+        </Modal>
       );
 
   }
