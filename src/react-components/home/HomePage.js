@@ -273,7 +273,7 @@ export function HomePage() {
               <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
             </li>
           </ol>
-            <Button lg preset="primary" onClick={onClickChangeAvatarButton}>
+            <Button lg preset="primary" disabled onClick={onClickChangeAvatarButton}>
               <FormattedMessage id="change-avatar" defaultMessage="Create my avatar" />
             </Button>
           </Column>

@@ -59,7 +59,7 @@ export function Header({
               </a>
             </li>
             <li>
-              <Button sm preset="primary" onClick={onClickChangeAvatarButton}>
+              <Button sm preset="primary" disabled onClick={onClickChangeAvatarButton}>
                 <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
               </Button>
             </li>
