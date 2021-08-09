@@ -32,13 +32,13 @@ export function HomePage() {
 
   const { results: favoriteRooms } = useFavoriteRooms();
   const { results: publicRooms } = usePublicRooms();
-  const { results: activeRooms } = useActiveRooms();
+  //const { results: activeRooms } = useActiveRooms();
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
-  const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
+  //const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
 
-  console.log(sortedActiveRooms);
+  //console.log(sortedActiveRooms);
 
   const onClickChangeAvatarButton = useCallback(
     () => {
@@ -175,28 +175,6 @@ export function HomePage() {
           <Column grow padding className={styles.rooms}>
             <MediaGrid center>
               {sortedFavoriteRooms.map(room => {
-                return (
-                  <MediaTile
-                    key={room.id}
-                    entry={room}
-                    processThumbnailUrl={(entry, width, height) =>
-                      scaledThumbnailUrlFor(entry.images.preview.url, width, height)
-                    }
-                  />
-                );
-              })}
-            </MediaGrid>
-          </Column>
-        </Container>
-      )}
-      {sortedActiveRooms.length > 0 && (
-        <Container className={styles.roomsContainer}>
-          <h3 className={styles.roomsHeading}>
-            <FormattedMessage id="home-page.my-rooms" defaultMessage="My Rooms" />
-          </h3>
-          <Column grow padding className={styles.rooms}>
-            <MediaGrid center>
-              {sortedActiveRooms.map(room => {
                 return (
                   <MediaTile
                     key={room.id}
