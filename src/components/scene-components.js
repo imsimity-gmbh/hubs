@@ -12,6 +12,7 @@ import "./hemisphere-light";
 import "./hide-when-quality";
 import "./layers";
 import "./loop-animation";
+import "./simple-animation";
 import "./uv-scroll";
 import "./media-loader";
 import "./point-light";

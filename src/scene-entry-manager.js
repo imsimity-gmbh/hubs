@@ -82,6 +82,7 @@ export default class SceneEntryManager {
     this._setupKicking();
     this._setupMedia();
     this._setupCamera();
+    this._setupMachine();
 
     if (qsTruthy("offline")) return;
 
@@ -543,6 +544,29 @@ export default class SceneEntryManager {
 
     this.scene.addEventListener("photo_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "photo"));
     this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
+  };
+
+  _setupMachine = () => {
+    this.scene.addEventListener("action_toggle_machine", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myMachine = this.scene.systems["machine-tools"].getMyMachine();
+
+      if (myMachine) {
+        myMachine.parentNode.removeChild(myMachine);
+      } else {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("networked", { template: "#interactable-machine" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset: { x: 0, y: 0, z: -1.5 }
+        });
+        this.scene.appendChild(entity);
+      }
+    });
+
+    //this.scene.addEventListener("photo_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "photo"));
+    //this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
   };
 
   _spawnAvatar = () => {

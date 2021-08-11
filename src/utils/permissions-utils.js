@@ -18,6 +18,7 @@ export function canMove(entity) {
   const isPinned = entity.components.pinnable && entity.components.pinnable.data.pinned;
   const networkedTemplate = entity && entity.components.networked && entity.components.networked.data.template;
   const isCamera = networkedTemplate === "#interactable-camera";
+  const isMachine = networkedTemplate === "#interactable-machine";
   const isPen = networkedTemplate === "#interactable-pen";
   const spawnerTemplate =
     entity && entity.components["super-spawner"] && entity.components["super-spawner"].data.template;
@@ -31,6 +32,7 @@ export function canMove(entity) {
       : window.APP.hubChannel.can("spawn_and_move_media")) &&
       (!isPinned || window.APP.hubChannel.can("pin_objects")) &&
       (!isCamera || window.APP.hubChannel.can("spawn_camera")) &&
+      (!isMachine || window.APP.hubChannel.can("spawn_camera")) &&
       (!isPen || window.APP.hubChannel.can("spawn_drawing")))
   );
 }

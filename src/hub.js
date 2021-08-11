@@ -89,6 +89,7 @@ import "./components/unmute-video-button";
 import "./components/destroy-at-extreme-distances";
 import "./components/visible-to-owner";
 import "./components/camera-tool";
+import "./components/machine-tool";
 import "./components/emit-state-change";
 import "./components/action-to-event";
 import "./components/action-to-remove";
@@ -150,6 +151,7 @@ import "./systems/exit-on-blur";
 import "./systems/auto-pixel-ratio";
 import "./systems/idle-detector";
 import "./systems/camera-tools";
+import "./systems/machine-tools";
 import "./systems/pen-tools";
 import "./systems/userinput/userinput";
 import "./systems/userinput/userinput-debug";
@@ -160,6 +162,7 @@ import "./systems/hubs-systems";
 import "./systems/capture-system";
 import "./systems/listed-media";
 import "./systems/linked-media";
+
 import { SOUND_CHAT_MESSAGE } from "./systems/sound-effects-system";
 
 import "./gltf-component-mappings";

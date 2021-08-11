@@ -252,6 +252,7 @@
   "place-popover.item-type.model": "3D-Modell",
   "place-popover.item-type.scene": "Szene",
   "place-popover.item-type.upload": "Hochladen",
+  "place-popover.item-type.machine": "Maschine",
   "object-url-modal.title": "Benutzerdefiniertes Objekt",
   "object-url-modal.url-field-label": "Objekt-URL oder Datei",
   "object-url-modal.message-with-collection": "Fügen Sie eine URL zu einem Bild, Video, Modell oder einer Szene ein oder laden Sie die Datei hoch. Modelle können auf <sketchfablink>Sketchfab</sketchfablink> und <polylink>Google Poly</polylink> gefunden werden.",

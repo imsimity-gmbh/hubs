@@ -22,6 +22,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
       function updateItems() {
         const hasActiveCamera = !!scene.systems["camera-tools"].getMyCamera();
         const hasActivePen = !!scene.systems["pen-tools"].getMyPen();
+        const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine()
 
         let nextItems = [
           hubChannel.can("spawn_drawing") && {
@@ -33,6 +34,14 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             selected: hasActivePen
           },
           hubChannel.can("spawn_camera") && {
+            id: "machine",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.machine" defaultMessage="Machine" />,
+            onSelect: () => scene.emit("action_toggle_machine"),
+            selected: hasActiveMachine
+          },
+          hubChannel.can("spawn_camera") && {
             id: "camera",
             icon: CameraIcon,
             color: "accent5",
@@ -40,6 +49,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_camera"),
             selected: hasActiveCamera
           }
+         
         ];
 
         if (hubChannel.can("spawn_and_move_media")) {

@@ -269,6 +269,26 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-machine",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "machine-tool",
+        property: "isSnapping"
+      },
+      {
+        component: "machine-tool",
+        property: "isRecording"
+      },
+      {
+        component: "machine-tool",
+        property: "label"
+      }
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [
       {
