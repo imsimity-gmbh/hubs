@@ -4,6 +4,10 @@ import { findAncestorWithComponent } from "../utils/scene-graph";
  * Loops the given clip using this entity's animation mixer
  * @component simple-animation
  */
+
+const SCENE_ID = 0, GROUP_ID = 1;
+
+
 AFRAME.registerComponent("simple-animation", {
   schema: {
     
@@ -17,8 +21,6 @@ AFRAME.registerComponent("simple-animation", {
       console.warn("simple-animation component could not find an animation-mixer in its ancestors.");
       return;
     }
-
-    
   },
 
   initFinishedCallback(callback)
@@ -26,13 +28,15 @@ AFRAME.registerComponent("simple-animation", {
     const { mixer } = this.mixerEl.components["animation-mixer"];
 
     mixer.addEventListener('finished', function(e) { callback(e); });
+
+    
   },
 
-  playClip(clipName, callback) {
+  playClip(clipName) {
     const { mixer, animations } = this.mixerEl.components["animation-mixer"];
 
-    console.log(mixer);
-    console.log(animations);
+    //console.log(mixer);
+    //console.log(animations);
 
     // if the animations arent loaded yet
 
@@ -56,9 +60,15 @@ AFRAME.registerComponent("simple-animation", {
       return;
     }
 
+    console.log(clip);
+
     this.currentActions.length = 0;
 
-    const action = mixer.clipAction(clip, this.el.object3D);
+    const mesh = this.el.object3D.children[GROUP_ID];
+
+    console.log(mesh);
+
+    const action = mixer.clipAction(clip, mesh);
     action.enabled = true;
     action.setLoop(THREE.LoopOnce, Infinity).play();
     action.clampWhenFinished = true;
@@ -72,5 +82,12 @@ AFRAME.registerComponent("simple-animation", {
       this.currentActions[i].stop();
     }
     this.currentActions.length = 0;
+  },
+
+  printAnimations()
+  {
+    const { animations } = this.mixerEl.components["animation-mixer"];
+
+    console.log(animations);
   }
 });

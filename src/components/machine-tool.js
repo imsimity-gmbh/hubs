@@ -7,25 +7,25 @@ import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 import { findAncestorWithComponent } from "../utils/scene-graph";
-import machineModelSrc from "../assets/machine_tool.glb";
-import anime from "animejs";
+import machineModelSrc from "../assets/machine_with_animations.glb";
 
 const machineModelPromise = waitForDOMContentLoaded().then(() => loadModel(machineModelSrc));
 
-const pathsMap = {
-  "player-right-controller": {
-    takeSnapshot: paths.actions.rightHand.takeSnapshot
-  },
-  "player-left-controller": {
-    takeSnapshot: paths.actions.leftHand.takeSnapshot
-  },
-  "right-cursor": {
-    takeSnapshot: paths.actions.cursor.right.takeSnapshot
-  },
-  "left-cursor": {
-    takeSnapshot: paths.actions.cursor.left.takeSnapshot
-  }
-};
+const ANIM_NAMES=[
+  "doppeltuer_rechts",
+  "doppeltuer_links",
+  "arbeitsraum_werkstueck",
+  "energiecontainer_tuer",
+  "schiebetuer_rechts_02",
+  "schiebetuer_links_01",
+  "schiebetuer_02",
+  "energiecontainer_schiebetuer",
+  "antriebsraum_tuer_02",
+  "arbeitsraum_tuer",
+  "antriebsraum_tuer", 
+  "bedienfeld"
+  ];
+
 
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 
@@ -42,10 +42,7 @@ const allowVideo = !!videoMimeType && hasWebGL2;
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
-    captureAudio: { default: false },
-    isSnapping: { default: false },
-    isRecording: { default: false },
-    label: { default: "" }
+    label: { default: "Machine" }
   },
 
   init() {
@@ -74,17 +71,21 @@ AFRAME.registerComponent("machine-tool", {
 
       
       this.el.setAttribute("animation-mixer", {});
-      this.el.components["animation-mixer"].initMixer(model.animations);
+      this.el.components["animation-mixer"].initMixer(mesh.animations);
 
       this.simpleAnim = this.el.components["simple-animation"];
+      this.simpleAnim.printAnimations();
 
       this.simpleAnim.initFinishedCallback(function(e) { 
-        //console.log("finished :" + JSON.stringify(e.action.clip));
+        console.log("finished :" + JSON.stringify(e.type));
       });
-      this.simpleAnim.playClip("door_02");
-     
-      this.label = this.el.querySelector(".label");
       
+      this.label = this.el.querySelector(".label");
+      this.label.object3D.visible = true;
+      
+      this.startButton = this.el.querySelector(".start-button");
+      this.startButton.object3D.addEventListener("interact", () => this.startButtonClick());
+
       this.updateUI();
 
       this.machineSystem = this.el.sceneEl.systems["machine-tools"];
@@ -104,12 +105,22 @@ AFRAME.registerComponent("machine-tool", {
   },
 
   updateUI() {
-    
+    if (!this.label) return;
+
+    const label = this.data.label;
+    if (label) {
+      this.label.setAttribute("text", { value: label, color: "#fafafa" });
+    }
   },
 
   
 
   tick() {
 
+  },
+
+  startButtonClick()
+  {
+    this.simpleAnim.playClip(ANIM_NAMES[11]);
   }
 });

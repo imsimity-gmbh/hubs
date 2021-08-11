@@ -558,8 +558,8 @@ export default class SceneEntryManager {
         const entity = document.createElement("a-entity");
         entity.setAttribute("networked", { template: "#interactable-machine" });
         entity.setAttribute("offset-relative-to", {
-          target: "#avatar-pov-node",
-          offset: { x: 0, y: 0, z: -1.5 }
+          target: "#avatar-rig",
+          offset: { x: 0, y: 0.0, z: -1.5 }
         });
         this.scene.appendChild(entity);
       }

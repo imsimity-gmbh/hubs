@@ -275,14 +275,6 @@ function registerNetworkSchemas() {
       "rotation",
       {
         component: "machine-tool",
-        property: "isSnapping"
-      },
-      {
-        component: "machine-tool",
-        property: "isRecording"
-      },
-      {
-        component: "machine-tool",
         property: "label"
       }
     ]
