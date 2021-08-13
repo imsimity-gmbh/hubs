@@ -8,6 +8,7 @@ import machineModelSrc from "../assets/machine_with_animations.glb";
 
 const machineModelPromise = waitForDOMContentLoaded().then(() => loadModel(machineModelSrc));
 
+// not used
 const ANIM_NAMES=[
   "doppeltuer_rechts",
   "doppeltuer_links",
@@ -43,7 +44,25 @@ const ANIM_06="arbeitsraum_werkstueck";
 const ANIM_08="bedienfeld";
 const ANIM_09="antriebsraum_tuer";
 
+// TODO_LAURA_FAKEBUTTONS
+// so far, there is only one error message, and its in english... I'm sure you could find something more clever than I did, and in german !
+const ERROR_MESSAGES=[
+  "", //START
+  "You need to turn off\n the machine before\n opening the door", //1
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "", //FINISH
+];
 
+/*
+
+Some old camera components relics
 
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 
@@ -56,7 +75,7 @@ const videoCodec = ["h264", "vp9,opus", "vp8,opus", "vp9", "vp8"].find(
 const videoMimeType = videoCodec ? `video/webm; codecs=${videoCodec}` : null;
 const hasWebGL2 = !!document.createElement("canvas").getContext("webgl2");
 const allowVideo = !!videoMimeType && hasWebGL2;
-
+*/
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
@@ -99,17 +118,38 @@ AFRAME.registerComponent("machine-tool", {
       this.label.object3D.visible = true;
 
       this.buttons = [];
+      this.fakebuttons = [];
 
       for (let i = 0; i < STEPS_COUNT; i++) {
         this.buttons[i] = this.el.querySelector(".machine-button-" + i);
+        this.fakebuttons[i] = this.el.querySelector(".machine-fakebutton-" + i);
 
         if (this.buttons[i])
         {
           this.buttons[i].object3D.addEventListener("interact", () => this.onButtonClick(i));
         }
+
+        if (this.fakebuttons[i])
+        {
+          this.fakebuttons[i].object3D.addEventListener("interact", () => this.onFakeButtonClick(i));
+        }
       }
 
-      //console.log(this.buttons);
+      //TODO_LAURA_TEXT
+      // the texts are quite rough in the current state... I think you could do a better job that I did by checking the doc here:
+      // https://aframe.io/docs/1.2.0/components/text.html
+      // and updating the machine's texts html, with maybe a fixed witdh, better alignement
+
+      this.startText = this.el.querySelector(".machine-text-start");
+      this.infoText= this.el.querySelector(".machine-text-info");
+      this.errorText= this.el.querySelector(".machine-text-error");
+      
+      
+      this.startText.setAttribute("text", { value: "Im Betrieb wurde festgestellt, dass die Spannvorrichtung der Maschine nicht ordnungsgemäß funktioniert. Bauen Sie die Spannvorrichtung unter Berücksichtigung der Sicherheitsvorschriften aus." }); 
+
+      //TODO_LAURA_TEXT
+      // for debbuging, maybe comment the next line, so that the texts are not hidden when it loads ;)
+      this.hideAllTexts();
 
       this.deactivateAllButtons();
       this.activateButton(STEP_START);
@@ -141,11 +181,6 @@ AFRAME.registerComponent("machine-tool", {
     if (label) {
       this.label.setAttribute("text", { value: label, color: "#fafafa" });
     }
-
-    if (this.data.stepId)
-    {
-
-    }
   },
 
   
@@ -157,12 +192,14 @@ AFRAME.registerComponent("machine-tool", {
   onButtonClick(id)
   {
 
+
     console.log("button click " + id);
 
     if (this.animating)
       return;
-
     
+    this.hideAllTexts();
+
     this.deactivateAllButtons();
 
     switch (id) {
@@ -172,6 +209,7 @@ AFRAME.registerComponent("machine-tool", {
         break;
       case STEP_START:
         this.playSound(SOUND_MEDIA_LOADED);
+        this.startText.object3D.visible = true;
         this.activateButton(STEP_01);
         break;
       case STEP_01:
@@ -210,6 +248,18 @@ AFRAME.registerComponent("machine-tool", {
     }
   },
 
+  onFakeButtonClick(id)
+  {
+    this.hideAllTexts();
+
+    console.log("fake button click " + id);
+
+    if (this.animating)
+      return;
+
+    this.playErrorMessage(id);
+  },
+
   onAnimationDone(clipName)
   {
     console.log(clipName);
@@ -245,6 +295,13 @@ AFRAME.registerComponent("machine-tool", {
 
       b.object3D.visible = false;
     });
+
+    this.fakebuttons.forEach(fb => {
+      if (fb == null)
+      return;
+
+      fb.object3D.visible = false;
+    });
     
   },
 
@@ -256,10 +313,18 @@ AFRAME.registerComponent("machine-tool", {
     }
 
     var b = this.buttons[buttonId];
+    var fb = this.fakebuttons[buttonId];
 
+    // if the button does exist, we make it visible
     if (b != null)
     {
       b.object3D.visible = true;
+    }
+
+    // if there is even a fake button for this step, we display it as well
+    if (fb != null)
+    {
+      fb.object3D.visible = true;
     }
   },
 
@@ -268,5 +333,33 @@ AFRAME.registerComponent("machine-tool", {
   {
     const sceneEl = this.el.sceneEl;
     sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+  },
+
+  playErrorMessage(id)
+  {
+    // if the error message is empty, we don't display anything
+    if (ERROR_MESSAGES[id] == "")
+      return;
+
+    //TODO_LAURA_SOUND maybe play an "error" sound when such button is pressed ? (ie, creating a new sound, and using the playSound() method to trigger it)
+      
+    var message = ERROR_MESSAGES[id];
+
+    this.errorText.object3D.visible = true;
+    this.errorText.setAttribute("text", { value: message });
+  },
+
+  // TODO_LAURA: not used yet, but if you need to display a text in white (currently), you can use this function (maybe after a button press ? who knows)
+  playInfoMessage(infoString)
+  {
+    this.infoText.object3D.visible = true;
+    this.infoText.setAttribute("text", { value: infoString });
+  },
+
+  hideAllTexts()
+  {
+    this.startText.object3D.visible = false;
+    this.infoText.object3D.visible = false;
+    this.errorText.object3D.visible = false;
   }
 });

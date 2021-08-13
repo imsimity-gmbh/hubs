@@ -663,9 +663,31 @@
                         position="0.0 0.0 1.0"
                         scale="4.0 4.0 4.0"
                     ></a-entity>
+                    <!-- TEXT BOXES -->
+                    <a-entity
+                        class="machine-text-start"
+                        text="value: start text; align: center; color: #fafafa"
+                        position="1.75 1.8 0.95"
+                        scale="2.0 2.0 2.0"
+                    ></a-entity>
+                    <a-entity
+                        class="machine-text-info"
+                        text="value: info text; align: center; color: #fafafa"
+                        position="0.6 1.5 0.75"
+                        scale="2.0 2.0 2.0"
+                    ></a-entity>
+                    <a-entity
+                        class="machine-text-error"
+                        text="value: error text; align: center; color: #fafa00"
+                        position="0.6 1.5 0.75"
+                        scale="2.0 2.0 2.0"
+                    ></a-entity>
+
+                    <!-- START BUTTON -->
                     <a-entity class="machine-button-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.2 1.1" scale="1.0 1.0 1.0">
                         <a-entity text=" value:Start; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity>
-                    </a-entity>     
+                    </a-entity>
+                    <!-- STEP BUTTONS -->     
                     <a-entity class="machine-button-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.9 1.45 1.3" scale="0.7 0.7 0.7">
                         <a-entity
                             sprite 
@@ -738,7 +760,7 @@
                             position="0 0.002 0.001"
                         ></a-entity>
                     </a-entity>
-                    <a-entity class="machine-button-9" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.78 1.40 0.97" scale="0.7 0.7 0.7">
+                    <a-entity class="machine-button-9" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.25 1.40 0.97" scale="0.7 0.7 0.7">
                         <a-entity
                             sprite 
                             class="start-icon"
@@ -747,9 +769,37 @@
                             position="0 0.002 0.001"
                         ></a-entity>
                     </a-entity>
+                    <!-- RESTART BUTTONS -->     
                     <a-entity class="machine-button-10" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.4 1.1" scale="1.0 1.0 1.0">
                         <a-entity text=" value:Restart; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity>
                     </a-entity> 
+                    <!-- FAKE BUTTONS -->
+                    <!-- TODO_LAURA_FAKEBUTTONS 
+                    
+                        If you want to add more "fake" buttons you can just copy paste the next <a-entity> and change 
+                        the class name to "machine-fakebutton-[ID OF THE STEP]" and position it wherever
+                        then, on the ERROR_MESSAGES[] array, inside the module, you can write your custom error message
+                    
+                    -->
+                    <a-entity class="machine-fakebutton-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.05 1.30 0.82" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <!-- TODO_LAURA_SPRITE  -->
+                    <!-- 
+                    <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="1 1 1"
+                            position="-1.9 1.45 1.3"
+                        ></a-entity>
+                    -->
                 </a-entity>
             </template>
             
