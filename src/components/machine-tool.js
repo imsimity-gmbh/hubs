@@ -1,8 +1,6 @@
-import { addAndArrangeMedia } from "../utils/media-utils";
-import { ObjectTypes } from "../object-types";
-import { paths } from "../systems/userinput/paths";
-import { SOUND_CAMERA_TOOL_TOOK_SNAPSHOT, SOUND_CAMERA_TOOL_COUNTDOWN } from "../systems/sound-effects-system";
-import { getAudioFeedbackScale } from "./audio-feedback";
+//TODO_LAURA_SOUND: import your new sounds here !
+import { SOUND_MEDIA_LOADED /*, SOUND_MY_SOUND */ } from "../systems/sound-effects-system";
+
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
@@ -35,8 +33,9 @@ const STEP_06=6;  //Defektes Teil austauschen
 const STEP_07=7;  //Entriegeln Schutztür 
 const STEP_08=8;  //Bedienfeld um 90 grad
 const STEP_09=9;  //Antriebraum öffnen
+const STEP_FINISH=10;
 
-const STEPS_COUNT=10;
+const STEPS_COUNT=11;
 
 
 const ANIM_05="arbeitsraum_tuer";
@@ -61,7 +60,8 @@ const allowVideo = !!videoMimeType && hasWebGL2;
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
-    label: { default: "Machine" }
+    label: { default: "Machine" },
+    stepId: { default: 0 },
   },
 
   init() {
@@ -84,8 +84,6 @@ AFRAME.registerComponent("machine-tool", {
       this.el.object3D.visible = true;
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
-      
-      const obj = this.el.object3D;
 
       
       this.el.setAttribute("animation-mixer", {});
@@ -99,9 +97,6 @@ AFRAME.registerComponent("machine-tool", {
       
       this.label = this.el.querySelector(".label");
       this.label.object3D.visible = true;
-      
-      //this.startButton = this.el.querySelector(".start-button");
-      //this.startButton.object3D.addEventListener("interact", () => this.startButtonClick());
 
       this.buttons = [];
 
@@ -114,7 +109,7 @@ AFRAME.registerComponent("machine-tool", {
         }
       }
 
-      console.log(this.buttons);
+      //console.log(this.buttons);
 
       this.deactivateAllButtons();
       this.activateButton(STEP_START);
@@ -141,8 +136,15 @@ AFRAME.registerComponent("machine-tool", {
     if (!this.label) return;
 
     const label = this.data.label;
+    const stepId = this.data.stepId;
+
     if (label) {
       this.label.setAttribute("text", { value: label, color: "#fafafa" });
+    }
+
+    if (this.data.stepId)
+    {
+
     }
   },
 
@@ -164,7 +166,12 @@ AFRAME.registerComponent("machine-tool", {
     this.deactivateAllButtons();
 
     switch (id) {
+      case STEP_FINISH:
+        this.simpleAnim.resetClips();
+        this.activateButton(STEP_START);
+        break;
       case STEP_START:
+        this.playSound(SOUND_MEDIA_LOADED);
         this.activateButton(STEP_01);
         break;
       case STEP_01:
@@ -220,12 +227,13 @@ AFRAME.registerComponent("machine-tool", {
         this.activateButton(STEP_09);
         break;
       case ANIM_09:
-        console.log("Machine repaired");
+        this.activateButton(STEP_FINISH);
         break;
     
       default:
         break;
     }
+
   },
 
   deactivateAllButtons()
@@ -253,5 +261,12 @@ AFRAME.registerComponent("machine-tool", {
     {
       b.object3D.visible = true;
     }
+  },
+
+
+  playSound(soundId)
+  {
+    const sceneEl = this.el.sceneEl;
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
   }
 });

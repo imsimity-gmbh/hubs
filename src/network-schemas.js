@@ -276,6 +276,10 @@ function registerNetworkSchemas() {
       {
         component: "machine-tool",
         property: "label"
+      },
+      {
+        component: "machine-tool",
+        property: "stepId"
       }
     ]
   });

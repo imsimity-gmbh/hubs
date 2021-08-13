@@ -16,6 +16,7 @@ AFRAME.registerComponent("simple-animation", {
   init() {
     this.mixerEl = findAncestorWithComponent(this.el, "animation-mixer");
     this.currentActions = [];
+    this.currentClips = [];
 
     if (!this.mixerEl) {
       console.warn("simple-animation component could not find an animation-mixer in its ancestors.");
@@ -72,8 +73,9 @@ AFRAME.registerComponent("simple-animation", {
     action.enabled = true;
     action.setLoop(THREE.LoopOnce, Infinity).play();
     action.clampWhenFinished = true;
+
     this.currentActions.push(action);
-    
+    this.currentClips.push(clip);
   },
 
   destroy() {
@@ -89,5 +91,27 @@ AFRAME.registerComponent("simple-animation", {
     const { animations } = this.mixerEl.components["animation-mixer"];
 
     console.log(animations);
+  },
+
+  resetClips()
+  {
+    const { mixer } = this.mixerEl.components["animation-mixer"];
+    const mesh = this.el.object3D.children[GROUP_ID];
+
+    this.currentClips.forEach(clip => {
+      var action = mixer.existingAction(clip, mesh);
+
+      if (action)
+      {
+        action.enabled = false;
+        action.stop();
+      }
+      
+    });
+
+    mixer.stopAllAction();
+
+    this.currentClips = [];
+    this.currentActions = [];
   }
 });
