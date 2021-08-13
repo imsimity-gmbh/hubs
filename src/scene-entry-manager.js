@@ -556,7 +556,7 @@ export default class SceneEntryManager {
         myMachine.parentNode.removeChild(myMachine);
       } else {
         const entity = document.createElement("a-entity");
-        entity.setAttribute("networked", { template: "#interactable-machine" });
+        entity.setAttribute("networked", { template: "#interactable-machine-camera" });
         entity.setAttribute("offset-relative-to", {
           target: "#avatar-rig",
           offset: { x: 0, y: 0.0, z: -1.5 }

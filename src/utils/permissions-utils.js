@@ -18,7 +18,7 @@ export function canMove(entity) {
   const isPinned = entity.components.pinnable && entity.components.pinnable.data.pinned;
   const networkedTemplate = entity && entity.components.networked && entity.components.networked.data.template;
   const isCamera = networkedTemplate === "#interactable-camera";
-  const isMachine = networkedTemplate === "#interactable-machine";
+  const isMachine = networkedTemplate === "#interactable-machine-camera";
   const isPen = networkedTemplate === "#interactable-pen";
   const spawnerTemplate =
     entity && entity.components["super-spawner"] && entity.components["super-spawner"].data.template;

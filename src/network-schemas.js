@@ -269,7 +269,7 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
-    template: "#interactable-machine",
+    template: "#interactable-machine-camera",
     components: [
       "position",
       "rotation",

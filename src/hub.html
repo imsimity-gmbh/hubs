@@ -643,7 +643,7 @@
             </template>
 
             
-            <template id="interactable-machine">
+            <template id="interactable-machine-camera">
                 <a-entity
                     class="interactable"
                     body-helper="type: static; mass: 1; collisionFilterGroup: 1; collisionFilterMask: 1;"
@@ -656,22 +656,96 @@
                     animation-mixer
                     simple-animation
                 >
-                    <a-entity class="ui interactable-ui machine-menu" visible-if-permitted="spawn_camera">
+                <a-entity class="ui interactable-ui machine-menu" visible-if-permitted="spawn_camera">
+                    <a-entity
+                        class="label"
+                        text="value: text; align: center; color: #fafafa"
+                        position="0.0 0.0 1.0"
+                        scale="4.0 4.0 4.0"
+                    ></a-entity>
+                    <a-entity class="machine-button-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.2 1.1" scale="1.0 1.0 1.0">
+                        <a-entity text=" value:Start; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity>
+                    </a-entity>     
+                    <a-entity class="machine-button-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.9 1.45 1.3" scale="0.7 0.7 0.7">
                         <a-entity
-                            class="label"
-                            text="value: text; align: center; color: #fafafa"
-                            position="0.0 0.0 1.0"
-                            scale="4.0 4.0 4.0"
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
                         ></a-entity>
-                        <a-entity class="start-button" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.8 1.5 1.3" scale="1.0 1.0 1.0">
-                            <a-entity
-                                sprite 
-                                class="start-icon"
-                                icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                                scale="0.2 0.2 0.2"
-                                position="0 0.002 0.001"
-                            ></a-entity>
-                        </a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-2" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.85 1.45 1.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-3" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.84 1.45 1.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-4" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.83 1.45 1.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-5" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.05 1.30 0.82" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-6" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.10 1.30 0.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-7" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.76 1.45 1.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-8" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.79 1.45 1.3" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
+                    </a-entity>
+                    <a-entity class="machine-button-9" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.78 1.40 0.97" scale="0.7 0.7 0.7">
+                        <a-entity
+                            sprite 
+                            class="start-icon"
+                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
+                            scale="0.2 0.2 0.2"
+                            position="0 0.002 0.001"
+                        ></a-entity>
                     </a-entity>
                 </a-entity>
             </template>
