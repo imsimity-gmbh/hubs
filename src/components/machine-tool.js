@@ -1,5 +1,5 @@
 //TODO_LAURA_SOUND: import your new sounds here !
-import { SOUND_MEDIA_LOADED /*, SOUND_MY_SOUND */ } from "../systems/sound-effects-system";
+import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON } from "../systems/sound-effects-system";
 
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
@@ -48,7 +48,20 @@ const ANIM_09="antriebsraum_tuer";
 // so far, there is only one error message, and its in english... I'm sure you could find something more clever than I did, and in german !
 const ERROR_MESSAGES=[
   "", //START
-  "You need to turn off\n the machine before\n opening the door", //1
+  "Schalten Sie zuerst den\n Hauptschalter ein.", //1
+  "Entriegeln Sie den Not-Halt.", //2
+  "Schalten Sie die Steuerung an.", //3
+  "Entriegeln Sie die\n Arbeitsraumschutztuer, bevor\n Sie die Tuer oeffnen.", //4
+  "Oeffnen Sie die\n Arbeitsraumschutztuer um mit der\n Wartung fortzufahren.", //5
+  "", 
+  "Entriegeln Sie die Schutztuer.", //7
+  "Drehen Sie das Bedienfeld\n um an den Antriebsraum zu\n gelangen.", //8
+  "", 
+  "", //FINISH
+];
+
+const INFO_MESSAGES=[
+  "", //START
   "",
   "",
   "",
@@ -56,7 +69,8 @@ const ERROR_MESSAGES=[
   "",
   "",
   "",
-  "",
+  "", 
+  "", 
   "", //FINISH
 ];
 
@@ -79,7 +93,7 @@ const allowVideo = !!videoMimeType && hasWebGL2;
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
-    label: { default: "Machine" },
+    label: { default: "Maschine" },
     stepId: { default: 0 },
   },
 
@@ -115,14 +129,18 @@ AFRAME.registerComponent("machine-tool", {
       this.simpleAnim.initFinishedCallback((e) => { this.onAnimationDone(e.action._clip.name);});
       
       this.label = this.el.querySelector(".label");
-      this.label.object3D.visible = true;
+      this.label.object3D.visible = false;
 
       this.buttons = [];
       this.fakebuttons = [];
+      this.screens =[];
+      this.texts =[];
 
       for (let i = 0; i < STEPS_COUNT; i++) {
         this.buttons[i] = this.el.querySelector(".machine-button-" + i);
         this.fakebuttons[i] = this.el.querySelector(".machine-fakebutton-" + i);
+        this.screens[i] = this.el.querySelector(".machine-screen-" + i);
+        this.texts[i] = this.el.querySelector(".machine-text-" + i);
 
         if (this.buttons[i])
         {
@@ -132,6 +150,16 @@ AFRAME.registerComponent("machine-tool", {
         if (this.fakebuttons[i])
         {
           this.fakebuttons[i].object3D.addEventListener("interact", () => this.onFakeButtonClick(i));
+        }
+
+        if (this.screens[i])
+        {
+          this.screens[i].object3D.addEventListener("interact", () => this.onButtonClick(i));
+        }
+
+        if (this.texts[i])
+        {
+          this.texts[i].object3D.addEventListener("interact", () => this.onButtonClick(i));
         }
       }
 
@@ -145,7 +173,7 @@ AFRAME.registerComponent("machine-tool", {
       this.errorText= this.el.querySelector(".machine-text-error");
       
       
-      this.startText.setAttribute("text", { value: "Im Betrieb wurde festgestellt, dass die Spannvorrichtung der Maschine nicht ordnungsgemäß funktioniert. Bauen Sie die Spannvorrichtung unter Berücksichtigung der Sicherheitsvorschriften aus." }); 
+      this.startText.setAttribute("text", { value: "Im Betrieb wurde festgestellt, dass die Spannvorrichtung der Maschine nicht ordnungsgemaess funktioniert. Bauen Sie die Spannvorrichtung unter Beruecksichtigung der Sicherheitsvorschriften aus." }); 
 
       //TODO_LAURA_TEXT
       // for debbuging, maybe comment the next line, so that the texts are not hidden when it loads ;)
@@ -199,47 +227,61 @@ AFRAME.registerComponent("machine-tool", {
       return;
     
     this.hideAllTexts();
+    this.startText.object3D.visible = true;
 
     this.deactivateAllButtons();
 
+    this.deactivateAllScreens();
+
     switch (id) {
       case STEP_FINISH:
+        this.playSound(SOUND_MEDIA_LOADED);
         this.simpleAnim.resetClips();
         this.activateButton(STEP_START);
         break;
       case STEP_START:
         this.playSound(SOUND_MEDIA_LOADED);
-        this.startText.object3D.visible = true;
         this.activateButton(STEP_01);
+        this.activateScreen(STEP_01);
         break;
       case STEP_01:
+          this.playSound(SOUND_SUCCESS_BUTTON);
           this.activateButton(STEP_02);
           break;
       case  STEP_02:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.activateButton(STEP_03);
         break;
       case STEP_03:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.activateButton(STEP_04);
+        this.activateScreen(STEP_04);
         break;
       case  STEP_04:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.activateButton(STEP_05);
         break;
       case STEP_05:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.simpleAnim.playClip(ANIM_05);
         this.animating=true;
         break;
       case  STEP_06:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.simpleAnim.playClip(ANIM_06);
         this.animating=true;
         break;
       case STEP_07:
+          this.playSound(SOUND_SUCCESS_BUTTON);
           this.activateButton(STEP_08);
           break;
       case  STEP_08:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.simpleAnim.playClip(ANIM_08);
         this.animating=true;
         break;
       case  STEP_09:
+        this.playSound(SOUND_SUCCESS_BUTTON);
         this.simpleAnim.playClip(ANIM_09);
         this.animating=true;
         break;
@@ -251,6 +293,7 @@ AFRAME.registerComponent("machine-tool", {
   onFakeButtonClick(id)
   {
     this.hideAllTexts();
+    this.startText.object3D.visible = true;
 
     console.log("fake button click " + id);
 
@@ -258,6 +301,7 @@ AFRAME.registerComponent("machine-tool", {
       return;
 
     this.playErrorMessage(id);
+    this.playSound(SOUND_ERROR_BUTTON);
   },
 
   onAnimationDone(clipName)
@@ -328,6 +372,35 @@ AFRAME.registerComponent("machine-tool", {
     }
   },
 
+  //TODO: If we want changing screens on the machines display we need this code and entitys in hub.html (TODO_LAURA_SPRITE) - generating new spritesheets currently not possible
+  deactivateAllScreens()
+  { 
+    this.screens.forEach(s => {
+
+      if (s == null)
+        return;
+
+      s.object3D.visible = false;
+    });
+
+  },
+
+  activateScreen(screenId)
+  { 
+    if (screenId >= this.screens.length)
+    {
+      return;
+    }
+
+    var s = this.screens[screenId];
+
+    // if the screen does exist, we make it visible
+    if (s != null)
+    {
+      s.object3D.visible = true;
+    }
+  },
+
 
   playSound(soundId)
   {
@@ -350,10 +423,15 @@ AFRAME.registerComponent("machine-tool", {
   },
 
   // TODO_LAURA: not used yet, but if you need to display a text in white (currently), you can use this function (maybe after a button press ? who knows)
-  playInfoMessage(infoString)
+  playInfoMessage(id)
   {
+    if (INFO_MESSAGES[id] == "")
+      return;
+   
+    var message = INFO_MESSAGES[id];
+
     this.infoText.object3D.visible = true;
-    this.infoText.setAttribute("text", { value: infoString });
+    this.infoText.setAttribute("text", { value: message });
   },
 
   hideAllTexts()
