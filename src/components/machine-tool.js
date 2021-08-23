@@ -35,8 +35,10 @@ const STEP_07=7;  //Entriegeln Schutztür
 const STEP_08=8;  //Bedienfeld um 90 grad
 const STEP_09=9;  //Antriebraum öffnen
 const STEP_FINISH=10;
+const STEP_START_CLICKED=11;
+const STEP_FINISH_CLICKED=12;
 
-const STEPS_COUNT=11;
+const STEPS_COUNT=13;
 
 
 const ANIM_05="arbeitsraum_tuer";
@@ -171,9 +173,12 @@ AFRAME.registerComponent("machine-tool", {
       this.startText = this.el.querySelector(".machine-text-start");
       this.infoText= this.el.querySelector(".machine-text-info");
       this.errorText= this.el.querySelector(".machine-text-error");
+      this.endText = this.el.querySelector(".machine-text-end");
       
       
       this.startText.setAttribute("text", { value: "Im Betrieb wurde festgestellt, dass die Spannvorrichtung der Maschine nicht ordnungsgemaess funktioniert. Bauen Sie die Spannvorrichtung unter Beruecksichtigung der Sicherheitsvorschriften aus." }); 
+      this.endText.setAttribute("text", { value: "Gute Arbeit. Sie haben die Spannvorrichtung erfolgreich ausgebaut." }); 
+
 
       //TODO_LAURA_TEXT
       // for debbuging, maybe comment the next line, so that the texts are not hidden when it loads ;)
@@ -227,7 +232,6 @@ AFRAME.registerComponent("machine-tool", {
       return;
     
     this.hideAllTexts();
-    this.startText.object3D.visible = true;
 
     this.deactivateAllButtons();
 
@@ -235,12 +239,20 @@ AFRAME.registerComponent("machine-tool", {
 
     switch (id) {
       case STEP_FINISH:
-        this.playSound(SOUND_MEDIA_LOADED);
+        this.playSound(SOUND_SUCCESS_BUTTON);
+        this.endText.object3D.visible = false;
         this.simpleAnim.resetClips();
         this.activateButton(STEP_START);
         break;
       case STEP_START:
         this.playSound(SOUND_MEDIA_LOADED);
+        this.startText.object3D.visible = true;
+        this.activateButton(STEP_START_CLICKED);
+        this.activateScreen(STEP_START_CLICKED);
+        break;
+      case STEP_START_CLICKED:
+        this.playSound(SOUND_SUCCESS_BUTTON);
+        this.startText.object3D.visible = false;
         this.activateButton(STEP_01);
         this.activateScreen(STEP_01);
         break;
@@ -293,7 +305,6 @@ AFRAME.registerComponent("machine-tool", {
   onFakeButtonClick(id)
   {
     this.hideAllTexts();
-    this.startText.object3D.visible = true;
 
     console.log("fake button click " + id);
 
@@ -321,6 +332,7 @@ AFRAME.registerComponent("machine-tool", {
         this.activateButton(STEP_09);
         break;
       case ANIM_09:
+        this.endText.object3D.visible = true;
         this.activateButton(STEP_FINISH);
         break;
     
@@ -439,5 +451,6 @@ AFRAME.registerComponent("machine-tool", {
     this.startText.object3D.visible = false;
     this.infoText.object3D.visible = false;
     this.errorText.object3D.visible = false;
+    this.endText.object3D.visible = false;
   }
 });

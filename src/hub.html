@@ -666,8 +666,14 @@
                     <!-- TEXT BOXES -->
                     <a-entity
                         class="machine-text-start"
-                        text="value: start text; align: center; color: #fafafa"
-                        position="1.75 1.8 0.95"
+                        text="value: start text; align: center; color: #fafafa; width:1.5;"
+                        position="0 1.3 1.05"
+                        scale="1.0 1.0 1.0"
+                    ></a-entity>
+                    <a-entity
+                        class="machine-text-end"
+                        text="value: end text; align: center; color: #fafafa; width:1.5;"
+                        position="0 1.3 1.05"
                         scale="1.0 1.0 1.0"
                     ></a-entity>
                     <a-entity
@@ -687,6 +693,10 @@
                     <a-entity class="machine-button-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.3 1.1" scale="1.0 1.0 1.0">
                         <a-entity text=" value:Start; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
                     </a-entity>
+                    <a-entity class="machine-button-11" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.0 1.1" scale="1.0 1.0 1.0">
+                        <a-entity text=" value:Okay; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
+                    </a-entity>
+                    
                     <!-- STEP BUTTONS -->     
                     <a-entity class="machine-button-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.935 1.145 1.29" scale="0.2 0.2 0.2">
                         <a-entity
@@ -778,9 +788,9 @@
                         ></a-entity>
                         <a-entity text=" value:Antriebsraum oeffnen; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="4.5 4.5 4.5"></a-entity>
                     </a-entity>
-                    <!-- RESTART BUTTONS -->     
-                    <a-entity class="machine-button-10" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.3 1.1" scale="1.0 1.0 1.0">
-                        <a-entity text=" value:Neustart; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity>
+                    <!-- RESTART BUTTONS -->
+                    <a-entity class="machine-button-10" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.0 1.1" scale="1.0 1.0 1.0">
+                        <a-entity text=" value:Okay; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
                     </a-entity> 
                     <!-- FAKE BUTTONS -->
                     <!-- TODO_LAURA_FAKEBUTTONS 
