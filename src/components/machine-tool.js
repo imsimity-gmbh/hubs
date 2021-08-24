@@ -36,9 +36,10 @@ const STEP_08=8;  //Bedienfeld um 90 grad
 const STEP_09=9;  //Antriebraum öffnen
 const STEP_FINISH=10;
 const STEP_START_CLICKED=11;
-const STEP_FINISH_CLICKED=12;
+const STEP_BEFORE_06=12;
+const STEP_AFTER_06=13;
 
-const STEPS_COUNT=13;
+const STEPS_COUNT=14;
 
 
 const ANIM_05="arbeitsraum_tuer";
@@ -59,7 +60,9 @@ const ERROR_MESSAGES=[
   "Entriegeln Sie die Schutztuer.", //7
   "Drehen Sie das Bedienfeld\n um an den Antriebsraum zu\n gelangen.", //8
   "", 
-  "", //FINISH
+  "",
+  "",
+  "Schalten Sie die Maschine aus,\n bevor Sie sie austauschen", 
 ];
 
 const INFO_MESSAGES=[
@@ -278,11 +281,19 @@ AFRAME.registerComponent("machine-tool", {
         this.simpleAnim.playClip(ANIM_05);
         this.animating=true;
         break;
+      case  STEP_BEFORE_06:
+          this.playSound(SOUND_SUCCESS_BUTTON);
+          this.activateButton(STEP_06);
+          break;
       case  STEP_06:
         this.playSound(SOUND_SUCCESS_BUTTON);
         this.simpleAnim.playClip(ANIM_06);
         this.animating=true;
         break;
+      case  STEP_AFTER_06:
+          this.playSound(SOUND_SUCCESS_BUTTON);
+          this.activateButton(STEP_07);
+          break;
       case STEP_07:
           this.playSound(SOUND_SUCCESS_BUTTON);
           this.activateButton(STEP_08);
@@ -323,10 +334,10 @@ AFRAME.registerComponent("machine-tool", {
 
     switch (clipName) {
       case ANIM_05:
-        this.activateButton(STEP_06);
+        this.activateButton(STEP_BEFORE_06);
         break;
       case ANIM_06:
-        this.activateButton(STEP_07);
+        this.activateButton(STEP_AFTER_06);
         break;
       case ANIM_08:
         this.activateButton(STEP_09);
