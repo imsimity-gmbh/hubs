@@ -42,10 +42,12 @@ const STEP_AFTER_06=13;
 const STEPS_COUNT=14;
 
 
-const ANIM_05="arbeitsraum_tuer";
-const ANIM_06="arbeitsraum_werkstueck";
-const ANIM_08="bedienfeld";
-const ANIM_09="antriebsraum_tuer";
+const ANIM_05=1;
+const ANIM_06=2;
+const ANIM_08=3;
+const ANIM_09=4;
+
+const ANIMS=["","arbeitsraum_tuer","arbeitsraum_werkstueck","bedienfeld","antriebsraum_tuer"]
 
 // TODO_LAURA_FAKEBUTTONS
 // so far, there is only one error message, and its in english... I'm sure you could find something more clever than I did, and in german !
@@ -140,6 +142,8 @@ AFRAME.registerComponent("machine-tool", {
       this.fakebuttons = [];
       this.screens =[];
       this.texts =[];
+      this.localAnimId = -1;
+
 
       for (let i = 0; i < STEPS_COUNT; i++) {
         this.buttons[i] = this.el.querySelector(".machine-button-" + i);
@@ -209,7 +213,11 @@ AFRAME.registerComponent("machine-tool", {
   },
 
   updateUI() {
-    if (!this.label) return;
+    
+    const hasAnim = this.data.stepId !== Infinity;
+
+    if (!this.label || !this.simpleAnim) 
+      return;
 
     const label = this.data.label;
     const stepId = this.data.stepId;
@@ -217,6 +225,30 @@ AFRAME.registerComponent("machine-tool", {
     if (label) {
       this.label.setAttribute("text", { value: label, color: "#fafafa" });
     }
+
+    
+
+    if (!hasAnim)
+      return;
+    
+    if (this.localAnimId != this.data.stepId)
+    {
+      console.log(this.data.stepId);
+
+      if (this.data.stepId == -1)
+      {
+        this.simpleAnim.resetClips();
+        return;
+      }
+
+      
+      if (!ANIMS[this.data.stepId] || ANIMS[this.data.stepId]=="")
+        return;
+
+      this.simpleAnim.playClip(ANIMS[this.data.stepId]);
+      this.localAnimId = this.data.stepId;
+    } 
+    
   },
 
   
@@ -244,7 +276,7 @@ AFRAME.registerComponent("machine-tool", {
       case STEP_FINISH:
         this.playSound(SOUND_SUCCESS_BUTTON);
         this.endText.object3D.visible = false;
-        this.simpleAnim.resetClips();
+        this.resetAnimation();
         this.activateButton(STEP_START);
         break;
       case STEP_START:
@@ -278,7 +310,7 @@ AFRAME.registerComponent("machine-tool", {
         break;
       case STEP_05:
         this.playSound(SOUND_SUCCESS_BUTTON);
-        this.simpleAnim.playClip(ANIM_05);
+        this.activateAnimation(ANIM_05); //this.simpleAnim.playClip(ANIM_05);
         this.animating=true;
         break;
       case  STEP_BEFORE_06:
@@ -287,7 +319,7 @@ AFRAME.registerComponent("machine-tool", {
           break;
       case  STEP_06:
         this.playSound(SOUND_SUCCESS_BUTTON);
-        this.simpleAnim.playClip(ANIM_06);
+        this.activateAnimation(ANIM_06); //his.simpleAnim.playClip(ANIM_06);
         this.animating=true;
         break;
       case  STEP_AFTER_06:
@@ -300,17 +332,28 @@ AFRAME.registerComponent("machine-tool", {
           break;
       case  STEP_08:
         this.playSound(SOUND_SUCCESS_BUTTON);
-        this.simpleAnim.playClip(ANIM_08);
+        this.activateAnimation(ANIM_08); //this.simpleAnim.playClip(ANIM_08);
         this.animating=true;
         break;
       case  STEP_09:
         this.playSound(SOUND_SUCCESS_BUTTON);
-        this.simpleAnim.playClip(ANIM_09);
+        this.activateAnimation(ANIM_09); //this.simpleAnim.playClip(ANIM_09);
         this.animating=true;
         break;
       default:
         break;
     }
+  },
+
+
+  activateAnimation(animId)
+  {
+    this.el.setAttribute("machine-tool", "stepId", animId);
+  },
+
+  resetAnimation()
+  {
+    this.el.setAttribute("machine-tool", "stepId", -1);
   },
 
   onFakeButtonClick(id)
@@ -333,16 +376,16 @@ AFRAME.registerComponent("machine-tool", {
     this.animating = false;
 
     switch (clipName) {
-      case ANIM_05:
+      case ANIMS[ANIM_05]:
         this.activateButton(STEP_BEFORE_06);
         break;
-      case ANIM_06:
+      case ANIMS[ANIM_06]:
         this.activateButton(STEP_AFTER_06);
         break;
-      case ANIM_08:
+      case ANIMS[ANIM_08]:
         this.activateButton(STEP_09);
         break;
-      case ANIM_09:
+      case ANIMS[ANIM_09]:
         this.endText.object3D.visible = true;
         this.activateButton(STEP_FINISH);
         break;
