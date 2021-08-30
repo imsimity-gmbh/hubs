@@ -691,7 +691,7 @@
 
                     <!-- START BUTTON -->
                     <a-entity class="machine-button-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.3 1.1" scale="1.0 1.0 1.0">
-                        <a-entity text=" value:Start; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
+                        <a-entity text=" value:Arbeitsanweisung\n lesen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity> 
                     </a-entity>
                     <a-entity class="machine-button-11" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.0 1.1" scale="1.0 1.0 1.0">
                         <a-entity text=" value:Okay; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
@@ -699,118 +699,48 @@
                     
                     <!-- STEP BUTTONS -->     
                     <a-entity class="machine-button-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.935 1.145 1.29" scale="0.2 0.2 0.2">
-                        <a-entity
+                       <!-- <a-entity
                             sprite 
                             class="start-icon"
                             icon-button="image: machine_start.png; hoverImage: machine_start.png;"
                             scale="0.2 0.2 0.2"
                             position="0 0.002 0.001"
-                        ></a-entity>
+                        ></a-entity> -->
                         <a-entity text=" value:Hauptschalter\n einschalten; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-2" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.715 1.3 1.31" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Not-Halt entriegeln; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-3" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.94 1.35 1.28" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
-                        <a-entity text=" value:Steuerung An\n betaetigen; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="5 5 5"></a-entity>
+                        <a-entity text=" value:Steuerung 'An'\n betaetigen; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-4" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.74 1.35 1.285" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Arbeitsraumschutztuer\n entriegeln; align:center;" text-raycast-hack position="1.4 0 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-5" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.1 1.30 0.82" scale="0.5 0.5 0.5">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Arbeitsraumschutztuer\n oeffnen; align:center;" text-raycast-hack position="0.85 0 0.001" scale="2.5 2.5 2.5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-12" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.715 1.3 1.31" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
-                        <a-entity text=" value:Schalte aus; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="5 5 5"></a-entity>
+                        <a-entity text=" value:Strom ausschalten; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-6" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.13 1.30 0.25" scale="0.5 0.5 0.5">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Spannvorrichtung\n der Maschine austauschen; align:center;" text-raycast-hack position="0.75 0.3 0.001" scale="3.5 3.5 3.5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-13" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.715 1.3 1.31" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
-                        <a-entity text=" value:Einschalten; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="5 5 5"></a-entity>
+                        <a-entity text=" value:Strom einschalten; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-7" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.795 1.35 1.285" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Schutztuer\n entriegeln; align:center;" text-raycast-hack position="-0.8 0 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-8" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.59 1.3 1.3" scale="0.25 0.25 0.25">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Bedienfeld\n um 90 Grad drehen; align:center;" text-raycast-hack position="0.25 -0.4 0.001" scale="3.5 3.5 3.5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-button-9" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.25 1.27 0.955" scale="0.25 0.25 0.25">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Antriebsraum oeffnen; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="4.5 4.5 4.5"></a-entity>
                     </a-entity>
                     <!-- RESTART BUTTONS -->
                     <a-entity class="machine-button-10" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.0 1.1" scale="1.0 1.0 1.0">
-                        <a-entity text=" value:Okay; width:2; align:center;" text-raycast-hack position="0 0 0.001"></a-entity> 
+                        <a-entity text=" value:Aufgabe\n wiederholen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.6 0.6 0.6"></a-entity> 
                     </a-entity> 
                     <!-- FAKE BUTTONS -->
                     <!-- TODO_LAURA_FAKEBUTTONS 
@@ -821,83 +751,27 @@
                     
                     -->
                     <a-entity class="machine-fakebutton-1" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.1 1.30 0.82" scale="0.5 0.5 0.5">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Tuere oeffnen; align:center;" text-raycast-hack position="0.25 0.3 0.001" scale="2.5 2.5 2.5"></a-entity> 
                     </a-entity>
                     <a-entity class="machine-fakebutton-2" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.795 1.35 1.285" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Schutztuer entriegeln; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-fakebutton-3" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.1 1.30 0.82" scale="0.5 0.5 0.5">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Tuere oeffnen; align:center;" text-raycast-hack position="0.25 0.3 0.001" scale="2.5 2.5 2.5"></a-entity> 
                     </a-entity>
                     <a-entity class="machine-fakebutton-4" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.91 1.35 1.28" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
-                        <a-entity text=" value:Steuerung Aus\n betaetigen; align:center;" text-raycast-hack position="-0.25 0.4 0.001" scale="5 5 5"></a-entity>
+                        <a-entity text=" value:Steuerung 'Aus'\n betaetigen; align:center;" text-raycast-hack position="-0.25 0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-fakebutton-5" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.795 1.35 1.285" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Schutztuer entriegeln; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-fakebutton-12" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.13 1.30 0.25" scale="0.5 0.5 0.5">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Spannvorrichtung\n der Maschine austauschen; align:center;" text-raycast-hack position="0.75 0.3 0.001" scale="3.5 3.5 3.5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-fakebutton-7" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.71 1.35 1.285" scale="0.2 0.2 0.2">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Arbeitsraumschutztuer\n entriegeln; align:center;" text-raycast-hack position="1.4 0 0.001" scale="5 5 5"></a-entity>
                     </a-entity>
                     <a-entity class="machine-fakebutton-8" mixin="rounded-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.59 1.4 1.3" scale="0.25 0.25 0.25">
-                        <a-entity
-                            sprite 
-                            class="start-icon"
-                            icon-button="image: machine_start.png; hoverImage: machine_start.png;"
-                            scale="0.2 0.2 0.2"
-                            position="0 0.002 0.001"
-                        ></a-entity>
                         <a-entity text=" value:Bedienfeld\n um 45 Grad drehen; align:center;" text-raycast-hack position="0.25 0.4 0.001" scale="3.5 3.5 3.5"></a-entity>
                     </a-entity>
                     <!-- TODO_LAURA_SPRITE  -->
