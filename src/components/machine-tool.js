@@ -54,17 +54,17 @@ const ANIMS=["","arbeitsraum_tuer","arbeitsraum_werkstueck","bedienfeld","antrie
 const ERROR_MESSAGES=[
   "", //START
   "Schalten Sie zuerst den\n Hauptschalter ein.", //1
-  "Entriegeln Sie den Not-Halt.", //2
-  "Schalten Sie die Steuerung an.", //3
-  "Entriegeln Sie die\n Arbeitsraumschutztuer, bevor\n Sie die Tuer oeffnen.", //4
-  "Oeffnen Sie die\n Arbeitsraumschutztuer um mit der\n Wartung fortzufahren.", //5
+  "Entriegeln Sie zuvor den Not-Halt.", //2
+  "Schalten Sie zuerst\n die Steuerung an, bevor Sie\n die Tuer oeffnen.", //3
+  "Entriegeln Sie die\n Arbeitsraumschutztuer, bevor\n Sie die Tuere oeffnen.", //4
+  "Oeffnen Sie nun die\n Arbeitsraumschutztuer um mit\n der Wartung fortzufahren.", //5
   "", 
-  "Entriegeln Sie die Schutztuer.", //7
-  "Drehen Sie das Bedienfeld\n um an den Antriebsraum zu\n gelangen.", //8
+  "Entriegeln Sie zuerst\n die Schutztuer.", //7
+  "Um an den Antriebsraum\n zu gelangen, sollten Sie das\n Bedienfeld um 90 Grad drehen.", //8
   "", 
   "",
   "",
-  "Schalten Sie die Maschine aus,\n bevor Sie sie austauschen", 
+  "Schalten Sie die Maschine aus,\n bevor Sie das Teil\ austauschen", 
 ];
 
 const INFO_MESSAGES=[
