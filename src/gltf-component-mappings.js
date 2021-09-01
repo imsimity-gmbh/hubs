@@ -267,7 +267,7 @@ async function mediaInflator(el, componentName, componentData, components) {
 
   el.setAttribute("media-loader", {
     src: sanitizeUrl(src),
-    fitToBox: true,
+    fitToBox: false,
     resolve: true,
     fileIsOwned: true,
     animate: false,

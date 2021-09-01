@@ -119,7 +119,7 @@ AFRAME.registerComponent("media-loader", {
       } else {
         // Move the mesh such that the center of its bounding box is in the same position as the parent matrix position
         const box = getBox(this.el, mesh);
-        const scaleCoefficient = fitToBox ? getScaleCoefficient(0.5, box) : 1;
+        const scaleCoefficient = /*fitToBox ? getScaleCoefficient(0.5, box) :*/ 1;
         const { min, max } = box;
         center.addVectors(min, max).multiplyScalar(0.5 * scaleCoefficient);
         mesh.scale.multiplyScalar(scaleCoefficient);
@@ -570,8 +570,7 @@ AFRAME.registerComponent("media-loader", {
             src: accessibleUrl,
             contentType: contentType,
             inflate: true,
-            batch,
-            modelToWorldScale: this.data.fitToBox ? 0.0001 : 1.0
+            batch  
           })
         );
       } else if (contentType.startsWith("text/html")) {
