@@ -172,6 +172,9 @@ AFRAME.registerComponent("machine-tool", {
         }
       }
 
+      this.helpbutton = this.el.querySelector(".machine-helpbutton");
+      this.helpbutton.object3D.addEventListener("interact", () => this.onHelpButtonClick());
+
       //TODO_LAURA_TEXT
       // the texts are quite rough in the current state... I think you could do a better job that I did by checking the doc here:
       // https://aframe.io/docs/1.2.0/components/text.html
@@ -365,8 +368,10 @@ AFRAME.registerComponent("machine-tool", {
     if (this.animating)
       return;
 
+    this.helpbutton.object3D.visible = true;
     this.playErrorMessage(id);
     this.playSound(SOUND_ERROR_BUTTON);
+    this.errorText.object3D.visible = false;
   },
 
   onAnimationDone(clipName)
@@ -396,6 +401,11 @@ AFRAME.registerComponent("machine-tool", {
 
   },
 
+  onHelpButtonClick(){
+    this.errorText.object3D.visible = true;
+    this.helpbutton.object3D.visible = false;
+  },
+
   deactivateAllButtons()
   { 
     this.buttons.forEach(b => {
@@ -413,6 +423,7 @@ AFRAME.registerComponent("machine-tool", {
       fb.object3D.visible = false;
     });
     
+    this.helpbutton.object3D.visible = false;
   },
 
   activateButton(buttonId)
