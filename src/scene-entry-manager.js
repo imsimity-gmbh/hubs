@@ -10,6 +10,7 @@ const forceEnableTouchscreen = hackyMobileSafariTest();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const isDebug = qsTruthy("debug");
 const qs = new URLSearchParams(location.search);
+const deg2rad = 0.0174533;
 
 import { addMedia, getPromotionTokenForFile } from "./utils/media-utils";
 import {
@@ -556,12 +557,24 @@ export default class SceneEntryManager {
         myMachine.parentNode.removeChild(myMachine);
       } else {
         const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        console.log(povRotation);
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        console.log(dir);
+
         entity.setAttribute("networked", { template: "#interactable-machine-camera" });
         entity.setAttribute("offset-relative-to", {
           target: "#avatar-rig",
-          offset: { x: 0, y: 0.0, z: -1.5 }
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
         });
         this.scene.appendChild(entity);
+      
       }
     });
 
