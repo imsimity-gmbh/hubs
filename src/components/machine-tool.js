@@ -81,7 +81,6 @@ const INFO_MESSAGES=[
   "", //FINISH
 ];
 
-const REFRESHRATE = 0.10;
 
 /*
 
@@ -102,7 +101,7 @@ const allowVideo = !!videoMimeType && hasWebGL2;
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
-    buttonId: { default: 0 },
+    buttonId: { default: -1 },
     fakebuttonId: { default: -1 },
     helpedClick: { default: false }
   },
@@ -144,7 +143,7 @@ AFRAME.registerComponent("machine-tool", {
       this.fakebuttons = [];
       this.texts =[];
 
-      this.localButtonId = 0;
+      this.localButtonId = -1;
       this.localFakeButtonId = -1;
 
       for (let i = 0; i < STEPS_COUNT; i++) {
@@ -243,18 +242,22 @@ AFRAME.registerComponent("machine-tool", {
 
   tick() {
     // This is a state machine, nothing needs to be rendered every frame
-
   },
 
   onButtonClick(id)
   {
-    this.localButtonId = id;
+    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+      this.localButtonId = id;
+      
+      NAF.utils.takeOwnership(networkedEl);
 
-    this.el.setAttribute("machine-tool", "buttonId", id);
+      this.el.setAttribute("machine-tool", "buttonId", id);
 
-    console.log("button click " + id);
+      console.log("button click " + id);
 
-    this.renderButtonClick(id);
+      this.renderButtonClick(id);
+    });
   },
 
   renderButtonClick(id)
@@ -344,13 +347,20 @@ AFRAME.registerComponent("machine-tool", {
 
   onFakeButtonClick(id)
   {
-    this.localFakeButtonId = id;
-    // Sets the Networked Value
-    this.el.setAttribute("machine-tool", "fakebuttonId", id);
 
-    console.log("fake button click " + id);
-    
-    this.renderFakeButtonClick(id);
+    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+      this.localFakeButtonId = id;
+      
+      NAF.utils.takeOwnership(networkedEl);
+
+      this.el.setAttribute("machine-tool", "fakebuttonId", id);
+
+      console.log("fake button click " + id);
+      
+      this.renderFakeButtonClick(id);
+    });
+
   },
 
   renderFakeButtonClick(id)
