@@ -275,11 +275,15 @@ function registerNetworkSchemas() {
       "rotation",
       {
         component: "machine-tool",
-        property: "label"
+        property: "buttonId"
       },
       {
         component: "machine-tool",
-        property: "stepId"
+        property: "fakebuttonId"
+      },
+      {
+        component: "machine-tool",
+        property: "helpedClick"
       }
     ]
   });

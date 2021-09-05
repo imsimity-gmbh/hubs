@@ -563,9 +563,7 @@ export default class SceneEntryManager {
         const povRotation =  camera.getAttribute("rotation");
 
         var radAngle =  deg2rad * povRotation.y;
-        console.log(povRotation);
         var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
-        console.log(dir);
 
         entity.setAttribute("networked", { template: "#interactable-machine-camera" });
         entity.setAttribute("offset-relative-to", {

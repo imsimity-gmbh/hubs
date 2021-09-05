@@ -81,6 +81,8 @@ const INFO_MESSAGES=[
   "", //FINISH
 ];
 
+const REFRESHRATE = 0.10;
+
 /*
 
 Some old camera components relics
@@ -100,8 +102,9 @@ const allowVideo = !!videoMimeType && hasWebGL2;
 
 AFRAME.registerComponent("machine-tool", {
   schema: {
-    label: { default: "Maschine" },
-    stepId: { default: 0 },
+    buttonId: { default: 0 },
+    fakebuttonId: { default: -1 },
+    helpedClick: { default: false }
   },
 
   init() {
@@ -109,7 +112,6 @@ AFRAME.registerComponent("machine-tool", {
     this.animating = false;
     this.el.object3D.visible = false; // Make invisible until model ready
     this.lastUpdate = performance.now();
-    this.localSnapCount = 0; // Counter that is used to arrange photos/videos
 
    
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -140,15 +142,14 @@ AFRAME.registerComponent("machine-tool", {
 
       this.buttons = [];
       this.fakebuttons = [];
-      this.screens =[];
       this.texts =[];
-      this.localAnimId = -1;
 
+      this.localButtonId = 0;
+      this.localFakeButtonId = -1;
 
       for (let i = 0; i < STEPS_COUNT; i++) {
         this.buttons[i] = this.el.querySelector(".machine-button-" + i);
         this.fakebuttons[i] = this.el.querySelector(".machine-fakebutton-" + i);
-        this.screens[i] = this.el.querySelector(".machine-screen-" + i);
         this.texts[i] = this.el.querySelector(".machine-text-" + i);
 
         if (this.buttons[i])
@@ -159,11 +160,6 @@ AFRAME.registerComponent("machine-tool", {
         if (this.fakebuttons[i])
         {
           this.fakebuttons[i].object3D.addEventListener("interact", () => this.onFakeButtonClick(i));
-        }
-
-        if (this.screens[i])
-        {
-          this.screens[i].object3D.addEventListener("interact", () => this.onButtonClick(i));
         }
 
         if (this.texts[i])
@@ -195,6 +191,7 @@ AFRAME.registerComponent("machine-tool", {
       this.hideAllTexts();
 
       this.deactivateAllButtons();
+
       this.activateButton(STEP_START);
 
       this.updateUI();
@@ -217,55 +214,51 @@ AFRAME.registerComponent("machine-tool", {
 
   updateUI() {
     
-    const hasAnim = this.data.stepId !== Infinity;
+    const hasButtonClicked = this.data.buttonId !== Infinity;
+    const hasFakeButtonClicked = this.data.fakebuttonId !== Infinity;
 
-    if (!this.label || !this.simpleAnim) 
+    if (!this.simpleAnim) 
       return;
 
-    const label = this.data.label;
-    const stepId = this.data.stepId;
-
-    if (label) {
-      this.label.setAttribute("text", { value: label, color: "#fafafa" });
+    if (hasButtonClicked)
+    {
+      console.log("Update UI Local " + this.localButtonId + ", Networked " + this.data.buttonId );
     }
 
-    
-
-    if (!hasAnim)
-      return;
-    
-    if (this.localAnimId != this.data.stepId)
+    if (hasButtonClicked && this.localButtonId != this.data.buttonId)
     {
-      console.log(this.data.stepId);
-
-      if (this.data.stepId == -1)
-      {
-        this.simpleAnim.resetClips();
-        return;
-      }
-
-      
-      if (!ANIMS[this.data.stepId] || ANIMS[this.data.stepId]=="")
-        return;
-
-      this.simpleAnim.playClip(ANIMS[this.data.stepId]);
-      this.localAnimId = this.data.stepId;
+      this.renderButtonClick(this.data.buttonId);
+      this.localButtonId = this.data.buttonId;
     } 
+
+    if (hasFakeButtonClicked && this.localFakeButtonId != this.data.fakebuttonId)
+    {
+      this.renderFakeButtonClick(this.data.fakebuttonId);
+      this.localFakeButtonId = this.data.fakebuttonId;
+    }
     
   },
 
   
 
   tick() {
+    // This is a state machine, nothing needs to be rendered every frame
 
   },
 
   onButtonClick(id)
   {
+    this.localButtonId = id;
 
+    this.el.setAttribute("machine-tool", "buttonId", id);
 
     console.log("button click " + id);
 
+    this.renderButtonClick(id);
+  },
+
+  renderButtonClick(id)
+  {
     if (this.animating)
       return;
     
@@ -273,26 +266,22 @@ AFRAME.registerComponent("machine-tool", {
 
     this.deactivateAllButtons();
 
-    this.deactivateAllScreens();
-
     switch (id) {
       case STEP_FINISH:
         this.playSound(SOUND_SUCCESS_BUTTON);
         this.endText.object3D.visible = false;
-        this.resetAnimation();
         this.activateButton(STEP_START);
+        this.simpleAnim.resetClips();
         break;
       case STEP_START:
         this.playSound(SOUND_MEDIA_LOADED);
         this.startText.object3D.visible = true;
         this.activateButton(STEP_START_CLICKED);
-        this.activateScreen(STEP_START_CLICKED);
         break;
       case STEP_START_CLICKED:
         this.playSound(SOUND_SUCCESS_BUTTON);
         this.startText.object3D.visible = false;
         this.activateButton(STEP_01);
-        this.activateScreen(STEP_01);
         break;
       case STEP_01:
           this.playSound(SOUND_SUCCESS_BUTTON);
@@ -305,7 +294,6 @@ AFRAME.registerComponent("machine-tool", {
       case STEP_03:
         this.playSound(SOUND_SUCCESS_BUTTON);
         this.activateButton(STEP_04);
-        this.activateScreen(STEP_04);
         break;
       case  STEP_04:
         this.playSound(SOUND_SUCCESS_BUTTON);
@@ -348,22 +336,26 @@ AFRAME.registerComponent("machine-tool", {
     }
   },
 
-
   activateAnimation(animId)
   {
-    this.el.setAttribute("machine-tool", "stepId", animId);
+    this.simpleAnim.playClip(ANIMS[animId]);
   },
 
-  resetAnimation()
-  {
-    this.el.setAttribute("machine-tool", "stepId", -1);
-  },
 
   onFakeButtonClick(id)
   {
-    this.hideAllTexts();
+    this.localFakeButtonId = id;
+    // Sets the Networked Value
+    this.el.setAttribute("machine-tool", "fakebuttonId", id);
 
     console.log("fake button click " + id);
+    
+    this.renderFakeButtonClick(id);
+  },
+
+  renderFakeButtonClick(id)
+  {
+    this.hideAllTexts();
 
     if (this.animating)
       return;
@@ -401,13 +393,18 @@ AFRAME.registerComponent("machine-tool", {
 
   },
 
-  onHelpButtonClick(){
+  onHelpButtonClick()
+  {
     this.errorText.object3D.visible = true;
+
     this.helpbutton.object3D.visible = false;
+    
   },
 
   deactivateAllButtons()
   { 
+    this.helpbutton.object3D.visible = false;
+
     this.buttons.forEach(b => {
 
       if (b == null)
@@ -423,7 +420,6 @@ AFRAME.registerComponent("machine-tool", {
       fb.object3D.visible = false;
     });
     
-    this.helpbutton.object3D.visible = false;
   },
 
   activateButton(buttonId)
@@ -448,36 +444,6 @@ AFRAME.registerComponent("machine-tool", {
       fb.object3D.visible = true;
     }
   },
-
-  //TODO: If we want changing screens on the machines display we need this code and entitys in hub.html (TODO_LAURA_SPRITE) - generating new spritesheets currently not possible
-  deactivateAllScreens()
-  { 
-    this.screens.forEach(s => {
-
-      if (s == null)
-        return;
-
-      s.object3D.visible = false;
-    });
-
-  },
-
-  activateScreen(screenId)
-  { 
-    if (screenId >= this.screens.length)
-    {
-      return;
-    }
-
-    var s = this.screens[screenId];
-
-    // if the screen does exist, we make it visible
-    if (s != null)
-    {
-      s.object3D.visible = true;
-    }
-  },
-
 
   playSound(soundId)
   {
