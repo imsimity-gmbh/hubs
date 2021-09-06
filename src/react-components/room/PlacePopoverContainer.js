@@ -23,6 +23,8 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         const hasActiveCamera = !!scene.systems["camera-tools"].getMyCamera();
         const hasActivePen = !!scene.systems["pen-tools"].getMyPen();
         const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine()
+        const hasActiveStopwatch = !!scene.systems["stopwatch-tools"].getMyStopwatch();
+        const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
 
         let nextItems = [
           hubChannel.can("spawn_drawing") && {
@@ -40,6 +42,22 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.machine" defaultMessage="Machine" />,
             onSelect: () => scene.emit("action_toggle_machine"),
             selected: hasActiveMachine
+          },
+          hubChannel.can("spawn_camera") && {
+            id: "stopwatch",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.stopwatch" defaultMessage="Stopwatch" />,
+            onSelect: () => scene.emit("action_toggle_stopwatch"),
+            selected: hasActiveStopwatch
+          },
+          false && {
+            id: "example",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.example" defaultMessage="Example" />,
+            onSelect: () => scene.emit("action_toggle_example"),
+            selected: hasActiveExample
           },
           hubChannel.can("spawn_camera") && {
             id: "camera",

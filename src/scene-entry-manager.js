@@ -84,6 +84,8 @@ export default class SceneEntryManager {
     this._setupMedia();
     this._setupCamera();
     this._setupMachine();
+    this._setupStopwatch();
+    this._setupExample();
 
     if (qsTruthy("offline")) return;
 
@@ -546,6 +548,48 @@ export default class SceneEntryManager {
     this.scene.addEventListener("photo_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "photo"));
     this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
   };
+
+  _setupStopwatch = () => {
+    this.scene.addEventListener("action_toggle_stopwatch", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      const myStopwatch = this.scene.systems["stopwatch-tools"].getMyStopwatch();
+
+      if (myStopwatch) {
+        myStopwatch.parentNode.removeChild(myStopwatch);
+      } else {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("networked", { template: "#interactable-stopwatch-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset: { x: 0, y: 0, z: -1.5 }
+        });
+        this.scene.appendChild(entity);
+      }
+    });
+
+  };
+
+
+  _setupExample = () => {
+    this.scene.addEventListener("action_toggle_example", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      const myExample = this.scene.systems["exalple-tools"].getMyExample();
+
+      if (myExample) {
+        myExample.parentNode.removeChild(myExample);
+      } else {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("networked", { template: "#interactable-example-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset: { x: 0, y: 0, z: -1.5 }
+        });
+        this.scene.appendChild(entity);
+      }
+    });
+
+  };
+
 
   _setupMachine = () => {
     this.scene.addEventListener("action_toggle_machine", () => {

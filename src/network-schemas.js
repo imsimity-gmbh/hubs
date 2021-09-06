@@ -289,6 +289,22 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-stopwatch-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-example-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [
       {
