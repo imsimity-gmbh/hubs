@@ -6,6 +6,7 @@ import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 import stopwatchModelSrc from "../assets/camera_tool.glb";
 
+// Change stopwatchModelSrc to your model
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
 
 AFRAME.registerComponent("stopwatch-tool", {
@@ -13,6 +14,8 @@ AFRAME.registerComponent("stopwatch-tool", {
   schema: {
   },
 
+
+  // like Start() in Unity
   init() {
 
     this.el.object3D.visible = false; // Make invisible until model ready
@@ -21,6 +24,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
     this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+    // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
       mesh.scale.set(1, 1, 1);
@@ -32,8 +36,18 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.matrixNeedsUpdate = true;
       
       
-      //this.myStartButton = this.el.querySelector(".stopwatch-start-button");
-      //this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
+      this.myStartButton = this.el.querySelector(".stopwatch-start-button");
+      this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
+
+      // Add Function callbacks to everybuttons (copy/paste like abover & rename)
+
+
+      // Get the Text box
+
+      // this.myTextBox = ??????;
+
+
+      // this.myTextBox.object3D.text = "Some Text"; (00:00:00)
 
     
       this.updateUI();
@@ -59,13 +73,27 @@ AFRAME.registerComponent("stopwatch-tool", {
   },
 
   
-
+  // Like Update() in Unity
   tick() {
     // This is a state machine, nothing needs to be rendered every frame
+
+    // If the Timer has started, calculate how long since it started
+
+    // Display the text in 3D
+
   },
 
   onStartButtonClick()
   {
-    //console.log("Click !");
+    console.log("Click !");
+
+    this.startTime = performance.now();
+
+
   },
+
+  // Stop function
+
+
+  // Reset function
 });
