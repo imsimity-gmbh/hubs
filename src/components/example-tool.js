@@ -8,7 +8,7 @@ import stopwatchModelSrc from "../assets/camera_tool.glb";
 
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
 
-AFRAME.registerComponent("stopwatch-tool", {
+AFRAME.registerComponent("example-tool", {
   // TODO: network the right variables
   schema: {
   },
@@ -38,7 +38,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     
       this.updateUI();
 
-      this.stopwatchSystem = this.el.sceneEl.systems["stopwatch-tools"];
+      this.stopwatchSystem = this.el.sceneEl.systems["example-tools"];
       this.stopwatchSystem.register(this.el);
 
     });

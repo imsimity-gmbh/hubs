@@ -32,8 +32,8 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.matrixNeedsUpdate = true;
       
       
-      //this.myButton = this.el.querySelector(".my-button-name");
-      //this.myButton.object3D.addEventListener("interact", () => this.onMyButtonClick());
+      //this.myStartButton = this.el.querySelector(".stopwatch-start-button");
+      //this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
 
     
       this.updateUI();
@@ -64,7 +64,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     // This is a state machine, nothing needs to be rendered every frame
   },
 
-  onMyButtonClick()
+  onStartButtonClick()
   {
     //console.log("Click !");
   },
