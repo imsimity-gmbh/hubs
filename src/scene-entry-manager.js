@@ -10,6 +10,7 @@ const forceEnableTouchscreen = hackyMobileSafariTest();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const isDebug = qsTruthy("debug");
 const qs = new URLSearchParams(location.search);
+const deg2rad = 0.0174533;
 
 import { addMedia, getPromotionTokenForFile } from "./utils/media-utils";
 import {
@@ -82,6 +83,9 @@ export default class SceneEntryManager {
     this._setupKicking();
     this._setupMedia();
     this._setupCamera();
+    this._setupMachine();
+    this._setupStopwatch();
+    this._setupExample();
 
     if (qsTruthy("offline")) return;
 
@@ -543,6 +547,81 @@ export default class SceneEntryManager {
 
     this.scene.addEventListener("photo_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "photo"));
     this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
+  };
+
+  _setupStopwatch = () => {
+    this.scene.addEventListener("action_toggle_stopwatch", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      const myStopwatch = this.scene.systems["stopwatch-tools"].getMyStopwatch();
+
+      if (myStopwatch) {
+        myStopwatch.parentNode.removeChild(myStopwatch);
+      } else {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("networked", { template: "#interactable-stopwatch-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset: { x: 0, y: 0, z: -1.5 }
+        });
+        this.scene.appendChild(entity);
+      }
+    });
+
+  };
+
+
+  _setupExample = () => {
+    this.scene.addEventListener("action_toggle_example", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      const myExample = this.scene.systems["exalple-tools"].getMyExample();
+
+      if (myExample) {
+        myExample.parentNode.removeChild(myExample);
+      } else {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("networked", { template: "#interactable-example-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset: { x: 0, y: 0, z: -1.5 }
+        });
+        this.scene.appendChild(entity);
+      }
+    });
+
+  };
+
+
+  _setupMachine = () => {
+    this.scene.addEventListener("action_toggle_machine", () => {
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myMachine = this.scene.systems["machine-tools"].getMyMachine();
+
+      if (myMachine) {
+        myMachine.parentNode.removeChild(myMachine);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
+        entity.setAttribute("networked", { template: "#interactable-machine-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
+        });
+        this.scene.appendChild(entity);
+      
+      }
+    });
+
+    //this.scene.addEventListener("photo_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "photo"));
+    //this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
   };
 
   _spawnAvatar = () => {

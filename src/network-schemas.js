@@ -269,6 +269,42 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-machine-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "machine-tool",
+        property: "buttonId"
+      },
+      {
+        component: "machine-tool",
+        property: "fakebuttonId"
+      },
+      {
+        component: "machine-tool",
+        property: "helpedClick"
+      }
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-stopwatch-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-example-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [
       {
