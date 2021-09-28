@@ -18,6 +18,7 @@ AFRAME.registerComponent("example-tool", {
     this.el.object3D.visible = false; // Make invisible until model ready
     this.lastUpdate = performance.now();
 
+    // Call this.updateUI(); when a networked variable has been changed
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
     this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 

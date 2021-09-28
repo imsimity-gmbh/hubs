@@ -305,6 +305,18 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-robot-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "robot-tool",
+        property: "playing"
+      },
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [
       {

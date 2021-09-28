@@ -33,13 +33,16 @@ AFRAME.registerComponent("simple-animation", {
     
   },
 
-  playClip(clipName) {
+  playClip(clipName, loop, clamp) {
     const { mixer, animations } = this.mixerEl.components["animation-mixer"];
 
     //console.log(mixer);
     //console.log(animations);
 
     // if the animations arent loaded yet
+
+    var loopState = (loop == null) ? THREE.LoopOnce : loop;
+    var clampState = (clamp == null) ? true : clamp;
 
     if (!animations)
     {
@@ -71,8 +74,8 @@ AFRAME.registerComponent("simple-animation", {
 
     const action = mixer.clipAction(clip, mesh);
     action.enabled = true;
-    action.setLoop(THREE.LoopOnce, Infinity).play();
-    action.clampWhenFinished = true;
+    action.setLoop(loopState, Infinity).play();
+    action.clampWhenFinished = clampState;
 
     this.currentActions.push(action);
     this.currentClips.push(clip);

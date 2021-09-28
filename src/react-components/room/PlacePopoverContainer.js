@@ -25,6 +25,8 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine()
         const hasActiveStopwatch = !!scene.systems["stopwatch-tools"].getMyStopwatch();
         const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
+        const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
+        
 
         let nextItems = [
           hubChannel.can("spawn_drawing") && {
@@ -58,6 +60,14 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.example" defaultMessage="Example" />,
             onSelect: () => scene.emit("action_toggle_example"),
             selected: hasActiveExample
+          },
+          hubChannel.can("spawn_camera") && {
+            id: "robot",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.robot" defaultMessage="Robot" />,
+            onSelect: () => scene.emit("action_toggle_robot"),
+            selected: hasActiveRobot
           },
           hubChannel.can("spawn_camera") && {
             id: "camera",
