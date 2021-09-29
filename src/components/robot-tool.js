@@ -53,6 +53,7 @@ AFRAME.registerComponent("robot-tool", {
         this.playButton.object3D.addEventListener("interact", () => this.onClickPlay());
       }
 
+      this.playButton.object3D.visible = true;
       
       // Callback for when the animation is done
       this.simpleAnim.initFinishedCallback((e) => { this.onAnimationDone(e.action._clip.name);});
@@ -70,15 +71,27 @@ AFRAME.registerComponent("robot-tool", {
   },
 
   updateUI() {
+
+    console.log("Upade UI called");
+
     if (!this.simpleAnim == null|| this.data.playing  == null)
+    {
+      console.log("Something isn't initialized");
       return;
+    }
+      
+    console.log("Local : " + this.localPlaying);
+    console.log("Networked : " + this.data.playing);
+
 
     if (this.data.playing != this.localPlaying)
     {
+      
       this.playButton.object3D.visible = !this.data.playing;
 
       if (this.data.playing == true)
       {
+        this.simpleAnim.resetClips();
         this.simpleAnim.playClip("Take 001", THREE.LoopOnce, false);
       }
 
@@ -104,17 +117,23 @@ AFRAME.registerComponent("robot-tool", {
       NAF.utils.takeOwnership(networkedEl);
 
       this.el.setAttribute("robot-tool", "playing", true);      
+
+      this.updateUI();
     });
 
-    this.updateUI();
+    
   },
 
   onAnimationDone(animName)
   {
-    if (NAF.utils.isMine(el)) {
-      this.el.setAttribute("robot-tool", "playing", false);
-    }
+    console.log("OnAnimationDone called");
 
-    this.updateUI();
+    if (NAF.utils.isMine(this.el)) {
+
+      this.el.setAttribute("robot-tool", "playing", false);
+      
+
+      this.updateUI();
+    }
   },
 });
