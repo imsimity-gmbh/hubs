@@ -9,6 +9,7 @@ import { Container } from "./Container";
 import { Button } from "../input/Button";
 import modalStyles from "../../react-components/modal/Modal.scss";
 import { ChangeAvatarModal } from "../room/ChangeAvatarModal";
+import { FaqModal } from "../home/FaqModal";
 
 export function Header({
   appName,
@@ -28,6 +29,18 @@ export function Header({
 }) {
 
   const [isChangeAvatarModalVisible, setIsChangeAvatarModalVisible] = useState(false);
+  const [isFaqModalVisible, setIsFaqModalVisible] = useState(false);
+
+  const onClickUploadAvatarButton = useCallback(
+    () => {
+      const glbURL = document.getElementById("avatarIFrame").contentWindow.document.getElementById("avatarGlbUrl").value;
+      console.log("uploading Avatar");
+      console.log(glbURL);
+      window.APP.store.update({ profile: { ...window.APP.store.state.profile, ...{ avatarId: glbURL } } });
+      window.APP.scene.emit("avatar_updated");
+      setIsChangeAvatarModalVisible(false);
+    },
+  );
 
   const onClickChangeAvatarButton = useCallback(
     () => {
@@ -40,11 +53,23 @@ export function Header({
     [isChangeAvatarModalVisible]
   );
 
+  const onClickShowFaqModal = useCallback(
+    () => {
+      if (isFaqModalVisible === false) {
+        setIsFaqModalVisible(true);
+      } else {
+        setIsFaqModalVisible(false);
+      }
+    },
+    [isFaqModalVisible]
+  );
+
 
   return (
     <header>
       <Container as="div" className={styles.container}>
-        {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClose={onClickChangeAvatarButton} />}
+        {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClickUploadAvatarButton={onClickUploadAvatarButton} onClose={onClickChangeAvatarButton} />}
+        {isFaqModalVisible && <FaqModal className={modalStyles.modalAvatarPage} onClose={onClickShowFaqModal} />}
         <nav>
           <ul>
             <li>
@@ -59,8 +84,13 @@ export function Header({
               </a>
             </li>
             <li>
-              <Button sm preset="primary" disabled onClick={onClickChangeAvatarButton}>
+              <Button sm preset="primary" onClick={onClickChangeAvatarButton}>
                 <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
+              </Button>
+            </li>
+            <li className={styles.homeFaqButton}>
+              <Button sm preset="primary" onClick={onClickShowFaqModal}>
+                <FormattedMessage id="home-page.faq-modal" defaultMessage="Frequently asked questions" />
               </Button>
             </li>
             {showCloud && (

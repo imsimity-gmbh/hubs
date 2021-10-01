@@ -1,0 +1,51 @@
+@use "../styles/theme.scss";
+
+
+.menu {
+  margin: 0;
+  padding: 7em;
+  display: flex;
+  flex: 1;
+  flex-shrink: 1;
+  flex-direction: column;
+  list-style: none;
+}
+
+.menu-item-title {
+  padding: 0.5em 0;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.menu-item.hasSubmenu > .menu-item-title {
+  font-weight: bold;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.hasSubmenu > .menu-item-title::before {
+  content: "+ ";
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.expanded.hasSubmenu > .menu-item-title::before {
+  content: "— ";
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.menu:first-child {
+
+  max-height: 100%;
+  overflow-y: auto;
+ }
+
+.menu .menu {
+  padding: 2em !important; /* indent submenus */
+}
+
+.menu-item {
+  padding-top: 3em;
+}

@@ -38,7 +38,17 @@ export function HomePage() {
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
   //const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
 
-  //console.log(sortedActiveRooms);
+
+  const onClickUploadAvatarButton = useCallback(
+    () => {
+      const glbURL = document.getElementById("avatarIFrame").contentWindow.document.getElementById("avatarGlbUrl").value;
+      console.log("uploading Avatar");
+      console.log(glbURL);
+      window.APP.store.update({ profile: { ...window.APP.store.state.profile, ...{ avatarId: glbURL } } });
+      window.APP.scene.emit("avatar_updated");
+      setIsChangeAvatarModalVisible(false);
+    },
+  );
 
   const onClickChangeAvatarButton = useCallback(
     () => {
@@ -75,7 +85,7 @@ export function HomePage() {
 
   return (
     <PageContainer className={styles.homePage}>
-      {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClose={onClickChangeAvatarButton} />}
+      {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClickUploadAvatarButton={onClickUploadAvatarButton} onClose={onClickChangeAvatarButton} />}
       <Container>
         <div className={styles.hero}>
           <div className={styles.logoContainer}>
@@ -251,7 +261,7 @@ export function HomePage() {
               <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
             </li>
           </ol>
-            <Button lg preset="primary" disabled onClick={onClickChangeAvatarButton}>
+            <Button lg preset="primary" onClick={onClickChangeAvatarButton}>
               <FormattedMessage id="change-avatar" defaultMessage="Create my avatar" />
             </Button>
           </Column>
