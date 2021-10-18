@@ -1320,9 +1320,7 @@ class UIRoot extends Component {
                     onSave={() => {
                       if (props.location.state.detail && props.location.state.detail.returnToProfile) {
                         this.props.history.goBack();
-                        this.props.history.goBack();
                       } else {
-                        this.props.history.goBack();
                         this.props.history.goBack();
                         // We are returning to the media browser. Trigger an update so that the filter switches to
                         // my-avatars, now that we've saved an avatar.
