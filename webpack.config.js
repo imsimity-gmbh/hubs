@@ -264,7 +264,6 @@ module.exports = async (env, argv) => {
       hub: path.join(__dirname, "src", "hub.js"),
       scene: path.join(__dirname, "src", "scene.js"),
       avatar: path.join(__dirname, "src", "avatar.js"),
-      changeavatar: path.join(__dirname, "src", "changeAvatar.js"),
       link: path.join(__dirname, "src", "link.js"),
       discord: path.join(__dirname, "src", "discord.js"),
       cloud: path.join(__dirname, "src", "cloud.js"),

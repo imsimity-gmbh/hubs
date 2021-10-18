@@ -839,6 +839,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   });
 
+  window.addEventListener("action_create_avatar_rpm", () => {
+    performConditionalSignIn(
+      () => hubChannel.signedIn,
+      () => pushHistoryState(history, "overlay", "avatar-editor-rpm"),
+      SignInMessages.createAvatar
+    );
+  });
+
   scene.addEventListener("scene_media_selected", e => {
     const sceneInfo = e.detail;
 
@@ -1487,6 +1495,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       handleHubChannelJoined(entryManager, hubChannel, messageDispatch, data);
     })
     .receive("error", res => {
+      //TODO_Antoine : make this page more interesting
       if (res.reason === "closed") {
         entryManager.exitScene();
         remountUI({ roomUnavailableReason: ExitReason.closed });

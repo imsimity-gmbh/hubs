@@ -356,6 +356,10 @@ class MediaBrowserContainer extends Component {
     window.dispatchEvent(new CustomEvent("action_create_avatar"));
   };
 
+  onCreateAvatarRpm = () => {
+    window.dispatchEvent(new CustomEvent("action_create_avatar_rpm"));
+  }
+
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
     if (entry.images.preview.type === "mp4") {
       return proxiedUrlFor(entry.images.preview.url);
@@ -506,10 +510,18 @@ class MediaBrowserContainer extends Component {
             {urlSource === "avatars" && (
               <CreateTile
                 type="avatar"
-                onClick={this.onCreateAvatar}
-                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Create Avatar" />}
-              />
+                onClick={this.onCreateAvatarRpm}
+                label={<FormattedMessage id="media-browser.create-avatar-rpm" defaultMessage="Create Avatar With ReadyPlayer.me" />}
+              />  
             )}
+            {urlSource === "avatars" && (
+              <CreateTile
+                type="avatar"
+                onClick={this.onCreateAvatar}
+                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Create Old Avatar" />}
+              />  
+            )}
+
             {urlSource === "scenes" &&
               configs.feature("enable_spoke") && (
                 <CreateTile

@@ -37,7 +37,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("penButtonPressed"),
             selected: hasActivePen
           },
-          false && hubChannel.can("spawn_camera") && {
+          hubChannel.can("spawn_camera") && {
             id: "machine",
             icon: ObjectIcon,
             color: "accent5",

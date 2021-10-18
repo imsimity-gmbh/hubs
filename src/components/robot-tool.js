@@ -93,6 +93,7 @@ AFRAME.registerComponent("robot-tool", {
       {
         this.simpleAnim.resetClips();
         this.simpleAnim.playClip("Take 001", THREE.LoopOnce, false);
+        this.playSound(SOUND_SUCCESS_BUTTON);
       }
 
       this.localPlaying = this.data.playing;
@@ -135,5 +136,11 @@ AFRAME.registerComponent("robot-tool", {
 
       this.updateUI();
     }
+  },
+
+  playSound(soundId)
+  {
+    const sceneEl = this.el.sceneEl;
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
   },
 });

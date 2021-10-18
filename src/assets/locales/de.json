@@ -54,6 +54,7 @@
   "media-browser.add_custom_object": "Benutzerdefinierte URL oder Datei",
   "media-browser.add_custom_scene": "Benutzerdefinierte Szene",
   "media-browser.create-avatar": "Avatar erstellen",
+  "media-browser.create-avatar-rpm": "Avatar erstellen mit ReadyPlayer.me",
   "media-browser.create-scene": "Szene mit {editorName} erstellen",
   "media-browser.empty.favorites": "Sie haben keine Favoriten. Klicken Sie auf ⭐, um sie zu Ihren Favoriten hinzuzufügen.",
   "media-browser.favorites-header": "Favorisierte Räume",

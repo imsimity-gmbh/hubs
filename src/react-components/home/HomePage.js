@@ -12,7 +12,6 @@ import { AuthContext } from "../auth/AuthContext";
 import { createAndRedirectToNewHub } from "../../utils/phoenix-utils";
 import { MediaGrid } from "../room/MediaGrid";
 import { MediaTile } from "../room/MediaTiles";
-import { ChangeAvatarModal } from "../room/ChangeAvatarModal";
 import { PageContainer } from "../layout/PageContainer";
 import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
@@ -26,7 +25,6 @@ import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
 
 export function HomePage() {
 
-  const [isChangeAvatarModalVisible, setIsChangeAvatarModalVisible] = useState(false);
   const auth = useContext(AuthContext);
   const intl = useIntl();
 
@@ -39,28 +37,7 @@ export function HomePage() {
   //const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
 
 
-  const onClickUploadAvatarButton = useCallback(
-    () => {
-      const glbURL = document.getElementById("avatarIFrame").contentWindow.document.getElementById("avatarGlbUrl").value;
-      console.log("uploading Avatar");
-      console.log(glbURL);
-      window.APP.store.update({ profile: { ...window.APP.store.state.profile, ...{ avatarId: glbURL } } });
-      window.APP.scene.emit("avatar_updated");
-      setIsChangeAvatarModalVisible(false);
-    },
-  );
-
-  const onClickChangeAvatarButton = useCallback(
-    () => {
-      if (isChangeAvatarModalVisible === false) {
-        setIsChangeAvatarModalVisible(true);
-      } else {
-        setIsChangeAvatarModalVisible(false);
-      }
-    },
-    [isChangeAvatarModalVisible]
-  );
-
+ 
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -85,7 +62,6 @@ export function HomePage() {
 
   return (
     <PageContainer className={styles.homePage}>
-      {isChangeAvatarModalVisible && <ChangeAvatarModal className={modalStyles.modalAvatarPage} onClickUploadAvatarButton={onClickUploadAvatarButton} onClose={onClickChangeAvatarButton} />}
       <Container>
         <div className={styles.hero}>
           <div className={styles.logoContainer}>
@@ -233,6 +209,7 @@ export function HomePage() {
           </Column>
         </Column>
       </Container>
+      {/* TODO: Write a small tutorial on how to use RPM ?
       <Container className={styles.avatarContainer}>
         <h3 className={styles.avatarHeading}>
           <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
@@ -267,6 +244,8 @@ export function HomePage() {
           </Column>
         </Container>
       </Container>
+      */}
+
     </PageContainer>
   );
 }

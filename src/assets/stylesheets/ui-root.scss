@@ -51,3 +51,14 @@ body.vr-mode {
   z-index: 11;
   pointer-events: auto;
 }
+
+:local(.avatar-editor-rpm) {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: theme.$background1-color;
+  z-index: 11;
+  pointer-events: auto;
+}
