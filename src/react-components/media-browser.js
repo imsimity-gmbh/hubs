@@ -493,14 +493,14 @@ class MediaBrowserContainer extends Component {
               <CreateTile
                 type="avatar"
                 onClick={this.onCreateAvatarRpm}
-                label={<FormattedMessage id="media-browser.create-avatar-rpm" defaultMessage="Create Avatar With ReadyPlayer.me" />}
+                label={<FormattedMessage id="media-browser.create-avatar-rpm" defaultMessage="Create new Avatar" />}
               />  
             )}
             {urlSource === "avatars" && (
               <CreateTile
                 type="avatar"
                 onClick={this.onCreateAvatar}
-                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Create Old Avatar" />}
+                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Avatar Upload" />}
               />  
             )}
 
