@@ -349,6 +349,7 @@
   "home-page.favorite-rooms": "Favorisierte Räume",
   "home-page.my-avatar": "Mein Avatar",
   "home-page.change-avatar": "Mein Avatar erstellen",
+  "home-page.faq-modal": "FAQ",
   "create-room-button": "Raum erstellen",
   "invite-link-input-field.label": "Einladungslink",
   "invite-link-input-field.generating-invite": "Einladung generieren...",
@@ -383,10 +384,6 @@
   "home-page.icon-3d": "Kollaborative Interaktion & Bearbeitung von virtuellen 3D-Objekten",
   "home-page.icon-crossplatform": "Plattformübergreifender Einsatz - Teilnahme über VR-Brille oder Webbrowser",
   "home-page.icon-permissions": "Unterschiedliche Berechtigungen",
-  "home-page.customzie-avatar": "1. Gestalten Sie Ihren Avatar.",
-  "home-page.copy-link-avatar": "2. Kopieren Sie den Link Ihres Avatars.",
-  "home-page.paste-link-avatar": "3. Fügen Sie den Link in den Avatar-Einstellungen unter 'Benutzerdefinierte Avatar-URL' ein.",
-  "home-page.use-avatar": "4. Nach diesem Schritt können Sie Ihren neuen Avatar verwenden.",
   "home-page.app-description": "CyberCinity - Die immersive und kollaborative Kommunikationsplattform für alle Geräte",
   "more-menu.exit-streamer-mode": "Streamer Modus beenden",
   "more-menu.preferences": "Einstellungen",
@@ -414,5 +411,6 @@
   "avatar-page.copyied-avatar": "Kopiert",
   "avatar-page.copy-button": "In meine Avatare kopieren",
   "change-avatar-modal.title": "Meinen Avatar ändern",
-  "change-avatar": "Meinen Avatar erstellen"
+  "change-avatar": "Meinen Avatar erstellen",
+  "faq-modal.title": "FAQ"
 }

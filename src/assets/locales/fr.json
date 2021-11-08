@@ -150,6 +150,7 @@
   "header.sign-out": "Se déconnecter",
   "header.signed-in-as": "Connecté en tant que {email}",
   "header.source": "Source",
+  "home-page.faq-modal": "Foire aux Questions",
   "home-page.add-to-discord": "Ajouter le bot {appName} à Discord",
   "home-page.communicate-blurb": "Choisissez un avatar qui vous représente, mettez votre casque audio, et franchissez le pas. Hubs rend facile la connexion avec les autres personnes par la voix, le chat dans votre salle privée.",
   "home-page.communicate-title": "Communiquez naturellement",
@@ -161,6 +162,10 @@
   "home-page.public--rooms": "Salles publiques",
   "home-page.rooms-blurb": "Partagez des espaces virtuels avec vos amis, collaborateurs, et communautés. Quand vous créez une salle avec Hubs, vous obtenez un espace privé de réunion que vous pouvez partager instantanément - aucun téléchargement ou casque VR nécessaire.",
   "home-page.rooms-title": "Créer des salles en un clic",
+  "home-page.icon-3d": "Interaction & collaboration dans un monde en 3D",
+  "home-page.icon-crossplatform": "Compatible avec tous types d'appareils via le navigateur ou un casque VR",
+  "home-page.icon-permissions": "Différents accès",
+  "home-page.app-description": "CyberCinity - La plateforme de communication immersive et collaborative pour tous les appareils",
   "hubs-cloud-page.features.diy-events-description": "Avec Hubs Cloud, activez votre propre infrastructure événementielle et adaptez votre déploiement pour correspondre à vos propres besoins en disponibilité, concurrence et comptes.",
   "hubs-cloud-page.features.diy-events-title": "Evènements fait maison",
   "hubs-cloud-page.features.self-hosted-description": "Avec Hubs Cloud, votre déploiement est dans votre propre infrastructure, gardant vos données privées sensibles et sécurisées avec le compte AWS que possède votre équipe.",
@@ -564,5 +569,6 @@
   "webvr-unsupported-modal.message": "WebVR n'est pas compatible avec ce navigateur, merci d'utiliser Firefox pour vous connecter avec Oculus ou SteamVR.",
   "webvr-unsupported-modal.title": "Entrer en VR",
   "webvr-unsupported-modal.webvr-rocks-link": "Pour consulter la liste des navigateurs avec support expérimental VR, visitez la page <a>WebVR Rocks</a>.",
-  "whats-new-page.title": "Quoi de neuf"
+  "whats-new-page.title": "Quoi de neuf",
+  "faq-modal.title": "Foire aux Questions"
 }
