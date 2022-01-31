@@ -8,6 +8,12 @@ import { EventTarget } from "event-target-shim";
 import { ExitReason } from "./react-components/room/ExitedRoomScreen";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 
+import configs from "./utils/configs";
+
+
+const DIALOGFLOW_SERVER_URL = "https://cybercinity-bot.herokuapp.com/";
+const DIALOGFLOW_REQUEST_URL = DIALOGFLOW_SERVER_URL + "api/v1/bot";
+
 let uiRoot;
 // Handles user-entered messages
 export default class MessageDispatch extends EventTarget {
@@ -34,8 +40,17 @@ export default class MessageDispatch extends EventTarget {
     if (message.startsWith("/")) {
       const commandParts = message.substring(1).split(/\s+/);
       this.dispatchCommand(commandParts[0], ...commandParts.slice(1));
+
       document.activeElement.blur(); // Commands should blur
-    } else {
+    } 
+    else if (message.startsWith("@bot ")) {
+
+      const query = message.substring(5);
+      this.dispatchBot(query);
+
+      document.activeElement.blur(); // Commands should blur
+    }
+    else {
       this.hubChannel.sendMessage(message);
     }
   };
@@ -183,5 +198,19 @@ export default class MessageDispatch extends EventTarget {
         }
         break;
     }
+  };
+
+  dispatchBot = async (query) => {
+
+    //this.log(LogMessageType.botRequest)
+    console.log("User asked for " + query);
+
+    //TODO: print querry for User in his Chat
+
+    const response = await (await fetch(`https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?text=${encodeURIComponent(query)}`)).json();
+    
+    //TODO: print response for User in his Chat
+    console.log(response);
+
   };
 }
