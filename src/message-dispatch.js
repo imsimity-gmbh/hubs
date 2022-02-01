@@ -205,12 +205,20 @@ export default class MessageDispatch extends EventTarget {
     //this.log(LogMessageType.botRequest)
     console.log("User asked for " + query);
 
+    const fixedQuery = `${query}`;
+
+    this.receive({ type: "chat", body:fixedQuery });
+
     //TODO: print querry for User in his Chat
 
     const response = await (await fetch(`https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?text=${encodeURIComponent(query)}`)).json();
     
     //TODO: print response for User in his Chat
     console.log(response);
+
+    const responseText = "CyberBock : " + response.queryResult.fulfillmentMessages[0].text.text[0];
+
+    this.receive({ type: "chat", body:responseText });
 
   };
 }
