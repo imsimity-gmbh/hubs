@@ -24,7 +24,8 @@ export function Header({
   isAdmin,
   isSignedIn,
   email,
-  onSignOut
+  onSignOut,
+  isHmc
 }) {
 
   const [isFaqModalVisible, setIsFaqModalVisible] = useState(false);
@@ -74,20 +75,22 @@ export function Header({
             )}
             {enableSpoke && (
               <li>
-                <a href="/spoke">{editorName}</a>
+                <a href="/spoke">
+                  {isHmc ? <FormattedMessage id="header.spoke" defaultMessage="Spoke" /> : editorName}
+                </a>
               </li>
             )}
             {showDocsLink && (
               <li>
                 <a href={docsUrl}>
-                  <FormattedMessage id="header.docs" defaultMessage="Docs" />
+                  <FormattedMessage id="header.docs" defaultMessage="Guides" />
                 </a>
               </li>
             )}
             {showSourceLink && (
               <li>
                 <a href="https://github.com/mozilla/hubs">
-                  <FormattedMessage id="header.source" defaultMessage="Source" />
+                  <FormattedMessage id="header.source" defaultMessage="Developers" />
                 </a>
               </li>
             )}
@@ -95,6 +98,13 @@ export function Header({
               <li>
                 <a href={communityUrl}>
                   <FormattedMessage id="header.community" defaultMessage="Community" />
+                </a>
+              </li>
+            )}
+            {showCloud && (
+              <li>
+                <a href="/cloud">
+                  <FormattedMessage id="header.cloud" defaultMessage="Hubs Cloud" />
                 </a>
               </li>
             )}
@@ -121,13 +131,14 @@ export function Header({
                   defaultMessage="Signed in as {email}"
                   values={{ email: maskEmail(email) }}
                 />
-              </span>{" "}
+              </span>
               <a href="#" onClick={onSignOut}>
                 <FormattedMessage id="header.sign-out" defaultMessage="Sign Out" />
               </a>
             </div>
           ) }
         </div>
+        {isHmc ? <SocialBar mobile /> : null}
       </Container>
     </header>
   );
@@ -147,5 +158,6 @@ Header.propTypes = {
   isAdmin: PropTypes.bool,
   isSignedIn: PropTypes.bool,
   email: PropTypes.string,
-  onSignOut: PropTypes.func
+  onSignOut: PropTypes.func,
+  isHmc: PropTypes.bool
 };

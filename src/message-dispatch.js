@@ -2,7 +2,7 @@ import "./utils/configs";
 import { getAbsoluteHref } from "./utils/media-url-utils";
 import { isValidSceneUrl } from "./utils/scene-url-utils";
 import { spawnChatMessage } from "./react-components/chat-message";
-import { SOUND_QUACK, SOUND_SPECIAL_QUACK } from "./systems/sound-effects-system";
+import { SOUND_CHAT_MESSAGE, SOUND_QUACK, SOUND_SPECIAL_QUACK } from "./systems/sound-effects-system";
 import ducky from "./assets/models/DuckyMesh.glb";
 import { EventTarget } from "event-target-shim";
 import { ExitReason } from "./react-components/room/ExitedRoomScreen";
@@ -17,14 +17,35 @@ const DIALOGFLOW_REQUEST_URL = DIALOGFLOW_SERVER_URL + "api/v1/bot";
 let uiRoot;
 // Handles user-entered messages
 export default class MessageDispatch extends EventTarget {
-  constructor(scene, entryManager, hubChannel, addToPresenceLog, remountUI, mediaSearchStore) {
+  constructor(scene, entryManager, hubChannel, remountUI, mediaSearchStore) {
     super();
     this.scene = scene;
     this.entryManager = entryManager;
     this.hubChannel = hubChannel;
-    this.addToPresenceLog = addToPresenceLog;
     this.remountUI = remountUI;
     this.mediaSearchStore = mediaSearchStore;
+    this.presenceLogEntries = [];
+  }
+
+  addToPresenceLog(entry) {
+    entry.key = Date.now().toString();
+
+    this.presenceLogEntries.push(entry);
+    this.remountUI({ presenceLogEntries: this.presenceLogEntries });
+    if (entry.type === "chat" && this.scene.is("loaded")) {
+      this.scene.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_CHAT_MESSAGE);
+    }
+
+    // Fade out and then remove
+    setTimeout(() => {
+      entry.expired = true;
+      this.remountUI({ presenceLogEntries: this.presenceLogEntries });
+
+      setTimeout(() => {
+        this.presenceLogEntries.splice(this.presenceLogEntries.indexOf(entry), 1);
+        this.remountUI({ presenceLogEntries: this.presenceLogEntries });
+      }, 5000);
+    }, 20000);
   }
 
   receive(message) {
@@ -60,6 +81,8 @@ export default class MessageDispatch extends EventTarget {
     uiRoot = uiRoot || document.getElementById("ui-root");
     const isGhost = !entered && uiRoot && uiRoot.firstChild && uiRoot.firstChild.classList.contains("isGhost");
 
+    // TODO: Some of the commands below should be available without requiring
+    //       room entry. For example, audiomode should not require room entry.
     if (!entered && (!isGhost || command === "duck")) {
       this.log(LogMessageType.roomEntryRequired);
       return;
@@ -168,8 +191,15 @@ export default class MessageDispatch extends EventTarget {
         {
           const shouldEnablePositionalAudio = window.APP.store.state.preferences.audioOutputMode === "audio";
           window.APP.store.update({
+            // TODO: This should probably just be a boolean to disable panner node settings
+            // and even if it's not, "audio" is a weird name for the "audioOutputMode" that means
+            // "stereo" / "not panner".
             preferences: { audioOutputMode: shouldEnablePositionalAudio ? "panner" : "audio" }
           });
+          // TODO: The user message here is a little suspicious. We might be ignoring the
+          // user preference (e.g. if panner nodes are broken in safari, then we never create
+          // panner nodes, regardless of user preference.)
+          // Warning: This comment may be out of date when you read it.
           this.log(
             shouldEnablePositionalAudio ? LogMessageType.positionalAudioEnabled : LogMessageType.positionalAudioDisabled
           );

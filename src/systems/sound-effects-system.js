@@ -20,6 +20,7 @@ import URL_RIGHT_BUTTON from "../assets/sfx/success_machine.mp3";
 //TODO_LAURA_SOUND: if you want to add new sounds, add their URL down there, and the files inside /assets/sfx/
 
 import { setMatrixWorld } from "../utils/three-utils";
+import { isSafari } from "../utils/detect-safari";
 
 let soundEnum = 0;
 export const SOUND_HOVER_OR_GRAB = soundEnum++;
@@ -150,7 +151,7 @@ export class SoundEffectsSystem {
     const audioBuffer = this.sounds.get(sound);
     if (!audioBuffer) return null;
 
-    const disablePositionalAudio = window.APP.store.state.preferences.audioOutputMode === "audio";
+    const disablePositionalAudio = isSafari() || window.APP.store.state.preferences.audioOutputMode === "audio";
     const positionalAudio = disablePositionalAudio
       ? new THREE.Audio(this.scene.audioListener)
       : new THREE.PositionalAudio(this.scene.audioListener);
@@ -216,7 +217,7 @@ export class SoundEffectsSystem {
         inPositionalAudio.stop();
       }
       if (inPositionalAudio.parent) {
-        inPositionalAudio.parent.remove(inPositionalAudio);
+        inPositionalAudio.removeFromParent();
       }
     }
     this.positionalAudiosStationary = this.positionalAudiosStationary.filter(

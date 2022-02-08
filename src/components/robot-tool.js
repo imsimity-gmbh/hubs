@@ -8,7 +8,9 @@ import robotModelSrc from "../assets/robot.glb";
 
 const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
 
-
+// ANIMATIONS
+// robotAction (back & forth)
+// robot_headAction (head tilt)
 
 
 
@@ -30,7 +32,7 @@ AFRAME.registerComponent("robot-tool", {
 
     robotModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
-      mesh.scale.set(0.3, 0.3, 0.3);
+      mesh.scale.set(3.0, 3.0, 3.0);
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
@@ -92,7 +94,7 @@ AFRAME.registerComponent("robot-tool", {
       if (this.data.playing == true)
       {
         this.simpleAnim.resetClips();
-        this.simpleAnim.playClip("Take 001", THREE.LoopOnce, false);
+        this.simpleAnim.playClip("robotAction", THREE.LoopOnce, false);
         this.playSound(SOUND_SUCCESS_BUTTON);
       }
 
