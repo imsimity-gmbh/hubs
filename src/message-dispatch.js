@@ -202,23 +202,31 @@ export default class MessageDispatch extends EventTarget {
 
   dispatchBot = async (query) => {
 
-    //this.log(LogMessageType.botRequest)
     console.log("User asked for " + query);
+
+    const sessionId = window.APP.store.state.credentials.token.substring(0,10);
 
     const fixedQuery = `${query}`;
 
-    this.receive({ type: "chat", body:fixedQuery });
+    this.receive({name: "You to CyberBock", type: "chat", body:fixedQuery, sent: true ,sessionId :"bot_question" });
 
-    //TODO: print querry for User in his Chat
-
-    const response = await (await fetch(`https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?text=${encodeURIComponent(query)}`)).json();
     
-    //TODO: print response for User in his Chat
+    const response = await (await fetch(`https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?text=${encodeURIComponent(query)}&sessionId=${sessionId}`)).json();
+    
     console.log(response);
 
-    const responseText = "CyberBock : " + response.queryResult.fulfillmentMessages[0].text.text[0];
+    for (var i = 0; i < response.queryResult.fulfillmentMessages.length; i++)
+    {
+     
+      const message = response.queryResult.fulfillmentMessages[i];
 
-    this.receive({ type: "chat", body:responseText });
+      const responseText = message.text.text[0];
+
+      this.receive({ name:"CyberBock", type: "chat", body:responseText, sent: false , sessionId :"bot_answer"});
+    
+    
+    }
+  
 
   };
 }
