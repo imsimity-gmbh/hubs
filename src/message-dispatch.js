@@ -9,6 +9,7 @@ import { ExitReason } from "./react-components/room/ExitedRoomScreen";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 
 import configs from "./utils/configs";
+import { THREE } from "aframe";
 
 
 const DIALOGFLOW_SERVER_URL = "https://cybercinity-bot.herokuapp.com/";
@@ -231,6 +232,9 @@ export default class MessageDispatch extends EventTarget {
   };
 
   dispatchBot = async (query) => {
+ 
+    const audioListener = this.scene.audioListener;
+    
 
     console.log("User asked for " + query);
 
@@ -238,6 +242,7 @@ export default class MessageDispatch extends EventTarget {
 
     const fixedQuery = `${query}`;
 
+    // TODO: Localize to different languages
     this.receive({name: "You to CyberBock", type: "chat", body:fixedQuery, sent: true ,sessionId :"bot_question" });
 
     
@@ -245,18 +250,46 @@ export default class MessageDispatch extends EventTarget {
     
     console.log(response);
 
+    var simpleResponse = false;
+
     for (var i = 0; i < response.queryResult.fulfillmentMessages.length; i++)
     {
-     
+      // Add a delay (async or setTimeout())
       const message = response.queryResult.fulfillmentMessages[i];
+      var text = "";
 
-      const responseText = message.text.text[0];
-
-      this.receive({ name:"CyberBock", type: "chat", body:responseText, sent: false , sessionId :"bot_answer"});
-    
-    
+      if (i == 0 && message.message === "simpleResponses")
+      {
+        simpleResponse = true;
+        text = message.simpleResponses.simpleResponses[0].displayText;
+      }
+      else if (message.message === "text" && simpleResponse == false)
+      {
+        text = message.text.text[0];
+      } 
+      
+      if (text != "")
+        this.receive({ name:"CyberBock", type: "chat", body:text, sent: false , sessionId :"bot_answer"});
     }
-  
+    const audioData = response.outputAudio.data;  
+    
+    const audio = new THREE.Audio(audioListener);    
+    const audioContext = THREE.AudioContext.getContext();
+    
+    var buffer = new Uint8Array( audioData.length );
+    buffer.set( new Uint8Array(audioData), 0 );
 
+    audioContext.decodeAudioData(buffer.buffer, function(audioBuffer) {
+
+      audio.buffer = audioBuffer;
+      audio.setLoop(false);
+      audio.setVolume(0.5);
+      audio.play();
+
+    });
+    
+    
   };
+
+
 }
