@@ -26,6 +26,7 @@ export default class MessageDispatch extends EventTarget {
     this.remountUI = remountUI;
     this.mediaSearchStore = mediaSearchStore;
     this.presenceLogEntries = [];
+    this.mediaRecorder = null;
   }
 
   addToPresenceLog(entry) {
@@ -238,6 +239,7 @@ export default class MessageDispatch extends EventTarget {
 
     console.log("User asked for " + query);
 
+    // TODO: Fix sessionID for logged out users
     const sessionId = window.APP.store.state.credentials.token.substring(0,10);
 
     const fixedQuery = `${query}`;
@@ -250,23 +252,17 @@ export default class MessageDispatch extends EventTarget {
     
     console.log(response);
 
-    var simpleResponse = false;
-
     for (var i = 0; i < response.queryResult.fulfillmentMessages.length; i++)
     {
       // Add a delay (async or setTimeout())
       const message = response.queryResult.fulfillmentMessages[i];
       var text = "";
 
-      if (i == 0 && message.message === "simpleResponses")
+      if (message.message === "simpleResponses")
       {
-        simpleResponse = true;
         text = message.simpleResponses.simpleResponses[0].displayText;
       }
-      else if (message.message === "text" && simpleResponse == false)
-      {
-        text = message.text.text[0];
-      } 
+       
       
       if (text != "")
         this.receive({ name:"CyberBock", type: "chat", body:text, sent: false , sessionId :"bot_answer"});
