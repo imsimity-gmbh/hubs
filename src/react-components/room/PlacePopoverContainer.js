@@ -45,7 +45,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_machine"),
             selected: hasActiveMachine
           },
-          false && hubChannel.can("spawn_camera") && {
+          hubChannel.can("spawn_camera") && {
             id: "stopwatch",
             icon: ObjectIcon,
             color: "accent5",

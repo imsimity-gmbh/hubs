@@ -293,6 +293,18 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        component: "stopwatch-tool",
+        property: "startClicked"
+      },
+      {
+        component: "stopwatch-tool",
+        property: "resetClicked"
+      },
+      {
+        component: "stopwatch-tool",
+        property: "currentTime"
+      }
     ]
   });
 
