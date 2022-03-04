@@ -76,6 +76,10 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   updateUI() {
     console.log("Update UI called");
+    
+    //check if variables initialized:
+    if(!this.myStartButton)
+      return;
 
     console.log(this.data.startClicked);
     console.log(this.data.resetClicked);
