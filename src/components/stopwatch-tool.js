@@ -70,7 +70,9 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.stopwatchSystem.deregister(this.el);
   },
 
-
+  update() {
+    this.updateUI();
+  },
 
   updateUI() {
     console.log("Update UI called");
@@ -126,6 +128,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     if(this.timerRunning) {
 
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+
         if(NAF.utils.isMine(networkedEl)) {
 
           let now = performance.now();
@@ -161,6 +164,7 @@ AFRAME.registerComponent("stopwatch-tool", {
               this.updateUI();
           }
         }
+
       });
 
     }
@@ -193,6 +197,7 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.updateUI();
     });
+
   },
   
 
