@@ -4,7 +4,7 @@ import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON } from "..
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
-import stopwatchModelSrc from "../assets/camera_tool.glb";
+import stopwatchModelSrc from "../assets/stopwatch_tool.glb";
 
 // Change stopwatchModelSrc to your model
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
@@ -12,6 +12,9 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 AFRAME.registerComponent("stopwatch-tool", {
   // TODO: network the right variables
   schema: {
+      startClicked: {default: false},
+      resetClicked: {default: false},
+      currentTime: {default: ""}
   },
 
 
@@ -27,7 +30,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
-      mesh.scale.set(1, 1, 1);
+      mesh.scale.set(0.03, 0.03, 0.03);
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
@@ -35,20 +38,25 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
-      
-      this.myStartButton = this.el.querySelector(".stopwatch-start-button");
+      //<-- UI of the watch
+      this.myStartButton = this.el.querySelector(".stopwatch-start-button"); //el = element, like gameobject in unity
       this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
+      this.myStartButtonText = this.el.querySelector(".stopwatch-start-button-text");
 
-      // Add Function callbacks to everybuttons (copy/paste like abover & rename)
+      this.myResetButton = this.el.querySelector(".stopwatch-reset-button");
+      this.myResetButton.object3D.addEventListener("interact", () => this.onResetButtonClick());
 
+      this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
+      //--->
 
-      // Get the Text box
+      //Variables needed for stopwatch logic:
+      this.timerRunning = false;
+      this.timeUntilPause = 0;
 
-      // this.myTextBox = ??????;
-
-
-      // this.myTextBox.object3D.text = "Some Text"; (00:00:00)
-
+      //Local versions of network-variables:
+      this.localStartClicked = false;
+      this.localResetClicked = false;
+      this.localCurrentTime = 0;
     
       this.updateUI();
 
@@ -62,38 +70,130 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.stopwatchSystem.deregister(this.el);
   },
 
-  
-  
-  update() {
-    this.updateUI();
-  },
+
 
   updateUI() {
-  
+    console.log("Update UI called");
+
+    console.log(this.data.startClicked);
+    console.log(this.data.resetClicked);
+    console.log(this.data.currentTime);
+
+    //Check if start button has been clicked by anyone:
+    if(this.localStartClicked != this.data.startClicked) {
+
+      if(this.timerRunning == false) {
+        this.startTime = performance.now();
+        this.timerRunning = true;
+        this.myStartButtonText.setAttribute("text", { value: "Pause" });
+      }
+      else {
+        this.timerRunning = false;
+        this.myStartButtonText.setAttribute("text", { value: "Start" });
+        this.timeUntilPause = this.localCurrentTime * 1000;
+      }
+
+      this.localStartClicked = this.data.startClicked;
+    }
+
+    //Check if reset-button has been clicked by anyone
+    if(this.localResetClicked != this.data.resetClicked) {
+
+      this.timerRunning = false;
+
+      this.data.startClicked = false;
+      this.localStartClicked = false;
+      this.myStartButtonText.setAttribute("text", { value: "Start" });
+      this.startTime = performance.now();
+
+      this.data.currentTime = "";
+      this.localCurrentTime = 0;
+      this.timeUntilPause = 0;
+      this.myDisplayText.setAttribute("text", { value: "00:00" });
+
+      this.data.resetClicked = false;
+    }
+
+    //Update display of stopwatch to current time:
+    if(this.timerRunning)
+      this.myDisplayText.setAttribute("text", { value: this.data.currentTime });
   },
 
   
   // Like Update() in Unity
   tick() {
-    // This is a state machine, nothing needs to be rendered every frame
+    //If timer activated, calculate elapsed time since start and update UI
+    if(this.timerRunning) {
 
-    // If the Timer has started, calculate how long since it started
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+        if(NAF.utils.isMine(networkedEl)) {
 
-    // Display the text in 3D
+          let now = performance.now();
+          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / 1000;
+          let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
 
+          //Set display-format:
+          let formattedTime = "";
+          let minutes = Math.floor(roundedlocalCurrentTime / 60);
+          let seconds = roundedlocalCurrentTime - minutes*60;
+          if(minutes < 10) {
+            if(seconds < 10) 
+              formattedTime = "0" + minutes + ":0" + seconds;
+            else if(seconds >= 10 && seconds < 60) 
+              formattedTime = "0" + minutes + ":" + seconds;
+          } 
+          else if(minutes >= 10) {
+            if(seconds < 10) 
+              formattedTime = minutes + ":0" + seconds;
+            else if(seconds >= 10 && seconds < 60) 
+              formattedTime = minutes + ":" + seconds;
+          }
+
+          //Send value of formattedTime to Server, if different from stored value
+          if(formattedTime != this.data.currentTime) 
+          {
+              console.log("tick");  
+
+              NAF.utils.takeOwnership(networkedEl);
+      
+              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);      
+      
+              this.updateUI();
+          }
+        }
+      });
+
+    }
   },
 
   onStartButtonClick()
   {
     console.log("Click !");
 
-    this.startTime = performance.now();
+    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+      NAF.utils.takeOwnership(networkedEl);
 
+      this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
+
+      this.updateUI();
+    });
 
   },
 
-  // Stop function
+  onResetButtonClick()
+  {
+    console.log("Reset !");
 
+    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+      NAF.utils.takeOwnership(networkedEl);
 
-  // Reset function
+      this.el.setAttribute("stopwatch-tool", "resetClicked", true);      
+
+      this.updateUI();
+    });
+  },
+  
+
 });
