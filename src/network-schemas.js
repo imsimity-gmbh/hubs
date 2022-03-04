@@ -309,10 +309,6 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
-      {
-        component: "robot-tool",
-        property: "playing"
-      },
     ]
   });
 

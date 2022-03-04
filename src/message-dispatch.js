@@ -10,12 +10,24 @@ import { LogMessageType } from "./react-components/room/ChatSidebar";
 
 import configs from "./utils/configs";
 import { THREE } from "aframe";
+import robotSystem from "./systems/robot-tools";
 
 
 const DIALOGFLOW_SERVER_URL = "https://cybercinity-bot.herokuapp.com/";
 const DIALOGFLOW_REQUEST_URL = DIALOGFLOW_SERVER_URL + "api/v1/bot";
+const DIALOGFLOW_REQUEST_AUDIO_URL = DIALOGFLOW_SERVER_URL + "api/v1/audio";
+
+var MIME_TYPE_AUDIO  =  "";
+const CHUNK_LENGTH = 1800;
 
 let uiRoot;
+
+
+function randomString(len) {
+  const p = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  return [...Array(len)].reduce(a => a + p[~~(Math.random() * p.length)], "");
+}
+
 // Handles user-entered messages
 export default class MessageDispatch extends EventTarget {
   constructor(scene, entryManager, hubChannel, remountUI, mediaSearchStore) {
@@ -27,6 +39,9 @@ export default class MessageDispatch extends EventTarget {
     this.mediaSearchStore = mediaSearchStore;
     this.presenceLogEntries = [];
     this.mediaRecorder = null;
+    this.recordedChunks = [];
+    this.reader = null;
+    this.sessionId = randomString(10);
   }
 
   addToPresenceLog(entry) {
@@ -68,8 +83,22 @@ export default class MessageDispatch extends EventTarget {
     } 
     else if (message.startsWith("@bot ")) {
 
-      const query = message.substring(5);
+      var query = {};
+      query.text = message.substring(5);
+
       this.dispatchBot(query);
+
+      document.activeElement.blur(); // Commands should blur
+    }
+    else if (message.startsWith("@botstart"))
+    {
+      this.startRecord();
+
+      document.activeElement.blur(); // Commands should blur
+    }
+    else if (message.startsWith("@botstop"))
+    {
+      this.stopRecord();
 
       document.activeElement.blur(); // Commands should blur
     }
@@ -232,6 +261,76 @@ export default class MessageDispatch extends EventTarget {
     }
   };
 
+  startRecord = async () => 
+  {
+    console.log("Starting Recording");
+
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+
+    this.mediaRecorder = new MediaRecorder(stream, {mimeType: MIME_TYPE_AUDIO, audioBitsPerSecond: 16000});
+    
+    this.recordedChunks = [];
+
+    this.mediaRecorder.ondataavailable = this.handleAudioData;
+    this.mediaRecorder.onstop = this.handleRecorderStopped;
+    this.mediaRecorder.onstart = this.handleRecorderStarted;
+
+    this.mediaRecorder.start();
+  }
+
+
+
+  handleAudioData = (event) => 
+  {
+    console.log("recieved data");
+    if (event.data.size  > 0)
+      this.recordedChunks.push(event.data);
+  }
+
+  handleRecorderStarted = () => {
+    
+    this.receive({name: "You to CyberBock", type: "chat", body:'🦌🤖❓', sent: true ,sessionId :"bot_question" });
+
+  };
+
+  handleRecorderStopped = () => {
+    
+
+    console.log(this.recordedChunks)
+
+    this.reader = new FileReader();
+
+    var blob = new Blob(this.recordedChunks, {
+      type: MIME_TYPE_AUDIO
+    });
+
+    this.reader.onload = this.onSoundRead;
+
+    this.reader.readAsDataURL(blob); // converts the blob to base64 and calls onload
+
+    
+
+  };
+
+  onSoundRead = () => 
+  {
+    
+    this.receive({name: "You to CyberBock", type: "chat", body:'🦌🤖💬', sent: true ,sessionId :"bot_question" });
+
+    this.dispatchBot({inputAudio:  this.reader.result});
+  }
+
+  stopRecord = () => 
+  {
+    console.log("Stoping Recording");
+
+    if (this.mediaRecorder != null)
+    {
+      this.mediaRecorder.stop();
+    }
+  }
+
+
   dispatchBot = async (query) => {
  
     const audioListener = this.scene.audioListener;
@@ -240,15 +339,51 @@ export default class MessageDispatch extends EventTarget {
     console.log("User asked for " + query);
 
     // TODO: Fix sessionID for logged out users
-    const sessionId = window.APP.store.state.credentials.token.substring(0,10);
+    const sessionId = this.sessionId;
+    const audioId = randomString(10);
 
-    const fixedQuery = `${query}`;
 
-    // TODO: Localize to different languages
-    this.receive({name: "You to CyberBock", type: "chat", body:fixedQuery, sent: true ,sessionId :"bot_question" });
+    var url = `https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?sessionId=${sessionId}`;
+
+    //body.sessionId = sessionId;
 
     
-    const response = await (await fetch(`https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_URL}?text=${encodeURIComponent(query)}&sessionId=${sessionId}`)).json();
+    if (query.text != undefined)
+    {
+      //body.text = query.text;
+
+      url += `&text=${encodeURIComponent(query.text)}`;
+
+      const fixedQuery = `${query.text}`;
+
+      // TODO: Localize to different language
+      this.receive({name: "You to CyberBock", type: "chat", body:fixedQuery, sent: true ,sessionId :"bot_question" });
+    }
+
+    if (query.inputAudio != undefined)
+    {
+      //body.inputAudio = query.inputAudio;
+      url += "&audioId=" + audioId;
+
+
+      // Send audio Chunks to the server
+      let chunkCount = Math.floor(query.inputAudio.length / CHUNK_LENGTH);
+      let audioUrl = `https://${configs.CORS_PROXY_SERVER}/${DIALOGFLOW_REQUEST_AUDIO_URL}?audioId=${audioId}&chunkCount=${chunkCount}`;
+
+      for (let i = 0; i < chunkCount; i++)
+      {
+        let chunk = query.inputAudio.slice(i * CHUNK_LENGTH, (i + 1) * CHUNK_LENGTH);
+
+        const r = await (await fetch(audioUrl + "&chunkId="+ i + "&audioBytes=" + encodeURIComponent(chunk)));
+
+        console.log("Chunk " + i + "/"+ chunkCount + ", " + r.status);
+
+      }
+
+    }
+    
+
+    const response = await (await fetch(url)).json();
     
     console.log(response);
 
@@ -265,7 +400,7 @@ export default class MessageDispatch extends EventTarget {
        
       
       if (text != "")
-        this.receive({ name:"CyberBock", type: "chat", body:text, sent: false , sessionId :"bot_answer"});
+        this.speakChatbot(text, "bot_answer");
     }
     const audioData = response.outputAudio.data;  
     
@@ -287,5 +422,15 @@ export default class MessageDispatch extends EventTarget {
     
   };
 
+  speakChatbot = (text, sessionId) =>
+  {
+    this.receive({ name:"CyberBock", type: "chat", body:text, sent: false , sessionId :sessionId});
+    
+    if (this.scene.systems["robot-tools"].getMyRobot())
+    {
+      let robotTool = this.scene.systems["robot-tools"].getMyRobot();
 
+      robotTool.components["robot-tool"].onSpeakStarted(text);
+    }
+  }
 }

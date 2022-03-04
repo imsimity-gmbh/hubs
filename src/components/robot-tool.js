@@ -16,7 +16,6 @@ const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotMo
 
 AFRAME.registerComponent("robot-tool", {
   schema: {
-    playing: { default: false }
   },
 
   init() {
@@ -25,7 +24,7 @@ AFRAME.registerComponent("robot-tool", {
     this.lastUpdate = performance.now();
 
 
-    this.localPlaying = false;
+    this.voiceRecording = false;
    
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
     this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
@@ -48,14 +47,15 @@ AFRAME.registerComponent("robot-tool", {
       this.simpleAnim.printAnimations();
 
 
-      this.playButton = this.el.querySelector(".robot-button");
+      this.speakButton = this.el.querySelector(".robot-button-speak");
+      this.speakButtonIcon = this.el.querySelector('.robot-button-speak-icon');
 
-      if (this.playButton)
+      if (this.speakButton)
       {
-        this.playButton.object3D.addEventListener("interact", () => this.onClickPlay());
+        this.speakButton.object3D.addEventListener("interact", () => this.onClickPlay());
       }
 
-      this.playButton.object3D.visible = true;
+      this.speakButton.object3D.visible = true;
       
       // Callback for when the animation is done
       this.simpleAnim.initFinishedCallback((e) => { this.onAnimationDone(e.action._clip.name);});
@@ -65,6 +65,7 @@ AFRAME.registerComponent("robot-tool", {
       this.robotSystem = this.el.sceneEl.systems["robot-tools"];
       this.robotSystem.register(this.el);
 
+      this.messageDispatch = document.querySelector("#avatar-rig").messageDispatch;
     });
   },
 
@@ -73,33 +74,6 @@ AFRAME.registerComponent("robot-tool", {
   },
 
   updateUI() {
-
-    console.log("Upade UI called");
-
-    if (!this.simpleAnim == null|| this.data.playing  == null)
-    {
-      console.log("Something isn't initialized");
-      return;
-    }
-      
-    console.log("Local : " + this.localPlaying);
-    console.log("Networked : " + this.data.playing);
-
-
-    if (this.data.playing != this.localPlaying)
-    {
-      
-      this.playButton.object3D.visible = !this.data.playing;
-
-      if (this.data.playing == true)
-      {
-        this.simpleAnim.resetClips();
-        this.simpleAnim.playClip("robotAction", THREE.LoopOnce, false);
-        this.playSound(SOUND_SUCCESS_BUTTON);
-      }
-
-      this.localPlaying = this.data.playing;
-    }
 
   },
 
@@ -112,37 +86,43 @@ AFRAME.registerComponent("robot-tool", {
   {
     console.log("Click");
 
-    if (this.localPlaying)
-      return;
+    this.voiceRecording = !this.voiceRecording;
 
-    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    console.log("Recording : " + this.voiceRecording);
+
+    this.speakButtonIcon.setAttribute("icon-button", "active", this.voiceRecording);
+
+    if (this.voiceRecording)
+    {
+      this.simpleAnim.playClip("robot_headAction", true);
+
+      if (this.messageDispatch) {
+        this.messageDispatch.dispatch("@botstart");
+      }
+    }
+    else  
+    {
+      this.simpleAnim.resetClips();
       
-      NAF.utils.takeOwnership(networkedEl);
-
-      this.el.setAttribute("robot-tool", "playing", true);      
-
-      this.updateUI();
-    });
-
-    
+      if (this.messageDispatch) {
+        this.messageDispatch.dispatch("@botstop");
+      }
+    }
   },
 
   onAnimationDone(animName)
   {
     console.log("OnAnimationDone called");
-
-    if (NAF.utils.isMine(this.el)) {
-
-      this.el.setAttribute("robot-tool", "playing", false);
-      
-
-      this.updateUI();
-    }
   },
 
   playSound(soundId)
   {
     const sceneEl = this.el.sceneEl;
     sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+  },
+
+  onSpeakStarted(text)
+  {
+  
   },
 });

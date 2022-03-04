@@ -849,8 +849,12 @@
                 simple-animation
                 >
                     <a-entity class="ui interactable-ui robot-menu" visible-if-permitted="spawn_camera">
-                        <a-entity class="robot-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0.5" scale="1.0 1.0 1.0">
-                            <a-entity text=" value:Hello; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity> 
+                        <a-entity mixin="rounded-action-button" class="robot-button-speak" is-remote-hover-target tags="singleActionButton: true;" position="0 0.5 0.5">
+                            <a-entity sprite class="robot-button-speak-icon"
+                                icon-button="image: mute-action.png; hoverImage: mute-action.png; activeImage: stop-action.png; activeHoverImage: stop-action.png"
+                                scale="0.165 0.165 0.165"
+                                position="0 0 0.001"
+                            ></a-entity>
                         </a-entity>
                     </a-entity>
                 </a-entity>

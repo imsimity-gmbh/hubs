@@ -81,6 +81,19 @@ AFRAME.registerComponent("simple-animation", {
     this.currentClips.push(clip);
   },
 
+  // NOT WORKING...
+  play(state)
+  {
+    for (let i = 0; i < this.currentActions.length; i++) {
+      this.currentActions[i].enabled = state;
+
+      if (state)
+        this.currentActions[i].start();
+      else
+        this.currentActions[i].stop();
+    }
+  },
+
   destroy() {
     for (let i = 0; i < this.currentActions.length; i++) {
       this.currentActions[i].enabled = false;
