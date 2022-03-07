@@ -107,17 +107,15 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.timerRunning = false;
 
-      this.data.startClicked = false;
-      this.localStartClicked = false;
       this.myStartButtonText.setAttribute("text", { value: "Start" });
       this.startTime = performance.now();
 
-      this.data.currentTime = "";
       this.localCurrentTime = 0;
       this.timeUntilPause = 0;
       this.myDisplayText.setAttribute("text", { value: "00:00" });
+      console.log(this.data.currentTime);
 
-      this.data.resetClicked = false;
+      this.localResetClicked = this.data.resetClicked;
     }
 
     //Update display of stopwatch to current time:
@@ -197,7 +195,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       
       NAF.utils.takeOwnership(networkedEl);
 
-      this.el.setAttribute("stopwatch-tool", "resetClicked", true);   
+      this.el.setAttribute("stopwatch-tool", "resetClicked", !this.data.resetClicked);   
       this.el.setAttribute("stopwatch-tool", "currentTime", "00:00");   
 
       this.updateUI();
