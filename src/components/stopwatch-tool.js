@@ -197,7 +197,8 @@ AFRAME.registerComponent("stopwatch-tool", {
       
       NAF.utils.takeOwnership(networkedEl);
 
-      this.el.setAttribute("stopwatch-tool", "resetClicked", true);      
+      this.el.setAttribute("stopwatch-tool", "resetClicked", true);   
+      this.el.setAttribute("stopwatch-tool", "currentTime", "00:00");   
 
       this.updateUI();
     });
