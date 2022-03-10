@@ -1,5 +1,5 @@
 //TODO_LAURA_SOUND: import your new sounds here !
-import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON } from "../systems/sound-effects-system";
+import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON, SOUND_STOPWATCH_TICKING } from "../systems/sound-effects-system";
 
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
@@ -14,7 +14,7 @@ AFRAME.registerComponent("stopwatch-tool", {
   schema: {
       startClicked: {default: false},
       resetClicked: {default: false},
-      currentTime: {default: ""}
+      currentTime: {default: "00:00"},
   },
 
 
@@ -38,7 +38,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
-      //<-- UI of the watch
+      //<-- Buttons and display-text of the watch
       this.myStartButton = this.el.querySelector(".stopwatch-start-button"); //el = element, like gameobject in unity
       this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
       this.myStartButtonText = this.el.querySelector(".stopwatch-start-button-text");
@@ -48,6 +48,9 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
       //--->
+      //Hidden-Menu Btns:
+      this.myPinButton = this.el.querySelector(".pin-button");
+      this.myPinButton.object3D.addEventListener("interact", () => this.onPinButtonClick());
 
       //Variables needed for stopwatch logic:
       this.timerRunning = false;
@@ -57,6 +60,8 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localStartClicked = false;
       this.localResetClicked = false;
       this.localCurrentTime = 0;
+      this.localDisplayTime = "00:00";
+      this.isPinned = false;
     
       this.updateUI();
 
@@ -88,27 +93,23 @@ AFRAME.registerComponent("stopwatch-tool", {
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
 
-      if(this.timerRunning == false) {
+      if(this.timerRunning == false) 
         this.startTime = performance.now();
-        this.timerRunning = true;
-        this.myStartButtonText.setAttribute("text", { value: "Pause" });
-      }
-      else {
-        this.timerRunning = false;
-        this.myStartButtonText.setAttribute("text", { value: "Start" });
+    
+      else 
         this.timeUntilPause = this.localCurrentTime * 1000;
-      }
-
+      
+      this.updateStartButtonUI(this.timerRunning);
       this.localStartClicked = this.data.startClicked;
     }
 
     //Check if reset-button has been clicked by anyone
     if(this.localResetClicked != this.data.resetClicked) {
 
-      this.timerRunning = false;
-
-      this.myStartButtonText.setAttribute("text", { value: "Start" });
-      this.startTime = performance.now();
+      if(this.timerRunning) {
+        this.updateStartButtonUI(this.timerRunning);
+        this.startTime = performance.now();
+      }
 
       this.localCurrentTime = 0;
       this.timeUntilPause = 0;
@@ -119,8 +120,9 @@ AFRAME.registerComponent("stopwatch-tool", {
     }
 
     //Update display of stopwatch to current time:
-    if(this.timerRunning)
+    if(this.timerRunning) {
       this.myDisplayText.setAttribute("text", { value: this.data.currentTime });
+    }
   },
 
   
@@ -157,25 +159,28 @@ AFRAME.registerComponent("stopwatch-tool", {
           //Send value of formattedTime to Server, if different from stored value
           if(formattedTime != this.data.currentTime) 
           {
-              console.log("tick");  
-
-              NAF.utils.takeOwnership(networkedEl);
-      
               this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);      
-      
+
+              this.playSound(SOUND_STOPWATCH_TICKING);
+
               this.updateUI();
+          }
+        } 
+        else {
+          if(this.localDisplayTime != this.data.currentTime) {
+            this.playSound(SOUND_STOPWATCH_TICKING);
+            this.localDisplayTime = this.data.currentTime;
           }
         }
 
       });
 
     }
+
   },
 
   onStartButtonClick()
   {
-    console.log("Click !");
-
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
       NAF.utils.takeOwnership(networkedEl);
@@ -189,8 +194,6 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   onResetButtonClick()
   {
-    console.log("Reset !");
-
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
       
       NAF.utils.takeOwnership(networkedEl);
@@ -202,6 +205,30 @@ AFRAME.registerComponent("stopwatch-tool", {
     });
 
   },
-  
+
+  onPinButtonClick()
+  {
+    console.log("stopwatch pinned.");
+    window.APP.pinningHelper.setPinned(this.el, true);
+  },
+
+  updateStartButtonUI(timerStatus) 
+  {
+    if(timerStatus) {
+      this.timerRunning = false;
+      this.myStartButtonText.setAttribute("text", { value: "Start" });
+    }
+    else {
+      this.timerRunning = true;
+      this.myStartButtonText.setAttribute("text", { value: "Pause" });
+    }
+  },
+
+  playSound(soundId)
+  {
+    const sceneEl = this.el.sceneEl;
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+  }
+
 
 });

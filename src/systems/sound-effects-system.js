@@ -17,6 +17,7 @@ import URL_MEDIA_LOADING from "../assets/sfx/suspense.mp3";
 import URL_SPAWN_EMOJI from "../assets/sfx/emoji.mp3";
 import URL_FALSE_BUTTON from "../assets/sfx/failure.mp3";
 import URL_RIGHT_BUTTON from "../assets/sfx/success_machine.mp3";
+import URL_STOPWATCH_TICKING from "../assets/sfx/stopwatch_ticking.mp3";
 //TODO_LAURA_SOUND: if you want to add new sounds, add their URL down there, and the files inside /assets/sfx/
 
 import { setMatrixWorld } from "../utils/three-utils";
@@ -50,6 +51,7 @@ export const SOUND_PREFERENCE_MENU_HOVER = soundEnum++;
 export const SOUND_SPAWN_EMOJI = soundEnum++;
 export const SOUND_ERROR_BUTTON = soundEnum++;
 export const SOUND_SUCCESS_BUTTON = soundEnum++;
+export const SOUND_STOPWATCH_TICKING = soundEnum++;
 //TODO_LAURA_SOUND: then, in order, you need to add a new line like so:
 //export const SOUND_MY_SOUND = soundEnum++;
 
@@ -100,7 +102,8 @@ export class SoundEffectsSystem {
       [SOUND_PREFERENCE_MENU_HOVER, URL_FREEZE],
       [SOUND_SPAWN_EMOJI, URL_SPAWN_EMOJI],
       [SOUND_ERROR_BUTTON, URL_FALSE_BUTTON],
-      [SOUND_SUCCESS_BUTTON, URL_RIGHT_BUTTON]
+      [SOUND_SUCCESS_BUTTON, URL_RIGHT_BUTTON],
+      [SOUND_STOPWATCH_TICKING, URL_STOPWATCH_TICKING]
     ];
     const loading = new Map();
     const load = url => {

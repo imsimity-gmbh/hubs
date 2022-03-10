@@ -167,6 +167,7 @@ AFRAME.registerComponent("camera-tool", {
         };
       })();
 
+      //<--- Animation example:
       const config = {
         duration: 200,
         easing: "easeOutQuad",
@@ -182,7 +183,7 @@ AFRAME.registerComponent("camera-tool", {
       };
 
       anime(config);
-
+      //--->
       const width = 0.28;
       const geometry = new THREE.PlaneBufferGeometry(width, width / this.camera.aspect);
 
