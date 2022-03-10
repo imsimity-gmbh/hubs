@@ -5,6 +5,7 @@ import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 import stopwatchModelSrc from "../assets/stopwatch_tool.glb";
+import pinnedEntityToGltf from "../utils//pinned-entity-to-gltf.js";
 
 // Change stopwatchModelSrc to your model
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
@@ -61,7 +62,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localResetClicked = false;
       this.localCurrentTime = 0;
       this.localDisplayTime = "00:00";
-      this.isPinned = false;
     
       this.updateUI();
 
@@ -208,8 +208,13 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   onPinButtonClick()
   {
+    NAF.utils.getNetworkedEntity(this.el).then(async function(networkedEl) {
+      
+      const networkId = NAF.utils.getNetworkId(networkedEl);
+
+      await window.APP.hubChannel.pin(networkId, pinnedEntityToGltf(this.el));
+    });
     console.log("stopwatch pinned.");
-    window.APP.pinningHelper.setPinned(this.el, true);
   },
 
   updateStartButtonUI(timerStatus) 
