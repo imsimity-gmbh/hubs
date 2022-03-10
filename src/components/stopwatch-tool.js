@@ -52,6 +52,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       //Hidden-Menu Btns:
       this.myPinButton = this.el.querySelector(".pin-button");
       this.myPinButton.object3D.addEventListener("interact", () => this.onPinButtonClick());
+      this.myPinButtonIcon = this.el.querySelector(".pin-button-icon");
 
       //Variables needed for stopwatch logic:
       this.timerRunning = false;
@@ -216,6 +217,7 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       await window.APP.hubChannel.pin(networkId, node);
     });
+    this.myPinButtonIcon.setAttribute("icon-button", "active", true);
     console.log("stopwatch pinned.");
   },
 

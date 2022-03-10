@@ -304,7 +304,8 @@ function registerNetworkSchemas() {
       {
         component: "stopwatch-tool",
         property: "currentTime"
-      }
+      },
+      "pinnable"
     ]
   });
 
