@@ -208,11 +208,13 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   onPinButtonClick()
   {
+    const node = pinnedEntityToGltf(this.el);
+
     NAF.utils.getNetworkedEntity(this.el).then(async function(networkedEl) {
       
       const networkId = NAF.utils.getNetworkId(networkedEl);
 
-      await window.APP.hubChannel.pin(networkId, pinnedEntityToGltf(this.el));
+      await window.APP.hubChannel.pin(networkId, node);
     });
     console.log("stopwatch pinned.");
   },
