@@ -13,6 +13,7 @@ import { upload } from "../utils/media-utils";
 import { ensureAvatarMaterial } from "../utils/avatar-utils";
 
 import AvatarPreview from "./avatar-preview";
+import GLTFBinarySplitterPlugin from "./avatar-editor-utils";
 import styles from "../assets/stylesheets/avatar-editor-rpm.scss";
 
 const delistAvatarInfoMessage = defineMessage({
@@ -23,29 +24,6 @@ const delistAvatarInfoMessage = defineMessage({
 
 const AVATARS_API = "/api/v1/avatars";
 
-const defaultEditors = [
-  {
-    name: "Quilt",
-    url: "https://tryquilt.io/?gltf=$AVATAR_GLTF"
-  }
-];
-const useAllowedEditors = true;
-const allowedEditors = [
-  ...defaultEditors,
-  {
-    name: "Skindex Editor",
-    url: "https://www.minecraftskins.com/skin-editor"
-  },
-  {
-    name: "MinecraftSkins.net Editor",
-    url: "https://www.minecraftskins.net/skineditor"
-  }
-];
-
-const fetchAvatar = async avatarId => {
-  const { avatars } = await fetchReticulumAuthenticated(`${AVATARS_API}/${avatarId}`);
-  return avatars[0];
-};
 
 class AvatarEditorRpm extends Component {
   static propTypes = {
@@ -61,8 +39,6 @@ class AvatarEditorRpm extends Component {
   };
 
   state = {
-    baseAvatarResults: [],
-    editorLinks: defaultEditors,
     previewGltfUrl: null
   };
 
@@ -74,9 +50,26 @@ class AvatarEditorRpm extends Component {
 
   receiveMessage(event)
   {
+
+    console.log(event);
+
     this.rpmUrl = event.data;
 
+    this.setState({ previewGltfUrl: this.rpmUrl});
     this.setState({ readyplayer: true });
+  };
+
+  createOrUpdateAvatar = avatar => {
+    return fetchReticulumAuthenticated(
+      avatar.avatar_id ? `${AVATARS_API}/${avatar.avatar_id}` : AVATARS_API,
+      avatar.avatar_id ? "PUT" : "POST",
+      { avatar }
+    ).then(({ avatars }) => avatars[0]);
+  };
+
+  componentWillUnmount = async () => {
+    window.removeEventListener('message', function(event) { this.receiveMessage(event); }.bind(this), false);
+
   };
 
   componentDidMount = async () => {
@@ -87,54 +80,82 @@ class AvatarEditorRpm extends Component {
      
     this.setState({ readyplayer: false });
 
-    if (this.props.avatarId) {
-      const avatar = await fetchAvatar(this.props.avatarId);
-      avatar.creatorAttribution = (avatar.attributions && avatar.attributions.creator) || "";
-      Object.assign(this.inputFiles, avatar.files);
-      this.setState({ avatar, previewGltfUrl: avatar.base_gltf_url });
-    } else {
-      const { entries } = await fetchReticulumAuthenticated(`/api/v1/media/search?filter=base&source=avatar_listings`);
-      const baseAvatarResults = entries.map(e => ({ id: e.id, name: e.name, gltfs: e.gltfs, images: e.images }));
-      if (baseAvatarResults.length) {
-        const randomAvatarResult = baseAvatarResults[Math.floor(Math.random() * baseAvatarResults.length)];
-        this.setState({
-          baseAvatarResults,
-          avatar: {
-            name: "My Avatar",
-            files: {},
-            base_gltf_url: randomAvatarResult.gltfs.base,
-            parent_avatar_listing_id: randomAvatarResult.id
-          },
-          previewGltfUrl: randomAvatarResult.gltfs.avatar
-        });
-      } else {
-        this.setState({
-          avatar: {
-            name: "My Avatar",
-            files: {}
-          }
-        });
+    this.setState({
+      avatar: {
+        name: "My Avatar"
       }
-    }
+    });
+      
   };
 
-  
-  uploadAvatar = async e => {
-    e.preventDefault();
-    
+  uploadAvatar = async () => {
+   
     this.setState({ uploading: true });
 
+    // RENDER API :https://docs.readyplayer.me/render-api/render-api
 
-    this.props.store.update(
-      { profile: { ...this.props.store.state.profile, 
-        ...{ avatarId: this.rpmUrl } } });
-    this.props.scene.emit("avatar_updated");
-   
+    const gltfLoader = new THREE.GLTFLoader().register(parser => new GLTFBinarySplitterPlugin(parser));
+    const onProgress = console.log;
+
+    await new Promise((resolve, reject) => {
+      // GLTFBinarySplitterPlugin saves gltf and bin in gltf.files
+      gltfLoader.load(
+        this.rpmUrl,
+        result => {
+          this.inputFiles.gltf = result.files.gltf;
+          this.inputFiles.bin = result.files.bin;
+          resolve(result);
+        },
+        onProgress,
+        reject
+      );
+    });
+
+    this.inputFiles.thumbnail = new File([await this.preview.snapshot()], "thumbnail.png", {
+      type: "image/png"
+    });
+
+    const filesToUpload = ["gltf", "bin", "thumbnail"].filter(
+      k => this.inputFiles[k] === null || this.inputFiles[k] instanceof File
+    );
+
+    const fileUploads = await Promise.all(filesToUpload.map(f => this.inputFiles[f] && upload(this.inputFiles[f])));
+    
+    const avatar = {
+       ...this.state.avatar,
+      attributions: {
+        creator: ""
+      },
+      files: fileUploads
+      .map((resp, i) => [filesToUpload[i], resp && [resp.file_id, resp.meta.access_token, resp.meta.promotion_token]])
+      .reduce((o, [k, v]) => ({ ...o, [k]: v }), {}),
+      parent_avatar_listing_id: ""
+    };
+
+    
+    // Upload
+    const updatedAvatar = await this.createOrUpdateAvatar(avatar);
+
+    console.log(updatedAvatar);
 
     this.setState({ uploading: false });
 
+    this.props.store.update(
+      { profile: { ...this.props.store.state.profile, 
+        ...{ avatarId: updatedAvatar.avatar_id } } });
+    
+    this.props.scene.emit("avatar_updated");
+
     if (this.props.onSave) this.props.onSave();
   };
+
+  
+  handleGltfLoaded = () =>
+  {
+    // avatar loaded in the preview frame
+    this.uploadAvatar();
+  };
+  
 
 
   textField = (name, placeholder, disabled, required) => (
@@ -188,6 +209,7 @@ class AvatarEditorRpm extends Component {
 
     return (
       <div className={classNames(styles.avatarEditorRpm, this.props.className)}>
+        
         {this.props.onClose && (
           <a className="close-button" onClick={this.props.onClose}>
             <i>
@@ -195,87 +217,41 @@ class AvatarEditorRpm extends Component {
             </i>
           </a>
         )}
-        {!this.state.avatar ? (
+         {!this.state.avatar && (
           <div className="loader">
             <div className="loader-center" />
           </div>
-        ) : (
-          <form onSubmit={this.uploadAvatar} className="center">
+        )}
+        {this.state.avatar && !this.state.readyplayer ? (
+          
+          <form className="center">
+            {this.textField("name", "Name", false, true)}
             {
                 <iframe
                 className="avatariframe"
                 src="https://imsimity.readyplayer.me/"
                 allow = 'camera *; microphone *'
               />
-              }
-            
-            <div className="form-body">
-              {debug &&
-                this.textField(
-                  "avatar_id",
-                  intl.formatMessage({ id: "avatar-editor.field.avatar-id", defaultMessage: "Avatar ID" }),
-                  true
-                )}
-              {debug &&
-                this.textField(
-                  "parent_avatar_id",
-                  intl.formatMessage({
-                    id: "avatar-editor.field.parent-avatar-id",
-                    defaultMessage: "Parent Avatar ID"
-                  })
-                )}
-              {debug &&
-                this.textField(
-                  "parent_avatar_listing_id",
-                  intl.formatMessage({
-                    id: "avatar-editor.field.parent-avatar-listing-id",
-                    defaultMessage: "Parent Avatar Listing ID"
-                  })
-                )}
-              {debug &&
-                this.textarea(
-                  "description",
-                  intl.formatMessage({
-                    id: "avatar-editor.field.description",
-                    defaultMessage: "Description"
-                  })
-                )}
-              
-            </div>
-            
-            <div className="info">
-              <IfFeature name="show_avatar_editor_link">
-                <p>
-                  <FormattedMessage
-                    id="avatar-editor.external-editor-info"
-                    defaultMessage="Create a custom skin for this avatar:"
-                  />{" "}
-                  {this.state.editorLinks.map(({ name, url }) => (
-                    <a
-                      key={name}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={url.replace("$AVATAR_GLTF", encodeURIComponent(this.state.previewGltfUrl))}
-                    >
-                      {name}
-                    </a>
-                  ))}
-                </p>
-              </IfFeature>
-            </div>
-            <div>
-              <button disabled={this.state.uploading || !this.state.readyplayer } className="form-submit" type="submit">
-                {this.state.uploading ? (
-                  <FormattedMessage id="avatar-editor.submit-button.uploading" defaultMessage="Uploading..." />
-                ) : (
-                  <FormattedMessage id="avatar-editor.submit-button.save" defaultMessage="Save" />
-                )}
-              </button>
-            </div>
-           
-            
+              }            
           </form>
+          
+        ) : (
+          <div className="center">
+            <div>
+            
+            Loading
+
+            </div>
+            <AvatarPreview 
+            className="preview"
+            avatarGltfUrl={this.state.previewGltfUrl}
+            onGltfLoaded={this.handleGltfLoaded}
+            ref={p => (this.preview = p)}
+          />
+          </div>
+          
         )}
+        
       </div>
     );
   }

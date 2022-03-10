@@ -1318,6 +1318,8 @@ class UIRoot extends Component {
                     signedIn={this.state.signedIn}
                     onSignIn={this.showContextualSignInDialog}
                     onSave={() => {
+
+
                       if (props.location.state.detail && props.location.state.detail.returnToProfile) {
                         this.props.history.goBack();
                       } else {
@@ -1348,17 +1350,17 @@ class UIRoot extends Component {
                     signedIn={this.state.signedIn}
                     onSignIn={this.showContextualSignInDialog}
                     onSave={() => {
-                      if (props.location.state.detail && props.location.state.detail.returnToProfile) {
-                        this.props.history.goBack();
-                      } else {
-                        this.props.history.goBack();
-                        // We are returning to the media browser. Trigger an update so that the filter switches to
-                        // my-avatars, now that we've saved an avatar.
-                        this.props.mediaSearchStore.sourceNavigateWithNoNav("avatars", "use");
-                      }
+
+                      // Fix for iFrame loading
+                      this.props.history.goBack();
+                      
+                      this.props.history.goBack();
+                    
                       this.props.onAvatarSaved();
                     }}
-                    onClose={() => this.props.history.goBack()}
+                    onClose={() => {                     
+                      this.props.history.goBack();
+                    }}
                     store={this.props.store}
                     scene={this.props.scene}
                     debug={avatarEditorDebug}

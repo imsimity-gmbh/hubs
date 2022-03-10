@@ -10,8 +10,8 @@ import configs from "../utils/configs";
 import IfFeature from "./if-feature";
 import { fetchReticulumAuthenticated } from "../utils/phoenix-utils";
 import { upload } from "../utils/media-utils";
-import { ensureAvatarMaterial } from "../utils/avatar-utils";
 
+import GLTFBinarySplitterPlugin from "./avatar-editor-utils";
 import AvatarPreview from "./avatar-preview";
 import styles from "../assets/stylesheets/avatar-editor.scss";
 
@@ -46,40 +46,6 @@ const fetchAvatar = async avatarId => {
   const { avatars } = await fetchReticulumAuthenticated(`${AVATARS_API}/${avatarId}`);
   return avatars[0];
 };
-
-// GLTFLoader plugin for splitting glTF and bin from glb.
-class GLTFBinarySplitterPlugin {
-  constructor(parser) {
-    this.parser = parser;
-    this.gltf = null;
-    this.bin = null;
-  }
-
-  beforeRoot() {
-    const parser = this.parser;
-    const { body } = parser.extensions.KHR_binary_glTF;
-    const content = JSON.stringify(ensureAvatarMaterial(parser.json));
-
-    this.gltf = new File([content], "file.gltf", {
-      type: "model/gltf"
-    });
-    this.bin = new File([body], "file.bin", {
-      type: "application/octet-stream"
-    });
-
-    // This plugin just wants to split gltf and bin from glb and
-    // doesn't want to start the parse. But glTF loader plugin API
-    // doesn't have an ability to cancel the parse. So overriding
-    // parser.json with very light glTF data as workaround.
-    parser.json = { asset: { version: "2.0" } };
-  }
-
-  afterRoot(result) {
-    result.files = result.files || {};
-    result.files.gltf = this.gltf;
-    result.files.bin = this.bin;
-  }
-}
 
 class AvatarEditor extends Component {
   static propTypes = {
@@ -188,6 +154,15 @@ class AvatarEditor extends Component {
         .map((resp, i) => [filesToUpload[i], resp && [resp.file_id, resp.meta.access_token, resp.meta.promotion_token]])
         .reduce((o, [k, v]) => ({ ...o, [k]: v }), {})
     };
+
+    const f = fileUploads
+    .map((resp, i) => [filesToUpload[i], resp && [resp.file_id, resp.meta.access_token, resp.meta.promotion_token]])
+    .reduce((o, [k, v]) => ({ ...o, [k]: v }), {});
+
+    console.log(f);
+
+    console.log("Avatar :");
+    console.log(avatar);
 
     await this.createOrUpdateAvatar(avatar);
 
