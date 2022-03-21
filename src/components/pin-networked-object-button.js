@@ -83,7 +83,7 @@ AFRAME.registerComponent("pin-networked-object-button", {
   },
 
   _updateUI() {
-    const { fileIsOwned, fileId } = this.targetEl.components["media-loader"].data;
+    const { fileIsOwned, fileId } = this.targetEl.components["stopwatch-tool"].data;
     const canPin =
       window.APP.hubChannel.can("pin_objects") && !!(fileIsOwned || (fileId && getPromotionTokenForFile(fileId)));
     this.el.object3D.visible = canPin;

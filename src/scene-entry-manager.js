@@ -491,18 +491,28 @@ export default class SceneEntryManager {
   _setupExample = () => {
     this.scene.addEventListener("action_toggle_example", () => {
       if (!this.hubChannel.can("spawn_camera")) return;
-      const myExample = this.scene.systems["exalple-tools"].getMyExample();
+      const myExample = this.scene.systems["example-tools"].getMyExample();
 
       if (myExample) {
         myExample.parentNode.removeChild(myExample);
       } else {
         const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
         entity.setAttribute("networked", { template: "#interactable-example-camera" });
         entity.setAttribute("offset-relative-to", {
-          target: "#avatar-pov-node",
-          offset: { x: 0, y: 0, z: -1.5 }
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
         });
         this.scene.appendChild(entity);
+      
       }
     });
 

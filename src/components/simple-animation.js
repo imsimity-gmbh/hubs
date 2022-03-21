@@ -57,10 +57,15 @@ AFRAME.registerComponent("simple-animation", {
       return;
     }
 
+    if(this.getAction(clipName) != null) {
+      console.warn(`Animation named '${clipName}' already exists`);
+      return;
+    }
+
     const clip = animations.find(({ name }) => name === clipName);
 
     if (!clip) {
-      console.warn(`Could not find animation named '${n}' in ${this.el.className}`);
+      console.warn(`Could not find animation named '${clipName}' in ${this.el.className}`);
       return;
     }
 
@@ -72,7 +77,7 @@ AFRAME.registerComponent("simple-animation", {
 
     console.log(mesh);
 
-    const action = mixer.clipAction(clip, mesh);
+    const action = this.createAction(clipName);
     action.enabled = true;
     action.setLoop(loopState, Infinity).play();
     action.clampWhenFinished = clampState;
@@ -81,16 +86,45 @@ AFRAME.registerComponent("simple-animation", {
     this.currentClips.push(clip);
   },
 
-  // NOT WORKING...
-  play(state)
+  // We have to be careful with naming, because pause() also didn't work, as did play()!
+  pauseClip(clipName, pauseState)
   {
-    for (let i = 0; i < this.currentActions.length; i++) {
-      this.currentActions[i].enabled = state;
+    if(this.currentActions.length <= 0) {
+      console.log("No animation playing");
+      return;
+    }
 
-      if (state)
-        this.currentActions[i].start();
-      else
+    const searchAction = this.getAction(clipName);
+    if(searchAction == null) {
+      console.log(`Animation named '${clipName}' doesn't exist`);
+      return;
+    }
+
+    for (let i = 0; i < this.currentActions.length; i++) {
+      if(searchAction == this.currentActions[i]) {
+        this.currentActions[i].paused = pauseState;
+      }
+    }
+  },
+  
+  stopClip(clipName)
+  {
+    if(this.currentActions.length <= 0) {
+      console.log("No animation playing");
+      return;
+    }
+
+    const searchAction = this.getAction(clipName);
+    if(searchAction == null) {
+      console.log(`Animation named '${clipName}' doesn't exist`);
+      return;
+    }
+
+    for (let i = 0; i < this.currentActions.length; i++) {
+      if(searchAction == this.currentActions[i]) {
         this.currentActions[i].stop();
+        this.currentActions.splice(i, 1);
+      }
     }
   },
 
@@ -129,5 +163,27 @@ AFRAME.registerComponent("simple-animation", {
 
     this.currentClips = [];
     this.currentActions = [];
+  },
+
+  getAction(clipName)
+  {
+    const searchAction = this.createAction(clipName);
+
+    for (let i = 0; i < this.currentActions.length; i++) {
+      if(searchAction == this.currentActions[i]) {
+        return this.currentActions[i];
+      }
+    }
+    return null;
+  },
+
+  createAction(clipName) 
+  {
+    const { mixer, animations } = this.mixerEl.components["animation-mixer"];
+
+    const clip = animations.find(({ name }) => name === clipName);
+    const mesh = this.el.object3D.children[GROUP_ID];
+
+    return mixer.clipAction(clip, mesh);
   }
 });

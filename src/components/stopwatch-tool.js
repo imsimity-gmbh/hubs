@@ -49,10 +49,6 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
       //--->
-      //Hidden-Menu Btns:
-      this.myPinButton = this.el.querySelector(".pin-button");
-      this.myPinButton.object3D.addEventListener("interact", () => this.onPinButtonClick());
-      this.myPinButtonIcon = this.el.querySelector(".pin-button-icon");
 
       //Variables needed for stopwatch logic:
       this.timerRunning = false;
@@ -63,6 +59,12 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localResetClicked = false;
       this.localCurrentTime = 0;
       this.localDisplayTime = "00:00";
+
+      //subscribe to entity-socket:
+      this.sceneEl = document.querySelector("a-scene");
+      this.entitySocket = this.sceneEl.querySelector(".test-trigger-zone");
+
+      this.entitySocket.components["entity-socket"].subscribe("onSnap", this.onSnapCallback);
     
       this.updateUI();
 
@@ -190,7 +192,6 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.updateUI();
     });
-
   },
 
   onResetButtonClick()
@@ -204,7 +205,6 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.updateUI();
     });
-
   },
 
   onPinButtonClick()
@@ -237,7 +237,12 @@ AFRAME.registerComponent("stopwatch-tool", {
   {
     const sceneEl = this.el.sceneEl;
     sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
-  }
+  },
 
+  //Entity-Socket Callbacks:
+  onSnapCallback(attachedEntity)
+  {
+    console.log(attachedEntity);
+  }
 
 });
