@@ -151,6 +151,7 @@ import "./components/avatar-audio-source";
 import "./components/avatar-inspect-collider";
 import "./components/video-texture-target";
 import "./components/entity-socket";
+import "./components/multiple-choice-question";
 
 import ReactDOM from "react-dom";
 import React from "react";
