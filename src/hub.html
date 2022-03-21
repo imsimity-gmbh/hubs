@@ -836,60 +836,69 @@
             </template>
 
             <template id="interactable-example-camera">
-                <a-entity class="entity-test-wrapper">
-                    <a-entity
-                        class="interactable testing-box"
-                        tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                        body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
-                        is-remote-hover-target
-                        matrix-auto-update
-                        shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                        set-unowned-body-kinematic
-                        scalable-when-grabbed
-                        floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
-                        position="0 0.2 0"
-                        rotation="0 0 0">
+                <a-entity class="testing-ground-wrapper">
+                    <a-entity class="socket-test-wrapper">
+                        <a-entity
+                            class="interactable testing-box"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
+                            position="0 0.2 0"
+                            rotation="0 0 0">
+                        </a-entity>
+    
+                        <a-box color="yellow" depth="0.4" height="0.4" width="0.4" 
+                            class="interactable testing-box2"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
+                            position="0 1 0"
+                            rotation="0 0 0">
+                        </a-box>
+    
+                        <a-box color="green" depth="0.4" height="0.4" width="0.4"
+                            class="interactable testing-box3"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
+                            position="-2 0.2 0"
+                            rotation="0 0 0">
+                        </a-box>
+    
+    
+                        <a-entity 
+                            class="test-trigger-zone"
+                            position="2 0 0"
+                            rotation="0 0 0"
+                            entity-socket="acceptedEntities: .stopwatch, .testing-box2, .testing-box3; radius: 0.8;">
+                                <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                                <a-entity class="hover-meshes" position="0 0.2 0">
+                                    
+                                </a-entity>
+                                <a-box color="white" position="0 0 0" scale="1 0.1 1"></a-box>
+                        </a-entity>
                     </a-entity>
 
-                    <a-box color="yellow" depth="0.4" height="0.4" width="0.4" 
-                        class="interactable testing-box2"
-                        tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                        body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
-                        is-remote-hover-target
-                        matrix-auto-update
-                        shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                        set-unowned-body-kinematic
-                        scalable-when-grabbed
-                        floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
-                        position="0 1 0"
-                        rotation="0 0 0">
-                    </a-box>
-
-                    <a-box color="green" depth="0.4" height="0.4" width="0.4"
-                        class="interactable testing-box3"
-                        tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                        body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
-                        is-remote-hover-target
-                        matrix-auto-update
-                        shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                        set-unowned-body-kinematic
-                        scalable-when-grabbed
-                        floaty-object="autoLockOnRelease: false; autoLockOnLoad: true;" 
-                        position="-2 0.2 0"
-                        rotation="0 0 0">
-                    </a-box>
-
-
-                    <a-entity 
-                        class="test-trigger-zone"
-                        position="2 0 0"
-                        rotation="0 0 0"
-                        entity-socket="acceptedEntities: .stopwatch, .testing-box2, .testing-box3; radius: 0.8;">
-                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
-                            <a-entity class="hover-meshes" position="0 0.2 0">
-                                
-                            </a-entity>
-                            <a-box color="white" position="0 0 0" scale="1 0.1 1"></a-box>
+                    <a-entity class="ui interactable-ui multiple-choice-wrapper" multiple-choice-question="question_id: 1">
+                        <a-entity class="anwer-area"></a-entity>
+                        <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.45 1.5 0" scale="1.0 1.0 1.0">
+                            <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
                     </a-entity>
                 </a-entity>
             </template>

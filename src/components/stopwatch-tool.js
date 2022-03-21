@@ -63,7 +63,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       //subscribe to entity-socket:
       this.sceneEl = document.querySelector("a-scene");
       this.entitySocket = this.sceneEl.querySelector(".test-trigger-zone");
-
       this.entitySocket.components["entity-socket"].subscribe("onSnap", this.onSnapCallback);
     
       this.updateUI();

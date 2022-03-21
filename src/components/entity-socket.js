@@ -2,8 +2,7 @@
  * Entity Socket for snapping objects into places
  * @component entity-socket
  */
-//Todo: 
-//3. make hover meshes blue and opacity 0.2
+
 import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-system";
 
 import { Vector3 } from "three";
@@ -29,6 +28,10 @@ import { Vector3 } from "three";
       this.acceptedEntities = []; 
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {
         let component = this.sceneEl.querySelector(this.data.acceptedEntities[i]);
+        if(component == null) {
+          console.log("entity -" + this.data.acceptedEntities[i] + "- not found, this entity will not be considered by the socket");
+          continue;
+        }
         this.acceptedEntities.push(component);
 
         //Create empty a-entity for hovermesh and copy mesh of original entity
@@ -37,14 +40,14 @@ import { Vector3 } from "three";
         let clonedMesh = mesh.clone();
 
         //create blue material for hover-effect
-        this.hoverMaterial = new THREE.MeshBasicMaterial();
-        this.hoverMaterial.color.setRGB(0.165, 0.38, 0.749);
-        this.hoverMaterial.transparent = true;
-        this.hoverMaterial.opacity = 0.2;
-        this.hoverMaterial.flatShading = true;
+        let hoverMaterial = new THREE.MeshBasicMaterial();
+        hoverMaterial.color.setRGB(0.165, 0.38, 0.749);
+        hoverMaterial.transparent = true;
+        hoverMaterial.opacity = 0.2;
+        hoverMaterial.flatShading = true;
 
         //apply material to clonedMesh and it's children
-        this.applyMaterial(clonedMesh, this.hoverMaterial);
+        this.applyMaterial(clonedMesh, hoverMaterial);
 
         //add mesh to empty entity, and append it to the hovermeshes-parent
         hoverMeshEntity.setObject3D("mesh", clonedMesh);
@@ -266,7 +269,7 @@ import { Vector3 } from "three";
       mesh.material = material;
 
       for(let i = 0; i < mesh.children.length; i++) {
-        this.applyMaterial(mesh.children[i], this.hoverMaterial);
+        this.applyMaterial(mesh.children[i], material);
       }
     },
 
