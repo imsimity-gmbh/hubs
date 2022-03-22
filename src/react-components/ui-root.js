@@ -78,6 +78,7 @@ import { ObjectMenuContainer } from "./room/ObjectMenuContainer";
 import { useCssBreakpoints } from "react-use-css-breakpoints";
 import { PlacePopoverContainer } from "./room/PlacePopoverContainer";
 import { SharePopoverContainer } from "./room/SharePopoverContainer";
+import { NotebookPopoverContainer } from "./room/NotebookPopoverContainer";
 import { VoiceButtonContainer } from "./room/VoiceButtonContainer";
 import { ReactionPopoverContainer } from "./room/ReactionPopoverContainer";
 import { SafariMicModal } from "./room/SafariMicModal";
@@ -1596,6 +1597,7 @@ class UIRoot extends Component {
                           microphoneEnabled={this.mediaDevicesManager.isMicShared}
                         />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
+                        <NotebookPopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         <PlacePopoverContainer
                           scene={this.props.scene}
                           hubChannel={this.props.hubChannel}
