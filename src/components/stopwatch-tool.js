@@ -63,7 +63,17 @@ AFRAME.registerComponent("stopwatch-tool", {
       //subscribe to entity-socket:
       this.sceneEl = document.querySelector("a-scene");
       this.entitySocket = this.sceneEl.querySelector(".test-trigger-zone");
-      this.entitySocket.components["entity-socket"].subscribe("onSnap", this.onSnapCallback);
+      if(this.entitySocket != null)
+        this.entitySocket.components["entity-socket"].subscribe("onSnap", this.onSnapCallback);
+      else
+        console.log("Can't subscribe to entity socket callbacks, entity socket not found");
+
+      //subscribe to multiple-choice:
+      this.multipleChoice = this.sceneEl.querySelector(".multiple-choice-wrapper");
+      if(this.multipleChoice != null)
+        this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitCallback);
+      else 
+        console.log("Can't subscribe to multiple-choice callbacks, multiple-choice component not found");
     
       this.updateUI();
 
@@ -242,6 +252,15 @@ AFRAME.registerComponent("stopwatch-tool", {
   onSnapCallback(attachedEntity)
   {
     console.log(attachedEntity);
+  },
+
+  //Multiple-Choice Callback:
+  onSubmitCallback(correctAnswer, selectedAnswer) 
+  {
+    if(correctAnswer == selectedAnswer)
+      console.log("Correct answer submitted");
+    else
+      console.log("Wrong answer submitted");
   }
 
 });
