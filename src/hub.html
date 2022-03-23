@@ -882,6 +882,7 @@
     
     
                         <a-entity 
+                            id="entity-socket"
                             class="test-trigger-zone"
                             position="2 0 0"
                             rotation="0 0 0"
@@ -894,25 +895,29 @@
                         </a-entity>
                     </a-entity>
 
-                    <a-entity class="ui interactable-ui multiple-choice-wrapper" multiple-choice-question="question_id: 1; answer_id: 3">
-                        <a-entity class="question-text" text="value:Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"
-                            text-raycast-hack position="0 2.7 0" scale="3 3 3"></a-entity>
+                    <a-entity 
+                        id="multiple-choice-component" 
+                        class="ui interactable-ui multiple-choice-wrapper" 
+                        multiple-choice-question="question_id: 1">
+                            <a-entity class="question-text" text="value:Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"
+                                text-raycast-hack position="0 2.7 0" scale="3 3 3">
+                            </a-entity>
 
-                        <a-entity class="answer-area" position="0 2 0">
-                            <a-entity id="1" class="answer-option-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="answer-area" position="0 2 0">
+                                <a-entity id="0" class="answer-option-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="1" class="answer-option-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="2" class="answer-option-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
                             </a-entity>
-                            <a-entity id="2" class="answer-option-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
-                            <a-entity id="3" class="answer-option-3" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value:sample answer; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
-                        </a-entity>
 
-                        <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
-                            <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
+                            <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
+                                <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
                     </a-entity>
 
                     <a-entity class="collectible-wrapper" collectible>

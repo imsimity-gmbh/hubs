@@ -10,7 +10,8 @@ import { Vector3 } from "three";
  AFRAME.registerComponent("entity-socket", {
     schema: {
       acceptedEntities: {default: []},
-      radius: {default: 0}
+      radius: {default: 0},
+      snappedEntity: {default: null}
     },
   
     init: function() {

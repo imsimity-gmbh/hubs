@@ -314,6 +314,51 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      // {
+      //   selector: "#entity-socket",
+      //   component: "entity-socket",
+      //   property: "position"
+      // },
+      // {
+      //   selector: "#entity-socket",
+      //   component: "entity-socket",
+      //   property: "rotation"
+      // },
+      {
+        selector: "#entity-socket",
+        component: "entity-socket",
+        property: "acceptedEntities"
+      },
+      {
+        selector: "#entity-socket",
+        component: "entity-socket",
+        property: "radius"
+      },
+      {
+        selector: "#entity-socket",
+        component: "entity-socket",
+        property: "snappedEntity"
+      },
+      {
+        selector: "#multiple-choice-component",
+        component: "multiple-choice-question",
+        property: "question_id"
+      },
+      {
+        selector: "#multiple-choice-component",
+        component: "multiple-choice-question",
+        property: "answer_id"
+      },
+      {
+        selector: "#multiple-choice-component",
+        component: "multiple-choice-question",
+        property: "answerSelected"
+      },
+      {
+        selector: "#multiple-choice-component",
+        component: "multiple-choice-question",
+        property: "answerSubmitted"
+      }
     ]
   });
 

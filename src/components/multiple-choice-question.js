@@ -6,13 +6,20 @@
  AFRAME.registerComponent("multiple-choice-question", {
     schema: {
       question_id: {default: 0},
-      answer_id: {default: 0}
+      answer_id: {default: -2},
+      answerSelected: {default: false},
+      answerSubmitted: {default: false}
     },
   
     init: function() {
       this.submitBtn = this.el.querySelector(".submit-button");
       this.answerOptions = [];
-      this.selectedAnswer = 0;
+      this.selectedAnswer = -1;
+      this.correctAnswer = 2;
+
+      //local version of network-variables:
+      this.localAnswerSelected = false;
+      this.localAnswerSubmitted = false;
 
       this.questionText = this.el.querySelector(".question-text");
 
@@ -25,7 +32,7 @@
 
       let answerArea = this.el.querySelector(".answer-area");
       for(let i = 0; i < answerArea.children.length; i++) {
-        answerArea.children[i].object3D.addEventListener("interact", () => this.onSelectAnswer(answerArea.children[i].id));
+        answerArea.children[i].object3D.addEventListener("interact", () => this.onSelectAnswer(i));
         answerArea.children[i].setAttribute("text-button", {backgroundHoverColor: this.selectColor});
         this.answerOptions.push(answerArea.children[i]);
       }
@@ -55,19 +62,56 @@
           break;
       }
     },
-  
-    tick: function() {
 
+    update() {
+      this.updateUI();
+    },
+  
+    updateUI() 
+    {
+      if(this.localAnswerSelected != this.data.answerSelected) {
+        console.log(this.data.answer_id);
+        console.log(this.selectedAnswer);
+        this.renderAnswerButton(this.data.answer_id);
+        this.localAnswerSelected = this.data.answerSelected;
+      }
      
+      if(this.localAnswerSubmitted != this.data.answerSubmitted) {
+        this.renderSubmitButton();
+        this.localAnswerSubmitted = this.data.answerSubmitted;
+      }
     },
 
     onSelectAnswer(answerId)
     {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+        NAF.utils.takeOwnership(networkedEl);
+
+        this.el.setAttribute("multiple-choice-question", "answer_id", answerId);
+        this.el.setAttribute("multiple-choice-question", "answerSelected", !this.data.answerSelected);  
+
+        this.updateUI();
+      });
+    },
+
+    onSubmit()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+        NAF.utils.takeOwnership(networkedEl);
+
+        this.el.setAttribute("multiple-choice-question", "answerSubmitted", !this.data.answerSubmitted); 
+        
+        this.updateUI();
+      });
+    },
+
+    renderAnswerButton(answerId) 
+    {
       this.submitBtn.setAttribute("text-button", {backgroundColor: this.initialColor});
 
       if(this.selectedAnswer == parseInt(answerId)) {
-        this.answerOptions[(this.selectedAnswer - 1)].setAttribute("text-button", {backgroundColor: this.initialColor});
-        this.selectedAnswer = 0;
+        this.answerOptions[this.selectedAnswer].setAttribute("text-button", {backgroundColor: this.initialColor});
+        this.selectedAnswer = -1;
         console.log(this.selectedAnswer);
         return;
       }
@@ -78,7 +122,7 @@
       this.selectedAnswer = parseInt(answerId);
 
       for(let i = 0; i < this.answerOptions.length; i++) {
-        if((i+1) == this.selectedAnswer)
+        if(i == this.selectedAnswer)
           continue;
         this.answerOptions[i].setAttribute("text-button", {backgroundColor: this.initialColor});
       }
@@ -86,16 +130,16 @@
       console.log(this.selectedAnswer);
     },
 
-    onSubmit()
+    renderSubmitButton()
     {
       console.log("submit");
-      if(this.selectedAnswer == 0) {
+      if(this.selectedAnswer == -1) {
         console.log("No answer selected");
         this.submitBtn.setAttribute("text-button", {backgroundColor: this.initialColor});
         return;
       }
 
-      if(this.selectedAnswer == this.data.answer_id) {
+      if(this.selectedAnswer == this.correctAnswer) {
         this.submitBtn.setAttribute("text-button", {backgroundColor: this.rightColor});
         console.log("Correct Answer!");
       }
@@ -105,13 +149,14 @@
       }
 
       this.onSubmitCallbacks.forEach(cb => {
-        cb(this.data.answer_id, this.selectedAnswer);
+        cb(this.correctAnswer, this.selectedAnswer);
       });
 
       for(let i = 0; i < this.answerOptions.length; i++) {
         this.answerOptions[i].setAttribute("text-button", {backgroundColor: this.initialColor});
       }
-      this.selectedAnswer = 0;
+
+      this.selectedAnswer = -1;
     }
   });
   
