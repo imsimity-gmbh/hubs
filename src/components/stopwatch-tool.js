@@ -74,6 +74,13 @@ AFRAME.registerComponent("stopwatch-tool", {
         this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitCallback);
       else 
         console.log("Can't subscribe to multiple-choice callbacks, multiple-choice component not found");
+
+      //subscribe to collectible:
+      this.collectible = this.sceneEl.querySelector(".collectible-wrapper");
+      if(this.collectible != null)
+        this.collectible.components["collectible"].subscribe("onCollect", this.onCollectCallback);
+      else  
+      console.log("Can't subscribe to collectible callbacks, collectible component not found");
     
       this.updateUI();
 
@@ -261,6 +268,12 @@ AFRAME.registerComponent("stopwatch-tool", {
       console.log("Correct answer submitted");
     else
       console.log("Wrong answer submitted");
+  },
+
+  onCollectCallback(collectedEntity)
+  {
+    console.log("Collected Entity:");
+    console.log(collectedEntity);
   }
 
 });

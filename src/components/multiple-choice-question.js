@@ -91,6 +91,7 @@
       console.log("submit");
       if(this.selectedAnswer == 0) {
         console.log("No answer selected");
+        this.submitBtn.setAttribute("text-button", {backgroundColor: this.initialColor});
         return;
       }
 

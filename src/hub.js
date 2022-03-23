@@ -152,6 +152,7 @@ import "./components/avatar-inspect-collider";
 import "./components/video-texture-target";
 import "./components/entity-socket";
 import "./components/multiple-choice-question";
+import "./components/collectible";
 
 import ReactDOM from "react-dom";
 import React from "react";
