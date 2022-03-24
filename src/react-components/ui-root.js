@@ -1597,7 +1597,6 @@ class UIRoot extends Component {
                           microphoneEnabled={this.mediaDevicesManager.isMicShared}
                         />
 
-                        <NotebookPopoverContainer />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         <PlacePopoverContainer
                           scene={this.props.scene}
