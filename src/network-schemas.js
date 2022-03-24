@@ -314,16 +314,54 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
-      // {
-      //   selector: "#entity-socket",
-      //   component: "entity-socket",
-      //   property: "position"
-      // },
-      // {
-      //   selector: "#entity-socket",
-      //   component: "entity-socket",
-      //   property: "rotation"
-      // },
+      {
+        selector: ".testing-box",
+        component: "position"
+      },
+      {
+        selector: ".testing-box",
+        component: "rotation"
+      },
+      {
+        selector: ".testing-box2",
+        component: "position"
+      },
+      {
+        selector: ".testing-box2",
+        component: "rotation"
+      },
+      {
+        selector: ".testing-box3",
+        component: "position"
+      },
+      {
+        selector: ".testing-box3",
+        component: "rotation"
+      },
+      {
+        selector: ".test-trigger-zone",
+        component: "position"
+      },
+      {
+        selector: ".test-trigger-zone",
+        component: "rotation"
+      },
+      {
+        selector: ".multiple-choice-wrapper",
+        component: "position"
+      },
+      {
+        selector: ".multiple-choice-wrapper",
+        component: "rotation"
+      },
+      {
+        selector: ".collectible-wrapper",
+        component: "position"
+      },
+      {
+        selector: ".collectible-wrapper",
+        component: "rotation"
+      },
       {
         selector: "#entity-socket",
         component: "entity-socket",
