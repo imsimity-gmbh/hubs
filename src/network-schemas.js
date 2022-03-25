@@ -315,11 +315,19 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".testing-box",
+        selector: ".testing-ground-wrapper",
         component: "position"
       },
       {
-        selector: ".testing-box",
+        selector: ".testing-ground-wrapper",
+        component: "rotation"
+      },
+      {
+        selector: ".socket-test-wrapper",
+        component: "position"
+      },
+      {
+        selector: ".socket-test-wrapper",
         component: "rotation"
       },
       {
@@ -352,6 +360,22 @@ function registerNetworkSchemas() {
       },
       {
         selector: ".multiple-choice-wrapper",
+        component: "rotation"
+      },
+      {
+        selector: ".answer-area",
+        component: "position"
+      },
+      {
+        selector: ".answer-area",
+        component: "rotation"
+      },
+      {
+        selector: ".submit-button",
+        component: "position"
+      },
+      {
+        selector: ".submit-button",
         component: "rotation"
       },
       {

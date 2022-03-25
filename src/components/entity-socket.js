@@ -11,7 +11,7 @@ import { Vector3 } from "three";
     schema: {
       acceptedEntities: {default: []},
       radius: {default: 0},
-      snappedEntity: {default: null}
+      snappedEntity: {default: ""}
     },
   
     init: function() {
@@ -76,6 +76,9 @@ import { Vector3 } from "three";
 
       this.objectReleased = true;
 
+      //local version of network variables:
+      // this.localSnappedEntity = "";
+
       //Observer-Arrays:
       this.onPickedUpCallbacks = [];
       this.onHoverEnterCallbacks = [];
@@ -130,6 +133,14 @@ import { Vector3 } from "three";
           break;
       }
     },
+
+    // update() {
+    //   this.updateUI();
+    // },
+
+    // updateUI()
+    // {
+    // },
   
     tick: function() {
 
@@ -255,10 +266,12 @@ import { Vector3 } from "three";
 
       this.playSound(SOUND_SNAP_ENTITY);
 
-      this.inRadiusEntity = null;
-      this.attachedEntity = entity;
-
       this.objectReleased = true;
+
+      this.attachedEntity = this.inRadiusEntity;
+      this.inRadiusEntity = null;
+
+      //Network snappedEntity: (still to do....)
 
       this.onSnapCallbacks.forEach(cb => {
         cb(entity);
