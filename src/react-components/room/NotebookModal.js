@@ -12,7 +12,7 @@ import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 
-export function NotebookModal({ showModelCollectionLink, modelCollectionUrl, onSubmit, onClose }) {
+export function NotebookModal({onSubmit, onClose }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
@@ -58,74 +58,30 @@ export function NotebookModal({ showModelCollectionLink, modelCollectionUrl, onS
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
-        <p>
-          {showModelCollectionLink ? (
-            <FormattedMessage
-              id="object-url-modal.message-with-collection"
-              defaultMessage="Upload or paste a URL to an image, video, model, or scene. Models can be found on <sketchfablink>Sketchfab</sketchfablink> or our <collectionlink>collection</collectionlink>."
-              values={{
-                // eslint-disable-next-line react/display-name
-                sketchfablink: chunks => (
-                  <a
-                    href="https://sketchfab.com/search?features=downloadable&type=models"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {chunks}
-                  </a>
-                ),
-                // eslint-disable-next-line react/display-name
-                collectionlink: chunks => (
-                  <a href={modelCollectionUrl} target="_blank" rel="noopener noreferrer">
-                    {chunks}
-                  </a>
-                )
-              }}
-            />
-          ) : (
-            <FormattedMessage
-              id="object-url-modal.message"
-              defaultMessage="Upload or paste a URL to an image, video, model, or scene. Models can be found on <sketchfablink>Sketchfab</sketchfablink>."
-              values={{
-                // eslint-disable-next-line react/display-name
-                sketchfablink: chunks => (
-                  <a
-                    href="https://sketchfab.com/search?features=downloadable&type=models"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {chunks}
-                  </a>
-                )
-              }}
-            />
-          )}
-        </p>
         <TextInputField
           name="url"
-          label={<FormattedMessage id="object-url-modal.url-field-label" defaultMessage="Object URL or File" />}
-          placeholder="https://example.com/avatar.glb"
+          placeholder="Enter a note..."
           type={hasFile ? "text" : "url"}
           value={fileName || url || ""}
           onChange={onChange}
-          afterInput={
-            <>
-              {showCloseButton && <CloseButton onClick={onClear} />}
-              <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="file">
-                <AttachIcon />
-                <input id="file" className={styles.hidden} name="file" type="file" ref={register} />
-              </IconButton>
-            </>
-          }
-          description={
-            <FormattedMessage
-              id="object-url-modal.url-field-description"
-              defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
-            />
-          }
+          // afterInput={
+          //   <>
+          //     {showCloseButton && <CloseButton onClick={onClear} />}
+          //     <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="file">
+          //       <AttachIcon />
+          //       <input id="file" className={styles.hidden} name="file" type="file" ref={register} />
+          //     </IconButton>
+          //   </>
+          // }
+          // description={
+          //   <FormattedMessage
+          //     id="object-url-modal.url-field-description"
+          //     defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
+          //   />
+          // }
         />
         <Button type="submit" preset="accept">
-          <FormattedMessage id="object-url-modal.create-object-button" defaultMessage="Create Object" />
+          <FormattedMessage id="object-url-modal.create-object-button" defaultMessage="Submit Note" />
         </Button>
       </Column>
     </Modal>
@@ -134,8 +90,6 @@ export function NotebookModal({ showModelCollectionLink, modelCollectionUrl, onS
 
 NotebookModal.propTypes = {
   isMobile: PropTypes.bool,
-  showModelCollectionLink: PropTypes.bool,
-  modelCollectionUrl: PropTypes.string,
   onSubmit: PropTypes.func,
   onClose: PropTypes.func
 };

@@ -18,8 +18,6 @@ export function NotebookModalContainer({ scene, onClose }) {
   return (
     <NotebookModal
       isMobile={isMobile}
-      showModelCollectionLink={configs.feature("show_model_collection_link")}
-      modelCollectionUrl={configs.link("model_collection", "https://sketchfab.com/mozillareality")}
       onSubmit={onSubmit}
       onClose={onClose}
     />

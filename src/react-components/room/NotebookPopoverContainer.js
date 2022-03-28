@@ -1,27 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { NotebookPopoverButton } from "./NotebookPopover";
-import { spawnEmojiInFrontOfUser, emojis } from "../../components/emoji";
-import { defineMessages, useIntl } from "react-intl";
+import { ReactComponent as DesktopIcon } from "../icons/Desktop.svg";
+import { ReactComponent as EnterIcon } from "../icons/Enter.svg";
+import { FormattedMessage } from "react-intl";
+import { NotebookModalContainer } from "./NotebookModalContainer";
+import configs from "../../utils/configs";
 
-const emojiLabels = defineMessages({
-  smile: { id: "reaction-popover.emoji-label.smile", defaultMessage: "Smile" },
-  laugh: { id: "reaction-popover.emoji-label.laugh", defaultMessage: "Laugh" },
-  clap: { id: "reaction-popover.emoji-label.clap", defaultMessage: "Clap" },
-  heart: { id: "reaction-popover.emoji-label.heart", defaultMessage: "Heart" },
-  wave: { id: "reaction-popover.emoji-label.wave", defaultMessage: "Wave" },
-  angry: { id: "reaction-popover.emoji-label.angry", defaultMessage: "Angry" },
-  cry: { id: "reaction-popover.emoji-label.cry", defaultMessage: "Cry" }
-});
 
-export function NotebookPopoverContainer() {
-  const intl = useIntl();
+export function NotebookPopoverContainer(scene, showNonHistoriedDialog) {
 
-  const items = emojis.map(emoji => ({
-    src: emoji.particleEmitterConfig.src,
-    onSelect: spawnEmojiInFrontOfUser,
-    label: intl.formatMessage(emojiLabels[emoji.id]),
-    ...emoji
-  }));
+  const [items, setItems] = useState([]);
+
+  useEffect(
+    () => {
+      function updateItems() {
+        
+        let nextItems = [
+          {
+            id: "read",
+            icon: DesktopIcon,
+            color: "accent5",
+            label: <FormattedMessage id="notebook-popover.read" defaultMessage="Read" />,
+            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
+          },
+          {
+            id: "write",
+            icon: EnterIcon,
+            color: "accent5",
+            label: <FormattedMessage id="notebook-popover.write" defaultMessage="Write" />,
+            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
+          }
+         
+        ];
+
+        setItems(nextItems);
+      }
+
+      updateItems();
+
+      return () => {
+      };
+    },
+    [scene, showNonHistoriedDialog]
+  );
+  console.log(items);
 
   return <NotebookPopoverButton items={items} />;
 }
+
+NotebookPopoverContainer.propTypes = {
+  scene: PropTypes.object.isRequired,
+  showNonHistoriedDialog: PropTypes.func.isRequired
+};

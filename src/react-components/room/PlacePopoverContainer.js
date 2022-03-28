@@ -22,7 +22,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
       function updateItems() {
         const hasActiveCamera = !!scene.systems["camera-tools"].getMyCamera();
         const hasActivePen = !!scene.systems["pen-tools"].getMyPen();
-        const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine()
+        const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine();
         const hasActiveStopwatch = !!scene.systems["stopwatch-tools"].getMyStopwatch();
         const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
         const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
