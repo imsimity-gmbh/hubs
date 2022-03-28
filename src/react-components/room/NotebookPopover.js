@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ImageGridPopover } from "../popover/ImageGridPopover";
+import { ButtonGridPopover } from "../popover/ButtonGridPopover";
 import { Popover } from "../popover/Popover";
 import { ToolbarButton } from "../input/ToolbarButton";
 import { ReactComponent as ReactionIcon } from "../icons/Reaction.svg";
@@ -18,7 +18,7 @@ export function NotebookPopoverButton({ items }) {
   return (
     <Popover
       title={title}
-      content={props => <ImageGridPopover items={items} {...props} />}
+      content={props => <ButtonGridPopover items={items} {...props} />}
       placement="top"
       offsetDistance={28}
     >

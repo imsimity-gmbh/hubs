@@ -8,7 +8,7 @@ import { NotebookModalContainer } from "./NotebookModalContainer";
 import configs from "../../utils/configs";
 
 
-export function NotebookPopoverContainer(scene, showNonHistoriedDialog) {
+export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
 
   const [items, setItems] = useState([]);
 
@@ -44,7 +44,6 @@ export function NotebookPopoverContainer(scene, showNonHistoriedDialog) {
     },
     [scene, showNonHistoriedDialog]
   );
-  console.log(items);
 
   return <NotebookPopoverButton items={items} />;
 }
