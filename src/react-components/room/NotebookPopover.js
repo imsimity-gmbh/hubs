@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ButtonGridPopover } from "../popover/ButtonGridPopover";
 import { Popover } from "../popover/Popover";
 import { ToolbarButton } from "../input/ToolbarButton";
-import { ReactComponent as ReactionIcon } from "../icons/Reaction.svg";
+import { ReactComponent as NotebookIcon } from "../icons/GecoLab/Notebook.svg";
 import { defineMessage, useIntl } from "react-intl";
 
 const notebookPopoverTitle = defineMessage({
@@ -26,7 +26,7 @@ export function NotebookPopoverButton({ items }) {
       {({ togglePopover, popoverVisible, triggerRef }) => (
         <ToolbarButton
           ref={triggerRef}
-          icon={<ReactionIcon />}
+          icon={<NotebookIcon />}
           selected={popoverVisible}
           onClick={togglePopover}
           label={title}

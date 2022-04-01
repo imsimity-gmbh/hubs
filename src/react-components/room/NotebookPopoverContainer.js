@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { NotebookPopoverButton } from "./NotebookPopover";
-import { ReactComponent as DesktopIcon } from "../icons/Desktop.svg";
-import { ReactComponent as EnterIcon } from "../icons/Enter.svg";
+import { ReactComponent as ReadIcon } from "../icons/GecoLab/Read.svg";
+import { ReactComponent as WriteIcon } from "../icons/GecoLab/Write.svg";
 import { FormattedMessage } from "react-intl";
 import { NotebookModalContainer } from "./NotebookModalContainer";
 import configs from "../../utils/configs";
@@ -19,14 +19,14 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
         let nextItems = [
           {
             id: "read",
-            icon: DesktopIcon,
+            icon: ReadIcon,
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.read" defaultMessage="Read" />,
             onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
           },
           {
             id: "write",
-            icon: EnterIcon,
+            icon: WriteIcon,
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.write" defaultMessage="Write" />,
             onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
