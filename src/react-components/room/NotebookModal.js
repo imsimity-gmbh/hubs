@@ -98,5 +98,6 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
 NotebookModal.propTypes = {
   isMobile: PropTypes.bool,
   onSubmit: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  writeBtn: PropTypes.bool
 };

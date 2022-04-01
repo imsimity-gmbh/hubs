@@ -15,21 +15,21 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
   useEffect(
     () => {
       function updateItems() {
-        
+
         let nextItems = [
           {
             id: "read",
             icon: DesktopIcon,
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.read" defaultMessage="Read" />,
-            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
+            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: false})
           },
           {
             id: "write",
             icon: EnterIcon,
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.write" defaultMessage="Write" />,
-            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene })
+            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: true})
           }
          
         ];

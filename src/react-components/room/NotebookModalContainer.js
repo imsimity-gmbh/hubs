@@ -62,5 +62,6 @@ function getCookie(cname) {
 
 NotebookModalContainer.propTypes = {
   scene: PropTypes.object.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  writeBtn: PropTypes.bool
 };
