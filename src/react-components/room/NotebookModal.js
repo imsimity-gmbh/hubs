@@ -7,85 +7,92 @@ import { useForm } from "react-hook-form";
 import { Button } from "../input/Button";
 import { Column } from "../layout/Column";
 import { IconButton } from "../input/IconButton";
-import { ReactComponent as AttachIcon } from "../icons/Attach.svg";
 import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 
-export function NotebookModal({onSubmit, onClose }) {
+export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
     () => {
-      register("url");
+      register("note");
     },
     [register]
   );
 
-  const file = watch("file");
-  const hasFile = file && file.length > 0;
-  const fileName = hasFile ? file[0].name : undefined;
-
   const onClear = useCallback(
     () => {
-      if (hasFile) {
-        setValue("file", undefined);
-      } else {
-        setValue("url", "");
-      }
-    },
-    [hasFile, setValue]
+      setValue("note", "");
+    }
   );
 
   const onChange = useCallback(
     e => {
-      if (hasFile) {
-        return;
-      }
-
-      setValue("url", e.target.value);
-    },
-    [hasFile, setValue]
+      setValue("note", e.target.value);
+    }
   );
 
-  const url = watch("url", "");
+  const note = watch("note", "");
+  const showCloseButton = note.length > 0;
 
-  const showCloseButton = hasFile || url.length > 0;
+  if(writeBtn) {
 
-  return (
-    <Modal
-      title={<FormattedMessage id="object-url-modal.title" defaultMessage="Custom Object" />}
-      beforeTitle={<CloseButton onClick={onClose} />}
-    >
-      <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
-        <TextInputField
-          name="url"
-          placeholder="Enter a note..."
-          type={hasFile ? "text" : "url"}
-          value={fileName || url || ""}
-          onChange={onChange}
-          // afterInput={
-          //   <>
-          //     {showCloseButton && <CloseButton onClick={onClear} />}
-          //     <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="file">
-          //       <AttachIcon />
-          //       <input id="file" className={styles.hidden} name="file" type="file" ref={register} />
-          //     </IconButton>
-          //   </>
-          // }
-          // description={
-          //   <FormattedMessage
-          //     id="object-url-modal.url-field-description"
-          //     defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
-          //   />
-          // }
-        />
-        <Button type="submit" preset="accept">
-          <FormattedMessage id="object-url-modal.create-object-button" defaultMessage="Submit Note" />
-        </Button>
-      </Column>
-    </Modal>
-  );
+    return (
+      <Modal
+        title={<FormattedMessage id="notebook-write.title" defaultMessage="Notebook Entry" />}
+        beforeTitle={<CloseButton onClick={onClose} />}
+      >
+        <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
+          <TextInputField
+            name="note"
+            placeholder="Type a note..."
+            type={"text"}
+            value={ note || ""}
+            onChange={onChange}
+            afterInput={
+              <>
+                {showCloseButton && <CloseButton onClick={onClear} />}
+                <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="note-input">
+                  <input id="note-input" className={styles.hidden} name="note-input" type="text" ref={register} />
+                </IconButton>
+              </>
+            }
+            // description={
+            //   <FormattedMessage
+            //     id="object-url-modal.url-field-description"
+            //     defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
+            //   />
+            // }
+          />
+          <Button type="submit" preset="accept">
+            <FormattedMessage id="notebook-write.submit-note" defaultMessage="Submit Note" />
+          </Button>
+        </Column>
+      </Modal>
+    );
+  }
+
+  else {
+
+    // let noteContent = "";
+    // for(let i = 0; i < loadNotes().length; i++) {
+    //   noteContent += loadNotes()[i] + '\n';
+    // }
+
+    return (
+      <Modal
+        title={<FormattedMessage id="notebook-read.title" defaultMessage="Notebook Content" />}
+        beforeTitle={<CloseButton onClick={onClose} />}
+      >
+        <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
+          <p id="notebook-content">
+            {loadNotes()}
+          </p>
+        </Column>
+      </Modal>
+    );
+  }
 }
 
 NotebookModal.propTypes = {

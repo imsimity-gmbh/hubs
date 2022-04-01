@@ -21,6 +21,7 @@ export function NotebookPopoverButton({ items }) {
       content={props => <ButtonGridPopover items={items} {...props} />}
       placement="top"
       offsetDistance={28}
+      disableFullscreen
     >
       {({ togglePopover, popoverVisible, triggerRef }) => (
         <ToolbarButton
