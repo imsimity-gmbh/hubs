@@ -1,7 +1,7 @@
 import React from "react";
 import { RoomLayout } from "../layout/RoomLayout";
-import { ReactComponent as DesktopIcon } from "../icons/Desktop.svg";
-import { ReactComponent as EnterIcon } from "../icons/Enter.svg";
+import { ReactComponent as ReadIcon } from "../icons/GecoLab/Read.svg";
+import { ReactComponent as WriteIcon } from "../icons/GecoLab/Write.svg";
 import { NotebookPopoverButton } from "./NotebookPopover";
 
 export default {
@@ -14,13 +14,13 @@ export default {
 const items = [
   {
     id: "read",
-    icon: DesktopIcon,
+    icon: ReadIcon,
     color: "accent5",
     label: "Read" ,
   },
   {
     id: "write",
-    icon: EnterIcon,
+    icon: WriteIcon,
     color: "accent5",
     label: "Write" ,
   }
