@@ -45,6 +45,7 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
       >
         <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
           <TextInputField
+            className={styles.noteField}
             name="note"
             placeholder="Type a note..."
             type={"text"}
@@ -54,16 +55,10 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
               <>
                 {showCloseButton && <CloseButton onClick={onClear} />}
                 <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="note-input">
-                  <input id="note-input" className={styles.hidden} name="note-input" type="text" ref={register} />
+                  <input id="note-input" className={styles.noteInput} name="note-input" type="text" ref={register} />
                 </IconButton>
               </>
             }
-            // description={
-            //   <FormattedMessage
-            //     id="object-url-modal.url-field-description"
-            //     defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
-            //   />
-            // }
           />
           <Button type="submit" preset="accept">
             <FormattedMessage id="notebook-write.submit-note" defaultMessage="Submit Note" />
@@ -75,17 +70,12 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
 
   else {
 
-    // let noteContent = "";
-    // for(let i = 0; i < loadNotes().length; i++) {
-    //   noteContent += loadNotes()[i] + '\n';
-    // }
-
     return (
       <Modal
         title={<FormattedMessage id="notebook-read.title" defaultMessage="Notebook Content" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
-        <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
+        <Column as="form" className={styles.noteField} padding center onSubmit={handleSubmit(onSubmit)}>
           <p id="notebook-content">
             {loadNotes()}
           </p>

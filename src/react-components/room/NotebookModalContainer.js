@@ -1,17 +1,24 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { NotebookModal } from "./NotebookModal";
+import Cookies from "js-cookie";
 import configs from "../../utils/configs";
 import ducky from "../../assets/models/DuckyMesh.glb";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
+if(Cookies.get('note-ammount') == null) {
+  Cookies.set('note-ammount', 0)
+}
 
 export function NotebookModalContainer({ scene, onClose, writeBtn }) {
   const onSubmit = useCallback(
     ({note}) => {
-      console.log("note" + getCookiesLength() + "=" + note);
-      //safe note to cookies
-      // document.cookie = "note" + getCookiesLength() + "=" + note + ";path=/";
+      Cookies.set('note' + setNoteIndex(), note);
+
+      let testCookie = Cookies.get('note' + setNoteIndex());
+      console.log(testCookie);
+
+      Cookies.set('note-ammount', setNoteIndex());
       onClose();
     },
     [onClose]
@@ -20,10 +27,16 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
   const loadNotes = useCallback(
     () => {
       console.log("load notes");
-      // return ["example1", "example2"];
-      getCookie("note1");
+
+      let notes = "";
+      for(let i = 0; i <= Cookies.get('note-ammount'); i++) {
+        let note = Cookies.get('note' + i);
+        notes += note + '\n';
+      }
+      
+      return notes;
     }
-  )
+  );
 
   return (
     <NotebookModal
@@ -37,27 +50,10 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
 }
 
 //Cookie-Functions:
-function getCookiesLength() {
-  return document.cookie.length;
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let cookieList = decodedCookie.split(';');
-  return cookieList.length;
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
+function setNoteIndex() {
+  let getAmmount = Cookies.get('note-ammount');
+  getAmmount++;
+  return getAmmount;
 }
 
 NotebookModalContainer.propTypes = {

@@ -3,3 +3,10 @@
   width: 0;
   height: 0;
 }
+
+:local(.noteField) {
+  height: 500px;
+}
+:local(.noteInput) {
+  height: 300px;
+}
