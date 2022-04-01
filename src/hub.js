@@ -154,6 +154,8 @@ import "./components/entity-socket";
 import "./components/multiple-choice-question";
 import "./components/collectible";
 
+import "./components/first-experiment"
+
 import ReactDOM from "react-dom";
 import React from "react";
 import { Router, Route } from "react-router-dom";
@@ -199,6 +201,8 @@ import "./systems/listed-media";
 import "./systems/linked-media";
 import "./systems/audio-debug-system";
 import "./systems/audio-gain-system";
+
+import "./systems/first-experiments";
 
 import "./gltf-component-mappings";
 
