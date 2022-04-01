@@ -433,6 +433,14 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-first-experiment-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [
       {
