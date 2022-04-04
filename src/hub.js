@@ -203,6 +203,7 @@ import "./systems/audio-debug-system";
 import "./systems/audio-gain-system";
 
 import "./systems/first-experiments";
+import "./systems/gecolab-manager";
 
 import "./gltf-component-mappings";
 
