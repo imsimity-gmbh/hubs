@@ -10,8 +10,9 @@ import { IconButton } from "../input/IconButton";
 import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
+import Cookies from "js-cookie";
 
-export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
+export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBtn }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
@@ -40,7 +41,7 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
 
     return (
       <Modal
-        title={<FormattedMessage id="notebook-write.title" defaultMessage="Notebook Entry" />}
+        title={<FormattedMessage id="notebook-write.title" defaultMessage="Write Notes" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
         <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
@@ -72,13 +73,15 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
 
     return (
       <Modal
-        title={<FormattedMessage id="notebook-read.title" defaultMessage="Notebook Content" />}
+        title={<FormattedMessage id="notebook-read.title" defaultMessage="Read Notes" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
         <Column as="form" className={styles.noteField} padding center onSubmit={handleSubmit(onSubmit)}>
-          <p id="notebook-content">
-            {loadNotes()}
-          </p>
+          <div id="notebook-content">
+            {loadNotes((id) => {
+              deleteNote(id)
+            })}
+          </div>
         </Column>
       </Modal>
     );
@@ -88,6 +91,8 @@ export function NotebookModal({onSubmit, loadNotes, onClose, writeBtn }) {
 NotebookModal.propTypes = {
   isMobile: PropTypes.bool,
   onSubmit: PropTypes.func,
+  loadNotes: PropTypes.func,
+  deleteNote: PropTypes.func,
   onClose: PropTypes.func,
   writeBtn: PropTypes.bool
 };
