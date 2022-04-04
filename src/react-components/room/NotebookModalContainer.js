@@ -35,16 +35,14 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
   );
 
   const loadNotes = useCallback(
-    (id) => {
-      console.log("load notes");
-      console.log(id);
-    
+    (callback) => {
+      
       let notes = [];
 
       for(let i = 0; i <= Cookies.get('note-ammount'); i++) {
         let note = (Cookies.get('note' + i));
 
-        notes.push({ noteContent: note, noteId: i, deleteCallback: deleteNote });
+        notes.push({ noteContent: note, noteId: i, deleteCallback: callback });
       }
       console.log(notes);
 
