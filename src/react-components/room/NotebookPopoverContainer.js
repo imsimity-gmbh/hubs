@@ -12,6 +12,14 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
 
   const [items, setItems] = useState([]);
 
+  function showReadModal() {
+    showNonHistoriedDialog(
+      NotebookModalContainer, 
+      { scene, writeBtn: false,
+        onNoteDeleted: showReadModal}
+    )
+  }
+
   useEffect(
     () => {
       function updateItems() {
@@ -22,7 +30,7 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
             icon: ReadIcon,
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.read" defaultMessage="Read" />,
-            onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: false})
+            onSelect: () => showReadModal()
           },
           {
             id: "write",

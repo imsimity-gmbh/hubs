@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Modal } from "../modal/Modal";
 import { CloseButton } from "../input/CloseButton";
-import { TextInputField } from "../input/TextInputField";
 import { useForm } from "react-hook-form";
 import { Button } from "../input/Button";
 import { Column } from "../layout/Column";
@@ -11,6 +10,7 @@ import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 import Cookies from "js-cookie";
+import { TextAreaInputField } from "../input/TextAreaInputField";
 
 export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBtn }) {
   const { handleSubmit, register, watch, setValue } = useForm();
@@ -45,8 +45,8 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
         beforeTitle={<CloseButton onClick={onClose} />}
       >
         <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
-          <TextInputField
-            className={styles.noteField}
+          <TextAreaInputField
+            className={styles.noteInput}
             name="note"
             placeholder="Type a note..."
             type={"text"}
@@ -56,7 +56,6 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
               <>
                 {showCloseButton && <CloseButton onClick={onClear} />}
                 <IconButton as="label" className={classNames({ [styles.hidden]: showCloseButton })} htmlFor="note-input">
-                  <input id="note-input" className={styles.noteInput} name="note-input" type="text" ref={register} />
                 </IconButton>
               </>
             }
@@ -76,8 +75,8 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
         title={<FormattedMessage id="notebook-read.title" defaultMessage="Read Notes" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
-        <Column as="form" className={styles.noteField} padding center onSubmit={handleSubmit(onSubmit)}>
-          <div id="notebook-content">
+        <Column as="form" className={styles.noteField} padding center >
+          <div id="notebook-content" style={{width: "100%"}}>
             {loadNotes((id) => {
               deleteNote(id)
             })}

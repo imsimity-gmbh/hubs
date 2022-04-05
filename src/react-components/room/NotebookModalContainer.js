@@ -2,33 +2,41 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { NotebookModal } from "./NotebookModal";
 import Cookies from "js-cookie";
+import { ReactComponent as DeleteIcon } from "../icons/Delete.svg";
 import { Button } from "../input/Button";
-import { FormattedMessage } from "react-intl";
+import InfiniteScroll from 'react-infinite-scroller';
+import styles from "./NotebookModal.scss";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-if(Cookies.get('note-ammount') == null) {
-  Cookies.set('note-ammount', -1)
+let cookieNotes = [];
+if(Cookies.get('notes') != null) {
+  let jsonNotes = Cookies.get('notes');
+  cookieNotes = JSON.parse(jsonNotes);
+  console.log(cookieNotes);
 }
 
 const Note = ({ noteContent, noteId, deleteCallback }) => (
-  <div>
-    {noteContent}
-    <Button id={noteId}>
-      <FormattedMessage id="notebook-read.delete-note" defaultMessage="Delete" onClick={deleteCallback(noteId)}/>
+  <div style={{width: "100%"}}>
+    <span>
+      {noteContent}
+    </span>
+    <Button className={styles.deleteBtn} id={ noteId} onClick={(e) => deleteCallback(noteId, e)}>
+      <DeleteIcon/>
     </Button>
+    <hr style={{width: "95%"}}></hr>
   </div>
 );
 
-export function NotebookModalContainer({ scene, onClose, writeBtn }) {
+export function NotebookModalContainer({ scene, onClose, writeBtn, onNoteDeleted }) { //showNonHistoriedDialog for refreshing like in NotebookPopoverContainer
   const onSubmit = useCallback(
     ({note}) => {
-      Cookies.set('note' + setNoteIndex(), note);
+      let newNote = note;
+      cookieNotes.push(newNote);
 
-      let testCookie = Cookies.get('note' + setNoteIndex());
-      console.log(testCookie);
+      let jsonNotes = JSON.stringify(cookieNotes);
+      Cookies.set('notes', jsonNotes);
 
-      Cookies.set('note-ammount', setNoteIndex());
       onClose();
     },
     [onClose]
@@ -36,19 +44,25 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
 
   const loadNotes = useCallback(
     (callback) => {
-      
-      let notes = [];
 
-      for(let i = 0; i <= Cookies.get('note-ammount'); i++) {
-        let note = (Cookies.get('note' + i));
+      let jsonNotes = Cookies.get('notes');
+      if(jsonNotes == null)
+        return;
+      cookieNotes = JSON.parse(jsonNotes);
 
-        notes.push({ noteContent: note, noteId: i, deleteCallback: callback });
+      let uiNotes = [];
+
+      for(let i = 0; i < cookieNotes.length; i++) {
+        let note = cookieNotes[i];
+        uiNotes.push({ noteContent: note, noteId: i, deleteCallback: callback });
       }
-      console.log(notes);
+      console.log(uiNotes);
 
       return (
-        <div>
-          {notes.map((p, i) => (
+        <div
+          className={styles.scrollableContent}
+        >
+          {uiNotes.map((p, i) => (
             <Note {...p} key={i} />
           ))}
         </div>
@@ -57,11 +71,20 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
   );
 
   const deleteNote = useCallback(
-    (id) => {
-      console.log(id);
-      Cookies.remove('note' + id);
+    (id, e) => {
+      let jsonNotes = Cookies.get('notes');
+      cookieNotes = JSON.parse(jsonNotes);
+
+      cookieNotes.splice(id, 1);
       console.log("deleted note nr." + id);
-    }
+
+      jsonNotes = JSON.stringify(cookieNotes);
+      Cookies.set('notes', jsonNotes);
+
+      onClose();
+      onNoteDeleted();
+    },
+    [onClose]
   );
 
   return (
@@ -76,15 +99,10 @@ export function NotebookModalContainer({ scene, onClose, writeBtn }) {
   );
 }
 
-//Cookie-Functions:
-function setNoteIndex() {
-  let getAmmount = Cookies.get('note-ammount');
-  getAmmount++;
-  return getAmmount;
-}
 
 NotebookModalContainer.propTypes = {
   scene: PropTypes.object.isRequired,
   onClose: PropTypes.func,
-  writeBtn: PropTypes.bool
+  writeBtn: PropTypes.bool,
+  onNoteDeleted: PropTypes.func
 };
