@@ -31,6 +31,15 @@ const Note = ({ noteContent, noteId, deleteCallback }) => (
 export function NotebookModalContainer({ scene, onClose, writeBtn, onNoteDeleted }) { //showNonHistoriedDialog for refreshing like in NotebookPopoverContainer
   const onSubmit = useCallback(
     ({note}) => {
+      if(note == null) {
+        onClose();
+        return;
+      }
+      if(/^\s*$/.test(note)) {
+        onClose();
+        return;
+      }
+      
       let newNote = note;
       cookieNotes.push(newNote);
 

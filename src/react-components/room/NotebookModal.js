@@ -75,12 +75,15 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
         title={<FormattedMessage id="notebook-read.title" defaultMessage="Read Notes" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
-        <Column as="form" className={styles.noteField} padding center >
+        <Column as="form" className={styles.noteField} padding center>
           <div id="notebook-content" style={{width: "100%"}}>
             {loadNotes((id) => {
               deleteNote(id)
             })}
           </div>
+          <Button onClick={onClose}>
+            <FormattedMessage id="notebook-read.close-notebook" defaultMessage="Close Notebook" />
+          </Button>
         </Column>
       </Modal>
     );
