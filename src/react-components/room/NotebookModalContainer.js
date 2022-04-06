@@ -17,14 +17,18 @@ if(Cookies.get('notes') != null) {
 }
 
 const Note = ({ noteContent, noteId, deleteCallback }) => (
-  <div style={{width: "100%"}}>
+  <div style={{width: "100%", backgroundColor: "#424242", marginBottom: "20px", borderRadius: "20px", padding: "20px", textAlign: "start"}}>
+    <Button 
+      style={{width: "8px", height: "20px"}} 
+      className={styles.deleteBtn} 
+      id={ noteId} 
+      onClick={(e) => deleteCallback(noteId, e)}
+    >
+      <DeleteIcon/>
+    </Button>
     <span>
       {noteContent}
     </span>
-    <Button className={styles.deleteBtn} id={ noteId} onClick={(e) => deleteCallback(noteId, e)}>
-      <DeleteIcon/>
-    </Button>
-    <hr style={{width: "95%"}}></hr>
   </div>
 );
 
