@@ -12,6 +12,10 @@
   height: 250px;
 }
 
+:local(.noteInput textarea) {
+  overflow: hidden;
+}
+
 :local(.notebook) {
   width: 100%;
 }

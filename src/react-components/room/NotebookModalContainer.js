@@ -28,7 +28,7 @@ const Note = ({ noteContent, noteId, deleteCallback }) => (
   </div>
 );
 
-export function NotebookModalContainer({ scene, onClose, writeBtn, onNoteDeleted }) { //showNonHistoriedDialog for refreshing like in NotebookPopoverContainer
+export function NotebookModalContainer({ scene, onClose, writeBtn, onNoteDeleted }) { 
   const onSubmit = useCallback(
     ({note}) => {
       if(note == null) {
