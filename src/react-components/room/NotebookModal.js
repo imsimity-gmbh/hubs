@@ -9,7 +9,6 @@ import { IconButton } from "../input/IconButton";
 import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
-import Cookies from "js-cookie";
 import { TextAreaInputField } from "../input/TextAreaInputField";
 
 export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBtn }) {
@@ -81,7 +80,7 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
               deleteNote(id)
             })}
           </div>
-          <Button onClick={onClose}>
+          <Button className={styles.closeNotebook} onClick={onClose}>
             <FormattedMessage id="notebook-read.close-notebook" defaultMessage="Close Notebook" />
           </Button>
         </Column>
