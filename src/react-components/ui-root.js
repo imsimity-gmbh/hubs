@@ -96,6 +96,7 @@ import { TweetModalContainer } from "./room/TweetModalContainer";
 import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
+import { StudentEntryModalContainer } from "./room/StudentEntryModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -636,6 +637,10 @@ class UIRoot extends Component {
     if (this.mediaDevicesManager.isVideoShared) {
       console.log("Screen sharing enabled.");
     }
+
+    this.showNonHistoriedDialog(StudentEntryModalContainer, {showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
+      showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
+      clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
   };
 
   attemptLink = async () => {

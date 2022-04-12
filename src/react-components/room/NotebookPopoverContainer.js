@@ -3,11 +3,8 @@ import PropTypes from "prop-types";
 import { NotebookPopoverButton } from "./NotebookPopover";
 import { ReactComponent as ReadIcon } from "../icons/GecoLab/Read.svg";
 import { ReactComponent as WriteIcon } from "../icons/GecoLab/Write.svg";
-import { ReactComponent as StudentIcon } from "../icons/Avatar.svg";
-import { ReactComponent as SecurityIcon } from "../icons/Help.svg";
 import { FormattedMessage } from "react-intl";
 import { NotebookModalContainer } from "./NotebookModalContainer";
-import configs from "../../utils/configs";
 
 
 export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
@@ -40,22 +37,7 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
             color: "accent5",
             label: <FormattedMessage id="notebook-popover.write" defaultMessage="Write" />,
             onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: true})
-          },
-          {
-            id: "student-entry",
-            icon: StudentIcon,
-            color: "accent5",
-            label: <FormattedMessage id="student-entry-popover" defaultMessage="Student Entry" />,
-            onSelect: () => console.log("Student entered")
-          },
-          {
-            id: "security-reading",
-            icon: SecurityIcon,
-            color: "accent5",
-            label: <FormattedMessage id="security-reading-popover" defaultMessage="Security Notes" />,
-            onSelect: () => console.log("Security stuff...")
           }
-         
         ];
 
         setItems(nextItems);

@@ -4,7 +4,6 @@ import { NotebookModal } from "./NotebookModal";
 import Cookies from "js-cookie";
 import { ReactComponent as DeleteIcon } from "../icons/Delete.svg";
 import { Button } from "../input/Button";
-import InfiniteScroll from 'react-infinite-scroller';
 import styles from "./NotebookModal.scss";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();

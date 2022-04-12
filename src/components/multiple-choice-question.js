@@ -70,8 +70,6 @@
     updateUI() 
     {
       if(this.localAnswerSelected != this.data.answerSelected) {
-        console.log(this.data.answer_id);
-        console.log(this.selectedAnswer);
         this.renderAnswerButton(this.data.answer_id);
         this.localAnswerSelected = this.data.answerSelected;
       }
@@ -126,8 +124,6 @@
           continue;
         this.answerOptions[i].setAttribute("text-button", {backgroundColor: this.initialColor});
       }
-
-      console.log(this.selectedAnswer);
     },
 
     renderSubmitButton()
