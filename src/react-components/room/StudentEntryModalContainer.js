@@ -5,7 +5,7 @@ import { StudentEntryModal } from "./StudentEntryModal";
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
 export function StudentEntryModalContainer({showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
-    showSecurity, showSecurityBtn, clothingWrapperClassName, clothingOptionClassName, rightOptionCounter}) {
+    showSecurity, showSecurityBtn, clothingWrapperLeftClassName, clothingOptionLeftClassName, clothingWrapperRightClassName, clothingOptionRightClassName, rightOptionCounter}) {
 
     return (
         <StudentEntryModal
@@ -16,8 +16,10 @@ export function StudentEntryModalContainer({showNonHistoriedDialog, onClose, sec
             showAcceptBtn={showAcceptBtn}
             showSecurity={showSecurity}
             showSecurityBtn={showSecurityBtn}
-            clothingWrapperClassName={clothingWrapperClassName}
-            clothingOptionClassName={clothingOptionClassName}
+            clothingWrapperLeftClassName={clothingWrapperLeftClassName}
+            clothingOptionLeftClassName={clothingOptionLeftClassName}
+            clothingWrapperRightClassName={clothingWrapperRightClassName}
+            clothingOptionRightClassName={clothingOptionRightClassName}
             rightOptionCounter={rightOptionCounter}
         />
     );
@@ -30,7 +32,9 @@ StudentEntryModalContainer.propTypes = {
     showAcceptBtn: PropTypes.bool,
     showSecurity: PropTypes.bool,
     showSecurityBtn: PropTypes.bool,
-    clothingWrapperClassName: PropTypes.string,
-    clothingOptionClassName: PropTypes.string,
+    clothingWrapperLeftClassName: PropTypes.string,
+    clothingOptionLeftClassName: PropTypes.string,
+    clothingWrapperRightClassName: PropTypes.string,
+    clothingOptionRightClassName: PropTypes.string,
     rightOptionCounter: PropTypes.number
 };

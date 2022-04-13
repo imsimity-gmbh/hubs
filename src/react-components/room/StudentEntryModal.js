@@ -6,8 +6,8 @@ import { ClothingOptions } from "./ClothingOptions";
 import { Button } from "../input/Button";
 import { styles } from "./StudentEntryModal.scss";
 import AvatarPreview from "../avatar-preview";
-import Laborbrille from "D:/Repositories/hubs/src/assets/images/icons/laborbrille_placeholder.png";
-import Laborkittel from "D:/Repositories/hubs/src/assets/images/icons/laborkittel_placeholder.png";
+import Laborbrille from "../../assets/images/icons/laborbrille_placeholder.png";
+import Laborkittel from "../../assets/images/icons/laborkittel_placeholder.png";
 import { StudentEntryModalContainer } from "./StudentEntryModalContainer";
 
 
@@ -42,7 +42,7 @@ function backToStudentEntry(showNonHistoriedDialog) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
         {showNonHistoriedDialog, securityRead: true, showAcceptBtn: true, showSecurity: false, showSecurityBtn: true, 
-            clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage", 
+            clothingWrapperLeftClassName: "selectableImage selected", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage selected", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
@@ -51,7 +51,7 @@ function setSecurityBtn(showNonHistoriedDialog) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
         {showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, showSecurity: false, showSecurityBtn: true, 
-            clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage", 
+            clothingWrapperLeftClassName: "selectableImage selected", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage selected", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
@@ -72,6 +72,9 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
     //Callbacks from ClothingOptions:
     const onClickClothingWrapper = useCallback(
         (elementID) => {
+            if(showSecurityBtn)
+                return;
+
             if(elementID == 0) {
                 if(clothingWrapperLeftClassName_local == "selectableImage") {
                     clothingWrapperLeftClassName_local = "selectableImage selected";
@@ -99,7 +102,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                 StudentEntryModalContainer,
                 {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: showSecurityBtn, 
                     clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
-                    clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: 0}
+                    clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
             )
         }
     );
@@ -120,8 +123,8 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
-                        console.log()
                         clothingOptionLeftClassName_local = "clickable hidden";
+                        clothingWrapperRightClassName_local = "clickable hidden";
                         setSecurityBtn(showNonHistoriedDialog);
                     }
                 }
@@ -140,7 +143,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     )
                 }
             }
-            else {
+            else if(elementID == 1){
                 if(id == 2) {
                     clothingWrapperRightClassName_local = "selectableImage selected";
                     rightOptionCounter_local++;
@@ -148,11 +151,11 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                         StudentEntryModalContainer,
                         {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
-                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: 0}
+                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
-                        console.log()
                         clothingOptionRightClassName_local = "clickable hidden";
+                        clothingWrapperRightClassName_local = "clickable hidden";
                         setSecurityBtn(showNonHistoriedDialog);
                     }
                 }
@@ -225,6 +228,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     <div class="flexWrapper">
                         <ClothingOptions
                             parentID={"laborkittel"}
+                            elementID={0}
                             imgSrc={Laborkittel}
                             onClickWrapperCallback={onClickClothingWrapper} 
                             onCheckOptionCallback={onCheckOption}
@@ -239,6 +243,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                         />
                         <ClothingOptions
                             parentID={"laborbrille"}
+                            elementID={1}
                             imgSrc={Laborbrille}
                             onClickWrapperCallback={onClickClothingWrapper} 
                             onCheckOptionCallback={onCheckOption}
