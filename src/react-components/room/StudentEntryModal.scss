@@ -1,10 +1,12 @@
 .btn {
     margin: 0px auto 20px auto;
 }
+
 .btnActive {
     margin: 0px auto 30px auto;
     background-color: blue;
 }
+
 .btnActive:hover {
     cursor: pointer;
     background-color: lightgreen;
@@ -14,6 +16,7 @@
     margin: 0px auto 30px auto;
     background-color: lightgray;
 }
+
 .btnInactive:hover {
     cursor: default;
     background-color: lightgray;
@@ -22,10 +25,12 @@
 #wrapper {
     padding: 20px;
 }
+
 #header {
     text-align: center;
     margin-bottom: 30px;
 }
+
 #studentName {
     width: 95%;
     height: 50px;
@@ -50,12 +55,14 @@
     width: 50px;
     height: 50px;
 }
+
 .svgImage {
     margin: 0 auto 30px auto;
     fill: rgb(255, 255, 255);
     width: 100px;
     height: 100px;
 }
+
 .preview {
     width: 170px;
     height: 250px;
@@ -73,6 +80,7 @@
     scrollbar-width: none;
     /* Firefox */
 }
+
 .scrollableContent::-webkit-scrollbar {
     display: none;
 }
@@ -82,6 +90,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .acceptBtn:hover {
     cursor: pointer;
 }
@@ -89,15 +98,23 @@
 .hidden {
     visibility: hidden;
 }
+
 .notThere {
     display: none;
 }
+
 .selected {
+    border: 1px solid lightblue;
+}
+
+.confirmed {
     border: 1px solid greenyellow;
 }
+
 .wrongAnswer {
     border: 1px solid red;
 }
+
 .clickable:hover {
     cursor: pointer;
 }

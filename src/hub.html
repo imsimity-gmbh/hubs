@@ -948,23 +948,65 @@
 
             <template id="interactable-first-experiment-camera">
                 <a-entity
-                class="interactable"
-                body-helper="type: dynamic; mass: 1; collisionFilterGroup: 1; collisionFilterMask: 1;"
-                tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                matrix-auto-update
-                shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                owned-object-limiter="counter: #camera-counter"
-                set-yxz-order
-                first-experiment
+                    class="interactable"
+                    body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 1;"
+                    tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                    matrix-auto-update
+                    shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                    floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
+                    owned-object-limiter="counter: #camera-counter"
+                    set-yxz-order
+                    set-unowned-body-kinematic
+                    first-experiment
                 >
-                    <a-entity class="ui interactable-ui robot-menu" visible-if-permitted="spawn_camera">
-                        <a-entity mixin="rounded-action-button" class="robot-button-speak" is-remote-hover-target tags="singleActionButton: true;" position="0 0.5 0.5">
-                            <a-entity sprite class="robot-button-speak-icon"
-                                icon-button="image: mute-action.png; hoverImage: mute-action.png; activeImage: stop-action.png; activeHoverImage: stop-action.png"
-                                scale="0.165 0.165 0.165"
-                                position="0 0 0.001"
-                            ></a-entity>
+                    <!--Bodenproben zum Auswählen:-->
+                    <a-box class="ground-sample-1" color="red" position="1.5 0.5 0" scale="1 1 1" 
+                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        <a-entity class="ground-sample-1-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
+                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
+                    </a-box>
+                    <a-box class="ground-sample-2" color="green" position="0 0.5 0" scale="1 1 1" 
+                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        <a-entity class="ground-sample-2-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
+                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                    </a-box>
+                    <a-box class="ground-sample-3" color="yellow" position="-1.5 0.5 0" scale="1 1 1" 
+                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        <a-entity class="ground-sample-3-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
+                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                    </a-box>
+
+                    <!--Multiple-Choice-->
+                    <a-entity 
+                        id="multiple-choice-question1" 
+                        class="ui interactable-ui multiple-choice-wrapper" 
+                        multiple-choice-question="question_id: 1">
+                            <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?"
+                                text-raycast-hack position="0 2.7 0" scale="3 3 3">
+                            </a-entity>
+
+                            <a-entity class="answer-area" position="0 2 0">
+                                <a-entity id="0" class="answer-option-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort A; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="1" class="answer-option-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort B; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="2" class="answer-option-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                            </a-entity>
+
+                            <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
+                                <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
+                    </a-entity>
+
+                    <a-entity class="start-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
+                        <a-entity text=" value: Start; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity>
                 </a-entity>
             </template>

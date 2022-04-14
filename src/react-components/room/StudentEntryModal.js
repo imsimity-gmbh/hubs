@@ -4,6 +4,7 @@ import { Modal } from "../modal/Modal";
 import { FormattedMessage } from "react-intl";
 import { ClothingOptions } from "./ClothingOptions";
 import { Button } from "../input/Button";
+import { CloseButton } from "../input/CloseButton";
 import { styles } from "./StudentEntryModal.scss";
 import AvatarPreview from "../avatar-preview";
 import Laborbrille from "../../assets/images/icons/laborbrille_placeholder.png";
@@ -42,7 +43,7 @@ function backToStudentEntry(showNonHistoriedDialog) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
         {showNonHistoriedDialog, securityRead: true, showAcceptBtn: true, showSecurity: false, showSecurityBtn: true, 
-            clothingWrapperLeftClassName: "selectableImage selected", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage selected", 
+            clothingWrapperLeftClassName: "selectableImage confirmed", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage confirmed", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
@@ -51,7 +52,7 @@ function setSecurityBtn(showNonHistoriedDialog) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
         {showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, showSecurity: false, showSecurityBtn: true, 
-            clothingWrapperLeftClassName: "selectableImage selected", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage selected", 
+            clothingWrapperLeftClassName: "selectableImage confirmed", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage confirmed", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
@@ -76,21 +77,25 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                 return;
 
             if(elementID == 0) {
-                if(clothingWrapperLeftClassName_local == "selectableImage") {
+                if(clothingWrapperLeftClassName_local == "selectableImage confirmed")
+                    return;
+                else if(clothingWrapperLeftClassName_local == "selectableImage" || clothingWrapperLeftClassName_local == "selectableImage wrongAnswer") {
                     clothingWrapperLeftClassName_local = "selectableImage selected";
                     clothingOptionLeftClassName_local = "clickable";
                 }
-                else if(clothingWrapperLeftClassName_local == "selectableImage selected") {
+                else if(clothingWrapperLeftClassName_local = "selectableImage selected") {
                     clothingWrapperLeftClassName_local = "selectableImage";
                     clothingOptionLeftClassName_local = "clickable hidden";
                 }
             }
             else if(elementID == 1){
-                if(clothingWrapperRightClassName_local == "selectableImage") {
+                if(clothingWrapperRightClassName_local == "selectableImage confirmed")
+                    return;
+                else if(clothingWrapperRightClassName_local == "selectableImage" || clothingWrapperRightClassName_local == "selectableImage wrongAnswer") {
                     clothingWrapperRightClassName_local = "selectableImage selected";
                     clothingOptionRightClassName_local = "clickable";
                 }
-                else if(clothingWrapperRightClassName_local == "selectableImage selected") {
+                else if(clothingWrapperRightClassName_local = "selectableImage selected") {
                     clothingWrapperRightClassName_local = "selectableImage";
                     clothingOptionRightClassName_local = "clickable hidden";
                 }
@@ -114,12 +119,12 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
 
             if(elementID == 0) {
                 if(id == 2) {
-                    clothingWrapperLeftClassName_local = "selectableImage selected";
+                    clothingWrapperLeftClassName_local = "selectableImage confirmed";
                     rightOptionCounter_local++;
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
                         {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
-                            clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
+                            clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: "clickable hidden", 
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
@@ -130,7 +135,6 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                 }
                 else {
                     if(clothingWrapperLeftClassName_local == "selectableImage wrongAnswer") {
-                        rightOptionCounter_local = 0;
                         return;
                     }
     
@@ -138,20 +142,20 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
                         {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
-                            clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
-                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: 0}
+                            clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: "clickable hidden", 
+                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
                 }
             }
             else if(elementID == 1){
                 if(id == 2) {
-                    clothingWrapperRightClassName_local = "selectableImage selected";
+                    clothingWrapperRightClassName_local = "selectableImage confirmed";
                     rightOptionCounter_local++;
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
                         {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
-                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
+                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: "clickable hidden", rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
                         clothingOptionRightClassName_local = "clickable hidden";
@@ -161,7 +165,6 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                 }
                 else {
                     if(clothingWrapperRightClassName_local == "selectableImage wrongAnswer") {
-                        rightOptionCounter_local = 0;
                         return;
                     }
     
@@ -170,7 +173,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                         StudentEntryModalContainer,
                         {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
-                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: 0}
+                            clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: "clickable hidden", rightOptionCounter: rightOptionCounter_local}
                     )
                 }
             }
@@ -198,6 +201,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
         return (
             <Modal  
                 title={<FormattedMessage id="security-reading.title" defaultMessage="Sicherheitseinweisung" />}
+                beforeTitle={<CloseButton onClick={onClose} />}
             >
                 <div className="scrollableContent">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
@@ -215,6 +219,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
         return (
             <Modal  
                 title={<FormattedMessage id="student-entry.title" defaultMessage="Informationen" />}
+                beforeTitle={<CloseButton onClick={onClose} />}
             >
                 <div id="wrapper"> 
                     <h4 id="header">
