@@ -16,6 +16,8 @@ import { useMaintainScrollPosition } from "../misc/useMaintainScrollPosition";
 import { spawnChatMessage } from "../chat-message";
 import { discordBridgesForPresences } from "../../utils/phoenix-utils";
 import { useIntl } from "react-intl";
+import { redirectTo } from "../../utils/imsimity";
+
 
 const ChatContext = createContext({ messageGroups: [], sendMessage: () => {} });
 
@@ -113,6 +115,14 @@ export function ChatContextProvider({ messageDispatch, children }) {
           newMessage.type === "video"
         ) {
           setUnreadMessages(true);
+        }
+
+        if (newMessage.type === "teleport")
+        {
+          console.log("Recieved a Teleport request !");
+          const urlToTeleport = newMessage.body;
+
+          redirectTo(urlToTeleport);
         }
       }
 
