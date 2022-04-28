@@ -1154,30 +1154,39 @@
                     <a-entity class="grind-sample-entity" position="-0.6 0.87 -0.2" rotation="0 90 0">
                     </a-entity>
 
-                    <a-entity class="scale-entity" position="0 1 0" rotation="0 180 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
-                            matrix-auto-update
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
-                        >
+                    <a-entity class="scale-entity" position="1.2 1 -0.2" rotation="0 180 0"
+                        tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                        is-remote-hover-target
+                        matrix-auto-update
+                        set-unowned-body-kinematic
+                        scalable-when-grabbed
+                        floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        waage-tool="rightAmount: 50;"
+                    >
+                        <a-entity class="container-socket" position="0.08 0 0" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="display-text" text=" value: 0.00g; width:2; align:center; color: black;" text-raycast-hack position="-0.2 0.35 0" rotation="0 -90 0" scale="0.5 0.5 0.5"></a-entity>
+                        <a-entity class="tara-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
+                            <a-entity text=" value: Tara; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
                     </a-entity>
-                    <a-entity class="crucible-entity" position="0 1 0" rotation="0 180 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
-                            matrix-auto-update
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
-                        >
+                    <a-entity class="crucible-entity" position="0.5 1 -0.2" rotation="0 180 0"
+                        tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                        is-remote-hover-target
+                        matrix-auto-update
+                        set-unowned-body-kinematic
+                        scalable-when-grabbed
+                        floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                    >
                     </a-entity>
 
-                    <a-entity class="scale-socket" position="-0.6 0.87 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3;">
+                    <a-entity class="scale-socket" position="-1.5 0.8 -0.4" rotation="0 90 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
-                    <a-entity class="crucible-socket" position="-0.6 0.87 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3;">
+                    <a-entity class="crucible-socket" position="-1.1 0.8 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>

@@ -34,13 +34,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn.object3D.addEventListener("interact", () => this.grindSample());
             this.grindSampleBtn.object3D.visible = false;
 
-            this.scaleEntity = this.el.querySelector("scale-entity");
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(0, 1, -1.3), this.scaleEntity);
-            this.crucibleEntity = this.el.querySelector("crucible-entity");
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(0, 1, -1.5), this.crucibleEntity);
 
-            this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
-            this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
+            this.scaleEntity = this.el.querySelector(".scale-entity");
+            this.spawnItem(scaleModelPromise, new THREE.Vector3(-3, 1, -0.2), this.scaleEntity, true);
+            this.scaleSocket = this.el.querySelector(".scale-socket");
+            this.scaleSocket.object3D.visible = false;
+
+            this.crucibleEntity = this.el.querySelector(".crucible-entity");
+            this.spawnItem(curcibleModelPromise, new THREE.Vector3(-2.8, 1, 0.2), this.crucibleEntity, false);
+            this.crucibleSocket = this.el.querySelector(".crucible-socket");
+            this.crucibleSocket.object3D.visible = false;
 
             this.updateUI();
 
@@ -50,6 +53,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             //bind Callback funtion:
             this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
+            this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
 
             //Subscribe to callback after placing mortar
             this.firstExpPart02 = this.expSystem.getTaskById("02");
@@ -84,7 +88,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     },
 
-    spawnItem(promise, position, entity) {
+    spawnItem(promise, position, entity, show) {
         promise.then(model => {
             entity.object3D.visible = false;
             const mesh = cloneObject3D(model.scene);
@@ -92,7 +96,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             mesh.matrixNeedsUpdate = true;
             entity.setObject3D("mesh", mesh);
         
-            entity.object3D.visible = true;
+            if(show)
+                entity.object3D.visible = true;
             entity.object3D.scale.set(1.0, 1.0, 1.0);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
@@ -107,17 +112,25 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     onPlacedMortar() {
         this.groundSampleSocket2.object3D.visible = true;
         this.groundSampleSocket2.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
+        this.mortarSocket1 = this.sceneEl.querySelector(".mortar-socket");
+        this.mortarSocket1.object3D.visible = false;
     },
 
     onInsertSample() {
         this.grindSampleBtn.object3D.visible = true;
+        this.groundSampleSocket1 = this.sceneEl.querySelector(".ground-sample-socket");
+        this.groundSampleSocket1.object3D.visible = false;
     },
 
     grindSample() {
         console.log("grind");
         this.groundSampleSocket2.object3D.visible = false;
         this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
-        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 1.06, -0.2), this.grindSampleEntity);
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 1.06, -0.2), this.grindSampleEntity, true);
+        this.scaleEntity.object3D.visible = true;
+        this.scaleSocket.object3D.visible = true;
+        this.crucibleEntity.object3D.visible = true;
+        this.crucibleSocket.object3D.visible = true;
     }
 
   });

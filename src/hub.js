@@ -153,6 +153,7 @@ import "./components/video-texture-target";
 import "./components/entity-socket";
 import "./components/multiple-choice-question";
 import "./components/collectible";
+import "./components/waage-tool";
 
 import "./components/first-experiment/first-experiment";
 import "./components/first-experiment/first-experiment-01";
