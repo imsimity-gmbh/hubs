@@ -154,7 +154,10 @@ import "./components/entity-socket";
 import "./components/multiple-choice-question";
 import "./components/collectible";
 
-import "./components/first-experiment"
+import "./components/first-experiment/first-experiment";
+import "./components/first-experiment/first-experiment-01";
+import "./components/first-experiment/first-experiment-02";
+import "./components/first-experiment/first-experiment-03";
 
 import ReactDOM from "react-dom";
 import React from "react";

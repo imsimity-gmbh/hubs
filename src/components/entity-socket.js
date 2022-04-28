@@ -18,8 +18,8 @@ import { Vector3 } from "three";
 
       //Select necessary components:
       this.sceneEl = document.querySelector("a-scene");
-      this.root = document.querySelector(".root");
-      this.hoverMeshes = document.querySelector(".hover-meshes");
+      this.root = this.el.querySelector(".root");
+      this.hoverMeshes = this.el.querySelector(".hover-meshes");
 
       let temp = new Vector3();
       this.root.object3D.getWorldPosition(temp);
@@ -37,25 +37,12 @@ import { Vector3 } from "three";
 
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
-        let mesh = component.getObject3D('mesh');
-        let clonedMesh = mesh.clone();
-
-        //create blue material for hover-effect
-        let hoverMaterial = new THREE.MeshBasicMaterial();
-        hoverMaterial.color.setRGB(0.165, 0.38, 0.749);
-        hoverMaterial.transparent = true;
-        hoverMaterial.opacity = 0.2;
-        hoverMaterial.flatShading = true;
 
         //apply material to clonedMesh and it's children
-        this.applyMaterial(clonedMesh, hoverMaterial);
-
-        //add mesh to empty entity, and append it to the hovermeshes-parent
-        hoverMeshEntity.setObject3D("mesh", clonedMesh);
+        this.applyMaterial(hoverMeshEntity, component, 0.165, 0.38, 0.749);
 
         hoverMeshEntity.setAttribute("position", {x: 0, y: 0, z: 0});
         hoverMeshEntity.setAttribute("rotation", {x: 0, y: 0, z: 0});
-        hoverMeshEntity.object3D.visible = false;
 
         this.hoverMeshes.appendChild(hoverMeshEntity);
       }
@@ -192,7 +179,7 @@ import { Vector3 } from "three";
         console.log("picked up attached entity");
       }
       
-      entity.setAttribute("floaty-object", {autoLockOnRelease: false});
+      entity.setAttribute("floaty-object", {autoLockOnRelease: true});
       this.heldEntity = entity;
 
       this.onPickedUpCallbacks.forEach(cb => {
@@ -205,9 +192,8 @@ import { Vector3 } from "three";
       if(this.attachedEntity != null) 
         return;
 
-      entity.setAttribute("floaty-object", {autoLockOnRelease: true});
-
       this.hoverMeshes.children[this.meshIndex].object3D.visible = true;
+      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], 0.36, 0.91, 0.47);
 
       this.playSound(SOUND_HOVER_ENTER);
 
@@ -224,9 +210,7 @@ import { Vector3 } from "three";
       if(this.attachedEntity != null)
         return;
 
-      entity.setAttribute("floaty-object", {autoLockOnRelease: false});
-
-      this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
+      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], 0.165, 0.38, 0.749);
 
       this.inRadiusEntity = null;
       this.heldEntity = entity;
@@ -272,19 +256,34 @@ import { Vector3 } from "three";
       this.inRadiusEntity = null;
 
       //Network snappedEntity: (still to do....)
+      console.log(this.root);
 
       this.onSnapCallbacks.forEach(cb => {
         cb(entity);
       });
     },
 
-    applyMaterial(mesh, material)
+    applyMaterial(entity, meshToClone, red, green, blue)
     {
-      mesh.material = material;
+      let mesh = meshToClone.getObject3D('mesh');
+      let clonedMesh = mesh.clone();
 
-      for(let i = 0; i < mesh.children.length; i++) {
-        this.applyMaterial(mesh.children[i], material);
+      //create blue material for hover-effect
+      let hoverMaterial = new THREE.MeshBasicMaterial();
+      hoverMaterial.color.setRGB(red, green, blue);
+      hoverMaterial.transparent = true;
+      hoverMaterial.opacity = 0.2;
+      hoverMaterial.flatShading = true;
+      clonedMesh.material = hoverMaterial;
+
+      for(let i = 0; i < clonedMesh.children.length; i++) {
+        clonedMesh.children[i].material = hoverMaterial;
       }
+
+      entity.setObject3D("mesh", clonedMesh);
+
+      if(entity.children.length > 0)
+        this.applyMaterial(entity.children[0], entity.children[0], red, green, blue);
     },
 
     playSound(soundId)

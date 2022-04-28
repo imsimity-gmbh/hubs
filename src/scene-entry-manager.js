@@ -90,6 +90,9 @@ export default class SceneEntryManager {
     this._setupExample();
     this._setupRobot();
     this._setupFirstExperiment();
+    this._setupFirstExperiment01();
+    this._setupFirstExperiment02();
+    this._setupFirstExperiment03();
 
     if (qsTruthy("offline")) return;
 
@@ -572,6 +575,105 @@ export default class SceneEntryManager {
         var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
+        });
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperiment01 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_01", () => {
+
+      console.log("Placing");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("01");
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-01-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
+        });
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperiment02 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_02", () => {
+
+      console.log("Placing");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("02");
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-02-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
+        });
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperiment03 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_03", () => {
+
+      console.log("Placing");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("03");
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-03-camera" });
         entity.setAttribute("offset-relative-to", {
           target: "#avatar-rig",
           offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},

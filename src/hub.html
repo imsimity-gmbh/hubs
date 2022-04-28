@@ -854,8 +854,8 @@
     
                         <a-box color="green" depth="0.4" height="0.4" width="0.4"
                             class="interactable testing-box3"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
                             shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
@@ -959,33 +959,45 @@
                     set-unowned-body-kinematic
                     first-experiment
                 >
-                    <!--Bodenproben zum Auswählen:-->
-                    <a-box class="ground-sample-1" color="red" position="1.5 0.5 0" scale="1 1 1" 
-                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
-                        <a-entity class="ground-sample-1-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
-                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
-                    </a-box>
-                    <a-box class="ground-sample-2" color="green" position="0 0.5 0" scale="1 1 1" 
-                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
-                        <a-entity class="ground-sample-2-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
-                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
-                    </a-box>
-                    <a-box class="ground-sample-3" color="yellow" position="-1.5 0.5 0" scale="1 1 1" 
-                        body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
-                        <a-entity class="ground-sample-3-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1 0" scale="2.0 2.0 2.0">
-                            <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
-                    </a-box>
+                    <a-entity class="first-experiment-start-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
+                        <a-entity text=" value: Start; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
 
-                    <!--Multiple-Choice-->
+            <template id="interactable-first-experiment-01-camera">
+                <!--Ground samples:-->
+                <a-entity id="first-experiment-01-wrapper" first-experiment-01>
+                    <a-entity class="ui interactable-ui ground-samples-wrapper" position="0 0 -0.5">
+                        <a-box class="ground-sample-1" color="red" position="1.5 1.125 0" scale="0.25 0.25 0.25" 
+                            body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        </a-box>
+                        <a-box class="ground-sample-2" color="green" position="0 1.125 0" scale="0.25 0.25 0.25" 
+                            body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        </a-box>
+                        <a-box class="ground-sample-3" color="yellow" position="-1.5 1.125 0" scale="0.25 0.25 0.25" 
+                            body-helper="type: static; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;">
+                        </a-box>
+                        <a-entity class="answer-area" position="0 1.7 0">
+                            <a-entity class="ground-sample-btn-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0 0" scale="2.0 2.0 2.0">
+                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
+                            <a-entity class="ground-sample-btn-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
+                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
+                            <a-entity class="ground-sample-btn-3" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0 0" scale="2.0 2.0 2.0">
+                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+
+                    <!--Multiple-choice:-->
                     <a-entity 
-                        id="multiple-choice-question1" 
+                        id="multiple-choice-question" 
                         class="ui interactable-ui multiple-choice-wrapper" 
                         multiple-choice-question="question_id: 1">
-                            <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?"
-                                text-raycast-hack position="0 2.7 0" scale="3 3 3">
+                            <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?; color: black;"
+                                text-raycast-hack position="0 2.5 0" scale="3 3 3">
                             </a-entity>
 
                             <a-entity class="answer-area" position="0 2 0">
@@ -1004,14 +1016,173 @@
                                 <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
                     </a-entity>
+                </a-entity>
+            </template>
 
-                    <a-entity class="start-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
-                        <a-entity text=" value: Start; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+            <template id="interactable-first-experiment-02-camera">
+                <a-entity first-experiment-02 class="part02-wrapper" position="0 0 0">
+                    <a-entity class="cupboard-wrapper" position="-3 0 1">
+                        <a-box class="cupboard-placeholder"color="grey" position="0 0.5 0" scale="1 1 4"></a-box>
+                        <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="mortar-stick-entity" position="0 0 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="ground-sample-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
+                        >
+                        </a-entity>
+                        <a-entity class="bunsen-burner-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                        </a-entity>
+                        <a-entity class="tripod-1-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="tripod-plate-entity" position="0 0 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="tripod-2-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="tripod-triangle-entity" position="0 0 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="firelighter-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                        </a-entity>
+                        <a-entity class="thermo-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                        </a-entity>
+                        <a-entity class="glass-stick-entity" position="0 1 0" rotation="0 180 90"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                        </a-entity>
+                    </a-entity>
+
+                    <a-entity class="experiment-table-wrapper" position="0 0 -0.5">
+                        <a-box class="experiment-table" color="grey" position="0 0.5 0" scale="4 1 1"></a-box>
+                        <a-entity class="mortar-socket" position="-1.4 0.8 0" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="ground-sample-socket" position="-1.4 0.8 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.5;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="bunsen-burner-socket" position="0 0.8 0" rotation="0 90 0" entity-socket="acceptedEntities: .bunsen-burner-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="tripod-1-socket" position="0 0.83 0" rotation="0 90 0" entity-socket="acceptedEntities: .tripod-1-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="tripod-2-socket" position="0.95 0.83 0" rotation="0 90 0" entity-socket="acceptedEntities: .tripod-2-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="firelighter-socket" position="0.3 0.8 0" rotation="0 90 0" entity-socket="acceptedEntities: .firelighter-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="thermo-socket" position="0.5 0.8 0" rotation="0 90 0" entity-socket="acceptedEntities: .thermo-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="glass-stick-socket" position="0.6 0.8 0" rotation="0 90 0" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.8;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity>
                     </a-entity>
                 </a-entity>
             </template>
 
+            <template id="interactable-first-experiment-03-camera">
+                <a-entity first-experiment-03 class="ui interactable-ui mortar-wrapper" position="0 0 0">
+                    <a-entity class="mortar-socket-2" position="-0.6 0.8 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        <a-entity class="grind-sample-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Probe moersern; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                    </a-entity>
+                    <a-entity class="ground-sample-socket-2" position="-0.6 0.87 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.3;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity>
+                    <a-entity class="grind-sample-entity" position="-0.6 0.87 -0.2" rotation="0 90 0">
+                    </a-entity>
 
+                    <a-entity class="scale-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                    </a-entity>
+                    <a-entity class="crucible-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                    </a-entity>
+
+                    <a-entity class="scale-socket" position="-0.6 0.87 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity>
+                    <a-entity class="crucible-socket" position="-0.6 0.87 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
 
             <template id="interactable-camera">
                 <a-entity

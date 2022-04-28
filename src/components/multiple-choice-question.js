@@ -36,7 +36,6 @@
         answerArea.children[i].setAttribute("text-button", {backgroundHoverColor: this.selectColor});
         this.answerOptions.push(answerArea.children[i]);
       }
-      console.log(this.answerOptions);
 
       this.submitBtn.object3D.addEventListener("interact", () => this.onSubmit());
 
@@ -128,7 +127,6 @@
 
     renderSubmitButton()
     {
-      console.log("submit");
       if(this.selectedAnswer == -1) {
         console.log("No answer selected");
         this.submitBtn.setAttribute("text-button", {backgroundColor: this.initialColor});

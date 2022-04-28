@@ -80,7 +80,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       if(this.collectible != null)
         this.collectible.components["collectible"].subscribe("onCollect", this.onCollectCallback);
       else  
-      console.log("Can't subscribe to collectible callbacks, collectible component not found");
+        console.log("Can't subscribe to collectible callbacks, collectible component not found");
     
       this.updateUI();
 
