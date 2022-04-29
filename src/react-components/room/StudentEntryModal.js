@@ -73,7 +73,8 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
 
     let gecolabManager = scene.systems["gecolab-manager"];
 
-    
+    console.log(gecolabManager);
+
     if (gecolabManager.isInit() == false)
     {
         onClose();
@@ -231,7 +232,7 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
         return (
             <Modal  
                 title={<FormattedMessage id="student-entry.title" defaultMessage="Informationen" />}
-                /*beforeTitle={<CloseButton onClick={onClose} />}*/
+                beforeTitle={<CloseButton onClick={onClose} />}
             >
                 <div id="wrapper"> 
                     <h4 id="header">

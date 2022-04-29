@@ -4,13 +4,21 @@ import { waitForDOMContentLoaded } from "../utils/async-utils";
 // Used for tracking and managing camera tools in the scene
 AFRAME.registerSystem("first-experiments", {
   init() {
+
+    // TODO: Refactor for using a Pair <String, Element> (with String being the Group Access Code / groupId. (to track which experiment is linked to what in a same room))
+
     this.experimentsBaseEls = [];
+
     this.experiments01Els = [];
     this.experiments02Els = [];
     this.experiments03Els = [];
+
+    this.experimentPlacers = [];
+
     this.ticks = 0;
     this.updateMyExperiment = this.updateMyExperiment.bind(this);
     this.updateMyExperimentTask = this.updateMyExperimentTask.bind(this);
+    this.updateMyExperimentPlacer = this.updateMyExperimentPlacer.bind(this);
 
     waitForDOMContentLoaded().then(() => {
       this.updateMyExperiment();
@@ -125,6 +133,37 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
     }
+  },
+
+  updateMyExperimentPlacer() {
+  
+    this.myExpPlacer = this.experimentPlacers.find(NAF.utils.isMine);
+    console.log(this.myExpPlacer);
+    if (this.myExpPlacer) {
+      this.sceneEl.addState("firstexperiment-placer-01");
+    } else {
+      this.sceneEl.removeState("firstexperiment-placer-01");
+    }
+  },
+
+  registerPlacer(el) {
+   
+    this.experimentPlacers.push(el);
+    el.addEventListener("ownership-changed", () => this.updateMyExperimentPlacer(id));
+    this.updateMyExperimentPlacer();
+
+  },
+
+  deregisterPlacer(el) {
+   
+    this.experimentPlacers.splice(this.experimentPlacers.indexOf(el), 1);
+    el.removeEventListener("ownership-changed", () => this.updateMyExperimentPlacer(id));
+    this.updateMyExperimentPlacer();
+  },
+
+
+  getPlacer() {
+    return this.myExp01Placer;
   },
 
   tick() {

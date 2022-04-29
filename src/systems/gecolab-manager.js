@@ -108,6 +108,11 @@ AFRAME.registerSystem('gecolab-manager', {
     {
         return this.initialized;
     },
+
+    isStudent()
+    {
+        return (this.student != null);
+    }
   
     // Other handlers and methods.
 });

@@ -638,9 +638,16 @@ class UIRoot extends Component {
       console.log("Screen sharing enabled.");
     }
 
-    this.showNonHistoriedDialog(StudentEntryModalContainer, {scene: this.props.scene,showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
-      showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
-      clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
+
+    // If we are a Student (we skip that)
+    let gecolabManager = this.props.scene.systems["gecolab-manager"];
+
+    if (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent())
+    {
+      this.showNonHistoriedDialog(StudentEntryModalContainer, {scene: this.props.scene,showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
+        showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
+        clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
+    }
   };
 
   attemptLink = async () => {

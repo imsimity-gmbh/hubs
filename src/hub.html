@@ -954,7 +954,7 @@
                     matrix-auto-update
                     shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
                     floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
-                    owned-object-limiter="counter: #camera-counter"
+                    owned-object-limiter="counter: #first-experiment-counter"
                     set-yxz-order
                     set-unowned-body-kinematic
                     first-experiment
@@ -1190,6 +1190,44 @@
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
+                </a-entity>
+            </template>
+
+            <template id="interactable-first-experiment-placer-camera">
+                <a-entity
+                    class="interactable first-experiment-placer"
+                    body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                    first-experiment-placer
+                    is-remote-hover-target
+                    tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                    matrix-auto-update
+                    shape-helper="type: box; fit: manual; halfExtents: 0.*22 0.14 0.1; offset: 0 0.02 0;"
+                    floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
+                    owned-object-limiter="counter: #first-experiment-placer-counter"
+                    set-yxz-order
+                    set-unowned-body-kinematic
+                >
+
+                <a-entity class="ui interactable-ui first-experiment-placer-menu" visible-if-permitted="spawn_camera"> 
+
+                    <!-- UI-Buttons:-->
+                    <a-entity class="first-experiment-placer-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.0 0.6 0.22" scale="1.0 1.0 1.0">
+                        <a-entity text=" value:Place; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity> 
+                    </a-entity>
+
+                     <!--Hidden menu:-->
+                     <a-entity class="ui interactable-ui camera-menu" visibility-while-frozen="withinDistance: 100; withPermission: spawn_camera">
+                        <a-entity mixin="rounded-button" is-remote-hover-target tags="singleActionButton: true" remove-networked-object-button position="0 -0.125 0.25">
+                            <a-entity
+                                sprite
+                                icon-button="image: remove-action.png; hoverImage: remove-action.png;"
+                                scale="0.165 0.165 0.165"
+                                position="0 0 0.001"
+                            ></a-entity>
+                        </a-entity>
+                    </a-entity>
+                </a-entity>
+
                 </a-entity>
             </template>
 
@@ -1594,6 +1632,10 @@
         <a-entity id="emoji-counter" networked-counter="max: 2;"></a-entity>
 
         <a-entity id="camera-counter" networked-counter="max: 1;"></a-entity>
+
+        <a-entity id="first-experiment-counter" networked-counter="max: 1;"></a-entity>
+
+        <a-entity id="first-experiment-placer-counter" networked-counter="max: 1;"></a-entity>
 
         <a-entity id="drawing-manager" drawing-manager="penSpawner: #pen-spawner"></a-entity>
 

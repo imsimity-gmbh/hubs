@@ -27,6 +27,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
         const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
         const hasActiveFirstExperiment = !!scene.systems["first-experiments"].getMyExperiment();
+        const hasActiveFirstExperimentPlacer = !!scene.systems["first-experiments"].getPlacer();
         
 
         let nextItems = [
@@ -77,6 +78,14 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.firstexperiment" defaultMessage="First Experiment" />,
             onSelect: () => scene.emit("action_toggle_first_experiment"),
             selected: hasActiveFirstExperiment
+          },
+          hubChannel.can("spawn_camera") && {
+            id: "first-experiment-placer",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.firstexperimentplacer" defaultMessage="First Experiment Placer" />,
+            onSelect: () => scene.emit("action_toggle_first_experiment_placer"),
+            selected: hasActiveFirstExperimentPlacer
           },
           hubChannel.can("spawn_camera") && {
             id: "camera",

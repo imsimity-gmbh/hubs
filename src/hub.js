@@ -156,6 +156,7 @@ import "./components/collectible";
 import "./components/waage-tool";
 
 import "./components/first-experiment/first-experiment";
+import "./components/first-experiment/first-experiment-placer";
 import "./components/first-experiment/first-experiment-01";
 import "./components/first-experiment/first-experiment-02";
 import "./components/first-experiment/first-experiment-03";

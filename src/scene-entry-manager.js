@@ -90,6 +90,7 @@ export default class SceneEntryManager {
     this._setupExample();
     this._setupRobot();
     this._setupFirstExperiment();
+    this._setupFirstExperimentPlacer();
     this._setupFirstExperiment01();
     this._setupFirstExperiment02();
     this._setupFirstExperiment03();
@@ -575,6 +576,39 @@ export default class SceneEntryManager {
         var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-rig",
+          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
+          lookAt: true
+        });
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperimentPlacer = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_placer", () => {
+
+      console.log("Placing Placer");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myPlacer = this.scene.systems["first-experiments"].getPlacer();
+
+      if (myPlacer) {
+        myPlacer.parentNode.removeChild(myPlacer);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const distToPlayer = 2.5;
+        const camera = document.querySelector("#avatar-pov-node");
+        const povRotation =  camera.getAttribute("rotation");
+
+        var radAngle =  deg2rad * povRotation.y;
+        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-placer-camera" });
         entity.setAttribute("offset-relative-to", {
           target: "#avatar-rig",
           offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
