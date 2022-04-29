@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import { ClothingOptions } from "./ClothingOptions";
 import { Button } from "../input/Button";
 import { CloseButton } from "../input/CloseButton";
+import { TextInputField } from "../input/TextInputField";
 import { styles } from "./StudentEntryModal.scss";
 import AvatarPreview from "../avatar-preview";
 import Laborbrille from "../../assets/images/icons/laborbrille_placeholder.png";
@@ -13,14 +14,14 @@ import { StudentEntryModalContainer } from "./StudentEntryModalContainer";
 
 
 //Functions for reloading UI:
-function jumpToSecurity(showNonHistoriedDialog, securityRead, securityBtn) {
+function jumpToSecurity(scene, showNonHistoriedDialog, securityRead, securityBtn) {
     console.log(securityBtn);
     if(securityBtn == false)
         return;
 
     showNonHistoriedDialog(
         StudentEntryModalContainer,
-        {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: false, showSecurity: true, showSecurityBtn: false, 
+        {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: false, showSecurity: true, showSecurityBtn: false, 
             clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
@@ -32,32 +33,32 @@ function jumpToSecurity(showNonHistoriedDialog, securityRead, securityBtn) {
     setTimeout( () => {
         showNonHistoriedDialog(
             StudentEntryModalContainer, 
-            {showNonHistoriedDialog, securityRead: true, showAcceptBtn: false, showSecurity: true, showSecurityBtn: false,
+            {scene, showNonHistoriedDialog, securityRead: true, showAcceptBtn: false, showSecurity: true, showSecurityBtn: false,
                 clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage", 
                 clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0 }
         )
     }, 5000);
 }
 
-function backToStudentEntry(showNonHistoriedDialog) {
+function backToStudentEntry(showNonHistoriedDialog, scene) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
-        {showNonHistoriedDialog, securityRead: true, showAcceptBtn: true, showSecurity: false, showSecurityBtn: true, 
+        {scene, showNonHistoriedDialog, securityRead: true, showAcceptBtn: true, showSecurity: false, showSecurityBtn: true, 
             clothingWrapperLeftClassName: "selectableImage confirmed", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage confirmed", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
 
-function setSecurityBtn(showNonHistoriedDialog) {
+function setSecurityBtn(showNonHistoriedDialog, scene) {
     showNonHistoriedDialog(
         StudentEntryModalContainer, 
-        {showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, showSecurity: false, showSecurityBtn: true, 
+        {scene, showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, showSecurity: false, showSecurityBtn: true, 
             clothingWrapperLeftClassName: "selectableImage confirmed", clothingOptionLeftClassName: "clickable hidden", clothingWrapperRightClassName: "selectableImage confirmed", 
             clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}
     )
 }
 
-export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
+export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
     showSecurity, showSecurityBtn, clothingWrapperLeftClassName, clothingOptionLeftClassName, clothingWrapperRightClassName, clothingOptionRightClassName, rightOptionCounter }) {
 
     let enterBtnClassName = "";
@@ -69,6 +70,17 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
     let clothingWrapperRightClassName_local = clothingWrapperRightClassName;
     let clothingOptionRightClassName_local = clothingOptionRightClassName;
     let rightOptionCounter_local = rightOptionCounter;
+
+    let gecolabManager = scene.systems["gecolab-manager"];
+
+    
+    if (gecolabManager.isInit() == false)
+    {
+        onClose();
+    }
+    
+    let student = gecolabManager.getStudent();
+    
 
     //Callbacks from ClothingOptions:
     const onClickClothingWrapper = useCallback(
@@ -105,7 +117,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
 
             showNonHistoriedDialog(
                 StudentEntryModalContainer,
-                {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: showSecurityBtn, 
+                {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: showSecurityBtn, 
                     clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
                     clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
             )
@@ -123,14 +135,14 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     rightOptionCounter_local++;
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
-                        {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
+                        {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: "clickable hidden", 
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
                         clothingOptionLeftClassName_local = "clickable hidden";
                         clothingWrapperRightClassName_local = "clickable hidden";
-                        setSecurityBtn(showNonHistoriedDialog);
+                        setSecurityBtn(showNonHistoriedDialog, scene);
                     }
                 }
                 else {
@@ -141,7 +153,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     clothingWrapperLeftClassName_local = "selectableImage wrongAnswer";
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
-                        {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
+                        {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: "clickable hidden", 
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: clothingOptionRightClassName_local, rightOptionCounter: rightOptionCounter_local}
                     )
@@ -153,14 +165,14 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     rightOptionCounter_local++;
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
-                        {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
+                        {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: "clickable hidden", rightOptionCounter: rightOptionCounter_local}
                     )
                     if(rightOptionCounter_local >= 2) {
                         clothingOptionRightClassName_local = "clickable hidden";
                         clothingWrapperRightClassName_local = "clickable hidden";
-                        setSecurityBtn(showNonHistoriedDialog);
+                        setSecurityBtn(showNonHistoriedDialog, scene);
                     }
                 }
                 else {
@@ -171,7 +183,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     clothingWrapperRightClassName_local = "selectableImage wrongAnswer";
                     showNonHistoriedDialog(
                         StudentEntryModalContainer,
-                        {showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
+                        {scene, showNonHistoriedDialog, securityRead: securityRead, showAcceptBtn: showAcceptBtn, showSecurity: false, showSecurityBtn: false, 
                             clothingWrapperLeftClassName: clothingWrapperLeftClassName_local, clothingOptionLeftClassName: clothingOptionLeftClassName_local, 
                             clothingWrapperRightClassName: clothingWrapperRightClassName_local, clothingOptionRightClassName: "clickable hidden", rightOptionCounter: rightOptionCounter_local}
                     )
@@ -201,7 +213,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
         return (
             <Modal  
                 title={<FormattedMessage id="security-reading.title" defaultMessage="Sicherheitseinweisung" />}
-                beforeTitle={<CloseButton onClick={onClose} />}
+                /*beforeTitle={<CloseButton onClick={onClose} />}*/
             >
                 <div className="scrollableContent">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
@@ -209,7 +221,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                     Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
                     Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
                 </div>
-                <Button className={acceptBtnClassName} onClick={() => backToStudentEntry(showNonHistoriedDialog)}>
+                <Button className={acceptBtnClassName} onClick={() => backToStudentEntry(showNonHistoriedDialog, scene)}>
                     <FormattedMessage id="security-reading.close" defaultMessage="Bestätigen"/>
                 </Button>
             </Modal>
@@ -219,16 +231,18 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
         return (
             <Modal  
                 title={<FormattedMessage id="student-entry.title" defaultMessage="Informationen" />}
-                beforeTitle={<CloseButton onClick={onClose} />}
+                /*beforeTitle={<CloseButton onClick={onClose} />}*/
             >
                 <div id="wrapper"> 
                     <h4 id="header">
                         Ziehe die Schutzkleidung an und lese die Sicherheitseinweisung
                     </h4>
-    
-                    <textarea id="studentName" readOnly={true}>
-                        Student Name
-                    </textarea>
+
+                    <TextInputField
+                        disabled={true}
+                        value={student.gamerTag}
+                        />
+                    <br/>
     
                     <div class="flexWrapper">
                         <ClothingOptions
@@ -257,7 +271,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
                         />
                     </div>
 
-                    <Button className={toSecurityBtnClassName} onClick={() => jumpToSecurity(showNonHistoriedDialog, securityRead, showSecurityBtn)}>
+                    <Button className={toSecurityBtnClassName} onClick={() => jumpToSecurity(scene, showNonHistoriedDialog, securityRead, showSecurityBtn)}>
                         <FormattedMessage id="student-entry.security" defaultMessage="Sicherheitseinweisung"/>
                     </Button>
                     <Button className={enterBtnClassName} onClick={onClose} preset="accept">
@@ -271,6 +285,7 @@ export function StudentEntryModal ({ showNonHistoriedDialog, onClose, securityRe
 
 StudentEntryModal.propTypes = {
     isMobile: PropTypes.bool,
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func,
     securityRead: PropTypes.bool,

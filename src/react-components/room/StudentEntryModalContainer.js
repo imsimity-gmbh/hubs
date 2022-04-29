@@ -4,12 +4,13 @@ import { StudentEntryModal } from "./StudentEntryModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function StudentEntryModalContainer({showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
+export function StudentEntryModalContainer({scene,showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
     showSecurity, showSecurityBtn, clothingWrapperLeftClassName, clothingOptionLeftClassName, clothingWrapperRightClassName, clothingOptionRightClassName, rightOptionCounter}) {
 
     return (
         <StudentEntryModal
             isMobile={isMobile}
+            scene={scene}
             showNonHistoriedDialog={showNonHistoriedDialog}
             onClose={onClose}
             securityRead={securityRead}
@@ -26,6 +27,7 @@ export function StudentEntryModalContainer({showNonHistoriedDialog, onClose, sec
 }
 
 StudentEntryModalContainer.propTypes = {
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func,
     securityRead: PropTypes.bool,

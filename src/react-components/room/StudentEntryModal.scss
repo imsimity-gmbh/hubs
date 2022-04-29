@@ -4,22 +4,18 @@
 
 .btnActive {
     margin: 0px auto 30px auto;
-    background-color: blue;
 }
 
 .btnActive:hover {
     cursor: pointer;
-    background-color: lightgreen;
 }
 
 .btnInactive {
     margin: 0px auto 30px auto;
-    background-color: lightgray;
 }
 
 .btnInactive:hover {
     cursor: default;
-    background-color: lightgray;
 }
 
 #wrapper {
@@ -31,19 +27,7 @@
     margin-bottom: 30px;
 }
 
-#studentName {
-    width: 95%;
-    height: 50px;
-    line-height: 40px;
-    margin: 0px auto 30px auto;
-    text-align: center;
-    box-sizing: border-box;
-    border: 2px solid rgb(255, 255, 255);
-    border-radius: 5%;
-    background-color: black;
-    font-size: 18px;
-    resize: none;
-}
+
 
 .flexWrapper {
     display: flex;
