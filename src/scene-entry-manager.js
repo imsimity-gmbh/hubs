@@ -572,6 +572,9 @@ export default class SceneEntryManager {
         const camera = document.querySelector("#avatar-pov-node");
         const povRotation =  camera.getAttribute("rotation");
 
+        // const placerPos = this.scene.systems["first-experiments"].getPlacer();
+        // console.log(placerPos.object3D);
+
         var radAngle =  deg2rad * povRotation.y;
         var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
 
@@ -582,6 +585,7 @@ export default class SceneEntryManager {
           lookAt: true
         });
         this.scene.appendChild(entity);
+        this.experimentParent = entity;
       
       }
     });
@@ -594,7 +598,17 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myPlacer = this.scene.systems["first-experiments"].getPlacer();
+      const myPlacer = this.scene.systems["first-experiments"].experimentPlacers[0];
+
+      let system = this.scene.systems["first-experiments"];
+      let placers = this.scene.systems["first-experiments"].experimentPlacers;
+      let placer = this.scene.systems["first-experiments"].experimentPlacers[0];
+      let myExpPlacer = this.scene.systems["first-experiments"].getPlacer();
+      console.log(system);
+      console.log(placers);
+      console.log(this.scene.systems["first-experiments"].experimentPlacers.length);
+      console.log(placer);
+      console.log(myExpPlacer);
 
       if (myPlacer) {
         myPlacer.parentNode.removeChild(myPlacer);

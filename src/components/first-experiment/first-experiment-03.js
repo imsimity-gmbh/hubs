@@ -36,14 +36,12 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
 
             this.scaleEntity = this.el.querySelector(".scale-entity");
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(-3, 1, -0.2), this.scaleEntity, true);
+            this.spawnItem(scaleModelPromise, new THREE.Vector3(-3, 1, -0.2), this.scaleEntity, false);
             this.scaleSocket = this.el.querySelector(".scale-socket");
             this.scaleSocket.object3D.visible = false;
 
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(-2.8, 1, 0.2), this.crucibleEntity, false);
-            this.crucibleSocket = this.el.querySelector(".crucible-socket");
-            this.crucibleSocket.object3D.visible = false;
+            this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.08, 0.15, 0), this.crucibleEntity, false);
 
             this.updateUI();
 
@@ -54,10 +52,14 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
+            this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
 
             //Subscribe to callback after placing mortar
             this.firstExpPart02 = this.expSystem.getTaskById("02");
             this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
+
+            this.grindSampleClicks = 0;
+            this.finishedGrinding = false;
         });
     },
 
@@ -107,6 +109,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     startPart03() {
         this.mortarSocket2.object3D.visible = true;
         this.mortarSocket2.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
+        this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
+        console.log(this.mortarStick);
     },
 
     onPlacedMortar() {
@@ -123,14 +127,38 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     grindSample() {
-        console.log("grind");
-        this.groundSampleSocket2.object3D.visible = false;
-        this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
-        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 1.06, -0.2), this.grindSampleEntity, true);
-        this.scaleEntity.object3D.visible = true;
-        this.scaleSocket.object3D.visible = true;
-        this.crucibleEntity.object3D.visible = true;
-        this.crucibleSocket.object3D.visible = true;
-    }
+        if(this.finishedGrinding)
+            return;
+
+        this.grindSampleClicks++;
+        if(this.grindSampleClicks >= 15) {
+            this.groundSampleSocket2.object3D.visible = false;
+            this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
+            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 1.06, -0.2), this.grindSampleEntity, true);
+            this.scaleEntity.object3D.visible = true;
+            this.scaleSocket.object3D.visible = true;
+            this.crucibleEntity.object3D.visible = true;
+            this.addBtn.object3D.visible = true;
+            this.removeBtn.object3D.visible = true;
+            this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
+            this.finishedGrinding = true;
+        }
+
+        let inintialPos = this.mortarStick.getAttribute("position");
+        this.mortarStick.setAttribute("position", {x: inintialPos.x, y: (inintialPos.y - 0.03), z: inintialPos.z});
+        setTimeout(() => {
+            this.mortarStick.setAttribute("position", {x: inintialPos.x, y: (inintialPos.y + 0.03), z: inintialPos.z});
+        }, 200);
+    },
+
+    // addSampleToCrucible() {
+    //     this.scaleEntity.components["waage-tool"].addWeight(10);
+    // },
+    // removeSampleFromCrucible() {
+    //     this.scaleEntity.components["waage-tool"].removeWeight(10);
+    // },
+    // onRightSampleAmount() {
+    //     console.log("Richtige Menge abgewogen");
+    // }
 
   });

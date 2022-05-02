@@ -1,4 +1,9 @@
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { cloneObject3D } from "../../utils/three-utils";
+import { loadModel } from ".././gltf-model-plus";
+import grindedSampleSrc from "../../assets/models/GecoLab/ground_sample_grinded.glb";
+
+const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
  
  AFRAME.registerComponent("first-experiment-01", {
     schema: {
@@ -14,14 +19,21 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       waitForDOMContentLoaded().then(() => {
         this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
 
-        this.groundSample1 = this.el.querySelector(".ground-sample-btn-1");
-        this.groundSample1.object3D.addEventListener("interact", () => this.onChooseGroundSample());
+        this.groundSample1 = this.el.querySelector(".ground-sample-1");
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-1.5, 1, 0), this.groundSample1);
+        this.groundSample2 = this.el.querySelector(".ground-sample-2");
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(0, 1, 0), this.groundSample2);
+        this.groundSample3 = this.el.querySelector(".ground-sample-3");
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(1.5, 1, 0), this.groundSample3);
 
-        this.groundSample2 = this.el.querySelector(".ground-sample-btn-2");
-        this.groundSample2.object3D.addEventListener("interact", () => this.onChooseGroundSample());
+        this.groundSample1Btn = this.el.querySelector(".ground-sample-btn-1");
+        this.groundSample1Btn.object3D.addEventListener("interact", () => this.onChooseGroundSample());
 
-        this.groundSample3 = this.el.querySelector(".ground-sample-btn-3");
-        this.groundSample3.object3D.addEventListener("interact", () => this.onChooseGroundSample());
+        this.groundSample2Btn = this.el.querySelector(".ground-sample-btn-2");
+        this.groundSample2Btn.object3D.addEventListener("interact", () => this.onChooseGroundSample());
+
+        this.groundSample3Btn = this.el.querySelector(".ground-sample-btn-3");
+        this.groundSample3Btn.object3D.addEventListener("interact", () => this.onChooseGroundSample());
 
         this.multipleChoice = this.el.querySelector("#multiple-choice-question");
         this.multipleChoice.object3D.visible = false; 
@@ -61,6 +73,22 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
   
     tick: function() {
 
+    },
+
+    spawnItem(promise, position, entity) {
+      promise.then(model => {
+          entity.object3D.visible = false;
+          const mesh = cloneObject3D(model.scene);
+          mesh.scale.set(3, 3, 3);
+          mesh.matrixNeedsUpdate = true;
+          entity.setObject3D("mesh", mesh);
+      
+          entity.object3D.visible = true;
+          entity.object3D.scale.set(3.0, 3.0, 3.0);
+          entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
+          entity.object3D.matrixNeedsUpdate = true;
+          console.log(entity);
+      });
     },
 
     onChooseGroundSample() {

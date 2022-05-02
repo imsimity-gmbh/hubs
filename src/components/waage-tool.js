@@ -19,17 +19,16 @@ AFRAME.registerComponent("waage-tool", {
 
             this.containerPlaced = AFRAME.utils.bind(this.containerPlaced, this);
 
-            this.containerSocket = this.el.querySelector(".container-socket");
-            this.containerSocket.components["entity-socket"].subscribe("onSnap", this.containerPlaced);
             this.ready = false;
 
             this.displayText = this.el.querySelector(".display-text");
             this.displayText.setAttribute("text", { value: this.displayWeight });
 
             this.taraBtn = this.el.querySelector(".tara-btn");
-            this.taraBtn.addEventListener("interact", () => this.tara());
+            this.taraBtn.object3D.addEventListener("interact", () => this.tara());
 
             this.onRightAmountCallbacks = [];
+            this.containerPlaced(); //nur drin bis entity-socket auf waage klappt
         });
     },
 
@@ -73,12 +72,32 @@ AFRAME.registerComponent("waage-tool", {
         this.weight += gramm;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
+
+        if(this.weight == this.data.rightAmount) {
+            this.onRightAmountCallbacks.forEach(cb => {
+                cb();
+            });
+        }
+    },
+
+    removeWeight(gramm) {
+        if(this.ready == false || this.weight <= 0)
+            return;
+        this.weight -= gramm;
+        this.displayWeight = this.weight + "g";
+        this.displayText.setAttribute("text", { value: this.displayWeight });
+
+        if(this.weight == this.data.rightAmount) {
+            this.onRightAmountCallbacks.forEach(cb => {
+                cb();
+            });
+        }
     },
 
     tara() {
         if(this.ready == false)
             return;
-        this.weight = 0.00;
+        this.weight = 0;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
     }

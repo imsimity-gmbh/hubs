@@ -2,7 +2,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 import { cloneObject3D } from "../../utils/three-utils";
 
 import { loadModel } from ".././gltf-model-plus";
-import anchorModelSrc from "../../assets/models/GecoLab/scales.glb";
+import anchorModelSrc from "../../assets/models/GecoLab/tripod.glb";
 
 import { SOUND_SNAP_ENTITY } from "../../systems/sound-effects-system";
  
