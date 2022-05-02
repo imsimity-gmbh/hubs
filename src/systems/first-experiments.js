@@ -149,7 +149,7 @@ AFRAME.registerSystem("first-experiments", {
   registerPlacer(el) {
    
     this.experimentPlacers.push(el);
-    el.addEventListener("ownership-changed", () => this.updateMyExperimentPlacer(id));
+    el.addEventListener("ownership-changed", () => this.updateMyExperimentPlacer());
     this.updateMyExperimentPlacer();
 
   },
@@ -157,7 +157,7 @@ AFRAME.registerSystem("first-experiments", {
   deregisterPlacer(el) {
    
     this.experimentPlacers.splice(this.experimentPlacers.indexOf(el), 1);
-    el.removeEventListener("ownership-changed", () => this.updateMyExperimentPlacer(id));
+    el.removeEventListener("ownership-changed", () => this.updateMyExperimentPlacer());
     this.updateMyExperimentPlacer();
   },
 
