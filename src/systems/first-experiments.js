@@ -163,7 +163,7 @@ AFRAME.registerSystem("first-experiments", {
 
 
   getPlacer() {
-    return this.myExp01Placer;
+    return this.myExpPlacer;
   },
 
   tick() {
