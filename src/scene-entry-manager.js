@@ -598,17 +598,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myPlacer = this.scene.systems["first-experiments"].experimentPlacers[0];
-
-      let system = this.scene.systems["first-experiments"];
-      let placers = this.scene.systems["first-experiments"].experimentPlacers;
-      let placer = this.scene.systems["first-experiments"].experimentPlacers[0];
-      let myExpPlacer = this.scene.systems["first-experiments"].getPlacer();
-      console.log(system);
-      console.log(placers);
-      console.log(this.scene.systems["first-experiments"].experimentPlacers.length);
-      console.log(placer);
-      console.log(myExpPlacer);
+      const myPlacer = this.scene.systems["first-experiments"].getPlacer();
 
       if (myPlacer) {
         myPlacer.parentNode.removeChild(myPlacer);

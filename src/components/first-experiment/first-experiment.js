@@ -19,16 +19,23 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
       waitForDOMContentLoaded().then(() => {
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
         this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
         this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
 
         this.updateUI();
 
-        this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.register(this.el);
 
         this.completedPart01 = AFRAME.utils.bind(this.completedPart01, this);
         this.completedPart02 = AFRAME.utils.bind(this.completedPart02, this);
+
+        this.firstExpPart01 = this.expSystem.getTaskById("01");
+        if(this.firstExpPart01 != null)
+            this.firstExpPart01.components["first-experiment-01"].subscribe("onFinishPart01", this.completedPart01);
+        else 
+            console.log("Can't subscribe to firstExpPart01 callback, entity not found");
       });
 
     },

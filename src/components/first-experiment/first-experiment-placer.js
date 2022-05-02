@@ -73,5 +73,10 @@ const anchorModelPromise = waitForDOMContentLoaded().then(() => loadModel(anchor
       this.myPlaceButton.object3D.visible = false;
 
       this.el.removeObject3D("mesh");
+
+      this.sceneEl.emit("action_toggle_first_experiment");
+      this.sceneEl.emit("action_toggle_first_experiment_01");
+      this.sceneEl.emit("action_toggle_first_experiment_02");
+      this.sceneEl.emit("action_toggle_first_experiment_03");
     }
   });

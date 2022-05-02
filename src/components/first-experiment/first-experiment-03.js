@@ -23,6 +23,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
         waitForDOMContentLoaded().then(() => { 
+            this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
             //Get entity socket of placing positions:
             this.sockets = [];
             this.mortarSocket2 = this.el.querySelector(".mortar-socket-2");
@@ -34,9 +36,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn.object3D.addEventListener("interact", () => this.grindSample());
             this.grindSampleBtn.object3D.visible = false;
 
-
             this.scaleEntity = this.el.querySelector(".scale-entity");
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(-3, 1, -0.2), this.scaleEntity, false);
+            this.spawnItem(scaleModelPromise, new THREE.Vector3(-2.5, 0.8, -0.2), this.scaleEntity, false);
             this.scaleSocket = this.el.querySelector(".scale-socket");
             this.scaleSocket.object3D.visible = false;
 
@@ -45,14 +46,13 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             this.updateUI();
 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
             this.expSystem.registerTask(this.el, "03");
 
             //bind Callback funtion:
             this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
-            this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
+            // this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
 
             //Subscribe to callback after placing mortar
             this.firstExpPart02 = this.expSystem.getTaskById("02");
@@ -134,12 +134,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.grindSampleClicks >= 15) {
             this.groundSampleSocket2.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
-            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 1.06, -0.2), this.grindSampleEntity, true);
+            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.6, 0.9, -0.2), this.grindSampleEntity, true);
             this.scaleEntity.object3D.visible = true;
             this.scaleSocket.object3D.visible = true;
             this.crucibleEntity.object3D.visible = true;
-            this.addBtn.object3D.visible = true;
-            this.removeBtn.object3D.visible = true;
             this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
             this.finishedGrinding = true;
         }

@@ -17,14 +17,16 @@ const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
       waitForDOMContentLoaded().then(() => {
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
         this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
 
         this.groundSample1 = this.el.querySelector(".ground-sample-1");
-        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-1.5, 1, 0), this.groundSample1);
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-1.5, 0.8, 0), this.groundSample1);
         this.groundSample2 = this.el.querySelector(".ground-sample-2");
-        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(0, 1, 0), this.groundSample2);
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(0, 0.8, 0), this.groundSample2);
         this.groundSample3 = this.el.querySelector(".ground-sample-3");
-        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(1.5, 1, 0), this.groundSample3);
+        this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(1.5, 0.8, 0), this.groundSample3);
 
         this.groundSample1Btn = this.el.querySelector(".ground-sample-btn-1");
         this.groundSample1Btn.object3D.addEventListener("interact", () => this.onChooseGroundSample());
@@ -40,7 +42,6 @@ const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel
 
         this.updateUI();
 
-        this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "01");
       });
 

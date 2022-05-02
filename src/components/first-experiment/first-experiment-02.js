@@ -39,6 +39,8 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
         waitForDOMContentLoaded().then(() => { 
+            this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
             //Get spawnEntity of Models
             this.movableEntities = [];
             this.mortarEntity = this.el.querySelector(".mortar-entity");
@@ -91,21 +93,20 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
             this.itemsPlaced = 0;
 
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
-            this.spawnItem(mortarModelPromise, new THREE.Vector3(0, 1, 1.2), this.mortarEntity);
+            this.spawnItem(mortarModelPromise, new THREE.Vector3(0, 0.8, 1.2), this.mortarEntity);
             this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity);
-            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(0, 1, 1.4), this.groundSampleEntity);
-            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(0, 1, 0.9), this.bunsenBurnerEntity);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 1, 0.4), this.tripod1Entity);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 1, -0.2), this.tripod2Entity);
+            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(0, 0.8, 1.4), this.groundSampleEntity);
+            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(0, 0.8, 0.9), this.bunsenBurnerEntity);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 0.8, 0.4), this.tripod1Entity);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 0.8, -0.2), this.tripod2Entity);
             this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity);
-            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0, 1, -0.6), this.firelighterEntity);
-            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0, 1, -0.9), this.glassStickEntity);
-            this.spawnItem(thermoModelPromise, new THREE.Vector3(0, 1, -1.1), this.thermoEntity);
+            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0, 0.8, -0.6), this.firelighterEntity);
+            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0, 0.8, -0.9), this.glassStickEntity);
+            this.spawnItem(thermoModelPromise, new THREE.Vector3(0, 0.8, -1.1), this.thermoEntity);
 
             this.updateUI();
 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
             this.expSystem.registerTask(this.el, "02");
 
             //bind Callback funtion:
