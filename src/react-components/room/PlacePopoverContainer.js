@@ -46,7 +46,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.machine" defaultMessage="Machine" />,
             onSelect: () => scene.emit("action_toggle_machine"),
             selected: hasActiveMachine
-          },
+          },/*
           hubChannel.can("spawn_camera") && {
             id: "stopwatch",
             icon: ObjectIcon,
@@ -70,7 +70,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.robot" defaultMessage="Robot" />,
             onSelect: () => scene.emit("action_toggle_robot"),
             selected: hasActiveRobot
-          },
+          },*/
           hubChannel.can("spawn_camera") && {
             id: "first-experiment",
             icon: ObjectIcon,
@@ -79,6 +79,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_first_experiment"),
             selected: hasActiveFirstExperiment
           },
+          /*
           hubChannel.can("spawn_camera") && {
             id: "first-experiment-placer",
             icon: ObjectIcon,
@@ -86,7 +87,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.firstexperimentplacer" defaultMessage="First Experiment Placer" />,
             onSelect: () => scene.emit("action_toggle_first_experiment_placer"),
             selected: hasActiveFirstExperimentPlacer
-          },
+          },*/
           hubChannel.can("spawn_camera") && {
             id: "camera",
             icon: CameraIcon,
