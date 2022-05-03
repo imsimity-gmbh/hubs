@@ -176,9 +176,10 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
         });
     },
 
-    onPlacedExperimentItem() {
-        this.itemsPlaced++;
-        if(this.itemsPlaced == this.sockets.length) {
+    onPlacedExperimentItem(entity) {
+        let index = this.sockets.indexOf(entity);
+        this.sockets.splice(index, 1);
+        if(this.sockets.length <= 0) {
             this.onFinishPart02Callbacks.forEach(cb => {
                 cb();
             });

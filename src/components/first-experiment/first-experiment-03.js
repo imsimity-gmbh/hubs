@@ -36,13 +36,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn.object3D.addEventListener("interact", () => this.grindSample());
             this.grindSampleBtn.object3D.visible = false;
 
+            this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
+            this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
+
             this.scaleEntity = this.el.querySelector(".scale-entity");
             this.spawnItem(scaleModelPromise, new THREE.Vector3(-2.5, 0.8, -0.2), this.scaleEntity, false);
             this.scaleSocket = this.el.querySelector(".scale-socket");
             this.scaleSocket.object3D.visible = false;
 
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.08, 0.15, 0), this.crucibleEntity, false);
+            this.spawnItem(curcibleModelPromise, new THREE.Vector3(-2.5, 0.8, -0.2), this.crucibleEntity, false);
 
             this.updateUI();
 
@@ -110,7 +113,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.mortarSocket2.object3D.visible = true;
         this.mortarSocket2.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
         this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
-        console.log(this.mortarStick);
+        this.mortarEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+        this.groundSampleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     },
 
     onPlacedMortar() {

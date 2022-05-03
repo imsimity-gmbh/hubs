@@ -248,6 +248,8 @@ import { Vector3 } from "three";
       entity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
       this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
 
+      entity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+
       this.playSound(SOUND_SNAP_ENTITY);
 
       this.objectReleased = true;
