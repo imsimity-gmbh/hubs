@@ -52,6 +52,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       this.sceneEl.emit("action_toggle_first_experiment_01");
       this.sceneEl.emit("action_toggle_first_experiment_02");
       this.sceneEl.emit("action_toggle_first_experiment_03");
+      this.sceneEl.emit("action_toggle_first_experiment_04");
       this.firstExpStartBtn.object3D.visible = false;
 
       setTimeout(() => {

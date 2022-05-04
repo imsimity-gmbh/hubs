@@ -146,6 +146,7 @@ import { Vector3 } from "three";
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
+          console.log(this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -258,7 +259,6 @@ import { Vector3 } from "three";
       this.inRadiusEntity = null;
 
       //Network snappedEntity: (still to do....)
-      console.log(this.root);
 
       this.onSnapCallbacks.forEach(cb => {
         cb(entity);

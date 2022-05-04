@@ -179,7 +179,7 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
     onPlacedExperimentItem(entity) {
         let index = this.sockets.indexOf(entity);
         this.sockets.splice(index, 1);
-        if(this.sockets.length <= 0) {
+        if(this.sockets.length <= 6) {
             this.onFinishPart02Callbacks.forEach(cb => {
                 cb();
             });

@@ -40,12 +40,12 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
 
             this.scaleEntity = this.el.querySelector(".scale-entity");
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(-2.5, 0.8, -0.2), this.scaleEntity, false);
+            this.spawnItem(scaleModelPromise, new THREE.Vector3(-2.2, 0.8, -0.2), this.scaleEntity, false);
             this.scaleSocket = this.el.querySelector(".scale-socket");
             this.scaleSocket.object3D.visible = false;
 
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(-2.5, 0.8, -0.2), this.crucibleEntity, false);
+            this.spawnItem(curcibleModelPromise, new THREE.Vector3(-2.2, 0.8, 0.4), this.crucibleEntity, false);
 
             this.updateUI();
 
@@ -55,7 +55,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
-            // this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
+            this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
 
             //Subscribe to callback after placing mortar
             this.firstExpPart02 = this.expSystem.getTaskById("02");
@@ -159,8 +159,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     // removeSampleFromCrucible() {
     //     this.scaleEntity.components["waage-tool"].removeWeight(10);
     // },
-    // onRightSampleAmount() {
-    //     console.log("Richtige Menge abgewogen");
-    // }
+    onRightSampleAmount() {
+        console.log("Richtige Menge abgewogen");
+    }
 
   });

@@ -59,28 +59,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localResetClicked = false;
       this.localCurrentTime = 0;
       this.localDisplayTime = "00:00";
-
-      //subscribe to entity-socket:
-      this.sceneEl = document.querySelector("a-scene");
-      this.entitySocket = this.sceneEl.querySelector(".test-trigger-zone");
-      if(this.entitySocket != null)
-        this.entitySocket.components["entity-socket"].subscribe("onSnap", this.onSnapCallback);
-      else
-        console.log("Can't subscribe to entity socket callbacks, entity socket not found");
-
-      //subscribe to multiple-choice:
-      this.multipleChoice = this.sceneEl.querySelector(".multiple-choice-wrapper");
-      if(this.multipleChoice != null)
-        this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitCallback);
-      else 
-        console.log("Can't subscribe to multiple-choice callbacks, multiple-choice component not found");
-
-      //subscribe to collectible:
-      this.collectible = this.sceneEl.querySelector(".collectible-wrapper");
-      if(this.collectible != null)
-        this.collectible.components["collectible"].subscribe("onCollect", this.onCollectCallback);
-      else  
-        console.log("Can't subscribe to collectible callbacks, collectible component not found");
     
       this.updateUI();
 
@@ -237,43 +215,10 @@ AFRAME.registerComponent("stopwatch-tool", {
     console.log("stopwatch pinned.");
   },
 
-  updateStartButtonUI(timerStatus) 
-  {
-    if(timerStatus) {
-      this.timerRunning = false;
-      this.myStartButtonText.setAttribute("text", { value: "Start" });
-    }
-    else {
-      this.timerRunning = true;
-      this.myStartButtonText.setAttribute("text", { value: "Pause" });
-    }
-  },
-
   playSound(soundId)
   {
     const sceneEl = this.el.sceneEl;
     sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
   },
-
-  //Entity-Socket Callbacks:
-  onSnapCallback(attachedEntity)
-  {
-    console.log(attachedEntity);
-  },
-
-  //Multiple-Choice Callback:
-  onSubmitCallback(correctAnswer, selectedAnswer) 
-  {
-    if(correctAnswer == selectedAnswer)
-      console.log("Correct answer submitted");
-    else
-      console.log("Wrong answer submitted");
-  },
-
-  onCollectCallback(collectedEntity)
-  {
-    console.log("Collected Entity:");
-    console.log(collectedEntity);
-  }
 
 });

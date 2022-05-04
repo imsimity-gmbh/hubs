@@ -17,8 +17,17 @@ AFRAME.registerComponent("waage-tool", {
             this.weight = 0;
             this.displayWeight = this.weight + "g";
 
-            this.containerPlaced = AFRAME.utils.bind(this.containerPlaced, this);
+            this.onScalePlaced = AFRAME.utils.bind(this.onScalePlaced, this);
+            this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
 
+            this.crucibleSocket = this.sceneEl.querySelector(".crucible-socket");
+            this.crucibleSocket.object3D.visible = false;
+            this.crucibleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
+
+            this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
+            this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onScalePlaced);
+
+            this.scalePlaced = false;
             this.ready = false;
 
             this.displayText = this.el.querySelector(".display-text");
@@ -28,7 +37,7 @@ AFRAME.registerComponent("waage-tool", {
             this.taraBtn.object3D.addEventListener("interact", () => this.tara());
 
             this.onRightAmountCallbacks = [];
-            this.containerPlaced(); //nur drin bis entity-socket auf waage klappt
+            // this.onContainerPlaced(); //nur drin bis entity-socket auf waage klappt
         });
     },
 
@@ -56,10 +65,19 @@ AFRAME.registerComponent("waage-tool", {
     },
   
     tick: function() {
+        if(this.scalePlaced)
+            return;
 
+        let waagePos = this.el.getAttribute("position");
+        this.crucibleSocket.setAttribute("position", {x: waagePos.x, y: (waagePos.y + 0.2), z: waagePos.z});
     },
 
-    containerPlaced() {
+    onScalePlaced() {
+        this.scalePlaced = true;
+        this.crucibleSocket.setAttribute("position", {x: -1.2, y: 0.8, z: -0.45});
+        this.crucibleSocket.object3D.visible = true;
+    },
+    onContainerPlaced() {
         this.weight = 120;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
@@ -74,6 +92,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
         if(this.weight == this.data.rightAmount) {
+            this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
             });
@@ -88,6 +107,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
         if(this.weight == this.data.rightAmount) {
+            this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
             });
@@ -97,9 +117,16 @@ AFRAME.registerComponent("waage-tool", {
     tara() {
         if(this.ready == false)
             return;
-        this.weight = 0;
+        this.weight = 50;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
+
+        if(this.weight == this.data.rightAmount) {
+            this.ready = false;
+            this.onRightAmountCallbacks.forEach(cb => {
+                cb();
+            });
+        }
     }
 
   });
