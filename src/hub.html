@@ -1183,7 +1183,7 @@
             </template>
 
             <template id="interactable-first-experiment-04-camera">
-                <a-entity class="part04-wrapper" first-experiment-04>
+                <a-entity class="ui interactable-ui part04-wrapper" first-experiment-04>
                     <a-entity class="stopwatch-entity" position="2 0.2 0" rotation="0 0 0"
                         tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                         is-remote-hover-target
@@ -1192,6 +1192,13 @@
                         scalable-when-grabbed
                         floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                     >
+                    </a-entity>
+                    <a-entity class="crucible-socket-04" position="0 1.15 -0.5" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity>
+                    <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.25 -0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                        <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity>
                 </a-entity>
             </template>

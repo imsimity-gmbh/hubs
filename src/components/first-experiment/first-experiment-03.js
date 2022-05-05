@@ -63,14 +63,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             this.grindSampleClicks = 0;
             this.finishedGrinding = false;
+
+            this.onFinishPart03Callbacks = [];
         });
     },
 
     subscribe(eventName, fn)
     {
         switch(eventName) {
-            case "onSampleGrinded":
-              this.onFinishPart02Callbacks.push(fn);
+            case "onFinishPart03":
+              this.onFinishPart03Callbacks.push(fn);
               break;
         }
     },
@@ -78,9 +80,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     unsubscribe(eventName, fn)
     {
         switch(eventName) {
-            case "onSampleGrinded":
-              let index = this.onFinishPart02Callback.indexOf(fn);
-              this.onFinishPart02Callback.splice(index, 1);
+            case "onFinishPart03":
+              let index = this.onFinishPart03Callbacks.indexOf(fn);
+              this.onFinishPart03Callbacks.splice(index, 1);
               break;
         }
     },
@@ -161,6 +163,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     // },
     onRightSampleAmount() {
         console.log("Richtige Menge abgewogen");
+        this.onFinishPart03Callbacks.forEach(cb => {
+            cb();
+        });
     }
 
   });

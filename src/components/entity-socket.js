@@ -284,8 +284,8 @@ import { Vector3 } from "three";
 
       entity.setObject3D("mesh", clonedMesh);
 
-      if(entity.children.length > 0)
-        this.applyMaterial(entity.children[0], entity.children[0], red, green, blue);
+      // if(entity.children.length > 0)
+      //   this.applyMaterial(entity.children[0], entity.children[0], red, green, blue);
     },
 
     playSound(soundId)

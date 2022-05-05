@@ -7,6 +7,12 @@ import { THREE } from "aframe";
 
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
 
+/*-Get crucible and make it placable on tripod (done)
+- After clicking start place lighter on socket -> ignite
+- Stoppuhr appears (rewrite component for automatic interaction)
+- Add btns for different power levels and give feedback on which is best
+---> done, next step  */
+
   AFRAME.registerComponent("first-experiment-04", {
     schema: {
     },
@@ -21,12 +27,27 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         waitForDOMContentLoaded().then(() => { 
             this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
+            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+
+            this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
+            this.crucibleSocketTripod.object3D.visible = false;
+
+            this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
+
+            this.startBtn = this.el.querySelector(".start-burner-btn");
+            this.startBtn.object3D.visible = false;
+
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
-            this.spawnItem(stopwatchModelPromise, new THREE.Vector3(0, 1.8, -0.5), 0.03, this.stopwatchEntity, true);
+            this.spawnItem(stopwatchModelPromise, new THREE.Vector3(0, 1.8, -0.5), 0.03, this.stopwatchEntity, false);
 
             this.updateUI();
 
-            console.log("04");
+            //bind Callback funtions:
+            this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
+            this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
+
+            this.firstExpPart03 = this.expSystem.getTaskById("03");
+            this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 
             this.expSystem.registerTask(this.el, "04");
         });
@@ -48,6 +69,12 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 
     },
 
+    startPart04() {
+        this.crucibleSocketTripod.object3D.visible = true;
+        this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+        this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
+    },
+
     spawnItem(promise, position, scale, entity, show) {
         promise.then(model => {
             entity.object3D.visible = false;
@@ -58,10 +85,16 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         
             if(show)
                 entity.object3D.visible = true;
+
             entity.object3D.scale.set(1.0, 1.0, 1.0);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
         });
     },
+
+    onPlacedCrucible() {
+        this.crucibleSocketScale.object3D.visible = false;
+        this.startBtn.object3D.visible = true;
+    }
 
   });
