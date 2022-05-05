@@ -20,6 +20,37 @@ AFRAME.registerSystem('gecolab-manager', {
         this.group = null;
         this.initialized = false;
 
+
+        // We wait for the scene to be loaded
+        if (this.studentId != undefined || this.studentId != "")
+        {
+            console.log("Student ID :" + this.studentId + " found. Initializing...");
+            this.checkSceneInitialization();
+        }
+        
+        
+    },
+
+    checkSceneInitialization()
+    {
+        console.log(window.APP);
+
+        if (window.APP.scene != null && window.APP.hubChannel != null)
+        {
+            console.log("Scene & Hub Channel are ready");
+        
+            this.initFromUrlParams();
+            return;
+        }
+
+        console.log("Scene & Hub Channel aren't ready");
+
+        // Re-check in 1 second
+        setTimeout(() => { this.checkSceneInitialization() }, 1000);
+    },
+
+    initFromUrlParams()
+    {
         if (this.schoolId != null)
         {
             fetch(`https://${configs.CORS_PROXY_SERVER}/${GECOLAB_DASHBOARD_API}/api/v1/school?schoolId=${this.schoolId}`, {
@@ -64,6 +95,8 @@ AFRAME.registerSystem('gecolab-manager', {
                     console.log("GECOLAB MANAGER: Group not found in school");
                 }
                 
+                this.initializeAvatar();
+
                 this.initialized = true;
             });
         }
@@ -71,7 +104,20 @@ AFRAME.registerSystem('gecolab-manager', {
         {
             console.log("GECOLAB MANAGER: no schoolId found")
         }
+    },
+
+    initializeAvatar()
+    {
+        const avatarUrl = this.student.avatarUrl;
         
+        console.log("Student Avatar found :"+ avatarUrl);
+
+        const store = window.APP.store;
+        const scene = window.APP.scene;
+
+        // We push an update of the AVATAR url for this Student
+        store.update({ profile: { ...store.state.profile, ...{ avatarId: avatarUrl } } });
+        scene.emit("avatar_updated");
     },
 
     getSchool()
@@ -112,7 +158,6 @@ AFRAME.registerSystem('gecolab-manager', {
     isStudent()
     {
         return (this.student != null);
-    }
-  
-    // Other handlers and methods.
+    },
+
 });
