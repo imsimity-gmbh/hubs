@@ -28,23 +28,30 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
             this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+            this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
 
             this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
             this.crucibleSocketTripod.object3D.visible = false;
 
             this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
+            this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
+
+            this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
+            this.firelighterSocketTripod.object3D.visible = false;
 
             this.startBtn = this.el.querySelector(".start-burner-btn");
+            this.startBtn.object3D.addEventListener("interact", () => this.onStartBurner());
             this.startBtn.object3D.visible = false;
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
-            this.spawnItem(stopwatchModelPromise, new THREE.Vector3(0, 1.8, -0.5), 0.03, this.stopwatchEntity, false);
+            this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
+            this.stopwatchEntity.object3D.visible = false;
 
             this.updateUI();
 
             //bind Callback funtions:
             this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
             this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
+            this.onPlacedLighter = AFRAME.utils.bind(this.onPlacedLighter, this);
 
             this.firstExpPart03 = this.expSystem.getTaskById("03");
             this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
@@ -95,6 +102,20 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     onPlacedCrucible() {
         this.crucibleSocketScale.object3D.visible = false;
         this.startBtn.object3D.visible = true;
+    },
+
+    onStartBurner() {
+        this.startBtn.object3D.visible = false;
+        this.firelighterSocketTripod.object3D.visible = true;
+        this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedLighter);
+        this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+    },
+
+    onPlacedLighter() {
+        this.stopwatchEntity.object3D.visible = true;
+        this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
+        this.firelighterSocketGeneral.object3D.visible = true;
+        this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     }
 
   });

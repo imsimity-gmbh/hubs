@@ -39,16 +39,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
-      //<-- Buttons and display-text of the watch
-      this.myStartButton = this.el.querySelector(".stopwatch-start-button"); //el = element, like gameobject in unity
-      this.myStartButton.object3D.addEventListener("interact", () => this.onStartButtonClick());
-      this.myStartButtonText = this.el.querySelector(".stopwatch-start-button-text");
-
-      this.myResetButton = this.el.querySelector(".stopwatch-reset-button");
-      this.myResetButton.object3D.addEventListener("interact", () => this.onResetButtonClick());
-
       this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
-      //--->
 
       //Variables needed for stopwatch logic:
       this.timerRunning = false;
@@ -76,16 +67,10 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.updateUI();
   },
 
-  updateUI() {
-    console.log("Update UI called");
-    
+  updateUI() {  
     //check if variables initialized:
     if(!this.myStartButton)
       return;
-
-    console.log(this.data.startClicked);
-    console.log(this.data.resetClicked);
-    console.log(this.data.currentTime);
 
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
@@ -96,7 +81,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       else 
         this.timeUntilPause = this.localCurrentTime * 1000;
       
-      this.updateStartButtonUI(this.timerRunning);
       this.localStartClicked = this.data.startClicked;
     }
 
@@ -104,7 +88,6 @@ AFRAME.registerComponent("stopwatch-tool", {
     if(this.localResetClicked != this.data.resetClicked) {
 
       if(this.timerRunning) {
-        this.updateStartButtonUI(this.timerRunning);
         this.startTime = performance.now();
       }
 
@@ -176,8 +159,9 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   },
 
-  onStartButtonClick()
+  onStartTimer()
   {
+    console.log("start");
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
       NAF.utils.takeOwnership(networkedEl);
@@ -188,7 +172,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     });
   },
 
-  onResetButtonClick()
+  onResetTimer()
   {
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
       
