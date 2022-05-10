@@ -7,6 +7,7 @@ import { Button } from "../input/Button";
 import { CloseButton } from "../input/CloseButton";
 import { TextInputField } from "../input/TextInputField";
 import { styles } from "./StudentEntryModal.scss";
+import  configs from "../../utils/configs";
 import AvatarPreview from "../avatar-preview";
 import Laborbrille from "../../assets/images/icons/laborbrille_placeholder.png";
 import Laborkittel from "../../assets/images/icons/laborkittel_placeholder.png";
@@ -58,8 +59,11 @@ function setSecurityBtn(showNonHistoriedDialog, scene) {
     )
 }
 
+
 export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, securityRead, showAcceptBtn, 
     showSecurity, showSecurityBtn, clothingWrapperLeftClassName, clothingOptionLeftClassName, clothingWrapperRightClassName, clothingOptionRightClassName, rightOptionCounter }) {
+    
+    const profile = window.APP.store.state.profile;
 
     let enterBtnClassName = "";
     let acceptBtnClassName = "";
@@ -72,6 +76,8 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     let rightOptionCounter_local = rightOptionCounter;
 
     let gecolabManager = scene.systems["gecolab-manager"];
+    
+    let studentAvatar = null;
 
     console.log(gecolabManager);
 
@@ -81,7 +87,8 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     }
     
     let student = gecolabManager.getStudent();
-    
+
+    let avatarGltfUrl = `https://${configs.CORS_PROXY_SERVER}/${profile.avatarId}`;
 
     //Callbacks from ClothingOptions:
     const onClickClothingWrapper = useCallback(
@@ -255,11 +262,10 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
                             clothingWrapperClassName={clothingWrapperLeftClassName_local}
                             clothingOptionClassName={clothingOptionLeftClassName_local}
                         />
+                        
                         <AvatarPreview 
                             className="preview"
-                            avatarGltfUrl={"https://www.dropbox.com/s/3wqvhuw8zgvtjkh/9aa7a5a1-071f-4111-82f9-73b005e32d06.gltf?dl=1"} //Add link of my avatar
-                            onGltfLoaded={(e) => {console.log(e)}}
-                            // ref={p => (this.preview = p)}
+                            avatarGltfUrl={avatarGltfUrl}
                         />
                         <ClothingOptions
                             parentID={"laborbrille"}
