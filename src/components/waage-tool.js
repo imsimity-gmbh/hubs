@@ -6,7 +6,6 @@ AFRAME.registerComponent("waage-tool", {
     },
   
     init: function() {
-        console.log("waage");
         this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         

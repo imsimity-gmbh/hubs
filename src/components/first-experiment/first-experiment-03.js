@@ -146,6 +146,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.crucibleEntity.object3D.visible = true;
             this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
             this.finishedGrinding = true;
+            this.grindSampleBtn.object3D.visible = false;
         }
 
         let inintialPos = this.mortarStick.getAttribute("position");

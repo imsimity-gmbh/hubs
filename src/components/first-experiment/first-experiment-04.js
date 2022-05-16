@@ -7,6 +7,7 @@ import { THREE } from "aframe";
 
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
 
+//!! Hide Sockets onPickedUp!!
 /*-Get crucible and make it placable on tripod (done)
 - After clicking start place lighter on socket -> ignite
 - Stoppuhr appears (rewrite component for automatic interaction)
@@ -29,29 +30,33 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
+            this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
 
             this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
             this.crucibleSocketTripod.object3D.visible = false;
 
             this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
             this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
+            this.glassstickSocketGeneral = this.sceneEl.querySelector(".glass-stick-socket");
 
             this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
             this.firelighterSocketTripod.object3D.visible = false;
 
+            this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
+            this.glassstickSocket.object3D.visible = false;
+            this.t = 0;
+
             this.startBtn = this.el.querySelector(".start-burner-btn");
             this.startBtn.object3D.addEventListener("interact", () => this.onStartBurner());
             this.startBtn.object3D.visible = false;
-
-            this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
-            this.stopwatchEntity.object3D.visible = false;
 
             this.updateUI();
 
             //bind Callback funtions:
             this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
             this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
-            this.onPlacedLighter = AFRAME.utils.bind(this.onPlacedLighter, this);
+            this.onLightBurner = AFRAME.utils.bind(this.onLightBurner, this);
+            this.onReplaceLighter = AFRAME.utils.bind(this.onReplaceLighter, this);
 
             this.firstExpPart03 = this.expSystem.getTaskById("03");
             this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
@@ -69,17 +74,26 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
     
     updateUI: function() {
-
     },
   
     tick: function() {
-
+        document.addEventListener('keydown', function(event) {
+            if(event.keyCode == 66) {
+                this.stirLeft(this.t);
+                this.t += 0.01
+            }
+            else if(event.keyCode == 78) {
+                
+            }
+        });
     },
 
     startPart04() {
         this.crucibleSocketTripod.object3D.visible = true;
         this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
+        this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
+        console.log(this.stopwatchEntity);
     },
 
     spawnItem(promise, position, scale, entity, show) {
@@ -107,15 +121,33 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     onStartBurner() {
         this.startBtn.object3D.visible = false;
         this.firelighterSocketTripod.object3D.visible = true;
-        this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedLighter);
+        this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
         this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     },
 
-    onPlacedLighter() {
+    onLightBurner() {
         this.stopwatchEntity.object3D.visible = true;
         this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
+        console.log("stopwatch");
         this.firelighterSocketGeneral.object3D.visible = true;
+        this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
         this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+    },
+
+    onReplaceLighter() {
+        this.firelighterSocketTripod.object3D.visible = false;
+        this.glassstickSocket.object3D.visible = true;
+        this.glassstickEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+    },
+
+    stirLeft(t) {
+        let x = Math.sin(t) + 1.5;
+        let z = Math.cos(t) - 0.3;
+        this.glassstickEntity.setAttribute("position", {x: x, y: 0.79, z: z});
+    },
+    
+    stirRight() {
+
     }
 
   });

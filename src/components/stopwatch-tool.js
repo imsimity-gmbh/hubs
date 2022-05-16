@@ -31,11 +31,11 @@ AFRAME.registerComponent("stopwatch-tool", {
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
-      mesh.scale.set(0.03, 0.03, 0.03);
+      mesh.scale.set(0.02, 0.02, 0.02);
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
-      this.el.object3D.visible = true;
+      this.el.object3D.visible = false;
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
@@ -75,13 +75,18 @@ AFRAME.registerComponent("stopwatch-tool", {
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
 
-      if(this.timerRunning == false) 
+      if(this.timerRunning == false) {
         this.startTime = performance.now();
+        this.timerRunning = true;
+      }
     
-      else 
+      else {
         this.timeUntilPause = this.localCurrentTime * 1000;
+        this.timerRunning = false;
+      }
       
       this.localStartClicked = this.data.startClicked;
+      console.log(this.timerRunning);
     }
 
     //Check if reset-button has been clicked by anyone
@@ -93,6 +98,7 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.localCurrentTime = 0;
       this.timeUntilPause = 0;
+      this.timerRunning = false;
       this.myDisplayText.setAttribute("text", { value: "00:00" });
       console.log(this.data.currentTime);
 
@@ -166,7 +172,8 @@ AFRAME.registerComponent("stopwatch-tool", {
     
       NAF.utils.takeOwnership(networkedEl);
 
-      this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
+      this.el.setAttribute("stopwatch-tool", "startClicked", true);      
+      console.log("changed value");
 
       this.updateUI();
     });
