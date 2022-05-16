@@ -1,4 +1,6 @@
 import configs from "../utils/configs";
+import Cookies from "js-cookie";
+import { isNullUndefinedOrEmpty } from "../utils/imsimity";
 
 const GECOLAB_DASHBOARD_API = "https://gecolab-dashboard.herokuapp.com"
 
@@ -6,28 +8,40 @@ AFRAME.registerSystem('gecolab-manager', {
     schema: {},  // System schema. Parses into `this.data`.
   
     init: function () {
-        // Called on scene initialization.
-        console.log('GECOLAB MANGER');
 
-        const queryParams = new URLSearchParams(window.location.search);
-        
-        this.studentId = queryParams.get('studentId');
-        this.groupId = queryParams.get('groupId');
-        this.schoolId = queryParams.get('schoolId');
-        
         this.school = null;
         this.student = null;
         this.group = null;
         this.initialized = false;
 
+        // Getting the Params from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        
+        this.studentId = queryParams.get('studentId');
+        this.groupId = queryParams.get('groupId');
+        this.schoolId = queryParams.get('schoolId');
 
-        // We wait for the scene to be loaded
-        if (this.studentId != undefined || this.studentId != "")
+        
+        // Values aren't in the params, we get it from cookies 
+        this.studentId = isNullUndefinedOrEmpty(this.studentId) ? Cookies.get('studentId') : this.studentId;
+        this.groupId = isNullUndefinedOrEmpty(this.groupId) ? Cookies.get('groupId') : this.groupId;
+        this.schoolId = isNullUndefinedOrEmpty(this.schoolId) ? Cookies.get('schoolId') : this.schoolId;
+
+
+        if (isNullUndefinedOrEmpty(this.studentId) == false)
         {
+            // Store the value in cookies, for next time...
+            Cookies.set('studentId', this.studentId);
+            Cookies.set('groupId', this.groupId);
+            Cookies.set('schoolId', this.schoolId);
+
             console.log("Student ID :" + this.studentId + " found. Initializing...");
             this.checkSceneInitialization();
         }
-        
+        else
+        {
+            console.log("Not a student...");
+        }
         
     },
 
@@ -39,7 +53,7 @@ AFRAME.registerSystem('gecolab-manager', {
         {
             console.log("Scene & Hub Channel are ready");
         
-            this.initFromUrlParams();
+            this.initFromServer();
             return;
         }
 
@@ -49,8 +63,9 @@ AFRAME.registerSystem('gecolab-manager', {
         setTimeout(() => { this.checkSceneInitialization() }, 1000);
     },
 
-    initFromUrlParams()
+    initFromServer()
     {
+        //TODO: Refactor with Asyc / Await ?
         if (this.schoolId != null)
         {
             fetch(`https://${configs.CORS_PROXY_SERVER}/${GECOLAB_DASHBOARD_API}/api/v1/school?schoolId=${this.schoolId}`, {
@@ -95,7 +110,7 @@ AFRAME.registerSystem('gecolab-manager', {
                     console.log("GECOLAB MANAGER: Group not found in school");
                 }
                 
-                this.initializeAvatar();
+                this.initializeAvatarAndDisplayName();
 
                 this.initialized = true;
             });
@@ -106,9 +121,10 @@ AFRAME.registerSystem('gecolab-manager', {
         }
     },
 
-    initializeAvatar()
+    initializeAvatarAndDisplayName()
     {
         const avatarUrl = this.student.avatarUrl;
+        const gamerTag = this.student.gamerTag;
         
         console.log("Student Avatar found :"+ avatarUrl);
 
@@ -116,7 +132,7 @@ AFRAME.registerSystem('gecolab-manager', {
         const scene = window.APP.scene;
 
         // We push an update of the AVATAR url for this Student
-        store.update({ profile: { ...store.state.profile, ...{ avatarId: avatarUrl } } });
+        store.update({ profile: { ...store.state.profile, ...{ avatarId: avatarUrl, displayName: gamerTag } } });
         scene.emit("avatar_updated");
     },
 
