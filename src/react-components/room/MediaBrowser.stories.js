@@ -41,7 +41,14 @@ const FACETS = {
     { text: "Newest", params: { filter: "" } }
   ],
   favorites: [],
-  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }]
+  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }],
+  library: [
+    { text: "Images", params: { filter: "images"}},
+    { text: "Videos", params: { filter: "videos"}},
+    { text: "Documents", params: { filter: "documents"}},
+    { text: "URLs", params: { filter: "urls"}},
+    { text: "Models", params: { filter: "models"}},
+  ]
 };
 
 const room = {
@@ -238,7 +245,23 @@ const gif = {
   url: "https://media.tenor.com/videos/004424225acc15896c846f6ab3740ad0/mp4"
 };
 
-const mediaSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images"];
+const libraryItem = {
+  attributions: {},
+  id: "175836378",
+  images: {
+    preview: {
+      height: 178,
+      type: "mp4",
+      url: "https://media.tenor.com/videos/460a01cf67ea961ef7e4e0fc8680ca2d/mp4",
+      width: 320
+    }
+  },
+  name: "",
+  type: "library_item",
+  url: "https://media.tenor.com/videos/004424225acc15896c846f6ab3740ad0/mp4"
+};
+
+const mediaSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images", "library"];
 
 export const Favorites = () => (
   <MediaBrowser selectedSource={"favorites"}>
@@ -378,5 +401,28 @@ export const Gif = () => (
     <MediaTile entry={gif} />
     <MediaTile entry={gif} />
     <MediaTile entry={gif} />
+  </MediaBrowser>
+);
+
+export const Library = () => (
+  <MediaBrowser
+    searchPlaceholder="Search Digital Library..."
+    mediaSources={mediaSources}
+    selectedSource={"library"}
+    facets={FACETS.library}
+    headerRight={
+      <IconButton lg>
+        <LinkIcon />
+        <p>Custom Model</p>
+      </IconButton>
+    }
+    hasNext
+  >
+    <MediaTile entry={libraryItem} />
+    <MediaTile entry={libraryItem} />
+    <MediaTile entry={libraryItem} />
+    <MediaTile entry={libraryItem} />
+    <MediaTile entry={libraryItem} />
+    <MediaTile entry={libraryItem} />
   </MediaBrowser>
 );

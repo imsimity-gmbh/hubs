@@ -13,10 +13,11 @@ const URL_SOURCE_TO_TO_API_SOURCE = {
   gifs: "tenor",
   sketchfab: "sketchfab",
   twitch: "twitch",
-  favorites: "favorites"
+  favorites: "favorites",
+  library: "library"
 };
 
-const desiredSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images"];
+const desiredSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images", "library"];
 const availableSources = desiredSources.filter(source => {
   const apiSource = URL_SOURCE_TO_TO_API_SOURCE[source];
   return configs.integration(apiSource);

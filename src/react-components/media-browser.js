@@ -57,7 +57,14 @@ const DEFAULT_FACETS = {
     { text: "Newest", params: { filter: "" } }
   ],
   favorites: [],
-  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }]
+  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }],
+  library: [
+    { text: "Images", params: { filter: "images"}},
+    { text: "Videos", params: { filter: "videos"}},
+    { text: "Documents", params: { filter: "documents"}},
+    { text: "URLs", params: { filter: "urls"}},
+    { text: "Models", params: { filter: "models"}},
+  ]
 };
 
 const poweredByMessages = defineMessages({
@@ -88,6 +95,10 @@ const poweredByMessages = defineMessages({
   scenes: {
     id: "media-browser.powered_by.scenes",
     defaultMessage: "Made with {editorName}"
+  },
+  library: {
+    id: "media-browser.nav_title.digital_library",
+    defaultMessage: "Digital Library"
   }
 });
 
