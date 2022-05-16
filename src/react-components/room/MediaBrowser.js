@@ -23,7 +23,8 @@ const navTitleMessages = defineMessages({
   scenes: { id: "media-browser.nav_title.scenes", defaultMessage: "Scenes" },
   avatars: { id: "media-browser.nav_title.avatars", defaultMessage: "Avatars" },
   sketchfab: { id: "media-browser.nav_title.sketchfab", defaultMessage: "Sketchfab" },
-  twitch: { id: "media-browser.nav_title.twitch", defaultMessage: "Twitch" }
+  twitch: { id: "media-browser.nav_title.twitch", defaultMessage: "Twitch" },
+  library: { id: "media-browser.nav_title.digital_library", defaultMessage: "Digital Library" },
 });
 
 export function MediaBrowser({
