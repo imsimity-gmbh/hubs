@@ -111,8 +111,14 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         });
     },
 
+    /* 
+    Socket blocking:
+    onPickUp alten socket blocken und verschwinden lassen sobald in neuem platziert
+    -> checken warum line 119 nicht funktioniert
+    */
     startPart03() {
         this.mortarSocket2.object3D.visible = true;
+        this.mortarSocket2.components["entity-socket"].enableSocket = true;
         this.mortarSocket2.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
         this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
         this.mortarEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
@@ -121,15 +127,18 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     onPlacedMortar() {
         this.groundSampleSocket2.object3D.visible = true;
+        this.groundSampleSocket2.components["entity-socket"].enableSocket = true;
         this.groundSampleSocket2.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
         this.mortarSocket1 = this.sceneEl.querySelector(".mortar-socket");
         this.mortarSocket1.object3D.visible = false;
+        this.mortarSocket1.components["entity-socket"].enableSocket = false;
     },
 
     onInsertSample() {
         this.grindSampleBtn.object3D.visible = true;
         this.groundSampleSocket1 = this.sceneEl.querySelector(".ground-sample-socket");
         this.groundSampleSocket1.object3D.visible = false;
+        this.groundSampleSocket1.components["entity-socket"].enableSocket = false;
     },
 
     grindSample() {
