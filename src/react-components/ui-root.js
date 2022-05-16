@@ -622,6 +622,16 @@ class UIRoot extends Component {
       await showFullScreenIfAvailable();
     }
 
+     // If we are a Student (we first show the student entry modal)
+     let gecolabManager = this.props.scene.systems["gecolab-manager"];
+
+     if (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent())
+     {
+      await this.showNonHistoriedDialog(StudentEntryModalContainer, {scene: this.props.scene,showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
+         showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
+         clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
+     }
+
     // Push the new history state before going into VR, otherwise menu button will take us back
     clearHistoryState(this.props.history);
 
@@ -639,15 +649,7 @@ class UIRoot extends Component {
     }
 
 
-    // If we are a Student (we skip that)
-    let gecolabManager = this.props.scene.systems["gecolab-manager"];
-
-    if (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent())
-    {
-      this.showNonHistoriedDialog(StudentEntryModalContainer, {scene: this.props.scene,showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
-        showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
-        clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
-    }
+   
   };
 
   attemptLink = async () => {
@@ -819,7 +821,14 @@ class UIRoot extends Component {
 
   renderEntryStartPanel = () => {
     const { hasAcceptedProfile, hasChangedName } = this.props.store.state.activity;
-    const promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedName;
+    let promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedName;
+    let gecolabManager = this.props.scene.systems["gecolab-manager"];
+    
+    const isStudentFromGecolab = (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent());
+
+    promptForNameAndAvatarBeforeEntry = (isStudentFromGecolab) ? false : promptForNameAndAvatarBeforeEntry;
+
+    console.log('Student from Gecolab ? ' + isStudentFromGecolab);
 
     // TODO: What does onEnteringCanceled do?
     return (
