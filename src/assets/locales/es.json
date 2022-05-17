@@ -287,7 +287,7 @@
   "more.menu.exit-streamer-mode": "Salir del modo streamer",
   "more-menu.enter-leave-room": "Salida de la sala",
   "more-menu.close-room": "Cerrar sala",
-  "more-menu.start-tour": "Inicio del recorrido",
+  "more-menu.start-tour": "Mostrar el control",
   "tips.lobby": "Estás en el vestíbulo. Los demás no pueden verte ni oírte.",
   "tips.embedded": "Esta sala está incrustada, por lo que puede ser visible para los visitantes de otros sitios web.",
   "preferences-screen.preferred-mic.default": "No disponible",

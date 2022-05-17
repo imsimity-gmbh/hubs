@@ -303,7 +303,7 @@
   "more.menu.exit-streamer-mode": "ストリーマーモードの終了",
   "more-menu.enter-leave-room": "出口付近",
   "more-menu.close-room": "クローズルーム",
-  "more-menu.start-tour": "ツアー開始",
+  "more-menu.start-tour": "表示制御",
   "tips.lobby": "あなたはロビーにいます。他の人からは見えないし、聞こえない。",
   "tips.embedded": "この部屋は埋め込み式なので、他のウェブサイトからの訪問者にも見える可能性があります。",
   "preferences-screen.preferred-mic.default": "使用不可",

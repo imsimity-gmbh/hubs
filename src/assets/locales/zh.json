@@ -303,7 +303,7 @@
   "more.menu.exit-streamer-mode": "退出流媒体模式",
   "more-menu.enter-leave-room": "退出房间",
   "more-menu.close-room": "关闭房间",
-  "more-menu.start-tour": "开始游览",
+  "more-menu.start-tour": "显示控制",
   "tips.lobby": "你在大厅里。其他人看不到或听不到你。",
   "tips.embedded": "这个房间是嵌入式的，所以它可能会被其他网站的访问者看到。",
   "preferences-screen.preferred-mic.default": "不详",
