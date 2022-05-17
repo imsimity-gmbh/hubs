@@ -15,7 +15,7 @@ export const LeaveReason = {
 const reasonMessages = defineMessages({
   [LeaveReason.leaveRoom]: {
     id: "leave-room-modal.leave-room.message",
-    defaultMessage: "Are you sure you want to leave the room?"
+    defaultMessage: "Are you sure you want to exit the application?"
   },
   [LeaveReason.joinRoom]: {
     id: "leave-room-modal.join-room.message",
@@ -30,7 +30,7 @@ const reasonMessages = defineMessages({
 const confirmationMessages = defineMessages({
   [LeaveReason.leaveRoom]: {
     id: "leave-room-modal.leave-room.confirm",
-    defaultMessage: "Leave Room"
+    defaultMessage: "Exit Application"
   },
   [LeaveReason.joinRoom]: {
     id: "leave-room-modal.join-room.confirm",
@@ -47,7 +47,7 @@ export function LeaveRoomModal({ reason, destinationUrl, onClose }) {
 
   return (
     <Modal
-      title={<FormattedMessage id="leave-room-modal.title" defaultMessage="Leave Room" />}
+      title={<FormattedMessage id="leave-room-modal.title" defaultMessage="Exit" />}
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column padding center centerMd="both" grow>
