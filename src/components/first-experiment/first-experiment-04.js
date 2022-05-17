@@ -44,11 +44,15 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 
             this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
             this.glassstickSocket.object3D.visible = false;
+            this.x = 0;
+            this.z = 0;
             this.t = 0;
 
             this.startBtn = this.el.querySelector(".start-burner-btn");
             this.startBtn.object3D.addEventListener("interact", () => this.onStartBurner());
             this.startBtn.object3D.visible = false;
+
+            this.startStiring = false;
 
             this.updateUI();
 
@@ -57,6 +61,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
             this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
             this.onLightBurner = AFRAME.utils.bind(this.onLightBurner, this);
             this.onReplaceLighter = AFRAME.utils.bind(this.onReplaceLighter, this);
+            this.onPlaceGlassstick = AFRAME.utils.bind(this.onPlaceGlassstick, this);
 
             this.firstExpPart03 = this.expSystem.getTaskById("03");
             this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
@@ -77,15 +82,37 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
   
     tick: function() {
+        if(this.startStiring == false)
+            return;
+
+        let x = 0;
+        let z = 0;
+        let t = 0;
+
+        let updatePos = false;
+
         document.addEventListener('keydown', function(event) {
             if(event.keyCode == 66) {
-                this.stirLeft(this.t);
-                this.t += 0.01
+                t += 1
+                x = (Math.cos(t) * 0.3);
+                console.log(x);
+                z = (Math.sin(t) * 0.3);
+                console.log(z);
+                updatePos = true;
             }
             else if(event.keyCode == 78) {
-                
+                t -= 1
+                x = (Math.cos(t) * 0.3);
+                console.log(x);
+                z = (Math.sin(t) * 0.3);
+                console.log(z);
+                updatePos = true;
             }
         });
+
+        if(updatePos) {
+            this.glassstickEntity.setAttribute("position", {x: x, y: 0, z: z});
+        }
     },
 
     startPart04() {
@@ -93,7 +120,6 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
         this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
-        console.log(this.stopwatchEntity);
     },
 
     spawnItem(promise, position, scale, entity, show) {
@@ -137,7 +163,13 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     onReplaceLighter() {
         this.firelighterSocketTripod.object3D.visible = false;
         this.glassstickSocket.object3D.visible = true;
+        this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
         this.glassstickEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+    },
+
+    onPlaceGlassstick() {
+        this.startStiring = true;
+        this.glassstickSocketGeneral.object3D.visible = false;
     },
 
     stirLeft(t) {

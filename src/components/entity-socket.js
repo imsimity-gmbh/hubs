@@ -3,6 +3,13 @@
  * @component entity-socket
  */
 
+/* 
+Fixing plan:
+1. new schema to define of socket is disabled on start
+2. function "hide" to disable functionality from another script
+3. function "show" to enable functionality from another script
+*/
+
 import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-system";
 
 import { Vector3 } from "three";
@@ -11,7 +18,8 @@ import { Vector3 } from "three";
     schema: {
       acceptedEntities: {default: []},
       radius: {default: 0},
-      snappedEntity: {default: ""}
+      snappedEntity: {default: ""},
+      enabled: {default: true}
     },
   
     init: function() {
@@ -72,6 +80,9 @@ import { Vector3 } from "three";
       this.onHoverExitCallbacks = [];
       this.onReleasedCallbacks = [];
       this.onSnapCallbacks = [];
+
+      //Disabled on Start?:
+      this.enableSocket = this.data.enabled;
     },
 
     subscribe(eventName, fn)
@@ -173,6 +184,9 @@ import { Vector3 } from "three";
 
     onPickedUp(entity)
     {
+      if(this.enableSocket == false)
+        return;
+
       console.log("picked up entity");
 
       if(entity == this.attachedEntity) {
@@ -190,7 +204,7 @@ import { Vector3 } from "three";
 
     onHoverEnter(entity)
     {
-      if(this.attachedEntity != null) 
+      if(this.attachedEntity != null || this.enableSocket == false) 
         return;
 
       this.hoverMeshes.children[this.meshIndex].object3D.visible = true;
@@ -208,7 +222,7 @@ import { Vector3 } from "three";
 
     onHoverExit(entity)
     {
-      if(this.attachedEntity != null)
+      if(this.attachedEntity != null || this.enableSocket == false)
         return;
 
       this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], 0.165, 0.38, 0.749);
@@ -223,6 +237,9 @@ import { Vector3 } from "three";
 
     onReleased(entity)
     {
+      if(this.enableSocket == false)
+        return;
+
       console.log("released");
 
       this.heldEntity = null;
@@ -237,7 +254,7 @@ import { Vector3 } from "three";
 
     onSnap(entity)
     {
-      if(this.attachedEntity != null)
+      if(this.attachedEntity != null || this.enableSocket == false)
         return;
 
       console.log("snap!");
@@ -274,7 +291,7 @@ import { Vector3 } from "three";
       let hoverMaterial = new THREE.MeshBasicMaterial();
       hoverMaterial.color.setRGB(red, green, blue);
       hoverMaterial.transparent = true;
-      hoverMaterial.opacity = 0.2;
+      hoverMaterial.opacity = 0.55;
       hoverMaterial.flatShading = true;
       clonedMesh.material = hoverMaterial;
 
