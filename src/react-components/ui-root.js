@@ -1279,7 +1279,7 @@ class UIRoot extends Component {
           },
           entered && {
             id: "start-tour",
-            label: <FormattedMessage id="more-menu.start-tour" defaultMessage="Start Tour" />,
+            label: <FormattedMessage id="more-menu.start-tour" defaultMessage="Show controls" />,
             icon: SupportIcon,
             onClick: () => this.props.scene.systems.tips.resetTips()
           },
@@ -1630,7 +1630,7 @@ class UIRoot extends Component {
                         {this.props.hubChannel.can("spawn_emoji") && <ReactionPopoverContainer />}
                       </>
                     )}
-                    {entered &&
+                    {entered && false &&
                       <DigitalLibraryButtonContainer onClick={() => this.props.mediaSearchStore.sourceNavigate("library")} />
                     }
                     <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} />
@@ -1660,7 +1660,7 @@ class UIRoot extends Component {
                     {entered && (
                       <ToolbarButton
                         icon={<LeaveIcon />}
-                        label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
+                        label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Exit Application" />}
                         preset="cancel"
                         onClick={() => {
                           this.showNonHistoriedDialog(LeaveRoomModal, {

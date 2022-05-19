@@ -88,9 +88,9 @@ export const Base = () => (
         <ChatInput
           afterInput={
             <>
-              <EmojiPickerPopoverButton onSelectEmoji={emoji => console.log(emoji)} />
               <MessageAttachmentButton />
               <SpawnMessageButton />
+              <EmojiPickerPopoverButton onSelectEmoji={emoji => console.log(emoji)} />
             </>
           }
         />
