@@ -441,6 +441,38 @@ function registerNetworkSchemas() {
   });
 
   NAF.schemas.add({
+    template: "#interactable-first-experiment-01-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-first-experiment-02-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-first-experiment-03-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-first-experiment-04-camera",
+    components: [
+      "position",
+      "rotation",
+    ]
+  });
+
+  NAF.schemas.add({
     template: "#interactable-first-experiment-placer-camera",
     components: [
       "position",

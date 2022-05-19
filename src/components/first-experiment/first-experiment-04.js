@@ -117,6 +117,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 
     startPart04() {
         this.crucibleSocketTripod.object3D.visible = true;
+        this.crucibleSocketTripod.components["entity-socket"].showSocket();
         this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
         this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
@@ -147,6 +148,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     onStartBurner() {
         this.startBtn.object3D.visible = false;
         this.firelighterSocketTripod.object3D.visible = true;
+        this.firelighterSocketTripod.components["entity-socket"].showSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
         this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     },
@@ -156,6 +158,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
         console.log("stopwatch");
         this.firelighterSocketGeneral.object3D.visible = true;
+        this.firelighterSocketGeneral.components["entity-socket"].showSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
         this.firelighterEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     },
@@ -163,6 +166,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     onReplaceLighter() {
         this.firelighterSocketTripod.object3D.visible = false;
         this.glassstickSocket.object3D.visible = true;
+        this.glassstickSocket.components["entity-socket"].showSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
         this.glassstickEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
     },

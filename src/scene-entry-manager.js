@@ -569,24 +569,19 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const distToPlayer = 2.5;
-        const camera = document.querySelector("#avatar-pov-node");
-        const povRotation =  camera.getAttribute("rotation");
-
-        // const placerPos = this.scene.systems["first-experiments"].getPlacer();
-        // console.log(placerPos.object3D);
-
-        var radAngle =  deg2rad * povRotation.y;
-        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        const anchor = this.scene.querySelector(".table_main_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-rig",
-          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
-          lookAt: true
-        });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
-        this.experimentParent = entity;
       
       }
     });
@@ -639,19 +634,18 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const distToPlayer = 2.5;
-        const camera = document.querySelector("#avatar-pov-node");
-        const povRotation =  camera.getAttribute("rotation");
-
-        var radAngle =  deg2rad * povRotation.y;
-        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        const anchor = this.scene.querySelector(".table_main_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-01-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-rig",
-          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
-          lookAt: true
-        });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
       }
@@ -672,19 +666,18 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const distToPlayer = 2.5;
-        const camera = document.querySelector("#avatar-pov-node");
-        const povRotation =  camera.getAttribute("rotation");
-
-        var radAngle =  deg2rad * povRotation.y;
-        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        const anchor = this.scene.querySelector(".table_side_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-02-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-rig",
-          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
-          lookAt: true
-        });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
       }
@@ -705,19 +698,18 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const distToPlayer = 2.5;
-        const camera = document.querySelector("#avatar-pov-node");
-        const povRotation =  camera.getAttribute("rotation");
-
-        var radAngle =  deg2rad * povRotation.y;
-        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        const anchor = this.scene.querySelector(".table_side_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-03-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-rig",
-          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
-          lookAt: true
-        });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
       }
@@ -742,15 +734,13 @@ export default class SceneEntryManager {
         const camera = document.querySelector("#avatar-pov-node");
         const povRotation =  camera.getAttribute("rotation");
 
-        var radAngle =  deg2rad * povRotation.y;
-        var dir = {x: -Math.sin(radAngle), z:  -Math.cos(radAngle)};
+        const anchor = this.scene.querySelector(".table_side_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-04-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-rig",
-          offset: { x: dir.x * distToPlayer, y: 0.0, z: dir.z * distToPlayer},
-          lookAt: true
-        });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
       }

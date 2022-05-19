@@ -93,17 +93,17 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
             this.itemsPlaced = 0;
 
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
-            this.spawnItem(mortarModelPromise, new THREE.Vector3(0, 0.8, 1.2), this.mortarEntity);
+            this.spawnItem(mortarModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.mortarEntity);
             this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity);
-            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(0, 0.8, 1.4), this.groundSampleEntity);
-            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(0, 0.8, 0.9), this.bunsenBurnerEntity);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 0.8, 0.4), this.tripod1Entity);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(0, 0.8, -0.2), this.tripod2Entity);
+            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.8, 0.8, 0), this.groundSampleEntity);
+            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.6, 0.8, 0), this.bunsenBurnerEntity);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.2, 0.8, 0), this.tripod1Entity);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(0.2, 0.8, 0), this.tripod2Entity);
             this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity);
-            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0, 0.8, -0.6), this.firelighterEntity);
-            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0, 0.8, -0.9), this.glassStickEntity);
-            this.spawnItem(thermoModelPromise, new THREE.Vector3(0, 0.8, -1.1), this.thermoEntity);
+            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.firelighterEntity);
+            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.7, 0.8, 0), this.glassStickEntity);
+            this.spawnItem(thermoModelPromise, new THREE.Vector3(1, 0.8, 0), this.thermoEntity);
 
             this.updateUI();
 
@@ -168,10 +168,12 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
     startPart02() {
         this.sockets.forEach(s => {
             s.object3D.visible = true;
+            console.log("show socket");
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
         });
         this.movableEntities.forEach(e => {
             let name = e.className;
+            console.log("show item");
             e.className = "interactable " + name;
         });
     },

@@ -141,6 +141,8 @@ import { Vector3 } from "three";
     // },
   
     tick: function() {
+      if(this.enableSocket == false)
+        return;
 
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
@@ -157,7 +159,7 @@ import { Vector3 } from "three";
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
-          console.log(this.distance);
+          // console.log(this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -187,12 +189,8 @@ import { Vector3 } from "three";
       if(this.enableSocket == false)
         return;
 
-      console.log("picked up entity");
-
-      if(entity == this.attachedEntity) {
+      if(entity == this.attachedEntity) 
         this.attachedEntity = null;
-        console.log("picked up attached entity");
-      }
       
       entity.setAttribute("floaty-object", {autoLockOnRelease: true});
       this.heldEntity = entity;
@@ -240,8 +238,6 @@ import { Vector3 } from "three";
       if(this.enableSocket == false)
         return;
 
-      console.log("released");
-
       this.heldEntity = null;
       this.wasHeldEntity = entity;
 
@@ -256,8 +252,6 @@ import { Vector3 } from "three";
     {
       if(this.attachedEntity != null || this.enableSocket == false)
         return;
-
-      console.log("snap!");
 
       this.root.object3D.attach(entity.object3D);
 
@@ -309,6 +303,14 @@ import { Vector3 } from "three";
     {
       const sceneEl = this.el.sceneEl;
       sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+    },
+
+    showSocket() {
+      this.enableSocket = true;
+    },
+
+    hideSocket() {
+      this.enableSocket = false;
     }
   });
   
