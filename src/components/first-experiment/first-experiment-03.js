@@ -127,18 +127,12 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     onPlacedMortar() {
         this.groundSampleSocket2.object3D.visible = true;
-        this.groundSampleSocket2.components["entity-socket"].enableSocket = true;
+        this.groundSampleSocket2.components["entity-socket"].showSocket();
         this.groundSampleSocket2.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
-        this.mortarSocket1 = this.sceneEl.querySelector(".mortar-socket");
-        this.mortarSocket1.object3D.visible = false;
-        this.mortarSocket1.components["entity-socket"].enableSocket = false;
     },
 
     onInsertSample() {
         this.grindSampleBtn.object3D.visible = true;
-        this.groundSampleSocket1 = this.sceneEl.querySelector(".ground-sample-socket");
-        this.groundSampleSocket1.object3D.visible = false;
-        this.groundSampleSocket1.components["entity-socket"].enableSocket = false;
     },
 
     grindSample() {

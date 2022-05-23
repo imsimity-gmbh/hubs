@@ -35,9 +35,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
             this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
             this.crucibleSocketTripod.object3D.visible = false;
 
-            this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
             this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
-            this.glassstickSocketGeneral = this.sceneEl.querySelector(".glass-stick-socket");
 
             this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
             this.firelighterSocketTripod.object3D.visible = false;
@@ -120,7 +118,7 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         this.crucibleSocketTripod.components["entity-socket"].showSocket();
         this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
-        this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
+        this.sceneEl.emit("action_toggle_stopwatch");
     },
 
     spawnItem(promise, position, scale, entity, show) {
@@ -141,7 +139,6 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
 
     onPlacedCrucible() {
-        this.crucibleSocketScale.object3D.visible = false;
         this.startBtn.object3D.visible = true;
     },
 
@@ -154,9 +151,8 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
 
     onLightBurner() {
-        this.stopwatchEntity.object3D.visible = true;
+        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
         this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
-        console.log("stopwatch");
         this.firelighterSocketGeneral.object3D.visible = true;
         this.firelighterSocketGeneral.components["entity-socket"].showSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
@@ -164,7 +160,6 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
 
     onReplaceLighter() {
-        this.firelighterSocketTripod.object3D.visible = false;
         this.glassstickSocket.object3D.visible = true;
         this.glassstickSocket.components["entity-socket"].showSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
@@ -173,7 +168,6 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
 
     onPlaceGlassstick() {
         this.startStiring = true;
-        this.glassstickSocketGeneral.object3D.visible = false;
     },
 
     stirLeft(t) {

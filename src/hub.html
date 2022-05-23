@@ -788,32 +788,22 @@
 
             
             <template id="interactable-stopwatch-camera">
-                <a-entity
-                    class="interactable stopwatch"
-                    body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
-                    stopwatch-tool
-                    is-remote-hover-target
-                    tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                    matrix-auto-update
-                    shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                    floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
-                    owned-object-limiter="counter: #camera-counter"
-                    set-unowned-body-kinematic
-                    scalable-when-grabbed
-                    set-yxz-order
-                >
-                    <a-entity class="stopwatch-display-text" text=" value:00:00; width:5; align:center;" text-raycast-hack position="-0.05 0.25 0.22" scale="1.0 1.0 1.0"></a-entity> 
-
-                    <!--Hidden menu:-->
-                    <a-entity class="ui interactable-ui camera-menu" visibility-while-frozen="withinDistance: 100; withPermission: spawn_camera">
-                        <a-entity mixin="rounded-button" is-remote-hover-target tags="singleActionButton: true" remove-networked-object-button position="0 -0.125 0.25">
-                            <a-entity
-                                sprite
-                                icon-button="image: remove-action.png; hoverImage: remove-action.png;"
-                                scale="0.165 0.165 0.165"
-                                position="0 0 0.001"
-                            ></a-entity>
-                        </a-entity>
+                <a-entity class="stopwatch-wrapper">
+                    <a-entity
+                        class="interactable stopwatch-tool"
+                        position="0 2 0.3"
+                        body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                        stopwatch-tool
+                        tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
+                        matrix-auto-update
+                        shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                        floaty-object="autoLockOnLoad: true;"
+                        owned-object-limiter="counter: #camera-counter"
+                        set-unowned-body-kinematic
+                        scalable-when-grabbed
+                        set-yxz-order
+                    >
+                        <a-entity class="stopwatch-display-text" text=" value:00:00; width:3.5; align:center;" text-raycast-hack position="-0.03 0.15 0.16" scale="1.0 1.0 1.0"></a-entity> 
                     </a-entity>
                 </a-entity>
             </template>
@@ -1160,17 +1150,6 @@
             <template id="interactable-first-experiment-04-camera">
                 <a-entity class="ui interactable-ui part04-wrapper" first-experiment-04>
                     <!--Remove and spawn the template at the waypoint-->
-                    <a-entity class="stopwatch-entity" position="0 2 -0.5" rotation="0 0 0"
-                        tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
-                        is-remote-hover-target
-                        matrix-auto-update
-                        set-unowned-body-kinematic
-                        scalable-when-grabbed
-                        floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
-                        stopwatch-tool
-                    >
-                        <a-entity class="stopwatch-display-text" text=" value:00:00; width:3; align:center;" text-raycast-hack position="0 0.15 0.15" scale="1.0 1.0 1.0"></a-entity>
-                    </a-entity>
                     <a-entity class="crucible-socket-04" position="2.7 1.05 2" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
