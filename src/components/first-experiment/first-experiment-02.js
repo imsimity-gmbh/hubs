@@ -168,12 +168,10 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
     startPart02() {
         this.sockets.forEach(s => {
             s.object3D.visible = true;
-            console.log("show socket");
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
         });
         this.movableEntities.forEach(e => {
             let name = e.className;
-            console.log("show item");
             e.className = "interactable " + name;
         });
     },

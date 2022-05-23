@@ -131,14 +131,6 @@ import { Vector3 } from "three";
           break;
       }
     },
-
-    // update() {
-    //   this.updateUI();
-    // },
-
-    // updateUI()
-    // {
-    // },
   
     tick: function() {
       if(this.enableSocket == false)
@@ -159,7 +151,6 @@ import { Vector3 } from "three";
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
-          // console.log(this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -189,8 +180,12 @@ import { Vector3 } from "three";
       if(this.enableSocket == false)
         return;
 
-      if(entity == this.attachedEntity) 
+      if(entity == this.attachedEntity) {
         this.attachedEntity = null;
+        this.objectReleased = true;
+        this.hideSocket();
+        return;
+      }
       
       entity.setAttribute("floaty-object", {autoLockOnRelease: true});
       this.heldEntity = entity;

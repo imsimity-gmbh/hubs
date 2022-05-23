@@ -35,7 +35,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
-      this.el.object3D.visible = false;
+      this.el.object3D.visible = true;
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
@@ -167,12 +167,11 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   onStartTimer()
   {
-    console.log("start");
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
       NAF.utils.takeOwnership(networkedEl);
 
-      this.el.setAttribute("stopwatch-tool", "startClicked", true);      
+      this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
       console.log("changed value");
 
       this.updateUI();

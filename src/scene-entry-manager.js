@@ -482,11 +482,14 @@ export default class SceneEntryManager {
         myStopwatch.parentNode.removeChild(myStopwatch);
       } else {
         const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
         entity.setAttribute("networked", { template: "#interactable-stopwatch-camera" });
-        entity.setAttribute("offset-relative-to", {
-          target: "#avatar-pov-node",
-          offset: { x: 0, y: 0, z: -1.5 }
-        });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       }
     });
