@@ -64,7 +64,8 @@ const DEFAULT_FACETS = {
     { text: "Documents", params: { filter: "documents"}},
     { text: "URLs", params: { filter: "urls"}},
     { text: "Models", params: { filter: "models"}},
-  ]
+  ],
+  experiments: []
 };
 
 const poweredByMessages = defineMessages({
@@ -353,6 +354,12 @@ class MediaBrowserContainer extends Component {
     window.dispatchEvent(new CustomEvent("action_create_avatar_rpm"));
   }
 
+  onPlaceExperiment = (e, position_id) => {
+    const { scene } = this.props;
+    scene.emit("action_toggle_first_experiment");
+    this.close();
+  }
+
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
     if (entry.images.preview.type === "mp4") {
       return proxiedUrlFor(entry.images.preview.url);
@@ -401,6 +408,40 @@ class MediaBrowserContainer extends Component {
       this.state.result && isSceneApiType ? "scene" : urlSource === "avatars" ? "avatar" : "object";
 
     let searchDescription;
+
+    let experiments = [
+      {
+        id: "001",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
+        name: "Experiment 1 - L table",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      },
+      {
+        id: "002",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
+        name: "Experiment 1 - Long table",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      },
+      {
+        id: "003",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_03.png" } },
+        name: "Experiment 1 - 2 tables",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      }
+    ] 
+
 
     if (!hideSearch && urlSource !== "scenes" && urlSource !== "avatars" && urlSource !== "favorites") {
       searchDescription = (
@@ -495,6 +536,32 @@ class MediaBrowserContainer extends Component {
             : intl.formatMessage(emptyMessages.default)
         }
       >
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`001`}
+            entry={experiments[0]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={e => this.onPlaceExperiment(e, "postion_01")}
+          />
+        }
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`002`}
+            entry={experiments[1]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={e => this.onPlaceExperiment(e, "postion_02")}
+          />
+        }
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`003`}
+            entry={experiments[2]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={e => this.onPlaceExperiment(e, "postion_03")}
+          />
+        }
+
+
         {this.props.mediaSearchStore.isFetching ||
         this._sendQueryTimeout ||
         entries.length > 0 ||
@@ -567,15 +634,15 @@ class MediaBrowserContainer extends Component {
               }
 
               return (
-                <MediaTile
-                  key={`${entry.id}_${idx}`}
-                  entry={entry}
-                  processThumbnailUrl={this.processThumbnailUrl}
-                  onClick={e => this.handleEntryClicked(e, entry)}
-                  onEdit={onEdit}
-                  onShowSimilar={onShowSimilar}
-                  onCopy={onCopy}
-                />
+                  <MediaTile
+                    key={`${entry.id}_${idx}`}
+                    entry={entry}
+                    processThumbnailUrl={this.processThumbnailUrl}
+                    onClick={e => this.handleEntryClicked(e, entry)}
+                    onEdit={onEdit}
+                    onShowSimilar={onShowSimilar}
+                    onCopy={onCopy}
+                  />
               );
             })}
           </>

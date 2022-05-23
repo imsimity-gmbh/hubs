@@ -52,7 +52,7 @@ import { MicSetupModalContainer } from "./room/MicSetupModalContainer";
 import { InvitePopoverContainer } from "./room/InvitePopoverContainer";
 import { MoreMenuPopoverButton, CompactMoreMenuButton, MoreMenuContextProvider } from "./room/MoreMenuPopover";
 import { ChatSidebarContainer, ChatContextProvider, ChatToolbarButtonContainer } from "./room/ChatSidebarContainer";
-import { DigitalLibraryButtonContainer } from "./room/DigitalLibraryButtonContainer";
+import { DigitalLibraryButtonContainer } from "./room/GecoLab/DigitalLibraryButtonContainer";
 import { ContentMenu, PeopleMenuButton, ObjectsMenuButton } from "./room/ContentMenu";
 import { ReactComponent as CameraIcon } from "./icons/Camera.svg";
 import { ReactComponent as AvatarIcon } from "./icons/Avatar.svg";

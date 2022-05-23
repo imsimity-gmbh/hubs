@@ -1,6 +1,6 @@
 import React from "react";
-import { ReactComponent as LibraryIcon } from "../icons/GecoLab/Library.svg";
-import { ToolbarButton } from "../input/ToolbarButton";
+import { ReactComponent as LibraryIcon } from "../../icons/GecoLab/Library.svg";
+import { ToolbarButton } from "../../input/ToolbarButton";
 import { FormattedMessage } from "react-intl";
 
 export function DigitalLibraryButton(props) {

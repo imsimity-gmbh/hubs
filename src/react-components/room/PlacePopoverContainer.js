@@ -9,6 +9,7 @@ import { ReactComponent as ObjectIcon } from "../icons/Object.svg";
 import { ReactComponent as AvatarIcon } from "../icons/Avatar.svg";
 import { ReactComponent as SceneIcon } from "../icons/Scene.svg";
 import { ReactComponent as UploadIcon } from "../icons/Upload.svg";
+import { ReactComponent as ExperimentIcon } from "../icons/GecoLab/Experiment.svg";
 import { PlacePopoverButton } from "./PlacePopover";
 import { ObjectUrlModalContainer } from "./ObjectUrlModalContainer";
 import configs from "../../utils/configs";
@@ -72,14 +73,13 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             selected: hasActiveRobot
           },
           hubChannel.can("spawn_camera") && {
-            id: "first-experiment",
-            icon: ObjectIcon,
+            id: "experiments",
+            icon: ExperimentIcon,
             color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.firstexperiment" defaultMessage="First Experiment" />,
-            onSelect: () => scene.emit("action_toggle_first_experiment"),
-            selected: hasActiveFirstExperiment
+            label: <FormattedMessage id="place-popover.item-type.experiments" defaultMessage="Experiments" />,
+            onSelect: () => mediaSearchStore.sourceNavigate("experiments")
           },
-          hubChannel.can("spawn_camera") && {
+          false && hubChannel.can("spawn_camera") && {
             id: "first-experiment-placer",
             icon: ObjectIcon,
             color: "accent5",

@@ -48,7 +48,8 @@ const FACETS = {
     { text: "Documents", params: { filter: "documents"}},
     { text: "URLs", params: { filter: "urls"}},
     { text: "Models", params: { filter: "models"}},
-  ]
+  ],
+  experiments: []
 };
 
 const room = {
@@ -261,6 +262,17 @@ const libraryItem = {
   url: "https://media.tenor.com/videos/004424225acc15896c846f6ab3740ad0/mp4"
 };
 
+const experimentListing = {
+  id: "123",
+  attributions: null,
+  description: null,
+  images: { preview: { url: "https://hubs-upload-cdn.com/files/8b4efdc8-378e-4a44-a7a9-1006bf2dca7c.jpg" } },
+  name: "Experiment 1",
+  project_id: null,
+  type: "experiment_listing",
+  url: "#"
+};
+
 const mediaSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images", "library"];
 
 export const Favorites = () => (
@@ -424,5 +436,23 @@ export const Library = () => (
     <MediaTile entry={libraryItem} />
     <MediaTile entry={libraryItem} />
     <MediaTile entry={libraryItem} />
+  </MediaBrowser>
+);
+
+
+export const ExperimentsListing = () => (
+  <MediaBrowser
+    searchPlaceholder="Search Experiments..."
+    mediaSources={mediaSources}
+    selectedSource={"experiments"}
+    facets={FACETS.experiments}
+    hasNext
+  >
+    <MediaTile entry={experimentListing} />
+    <MediaTile entry={experimentListing} />
+    <MediaTile entry={experimentListing} />
+    <MediaTile entry={experimentListing} />
+    <MediaTile entry={experimentListing} />
+    <MediaTile entry={experimentListing} />
   </MediaBrowser>
 );

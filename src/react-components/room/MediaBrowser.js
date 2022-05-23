@@ -25,6 +25,7 @@ const navTitleMessages = defineMessages({
   sketchfab: { id: "media-browser.nav_title.sketchfab", defaultMessage: "Sketchfab" },
   twitch: { id: "media-browser.nav_title.twitch", defaultMessage: "Twitch" },
   library: { id: "media-browser.nav_title.digital_library", defaultMessage: "Digital Library" },
+  experiments: { id: "media-browser.nav_title.experiments", defaultMessage: "Experiments" },
 });
 
 export function MediaBrowser({
