@@ -356,7 +356,9 @@ class MediaBrowserContainer extends Component {
 
   onPlaceExperiment = (e, position_id) => {
     const { scene } = this.props;
-    
+
+    console.log(position_id);
+
     if (position_id === "position_01")
       scene.emit("action_toggle_first_experiment_01");
     else if (position_id === "position_02")
@@ -548,7 +550,7 @@ class MediaBrowserContainer extends Component {
             key={`001`}
             entry={experiments[0]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "postion_01")}
+            onClick={e => this.onPlaceExperiment(e, "position_01")}
           />
         }
         {urlSource === "experiments" &&
@@ -556,7 +558,7 @@ class MediaBrowserContainer extends Component {
             key={`002`}
             entry={experiments[1]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "postion_02")}
+            onClick={e => this.onPlaceExperiment(e, "position_02")}
           />
         }
         {urlSource === "experiments" &&
@@ -564,7 +566,7 @@ class MediaBrowserContainer extends Component {
             key={`003`}
             entry={experiments[2]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "postion_03")}
+            onClick={e => this.onPlaceExperiment(e, "position_03")}
           />
         }
 
