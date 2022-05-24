@@ -387,7 +387,7 @@ AFRAME.registerComponent("media-loader", {
         // GECOLAB REQUEST...
         if (src.startsWith("https://cybercinity-gecolab.com/") ||  src.startsWith("https://devcci.net/"))
         {
-          console.log("overiding thumbnail for GecoLab room link")
+          console.log("overiding thumbnail for GecoLab room link");
           thumbnail = proxiedUrlFor("https://cci.imsimity.com/gecolab/door_thumbnail_replacer.png");
         }
         else
