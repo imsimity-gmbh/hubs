@@ -356,8 +356,15 @@ class MediaBrowserContainer extends Component {
 
   onPlaceExperiment = (e, position_id) => {
     const { scene } = this.props;
-    scene.emit("action_toggle_first_experiment");
-    this.close();
+    
+    if (position_id === "position_01")
+      scene.emit("action_toggle_first_experiment_01");
+    else if (position_id === "position_02")
+      scene.emit("action_toggle_first_experiment_02");
+    else if (position_id === "position_03")
+      scene.emit("action_toggle_first_experiment_03");
+    
+      this.close();
   }
 
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
