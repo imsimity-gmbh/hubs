@@ -48,7 +48,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_machine"),
             selected: hasActiveMachine
           },
-          hubChannel.can("spawn_camera") && {
+          false && hubChannel.can("spawn_camera") && {
             id: "stopwatch",
             icon: ObjectIcon,
             color: "accent5",
@@ -56,7 +56,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_stopwatch"),
             selected: hasActiveStopwatch
           },
-          hubChannel.can("spawn_camera") && {
+          false && hubChannel.can("spawn_camera") && {
             id: "example",
             icon: ObjectIcon,
             color: "accent5",
@@ -64,7 +64,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_example"),
             selected: hasActiveExample
           },
-          hubChannel.can("spawn_camera") && {
+          false && hubChannel.can("spawn_camera") && {
             id: "robot",
             icon: ObjectIcon,
             color: "accent5",

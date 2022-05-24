@@ -384,7 +384,14 @@ AFRAME.registerComponent("media-loader", {
         }
 
         contentType = (result.meta && result.meta.expected_content_type) || contentType;
-        thumbnail = result.meta && result.meta.thumbnail && proxiedUrlFor(result.meta.thumbnail);
+        // GECOLAB REQUEST...
+        if (src.startsWith("https://cybercinity-gecolab.com/") ||  src.startsWith("https://devcci.net/"))
+        {
+          console.log("overiding thumbnail for GecoLab room link");
+          thumbnail = proxiedUrlFor("https://cci.imsimity.com/gecolab/door_thumbnail_replacer.png");
+        }
+        else
+          thumbnail = result.meta && result.meta.thumbnail && proxiedUrlFor(result.meta.thumbnail);
       }
 
       // todo: we don't need to proxy for many things if the canonical URL has permissive CORS headers
