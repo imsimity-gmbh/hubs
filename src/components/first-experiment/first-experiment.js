@@ -33,11 +33,9 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
         this.firstExpPart01 = this.expSystem.getTaskById("01");
         if(this.firstExpPart01 != null)
-            this.firstExpPart01.components["first-experiment-01"].subscribe("onFinishPart01", this.completedPart01);
+          this.firstExpPart01.components["first-experiment-01"].subscribe("onFinishPart01", this.completedPart01);
         else 
-            console.log("Can't subscribe to firstExpPart01 callback, entity not found");
-
-        console.log(this.sceneEl);
+          console.log("Can't subscribe to firstExpPart01 callback, entity not found");
       });
 
     },
@@ -51,10 +49,8 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
 
     onClickStart() {
-      // this.sceneEl.emit("action_toggle_first_experiment_01");
-      // this.sceneEl.emit("action_toggle_first_experiment_02");
-      // this.sceneEl.emit("action_toggle_first_experiment_03");
-      // this.sceneEl.emit("action_toggle_first_experiment_04");
+      let callbackId = "action_toggle_first_experiment_" + this.el.id + "_start";
+      this.sceneEl.emit(callbackId);
       this.firstExpStartBtn.object3D.visible = false;
 
       setTimeout(() => {

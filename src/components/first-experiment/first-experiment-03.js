@@ -39,13 +39,13 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
             this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
 
-            this.scaleEntity = this.el.querySelector(".scale-entity");
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(2.3, 0.65, 0), this.scaleEntity, false);
+            this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+            this.scaleEntity.object3D.visible = true;
             this.scaleSocket = this.el.querySelector(".scale-socket");
             this.scaleSocket.object3D.visible = false;
 
-            this.crucibleEntity = this.el.querySelector(".crucible-entity");
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(1.7, 0.68, 0), this.crucibleEntity, false);
+            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+            this.crucibleEntity.object3D.visible = true;
 
             this.updateUI();
 
@@ -143,7 +143,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.grindSampleClicks >= 15) {
             this.groundSampleSocket2.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
-            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(2.7, 0.77, 1.5), this.grindSampleEntity, true);
+            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(0, 0.77, 0), this.grindSampleEntity, true);
             this.scaleEntity.object3D.visible = true;
             this.scaleSocket.object3D.visible = true;
             this.crucibleEntity.object3D.visible = true;
