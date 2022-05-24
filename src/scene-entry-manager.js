@@ -89,14 +89,14 @@ export default class SceneEntryManager {
     this._setupStopwatch();
     this._setupExample();
     this._setupRobot();
-    this._setupFirstExperimentLtable();
-    this._setupFirstExperimentLongTable();
-    this._setupFirstExperimentTwoTables();
+    this._setupFirstExperimentPos01();
+    this._setupFirstExperimentPos02();
+    this._setupFirstExperimentPos03();
     this._setupFirstExperimentPlacer();
-    this._setupFirstExperiment01();
-    this._setupFirstExperiment02();
-    this._setupFirstExperiment03();
-    this._setupFirstExperiment04();
+    this._setupFirstExperimentPart01();
+    this._setupFirstExperimentPart02();
+    this._setupFirstExperimentPart03();
+    this._setupFirstExperimentPart04();
 
     if (qsTruthy("offline")) return;
 
