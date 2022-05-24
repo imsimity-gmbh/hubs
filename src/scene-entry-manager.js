@@ -89,7 +89,9 @@ export default class SceneEntryManager {
     this._setupStopwatch();
     this._setupExample();
     this._setupRobot();
-    this._setupFirstExperiment();
+    this._setupFirstExperimentLtable();
+    this._setupFirstExperimentLongTable();
+    this._setupFirstExperimentTwoTables();
     this._setupFirstExperimentPlacer();
     this._setupFirstExperiment01();
     this._setupFirstExperiment02();
@@ -558,8 +560,8 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperiment = () => {
-    this.scene.addEventListener("action_toggle_first_experiment", () => {
+  _setupFirstExperimentPos01 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_01", () => {
 
       console.log("Placing");
 
@@ -584,6 +586,82 @@ export default class SceneEntryManager {
         // });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+        _setupFirstExperimentPart01(".table-main-01");
+        _setupFirstExperimentPart02(".table-side-01");
+        _setupFirstExperimentPart03(".table-side-01");
+        _setupFirstExperimentPart04(".table-side-01");
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperimentPos02 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_02", () => {
+
+      console.log("Placing");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["first-experiments"].getMyExperiment();
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_02");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+        _setupFirstExperimentPart01(".table-main-02");
+        _setupFirstExperimentPart02(".table-side-02");
+        _setupFirstExperimentPart03(".table-side-02");
+        _setupFirstExperimentPart04(".table-side-02");
+        this.scene.appendChild(entity);
+      
+      }
+    });
+  };
+
+  _setupFirstExperimentPos03 = () => {
+    this.scene.addEventListener("action_toggle_first_experiment_03", () => {
+
+      console.log("Placing");
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["first-experiments"].getMyExperiment();
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_03");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        // entity.setAttribute("offset-relative-to", {
+        //   target: anchor,
+        //   offset: { x: 0, y: 0.0, z: 0},
+        //   lookAt: false
+        // });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+        _setupFirstExperimentPart01(".table-main-03");
+        _setupFirstExperimentPart02(".table-side-03");
+        _setupFirstExperimentPart03(".table-side-03");
+        _setupFirstExperimentPart04(".table-side-03");
         this.scene.appendChild(entity);
       
       }
@@ -623,8 +701,8 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperiment01 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_01", () => {
+  _setupFirstExperimentPart01 = (table) => {
+    this.scene.addEventListener("action_toggle_first_experiment_part_01", () => {
 
       console.log("Placing");
 
@@ -637,7 +715,7 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const anchor = this.scene.querySelector(".table_main_01");
+        const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
@@ -655,8 +733,8 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperiment02 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_02", () => {
+  _setupFirstExperimentPart02 = (table) => {
+    this.scene.addEventListener("action_toggle_first_experiment_part_02", () => {
 
       console.log("Placing");
 
@@ -669,7 +747,7 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const anchor = this.scene.querySelector(".table_side_01");
+        const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
@@ -687,8 +765,8 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperiment03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03", () => {
+  _setupFirstExperimentPart03 = (table) => {
+    this.scene.addEventListener("action_toggle_first_experiment_part_03", () => {
 
       console.log("Placing");
 
@@ -701,7 +779,7 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const anchor = this.scene.querySelector(".table_side_01");
+        const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
@@ -719,8 +797,8 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperiment04 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_04", () => {
+  _setupFirstExperimentPart04 = (table) => {
+    this.scene.addEventListener("action_toggle_first_experiment_part_04", () => {
 
       console.log("Placing");
 
@@ -737,7 +815,7 @@ export default class SceneEntryManager {
         const camera = document.querySelector("#avatar-pov-node");
         const povRotation =  camera.getAttribute("rotation");
 
-        const anchor = this.scene.querySelector(".table_side_01");
+        const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
