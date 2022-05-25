@@ -101,19 +101,19 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.itemsPlaced = 0;
 
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
-            this.spawnItem(mortarModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.mortarEntity, true);
-            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity, true);
-            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.8, 0.8, 0), this.groundSampleEntity, true);
-            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.6, 0.8, 0), this.bunsenBurnerEntity, true);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.2, 0.8, 0), this.tripod1Entity, true);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(0.2, 0.8, 0), this.tripod2Entity, true);
-            this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, true);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, true);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, true);
-            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.firelighterEntity, true);
-            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.7, 0.8, 0), this.glassStickEntity, true);
-            this.spawnItem(thermoModelPromise, new THREE.Vector3(1, 0.8, 0), this.thermoEntity, true);
-            this.spawnItem(curcibleModelPromise, new THREE.Vector3(1.4, 0.8, 0), this.crucibleEntity, false);
-            this.spawnItem(scaleModelPromise, new THREE.Vector3(1.8, 0.8, 0), this.scaleEntity, false);
+            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.9, 0.8, 0), this.groundSampleEntity, true);
+            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, true);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, true);
+            this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, true);
+            this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, true);
+            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity, true);
+            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.6, 0.8, 0), this.glassStickEntity, true);
+            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, true);
+            this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
+            this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);
+            this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
 
             this.updateUI();
 

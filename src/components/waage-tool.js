@@ -73,7 +73,7 @@ AFRAME.registerComponent("waage-tool", {
 
     onScalePlaced() {
         this.scalePlaced = true;
-        this.crucibleSocket.setAttribute("position", {x: 2.8, y: 0.68, z: 0.8});
+        this.crucibleSocket.setAttribute("position", {x: -1.1, y: 0.7, z: -0.04});
         this.crucibleSocket.object3D.visible = true;
     },
     onContainerPlaced() {

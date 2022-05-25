@@ -86,7 +86,6 @@ export default class SceneEntryManager {
     this._setupMedia();
     this._setupCamera();
     this._setupMachine();
-    this._setupStopwatch();
     this._setupExample();
     this._setupRobot();
     this._setupFirstExperimentPos01();
@@ -473,8 +472,7 @@ export default class SceneEntryManager {
     this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
   };
 
-  _setupStopwatch = () => {
-    this.scene.addEventListener("action_toggle_stopwatch", () => {
+  _spawnStopwatch = (table) => {
       if (!this.hubChannel.can("spawn_camera")) return;
       const myStopwatch = this.scene.systems["stopwatch-tools"].getMyStopwatch();
 
@@ -483,7 +481,7 @@ export default class SceneEntryManager {
       } else {
         const entity = document.createElement("a-entity");
 
-        const anchor = this.scene.querySelector(".table_main_01");
+        const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
@@ -492,8 +490,6 @@ export default class SceneEntryManager {
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       }
-    });
-
   };
 
 
@@ -591,6 +587,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart02(".table_side_01");
       this._spawnFirstExperimentPart03(".table_main_01");
       this._spawnFirstExperimentPart04(".table_main_01");
+      this._spawnStopwatch(".table_main_01");
     });
   };
 
@@ -628,6 +625,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart02(".table_side_02");
       this._spawnFirstExperimentPart03(".table_main_02");
       this._spawnFirstExperimentPart04(".table_main_02");
+      this._spawnStopwatch(".table_main_02");
     });
   };
 
@@ -665,6 +663,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart02(".table_side_03");
       this._spawnFirstExperimentPart03(".table_main_03");
       this._spawnFirstExperimentPart04(".table_main_03");
+      this._spawnStopwatch(".table_main_03");
     });
   };
 

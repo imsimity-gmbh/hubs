@@ -35,7 +35,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
-      this.el.object3D.visible = true;
+      // this.el.object3D.visible = true;
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       

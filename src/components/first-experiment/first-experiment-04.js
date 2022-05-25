@@ -118,7 +118,8 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
         this.crucibleSocketTripod.components["entity-socket"].showSocket();
         this.crucibleEntity.setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
-        this.sceneEl.emit("action_toggle_stopwatch");
+        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+        this.stopwatchEntity.object3D.visible = true;
     },
 
     spawnItem(promise, position, scale, entity, show) {
@@ -151,7 +152,6 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
 
     onLightBurner() {
-        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
         this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
         this.firelighterSocketGeneral.object3D.visible = true;
         this.firelighterSocketGeneral.components["entity-socket"].showSocket();

@@ -791,7 +791,7 @@
                 <a-entity class="stopwatch-wrapper">
                     <a-entity
                         class="interactable stopwatch-tool"
-                        position="0 2 0.3"
+                        position="0 2 0"
                         body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
                         stopwatch-tool
                         tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -993,11 +993,11 @@
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity>
-                        <a-entity class="thermo-socket" position="1.2 0.6 0" rotation="0 90 0" entity-socket="acceptedEntities: .thermo-entity; radius: 0.8; enabled: true;">
+                        <a-entity class="thermo-socket" position="1.2 0.6 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .thermo-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity>
-                        <a-entity class="glass-stick-socket" position="1.5 0.79 0" rotation="0 90 90" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.8; enabled: true;">
+                        <a-entity class="glass-stick-socket" position="1.5 0.79 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity>
@@ -1064,7 +1064,7 @@
                         >
                             <a-entity class="tripod-triangle-entity" position="0 0 0"></a-entity>
                         </a-entity>
-                        <a-entity class="firelighter-entity" position="0 1 0" rotation="0 180 90"
+                        <a-entity class="firelighter-entity" position="0 1 0" rotation="0 120 90"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
@@ -1073,7 +1073,7 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                         </a-entity>
-                        <a-entity class="thermo-entity" position="0 1 0" rotation="0 180 0"
+                        <a-entity class="thermo-entity" position="0 1 0" rotation="0 95 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
@@ -1082,7 +1082,7 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                         </a-entity>
-                        <a-entity class="glass-stick-entity" position="0 1 0" rotation="0 180 90"
+                        <a-entity class="glass-stick-entity" position="0 1 0" rotation="0 80 90"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
@@ -1120,25 +1120,25 @@
 
             <template id="interactable-first-experiment-03-camera">
                 <a-entity first-experiment-03 class="ui interactable-ui mortar-wrapper">
-                    <a-entity class="mortar-socket-2" position="-0.3 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5; enabled: false;">
+                    <a-entity class="mortar-socket-2" position="-0.55 0.5 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         <a-entity class="grind-sample-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
                             <a-entity text=" value: Probe moersern; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                     </a-entity>
-                    <a-entity class="ground-sample-socket-2" position="0 0.57 0" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="ground-sample-socket-2" position="-0.55 0.57 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
-                    <a-entity class="grind-sample-entity" position="0 0.77 0" rotation="0 90 0"></a-entity>
+                    <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
 
-                    <a-entity class="crucible-socket" position="-0.7 0.68 0" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: true;">
+                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: true;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
 
-                    <a-entity class="scale-socket" position="-0.7 0.57 0" rotation="0 0 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3; enabled: true;">
+                    <a-entity class="scale-socket" position="-1.1 0.5 0" rotation="0 90 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3; enabled: true;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
@@ -1148,19 +1148,19 @@
             <template id="interactable-first-experiment-04-camera">
                 <a-entity class="ui interactable-ui part04-wrapper" first-experiment-04>
                     <!--Remove and spawn the template at the waypoint-->
-                    <a-entity class="crucible-socket-04" position="2.7 1.05 2" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="crucible-socket-04" position="0 1.05 0" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
-                    <a-entity class="firelighter-socket-04" position="2.7 0.95 2" rotation="0 0 45" entity-socket="acceptedEntities: .firelighter-entity; radius: 0.4; enabled: false;">
+                    <a-entity class="firelighter-socket-04" position="0.2 0.95 0.05" rotation="0 0 45" entity-socket="acceptedEntities: .firelighter-entity; radius: 0.4; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
-                    <a-entity class="glass-stick-socket-04" position="2.7 1.1 2" rotation="0 0 0" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="glass-stick-socket-04" position="0 1.1 0" rotation="0 0 0" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
-                    <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="2.7 1.125 2.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                    <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity>
                 </a-entity>

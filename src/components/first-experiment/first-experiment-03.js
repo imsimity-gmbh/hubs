@@ -143,7 +143,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.grindSampleClicks >= 15) {
             this.groundSampleSocket2.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
-            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(0, 0.77, 0), this.grindSampleEntity, true);
+            this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.55, 0.8, 0.2), this.grindSampleEntity, true);
             this.scaleEntity.object3D.visible = true;
             this.scaleSocket.object3D.visible = true;
             this.crucibleEntity.object3D.visible = true;
