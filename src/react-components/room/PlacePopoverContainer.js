@@ -76,7 +76,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             id: "experiments",
             icon: ExperimentIcon,
             color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.experiments" defaultMessage="Experiments" />,
+            label: <FormattedMessage id="place-popover.item-type.experiments" defaultMessage="Experimente" />,
             onSelect: () => mediaSearchStore.sourceNavigate("experiments")
           },
           false && hubChannel.can("spawn_camera") && {

@@ -424,7 +424,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: "Experiment 1 - L table",
+        name: "Experiment 1 - Arbeitsbereich 1",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -434,7 +434,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: "Experiment 1 - Long table",
+        name: "Experiment 1 - Arbeitsbereich 2",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -444,7 +444,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_03.png" } },
-        name: "Experiment 1 - 2 tables",
+        name: "Experiment 1 - Arbeitsbereich 3",
         project_id: null,
         type: "experiment_listing",
         url: "#"
