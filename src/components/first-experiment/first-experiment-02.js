@@ -4,7 +4,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 //Initial Models:
 import mortarSrc from "../../assets/models/GecoLab/mortar.glb";
 import mortarStickSrc from "../../assets/models/GecoLab/mortar_stick.glb";
-import groundSampleSrc from "../../assets/models/GecoLab/ground_sample.glb"
+import groundSampleSrc from "../../assets/models/GecoLab/ground_sample_coarse2.glb"
 import bunsenBurnerSrc from "../../assets/models/GecoLab/bunsen_burner.glb";
 import tripodSrc from "../../assets/models/GecoLab/tripod.glb";
 import tripodPlateSrc from "../../assets/models/GecoLab/tripod_plate.glb";
@@ -14,6 +14,7 @@ import glassStickSrc from "../../assets/models/GecoLab/flask_stick.glb";
 import thermoSrc from "../../assets/models/GecoLab/thermo.glb"; 
 import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
+import spoonSrc from "../../assets/models/GecoLab/spoon.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
@@ -30,6 +31,7 @@ const glassStickModelPromise = waitForDOMContentLoaded().then(() => loadModel(gl
 const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermoSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
 const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curcibleSrc));
+const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSrc));
 
   AFRAME.registerComponent("first-experiment-02", {
     schema: {
@@ -70,6 +72,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.movableEntities.push(this.scaleEntity);
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
             this.movableEntities.push(this.crucibleEntity);
+            this.spoonEntity = this.el.querySelector(".spoon-entity");
+            this.movableEntities.push(this.spoonEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -87,6 +91,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.sockets.push(this.firelighterSocket);
             this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
             this.sockets.push(this.glassStickSocket);
+            this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
+            this.sockets.push(this.spoonSocket);
             this.thermoSocket = this.sceneEl.querySelector(".thermo-socket");
             this.sockets.push(this.thermoSocket);
 
@@ -103,13 +109,14 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
             this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, true);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, true);
-            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.9, 0.8, 0), this.groundSampleEntity, true);
+            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
             this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, true);
             this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, true);
             this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, true);
             this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, true);
             this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity, true);
-            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.6, 0.8, 0), this.glassStickEntity, true);
+            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.45, 0.8, 0), this.glassStickEntity, true);
+            this.spawnItem(spoonModelPromise, new THREE.Vector3(0.65, 0.8, 0), this.spoonEntity, true);
             this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, true);
             this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
             this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);

@@ -64,14 +64,12 @@ AFRAME.registerComponent("stopwatch-tool", {
   },
 
   update() {
-    this.updateUI();
+    waitForDOMContentLoaded().then(() => { 
+      this.updateUI();
+    });
   },
 
   updateUI() {  
-    //check if variables initialized:
-    if(!this.myStartButton)
-      return;
-
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
 
@@ -86,7 +84,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       }
       
       this.localStartClicked = this.data.startClicked;
-      console.log(this.timerRunning);
     }
 
     //Check if reset-button has been clicked by anyone
@@ -145,7 +142,7 @@ AFRAME.registerComponent("stopwatch-tool", {
           //Send value of formattedTime to Server, if different from stored value
           if(formattedTime != this.data.currentTime) 
           {
-              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);      
+              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);     
 
               this.playSound(SOUND_STOPWATCH_TICKING);
 
@@ -172,7 +169,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       NAF.utils.takeOwnership(networkedEl);
 
       this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
-      console.log("changed value");
 
       this.updateUI();
     });

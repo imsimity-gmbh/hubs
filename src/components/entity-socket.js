@@ -42,6 +42,8 @@ import { Vector3 } from "three";
           continue;
         }
         this.acceptedEntities.push(component);
+        this.initialPos = component.getAttribute("position");
+        // console.log(this.initialPos);
 
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
@@ -83,6 +85,8 @@ import { Vector3 } from "three";
 
       //Disabled on Start?:
       this.enableSocket = this.data.enabled;
+      if(this.enableSocket == false) 
+        this.el.object3D.visible = false;
     },
 
     subscribe(eventName, fn)
@@ -181,8 +185,11 @@ import { Vector3 } from "three";
         return;
 
       if(entity == this.attachedEntity) {
+        this.attachedEntity.object3D.removeFromParent();
         this.attachedEntity = null;
+        this.heldEntity = null;
         this.objectReleased = true;
+        console.log("about to hide socket");
         this.hideSocket();
         return;
       }
@@ -235,6 +242,9 @@ import { Vector3 } from "three";
 
       this.heldEntity = null;
       this.wasHeldEntity = entity;
+      // console.log(this.initialPos);
+      // entity.setAttribute("position", {x: this.initialPos.x, y: this.initialPos.y, z: this.initialPos.z});
+      // console.log(entity);
 
       this.objectReleased = true;
 
@@ -248,20 +258,20 @@ import { Vector3 } from "three";
       if(this.attachedEntity != null || this.enableSocket == false)
         return;
 
-      this.root.object3D.attach(entity.object3D);
+      this.attachedEntity = entity;
+      this.root.object3D.attach(this.attachedEntity.object3D);
 
-      entity.setAttribute("position", {x: 0, y: 0, z: 0});
+      this.attachedEntity.setAttribute("position", {x: 0, y: 0, z: 0});
 
-      entity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
+      this.attachedEntity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
       this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
 
-      entity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+      this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
 
       this.playSound(SOUND_SNAP_ENTITY);
 
       this.objectReleased = true;
 
-      this.attachedEntity = this.inRadiusEntity;
       this.inRadiusEntity = null;
 
       //Network snappedEntity: (still to do....)
@@ -302,10 +312,21 @@ import { Vector3 } from "three";
 
     showSocket() {
       this.enableSocket = true;
+      this.el.object3D.visible = true;
+      console.log("showing socket: " + this.el.className);
+      for(let i = 0; i < this.acceptedEntities.length; i++) {
+        this.acceptedEntities[i].setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+      }
     },
 
     hideSocket() {
+      console.log(this.heldEntity);
+      console.log(this.acceptedEntities);
+      console.log(this.inRadiusEntity);
+      console.log(this.objectReleased);
+
       this.enableSocket = false;
+      // this.el.object3D.visible = false;
     }
   });
   

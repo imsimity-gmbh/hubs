@@ -1,7 +1,7 @@
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
-import grindedSampleSrc from "../../assets/models/GecoLab/ground_sample_grinded.glb";
+import grindedSampleSrc from "../../assets/models/GecoLab/ground_sample_coarse2.glb";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
  
@@ -85,7 +85,7 @@ const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel
           entity.setObject3D("mesh", mesh);
       
           entity.object3D.visible = true;
-          entity.object3D.scale.set(3.0, 3.0, 3.0);
+          entity.object3D.scale.set(2.0, 2.0, 2.0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
           console.log(entity);

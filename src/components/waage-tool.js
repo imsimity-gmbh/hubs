@@ -20,7 +20,8 @@ AFRAME.registerComponent("waage-tool", {
             this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
 
             this.crucibleSocket = this.sceneEl.querySelector(".crucible-socket");
-            this.crucibleSocket.object3D.visible = false;
+            if(this.crucibleSocket != null)
+                this.crucibleSocket.object3D.visible = false;
             this.crucibleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
 
             this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
@@ -35,6 +36,7 @@ AFRAME.registerComponent("waage-tool", {
             this.taraBtn = this.el.querySelector(".tara-btn");
             this.taraBtn.object3D.addEventListener("interact", () => this.tara());
 
+            this.onContainerPlacedCallbacks = [];
             this.onRightAmountCallbacks = [];
             // this.onContainerPlaced(); //nur drin bis entity-socket auf waage klappt
         });
@@ -43,6 +45,9 @@ AFRAME.registerComponent("waage-tool", {
     subscribe(eventName, fn)
     {
         switch(eventName) {
+            case "onContainerPlaced":
+              this.onContainerPlacedCallbacks.push(fn);
+              break;
             case "onRightAmount":
               this.onRightAmountCallbacks.push(fn);
               break;
@@ -52,9 +57,13 @@ AFRAME.registerComponent("waage-tool", {
     unsubscribe(eventName, fn)
     {
         switch(eventName) {
+            case "onContainerPlaced":
+              let index = this.onContainerPlacedCallbacks.indexOf(fn);
+              this.onContainerPlacedCallbacks.splice(index, 1);
+              break;
             case "onRightAmount":
-              let index = this.onRightAmountCallbacks.indexOf(fn);
-              this.onRightAmountCallbacks.splice(index, 1);
+              let index1 = this.onRightAmountCallbacks.indexOf(fn);
+              this.onRightAmountCallbacks.splice(index1, 1);
               break;
         }
     },
@@ -68,7 +77,10 @@ AFRAME.registerComponent("waage-tool", {
             return;
 
         let waagePos = this.el.getAttribute("position");
-        this.crucibleSocket.setAttribute("position", {x: waagePos.x, y: (waagePos.y + 0.2), z: waagePos.z});
+        if(this.crucibleSocket == null)
+            console.log("crucible socket not found");
+        else
+            this.crucibleSocket.setAttribute("position", {x: waagePos.x, y: (waagePos.y + 0.2), z: waagePos.z});
     },
 
     onScalePlaced() {
@@ -81,6 +93,9 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
         this.ready = true;
+        this.onContainerPlacedCallbacks.forEach(cb => {
+            cb();
+        });
     },
 
     addWeight(gramm) {
@@ -90,7 +105,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
-        if(this.weight == this.data.rightAmount) {
+        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
             this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
@@ -105,7 +120,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
-        if(this.weight == this.data.rightAmount) {
+        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
             this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
@@ -119,8 +134,7 @@ AFRAME.registerComponent("waage-tool", {
         this.weight = 50;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
-
-        if(this.weight == this.data.rightAmount) {
+        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
             this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
