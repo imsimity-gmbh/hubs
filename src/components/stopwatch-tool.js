@@ -1,5 +1,5 @@
 //TODO_LAURA_SOUND: import your new sounds here !
-import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON, SOUND_STOPWATCH_TICKING } from "../systems/sound-effects-system";
+import { SOUND_STOPWATCH_TICKING } from "../systems/sound-effects-system";
 
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
@@ -50,6 +50,8 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localResetClicked = false;
       this.localCurrentTime = 0;
       this.localDisplayTime = "00:00";
+
+      this.speedVariable = 1000;
     
       this.updateUI();
 
@@ -76,6 +78,7 @@ AFRAME.registerComponent("stopwatch-tool", {
       if(this.timerRunning == false) {
         this.startTime = performance.now();
         this.timerRunning = true;
+        // this.playSound(SOUND_STOPWATCH_TICKING); commentet out to keep me from going insane from the ticking noise ;)
       }
     
       else {
@@ -119,7 +122,7 @@ AFRAME.registerComponent("stopwatch-tool", {
         if(NAF.utils.isMine(networkedEl)) {
 
           let now = performance.now();
-          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / 1000;
+          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / this.speedVariable;
           let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
 
           //Set display-format:
@@ -144,8 +147,6 @@ AFRAME.registerComponent("stopwatch-tool", {
           {
               this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);     
 
-              this.playSound(SOUND_STOPWATCH_TICKING);
-
               this.updateUI();
           }
         } 
@@ -157,6 +158,8 @@ AFRAME.registerComponent("stopwatch-tool", {
         }
 
       });
+
+      
 
     }
 
@@ -204,7 +207,17 @@ AFRAME.registerComponent("stopwatch-tool", {
   playSound(soundId)
   {
     const sceneEl = this.el.sceneEl;
-    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(soundId);
   },
+
+  stopSound()
+  {
+    const sceneEl = this.el.sceneEl;
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(soundId);
+  },
+
+  adjustSpeed(value) {
+    this.speedVariable = value;
+  }
 
 });

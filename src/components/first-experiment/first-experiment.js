@@ -30,12 +30,6 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
         this.completedPart01 = AFRAME.utils.bind(this.completedPart01, this);
         this.completedPart02 = AFRAME.utils.bind(this.completedPart02, this);
-
-        this.firstExpPart01 = this.expSystem.getTaskById("01");
-        if(this.firstExpPart01 != null)
-          this.firstExpPart01.components["first-experiment-01"].subscribe("onFinishPart01", this.completedPart01);
-        else 
-          console.log("Can't subscribe to firstExpPart01 callback, entity not found");
       });
 
     },
@@ -65,7 +59,6 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     completedPart01(correctAnswer, selectedAnswer) 
     {
       this.firstExpPart02 = this.expSystem.getTaskById("02");
-      console.log(this.firstExpPart02);
       if(correctAnswer == selectedAnswer)
         this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.completedPart02);
       else

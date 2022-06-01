@@ -29,12 +29,14 @@ AFRAME.registerComponent("waage-tool", {
 
             this.scalePlaced = false;
             this.ready = false;
+            this.tooMuch = false;
 
             this.displayText = this.el.querySelector(".display-text");
             this.displayText.setAttribute("text", { value: this.displayWeight });
 
             this.taraBtn = this.el.querySelector(".tara-btn");
-            this.taraBtn.object3D.addEventListener("interact", () => this.tara());
+            this.taraBtn.object3D.addEventListener("interact", () => this.tara(true));
+            this.taraPressed = false;
 
             this.onContainerPlacedCallbacks = [];
             this.onRightAmountCallbacks = [];
@@ -101,10 +103,14 @@ AFRAME.registerComponent("waage-tool", {
     addWeight(gramm) {
         if(this.ready == false)
             return;
+
         this.weight += gramm;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
+        if(this.taraPressed && this.weight > this.data.rightAmount || this.taraPressed == false && this.weight > (this.data.rightAmount + 120))
+            this.tooMuch = true;
+
         if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
             this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
@@ -113,32 +119,44 @@ AFRAME.registerComponent("waage-tool", {
         }
     },
 
-    removeWeight(gramm) {
-        if(this.ready == false || this.weight <= 0)
+    removeWeight() {
+        if(this.ready == false || this.tooMuch == false)
             return;
-        this.weight -= gramm;
+
+        if(this.taraPressed)
+            this.weight = this.data.rightAmount;
+        else    
+            this.weight = 120 + this.data.rightAmount;
+
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
-        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
-            this.ready = false;
-            this.onRightAmountCallbacks.forEach(cb => {
-                cb();
-            });
-        }
+        this.ready = false;
+        this.onRightAmountCallbacks.forEach(cb => {
+            cb();
+        });
     },
 
-    tara() {
+    tara(skip) {
+        if(skip == false) {
+            this.weight = 0;
+            this.displayWeight = this.weight + "g";
+            this.displayText.setAttribute("text", { value: this.displayWeight });
+            this.taraPressed = true;
+        }
         if(this.ready == false)
             return;
-        this.weight = 50;
-        this.displayWeight = this.weight + "g";
-        this.displayText.setAttribute("text", { value: this.displayWeight });
-        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
-            this.ready = false;
-            this.onRightAmountCallbacks.forEach(cb => {
-                cb();
-            });
+
+        if(skip) {
+            this.weight = 50;
+            this.displayWeight = this.weight + "g";
+            this.displayText.setAttribute("text", { value: this.displayWeight });
+            if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
+                this.ready = false;
+                this.onRightAmountCallbacks.forEach(cb => {
+                    cb();
+                });
+            }
         }
     }
 

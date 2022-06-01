@@ -1019,7 +1019,7 @@
 
             <template id="interactable-first-experiment-02-camera">
                 <a-entity first-experiment-02 class="part02-wrapper">
-                    <a-entity class="cupboard-wrapper" position="0 -0.1 0">
+                    <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
                         <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
@@ -1028,7 +1028,7 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
-                            <a-entity class="mortar-stick-entity" position="0 0 0"></a-entity>
+                            <a-entity class="mortar-stick-entity" position="0 0 0" rotation="-20 0 0"></a-entity>
                         </a-entity>
                         <a-entity class="ground-sample-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1047,7 +1047,9 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="flame-entity" position="0 1 0" rotation="0 0 0" animation-mixer simple-animation></a-entity>
                         </a-entity>
+                        <a-entity class="flame-entity" position="0 1 0" rotation="0 0 0"></a-entity>
                         <a-entity class="tripod-1-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
@@ -1126,6 +1128,10 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="ground-sample-spoon" position="0 0 0" rotation="0 0 0"></a-entity>
+                        </a-entity>
+                        <a-entity class="skip-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" rotation="0 0 0" scale="0.4 0.4 0.4">
+                            <a-entity text=" value: Aufbau Überspringen; width: 3.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                     </a-entity>
                 </a-entity>
@@ -1145,7 +1151,7 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
                     <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
-                    <a-entity class="spoon-socket-03" position="-0.45 0.57 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="spoon-socket-03" position="-0.4 0.61 0.2" rotation="20 270 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
@@ -1155,7 +1161,7 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
 
-                    <a-entity class="spoon-socket-scale" position="-1.1 0.87 -0.04" rotation="0 90 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.5; enabled: false;">
+                    <a-entity class="spoon-socket-scale" position="-1.25 0.86 -0.04" rotation="10 90 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity>
@@ -1184,6 +1190,9 @@
                     </a-entity>
                     <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity>
+                    <a-entity class="stiring-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                        <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
                     </a-entity>
                 </a-entity>
             </template>

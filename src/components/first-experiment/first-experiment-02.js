@@ -4,7 +4,9 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 //Initial Models:
 import mortarSrc from "../../assets/models/GecoLab/mortar.glb";
 import mortarStickSrc from "../../assets/models/GecoLab/mortar_stick.glb";
-import groundSampleSrc from "../../assets/models/GecoLab/ground_sample_coarse2.glb"
+import groundSampleSrc1 from "../../assets/models/GecoLab/ground-sample-coarse-1.glb";
+import groundSampleSrc2 from "../../assets/models/GecoLab/ground-sample-coarse-2.glb";
+import groundSampleSrc3 from "../../assets/models/GecoLab/ground-sample-coarse-3.glb";
 import bunsenBurnerSrc from "../../assets/models/GecoLab/bunsen_burner.glb";
 import tripodSrc from "../../assets/models/GecoLab/tripod.glb";
 import tripodPlateSrc from "../../assets/models/GecoLab/tripod_plate.glb";
@@ -15,13 +17,16 @@ import thermoSrc from "../../assets/models/GecoLab/thermo.glb";
 import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
 import spoonSrc from "../../assets/models/GecoLab/spoon.glb";
+import groundSampleSpoonSrc from "../../assets/models/GecoLab/ground-sample-spoon.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
 
 const mortarModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarSrc));
 const mortarStickModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarStickSrc));
-const groundSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc));
+const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
+const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
+const groundSampleModelPromise3 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc3));
 const bunsenBurnerModelPromise = waitForDOMContentLoaded().then(() => loadModel(bunsenBurnerSrc));
 const tripodModelPromise = waitForDOMContentLoaded().then(() => loadModel(tripodSrc));
 const tripodPlateModelPromise = waitForDOMContentLoaded().then(() => loadModel(tripodPlateSrc));
@@ -32,6 +37,7 @@ const thermoModelPromise = waitForDOMContentLoaded().then(() => loadModel(thermo
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
 const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curcibleSrc));
 const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSrc));
+const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSpoonSrc));
 
   AFRAME.registerComponent("first-experiment-02", {
     schema: {
@@ -46,6 +52,10 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
 
         waitForDOMContentLoaded().then(() => { 
             this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
+            this.skipBtn = this.el.querySelector(".skip-btn");
+            this.skipBtn.object3D.addEventListener("interact", () => this.skipAufbau());
+            this.skipBtn.object3D.visible = false;
 
             //Get spawnEntity of Models
             this.movableEntities = [];
@@ -68,12 +78,13 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
             this.movableEntities.push(this.glassStickEntity);
             this.thermoEntity = this.el.querySelector(".thermo-entity");
             this.movableEntities.push(this.thermoEntity);
+            this.spoonEntity = this.el.querySelector(".spoon-entity");
+            this.movableEntities.push(this.spoonEntity);
+            this.groundSampleSpoonEntity = this.el.querySelector(".ground-sample-spoon");
             this.scaleEntity = this.el.querySelector(".scale-entity");
             this.movableEntities.push(this.scaleEntity);
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
             this.movableEntities.push(this.crucibleEntity);
-            this.spoonEntity = this.el.querySelector(".spoon-entity");
-            this.movableEntities.push(this.spoonEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -91,16 +102,15 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
             this.sockets.push(this.firelighterSocket);
             this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
             this.sockets.push(this.glassStickSocket);
-            this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
-            this.sockets.push(this.spoonSocket);
             this.thermoSocket = this.sceneEl.querySelector(".thermo-socket");
             this.sockets.push(this.thermoSocket);
+            this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
+            this.sockets.push(this.spoonSocket);
 
             this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
             this.sockets.forEach(s => {
-                console.log(s);
                 s.object3D.visible = false; //hide holograms until needed
             });
 
@@ -109,14 +119,15 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
             this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, true);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, true);
-            this.spawnItem(groundSampleModelPromise, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
             this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, true);
             this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, true);
             this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, true);
             this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, true);
-            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0), this.mortarStickEntity, true);
+            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, true);
+            this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
             this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.45, 0.8, 0), this.glassStickEntity, true);
             this.spawnItem(spoonModelPromise, new THREE.Vector3(0.65, 0.8, 0), this.spoonEntity, true);
+            this.spawnItem(groundSampleSpoonModelPromise, new THREE.Vector3(0, 0.01, 0.1), this.groundSampleSpoonEntity, false);
             this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, true);
             this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
             this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);
@@ -132,7 +143,7 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
             //Subscribe to callback after submitting multiple choice
             this.firstExpPart01 = this.expSystem.getTaskById("01");
             if(this.firstExpPart01 != null)
-              this.firstExpPart01.components["first-experiment-01"].subscribe("onFinishPart01", this.startPart02);
+              this.firstExpPart01.components["first-experiment-01"].subscribe("startPart02", this.startPart02);
             else 
               console.log("Can't subscribe to firstExpPart01 callback, entity not found");
 
@@ -183,7 +194,7 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
         });
     },
 
-    startPart02() {
+    startPart02(groundSampleIndex) {
         this.sockets.forEach(s => {
             s.object3D.visible = true;
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
@@ -192,12 +203,28 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
             let name = e.className;
             e.className = "interactable " + name;
         });
+        this.skipBtn.object3D.visible = true;
     },
 
-    onPlacedExperimentItem(entity) {
-        let index = this.sockets.indexOf(entity);
-        this.sockets.splice(index, 1);
-        if(this.sockets.length <= 0) {
+    skipAufbau() {
+        for(let i = 0; i < this.sockets.length; i++) {
+            this.sockets[i].components["entity-socket"].onSnap(this.movableEntities[i]);
+        }
+        this.sockets.forEach(s => {
+            s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
+        });
+        this.onFinishPart02Callbacks.forEach(cb => {
+            cb();
+        });
+        this.skipBtn.object3D.visible = false;
+    },
+
+    onPlacedExperimentItem() {
+        this.itemsPlaced++;
+        if(this.itemsPlaced >= this.sockets.length) {
+            this.sockets.forEach(s => {
+                s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
+            });
             this.onFinishPart02Callbacks.forEach(cb => {
                 cb();
             });

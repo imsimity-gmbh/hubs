@@ -1,11 +1,13 @@
+import { SOUND_BURNER_SOUND } from "../../systems/sound-effects-system";
+
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
-import stopwatchModelSrc from "../../assets/stopwatch_tool.glb";
+import flameModelSrc from "../../assets/models/GecoLab/flame.glb";
 import { THREE } from "aframe";
 
-const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
+const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 
 //!! Hide Sockets onPickedUp!!
 /*-Get crucible and make it placable on tripod (done)
@@ -29,19 +31,21 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
             this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+            this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
             this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
+            this.flameEntity = this.sceneEl.querySelector(".flame-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
 
             this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
-            this.crucibleSocketTripod.object3D.visible = false;
 
             this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
 
             this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
-            this.firelighterSocketTripod.object3D.visible = false;
 
             this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
-            this.glassstickSocket.object3D.visible = false;
+
+            this.updatePos = false;
             this.x = 0;
             this.z = 0;
             this.t = 0;
@@ -50,7 +54,9 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
             this.startBtn.object3D.addEventListener("interact", () => this.onStartBurner());
             this.startBtn.object3D.visible = false;
 
-            this.startStiring = false;
+            this.stiringBtn = this.el.querySelector(".stiring-btn");
+            this.stiringBtn.object3D.addEventListener("interact", () => this.stirSample());
+            this.stiringBtn.object3D.visible = false;
 
             this.updateUI();
 
@@ -81,100 +87,73 @@ const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(sto
     },
   
     tick: function() {
-        if(this.startStiring == false)
-            return;
-
-        let x = 0;
-        let z = 0;
-        let t = 0;
-
-        let updatePos = false;
-
-        document.addEventListener('keydown', function(event) {
-            if(event.keyCode == 66) {
-                t += 1
-                x = (Math.cos(t) * 0.3);
-                console.log(x);
-                z = (Math.sin(t) * 0.3);
-                console.log(z);
-                updatePos = true;
-            }
-            else if(event.keyCode == 78) {
-                t -= 1
-                x = (Math.cos(t) * 0.3);
-                console.log(x);
-                z = (Math.sin(t) * 0.3);
-                console.log(z);
-                updatePos = true;
-            }
-        });
-
-        if(updatePos) {
-            this.glassstickEntity.setAttribute("position", {x: x, y: 0, z: z});
+        if(this.updatePos) {
+            this.t += 0.03
+            this.x = (Math.cos(this.t) * 0.02);
+            this.z = (Math.sin(this.t) * 0.02);
+            this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
         }
     },
 
-    startPart04() {
-        this.crucibleSocketTripod.object3D.visible = true;
-        this.crucibleSocketTripod.components["entity-socket"].showSocket();
-        this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
-        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
-        this.stopwatchEntity.object3D.visible = true;
-    },
-
-    spawnItem(promise, position, scale, entity, show) {
+    spawnItem(promise, position, entity, show) {
         promise.then(model => {
             entity.object3D.visible = false;
             const mesh = cloneObject3D(model.scene);
-            mesh.scale.set(scale, scale, scale);
+            mesh.scale.set(3, 3, 3);
             mesh.matrixNeedsUpdate = true;
             entity.setObject3D("mesh", mesh);
         
             if(show)
                 entity.object3D.visible = true;
-
             entity.object3D.scale.set(1.0, 1.0, 1.0);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
         });
     },
 
+    stirSample() {
+        // this.t += 0.1
+        // this.x = (Math.cos(this.t) * 0.02);
+        // this.z = (Math.sin(this.t) * 0.02);
+        this.updatePos = true;
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(400);
+    },
+
+    startPart04() {
+        this.crucibleSocketTripod.components["entity-socket"].enableSocket();
+        this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
+        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+        this.stopwatchEntity.object3D.visible = true;
+    },
+
     onPlacedCrucible() {
         this.startBtn.object3D.visible = true;
+        this.scaleEntity.components["waage-tool"].tara(false);
     },
 
     onStartBurner() {
+        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.startBtn.object3D.visible = false;
-        this.firelighterSocketTripod.object3D.visible = true;
-        this.firelighterSocketTripod.components["entity-socket"].showSocket();
+        this.firelighterSocketTripod.components["entity-socket"].enableSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
     },
 
     onLightBurner() {
         this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
-        this.firelighterSocketGeneral.object3D.visible = true;
-        this.firelighterSocketGeneral.components["entity-socket"].showSocket();
+        this.firelighterSocketGeneral.components["entity-socket"].enableSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
+        this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
+        this.flameEntity.components["simple-animation"].printAnimations();
+        console.log(this.flameEntity.object3D);
     },
 
     onReplaceLighter() {
-        this.glassstickSocket.object3D.visible = true;
-        this.glassstickSocket.components["entity-socket"].showSocket();
+        this.glassstickSocket.components["entity-socket"].enableSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
     },
 
     onPlaceGlassstick() {
-        this.startStiring = true;
+        this.stiringBtn.object3D.visible = true;
     },
-
-    stirLeft(t) {
-        let x = Math.sin(t) + 1.5;
-        let z = Math.cos(t) - 0.3;
-        this.glassstickEntity.setAttribute("position", {x: x, y: 0.79, z: z});
-    },
-    
-    stirRight() {
-
-    }
 
   });

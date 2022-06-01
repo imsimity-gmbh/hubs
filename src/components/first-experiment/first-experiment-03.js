@@ -1,3 +1,6 @@
+import { SOUND_GRIND_SOUND } from "../../systems/sound-effects-system";
+import { SOUND_ADD_SAMPLE } from "../../systems/sound-effects-system";
+
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
@@ -39,6 +42,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
             this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
             this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
+            this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
+            this.weighedAmount = 0;
 
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
             this.scaleEntity.object3D.visible = true;
@@ -122,13 +127,13 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     -> checken warum line 121 nicht funktioniert
     */
     startPart03() {
-        this.mortarSocket03.components["entity-socket"].showSocket();
+        this.mortarSocket03.components["entity-socket"].enableSocket();
         this.mortarSocket03.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
         this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
     },
 
     onPlacedMortar() {
-        this.groundSampleSocket03.components["entity-socket"].showSocket();
+        this.groundSampleSocket03.components["entity-socket"].enableSocket();
         this.groundSampleSocket03.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
     },
 
@@ -140,13 +145,14 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.finishedGrinding)
             return;
 
+        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_GRIND_SOUND);
         this.grindSampleClicks++;
-        if(this.grindSampleClicks >= 15) {
-            this.groundSampleSocket03.components["entity-socket"].hideSocket();
+        if(this.grindSampleClicks >= 2) {
+            this.groundSampleSocket03.components["entity-socket"].disableSocket();
             this.groundSampleSocket03.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
             this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.55, 0.77, 0.2), this.grindSampleEntity, true);
-            this.spoonSocket03.components["entity-socket"].showSocket();
+            this.spoonSocket03.components["entity-socket"].enableSocket();
             this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.showScale);
             this.finishedGrinding = true;
             this.grindSampleBtn.object3D.visible = false;
@@ -162,7 +168,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     showScale() {
         this.scaleEntity.object3D.visible = true;
-        this.scaleSocket.components["entity-socket"].showSocket();
+        this.scaleSocket.components["entity-socket"].enableSocket();
         this.crucibleEntity.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].subscribe("onContainerPlaced", this.onScaleContainerPlaced);
         this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
@@ -170,27 +176,41 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     onScaleContainerPlaced() {
-        this.spoonSocketScale.components["entity-socket"].showSocket();
+        this.spoonSocketScale.components["entity-socket"].enableSocket();
+        this.groundSampleSpoonEntity.object3D.visible = true;
         this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.getSampleFromMortar);
         this.spoonSocketScale.components["entity-socket"].subscribe("onSnap", this.addSampleToCrucible);
+        this.spoonSocketScale.components["entity-socket"].subscribe("onPickedUp", () => this.playSound(SOUND_ADD_SAMPLE));
     },
 
     getSampleFromMortar() {
-        this.spoonSocketScale.components["entity-socket"].showSocket();
+        this.spoonSocketScale.components["entity-socket"].enableSocket();
+        this.groundSampleSpoonEntity.object3D.visible = true;
+        this.scaleEntity.components["waage-tool"].removeWeight();
     },
     addSampleToCrucible() {
-        console.log("snap spoon to scale socket");
-        this.scaleEntity.components["waage-tool"].addWeight(10);
-        this.spoonSocket03.components["entity-socket"].showSocket();
+        let amount = Math.floor((Math.random() * 15) + 5);
+        this.weighedAmount += amount;
+
+        if(this.weighedAmount <= 50)
+            this.groundSampleSpoonEntity.object3D.visible = false;
+        else    
+            this.spoonSocket03.components["entity-socket"].subscribe("onPickedUp", () => this.playSound(SOUND_ADD_SAMPLE));
+
+        this.scaleEntity.components["waage-tool"].addWeight(amount);
+        this.spoonSocket03.components["entity-socket"].enableSocket();
     },
-    // removeSampleFromCrucible() {
-        // this.scaleEntity.components["waage-tool"].removeWeight(10);
-    // },
     onRightSampleAmount() {
-        console.log("Richtige Menge abgewogen");
+        this.spoonEntity.object3D.visible = false;
+        this.spoonSocketScale.components["entity-socket"].disableSocket();
+        this.spoonSocket03.components["entity-socket"].disableSocket();
         this.onFinishPart03Callbacks.forEach(cb => {
             cb();
         });
+    },
+
+    playSound(soundID) {
+        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundID);
     }
 
   });
