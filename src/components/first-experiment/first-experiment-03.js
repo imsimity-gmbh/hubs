@@ -167,6 +167,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     showScale() {
+        this.playSound(SOUND_ADD_SAMPLE);
         this.scaleEntity.object3D.visible = true;
         this.scaleSocket.components["entity-socket"].enableSocket();
         this.crucibleEntity.object3D.visible = true;
@@ -180,10 +181,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.getSampleFromMortar);
         this.spoonSocketScale.components["entity-socket"].subscribe("onSnap", this.addSampleToCrucible);
-        this.spoonSocketScale.components["entity-socket"].subscribe("onPickedUp", () => this.playSound(SOUND_ADD_SAMPLE));
     },
 
     getSampleFromMortar() {
+        this.playSound(SOUND_ADD_SAMPLE);
         this.spoonSocketScale.components["entity-socket"].enableSocket();
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].removeWeight();
@@ -195,7 +196,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.weighedAmount <= 50)
             this.groundSampleSpoonEntity.object3D.visible = false;
         else    
-            this.spoonSocket03.components["entity-socket"].subscribe("onPickedUp", () => this.playSound(SOUND_ADD_SAMPLE));
+            this.playSound(SOUND_ADD_SAMPLE);
 
         this.scaleEntity.components["waage-tool"].addWeight(amount);
         this.spoonSocket03.components["entity-socket"].enableSocket();

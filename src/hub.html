@@ -1087,6 +1087,7 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="thermo-text" text=" value: 0 °C; width:2; align:center; color: black;" text-raycast-hack position="0.018 0.017 0" rotation="-90 -90 0" scale="0.27 0.27 0.27"></a-entity>
                         </a-entity>
                         <a-entity class="glass-stick-entity" position="0 1 0" rotation="0 80 90"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1191,7 +1192,19 @@
                     <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity>
-                    <a-entity class="stiring-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                    <a-entity class="stiring-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                        <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
+
+            <template id="interactable-first-experiment-05-camera">
+                <a-entity class="ui interactable-ui part05-wrapper" first-experiment-05>
+                    <a-entity class="thermo-socket-05" position="0 1.45 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .thermo-entity; radius: 0.3; enabled: false;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity>
+                    <a-entity class="stiring-btn-05" mixin="rounded-text-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
                     </a-entity>
                 </a-entity>

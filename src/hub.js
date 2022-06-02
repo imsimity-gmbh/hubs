@@ -161,6 +161,7 @@ import "./components/first-experiment/first-experiment-01";
 import "./components/first-experiment/first-experiment-02";
 import "./components/first-experiment/first-experiment-03";
 import "./components/first-experiment/first-experiment-04";
+import "./components/first-experiment/first-experiment-05";
 
 import ReactDOM from "react-dom";
 import React from "react";

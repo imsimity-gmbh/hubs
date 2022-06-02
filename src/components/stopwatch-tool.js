@@ -52,6 +52,10 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localDisplayTime = "00:00";
 
       this.speedVariable = 1000;
+
+      this.minuteMark1 = Math.random() * (4 - 2) + 2;
+      this.minuteMark1Reached = false;
+      this.minuteMark1Callbacks = [];
     
       this.updateUI();
 
@@ -63,6 +67,25 @@ AFRAME.registerComponent("stopwatch-tool", {
 
   remove() {
     this.stopwatchSystem.deregister(this.el);
+  },
+
+  subscribe(eventName, fn)
+  {
+    switch(eventName) {
+      case "5to10minMark":
+        this.minuteMark1Callbacks.push(fn);
+        break;
+    }
+  },
+
+  unsubscribe(eventName, fn)
+  {
+    switch(eventName) {
+      case "5to10minMark":
+        let index = this.minuteMark1Callbacks.indexOf(fn);
+        this.minuteMark1Callbacks.splice(index, 1);
+        break;
+    }
   },
 
   update() {
@@ -128,6 +151,15 @@ AFRAME.registerComponent("stopwatch-tool", {
           //Set display-format:
           let formattedTime = "";
           let minutes = Math.floor(roundedlocalCurrentTime / 60);
+
+          //Check minute marks:
+          if(minutes >= this.minuteMark1 && this.minuteMark1Reached == false) {
+            this.minuteMark1Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark1Reached = true;
+          }
+
           let seconds = roundedlocalCurrentTime - minutes*60;
           if(minutes < 10) {
             if(seconds < 10) 
@@ -156,11 +188,7 @@ AFRAME.registerComponent("stopwatch-tool", {
             this.localDisplayTime = this.data.currentTime;
           }
         }
-
       });
-
-      
-
     }
 
   },

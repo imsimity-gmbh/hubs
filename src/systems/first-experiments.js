@@ -13,6 +13,7 @@ AFRAME.registerSystem("first-experiments", {
     this.experiments02Els = [];
     this.experiments03Els = [];
     this.experiments04Els = [];
+    this.experiments05Els = [];
 
     this.experimentPlacers = [];
 
@@ -50,7 +51,12 @@ AFRAME.registerSystem("first-experiments", {
         this.updateMyExperimentTask(id);
         break;
       case "04":
-        this.experiments03Els.push(el);
+        this.experiments04Els.push(el);
+        el.addEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
+        this.updateMyExperimentTask(id);
+        break;
+      case "05":
+        this.experiments05Els.push(el);
         el.addEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
         this.updateMyExperimentTask(id);
         break;
@@ -85,6 +91,11 @@ AFRAME.registerSystem("first-experiments", {
         el.removeEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
         this.updateMyExperimentTask(id);
         break;
+      case "05":
+        this.experiments05Els.splice(this.experiments05Els.indexOf(el), 1);
+        el.removeEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
+        this.updateMyExperimentTask(id);
+        break;
     }
   },
 
@@ -102,13 +113,14 @@ AFRAME.registerSystem("first-experiments", {
         return this.myExp03;
       case "04":
         return this.myExp04;
+      case "05":
+        return this.myExp05;
     }
   },
 
 
   updateMyExperiment() {
     this.myExpBase = this.experimentsBaseEls.find(NAF.utils.isMine);
-    console.log(this.myExpBase);
     if (this.myExpBase) {
       this.sceneEl.addState("firstexperiment");
     } else {
@@ -120,7 +132,6 @@ AFRAME.registerSystem("first-experiments", {
     switch(id) {
       case "01":
         this.myExp01 = this.experiments01Els.find(NAF.utils.isMine);
-        console.log(this.myExp01);
         if (this.myExp01) {
           this.sceneEl.addState("firstexperiment-01");
         } else {
@@ -129,7 +140,6 @@ AFRAME.registerSystem("first-experiments", {
         break;
       case "02":
         this.myExp02 = this.experiments02Els.find(NAF.utils.isMine);
-        console.log(this.myExp02);
         if (this.myExp02) {
           this.sceneEl.addState("firstexperiment-02");
         } else {
@@ -138,7 +148,6 @@ AFRAME.registerSystem("first-experiments", {
         break;
       case "03":
         this.myExp03 = this.experiments03Els.find(NAF.utils.isMine);
-        console.log(this.myExp03);
         if (this.myExp03) {
           this.sceneEl.addState("firstexperiment-03");
         } else {
@@ -146,12 +155,19 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "04":
-        this.myExp03 = this.experiments03Els.find(NAF.utils.isMine);
-        console.log(this.myExp03);
-        if (this.myExp03) {
+        this.myExp04 = this.experiments04Els.find(NAF.utils.isMine);
+        if (this.myExp04) {
           this.sceneEl.addState("firstexperiment-04");
         } else {
           this.sceneEl.removeState("firstexperiment-04");
+        }
+        break;
+      case "05":
+        this.myExp05 = this.experiments05Els.find(NAF.utils.isMine);
+        if (this.myExp05) {
+          this.sceneEl.addState("firstexperiment-05");
+        } else {
+          this.sceneEl.removeState("firstexperiment-05");
         }
         break;
     }

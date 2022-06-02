@@ -45,6 +45,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
 
+            this.stopStir = false;
             this.updatePos = false;
             this.x = 0;
             this.z = 0;
@@ -55,7 +56,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.startBtn.object3D.visible = false;
 
             this.stiringBtn = this.el.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("interact", () => this.stirSample());
+            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.stirBtnDown());
+            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.stirBtnUp());
             this.stiringBtn.object3D.visible = false;
 
             this.updateUI();
@@ -87,11 +89,17 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
   
     tick: function() {
-        if(this.updatePos) {
+        if(this.updatePos && this.stopStir == false) {
             this.t += 0.03
             this.x = (Math.cos(this.t) * 0.02);
             this.z = (Math.sin(this.t) * 0.02);
             this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
+            if(this.t > 2) {
+                this.stopStir = true;
+                this.updatePos = false;
+                this.stiringBtn.object3D.visible = false;
+                this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+            }
         }
     },
 
@@ -111,12 +119,12 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         });
     },
 
-    stirSample() {
-        // this.t += 0.1
-        // this.x = (Math.cos(this.t) * 0.02);
-        // this.z = (Math.sin(this.t) * 0.02);
+    stirBtnDown() {
         this.updatePos = true;
-        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(400);
+    },
+
+    stirBtnUp() {
+        this.updatePos = false;
     },
 
     startPart04() {
