@@ -162,6 +162,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     onPlaceGlassstick() {
         this.stiringBtn.object3D.visible = true;
+        this.glassstickSocket.components["entity-socket"].unsubscribe("onSnap", this.onPlaceGlassstick);
     },
 
   });

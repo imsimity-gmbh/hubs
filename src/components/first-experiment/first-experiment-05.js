@@ -26,17 +26,17 @@ import { THREE } from "aframe";
 
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
+            this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
 
             this.measureTemp = false;
             this.temp = 150;
             this.tempText = this.thermoEntity.querySelector(".thermo-text");
 
-            this.stiringBtn = this.el.querySelector(".stiring-btn-05");
+            this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
             this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.stirBtnDown());
             this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.stirBtnUp());
-            this.stiringBtn.object3D.visible = false;
 
-            this.stopStir = false;
+            this.stopStiring = true;
             this.updatePos = false;
             this.x = 0;
             this.z = 0;
@@ -55,9 +55,11 @@ import { THREE } from "aframe";
             this.stopThermo = AFRAME.utils.bind(this.stopThermo, this);
             this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
             this.startStiring = AFRAME.utils.bind(this.startStiring, this);
+            this.thermoRunning02 = AFRAME.utils.bind(this.thermoRunning02, this);
 
             setTimeout(() => {
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("5to10minMark", this.startPart05);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.thermoRunning02);
             }, 300);
 
             this.expSystem.registerTask(this.el, "05");
@@ -84,7 +86,7 @@ import { THREE } from "aframe";
             this.tempText.setAttribute("text", { value: displayTemp });
         }
 
-        if(this.updatePos && this.stopStir == false) {
+        if(this.updatePos && this.stopStiring == false) {
             this.t += 0.03
             this.x = (Math.cos(this.t) * 0.02);
             this.z = (Math.sin(this.t) * 0.02);
@@ -99,7 +101,6 @@ import { THREE } from "aframe";
     },
 
     stirBtnDown() {
-        console.log("down");
         this.updatePos = true;
     },
 
@@ -124,6 +125,7 @@ import { THREE } from "aframe";
     },
 
     startPart05() {
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
         this.glassStickSocket.components["entity-socket"].enableSocket();
         this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.glassStickPlaced);
     },
@@ -135,8 +137,7 @@ import { THREE } from "aframe";
 
     thermoRunning() {
         this.measureTemp = true;
-        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
-
+        
         setTimeout(() => {
             this.thermoSocketGeneral.components["entity-socket"].enableSocket();
             this.thermoSocketGeneral.components["entity-socket"].subscribe("onPickedUp", this.stopThermo);
@@ -151,11 +152,18 @@ import { THREE } from "aframe";
 
     thermoOnTable() {
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
-        this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.startStiring);
+        this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
     },
 
     startStiring() {
         this.stiringBtn.object3D.visible = true;
+        this.stopStiring = false;
+        this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
+    },
+
+    thermoRunning02() {
+        this.measureTemp = true;
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
     }
 
   });
