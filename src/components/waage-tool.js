@@ -138,14 +138,15 @@ AFRAME.registerComponent("waage-tool", {
     },
 
     tara(skip) {
+        if(this.ready == false || this.taraPressed)
+            return;
+
         if(skip == false) {
             this.weight = 0;
             this.displayWeight = this.weight + "g";
             this.displayText.setAttribute("text", { value: this.displayWeight });
             this.taraPressed = true;
         }
-        if(this.ready == false)
-            return;
 
         if(skip) {
             this.weight = 50;

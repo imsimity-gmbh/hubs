@@ -121,11 +121,6 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         });
     },
 
-    /* 
-    Socket blocking:
-    onPickUp alten socket blocken und verschwinden lassen sobald in neuem platziert
-    -> checken warum line 121 nicht funktioniert
-    */
     startPart03() {
         this.mortarSocket03.components["entity-socket"].enableSocket();
         this.mortarSocket03.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);

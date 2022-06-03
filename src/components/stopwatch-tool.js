@@ -53,12 +53,24 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.speedVariable = 1000;
 
-      this.minuteMark1 = Math.random() * (4 - 2) + 2;
-      this.minuteMark2 = this.minuteMark1 + (Math.random() * (4 - 2) + 2);
+      this.minuteMark1 = Math.random() * (4 - 3) + 3;
+      this.minuteMark2 = 60;
+      this.minuteMark3 = 19; //eigtl. 25
       this.minuteMark1Reached = false;
       this.minuteMark2Reached = false;
+      this.minuteMark3Reached = false;
       this.minuteMark1Callbacks = [];
       this.minuteMark2Callbacks = [];
+      this.minuteMark3Callbacks = [];
+
+      this.expSystem = this.el.sceneEl.systems["first-experiments"];
+      this.firstExp05 = this.expSystem.getTaskById("05");
+
+      this.setMinuteMark2 = AFRAME.utils.bind(this.setMinuteMark2, this);
+
+      if(this.firstExp05 != null) {
+        this.firstExp05.components["first-experiment-05"].subscribe("minuteMark1Finished", this.setMinuteMark2);
+      }
     
       this.updateUI();
 
@@ -81,6 +93,9 @@ AFRAME.registerComponent("stopwatch-tool", {
       case "minuteMark2":
         this.minuteMark2Callbacks.push(fn);
         break;
+      case "minuteMark3":
+        this.minuteMark3Callbacks.push(fn);
+        break;
     }
   },
 
@@ -94,6 +109,10 @@ AFRAME.registerComponent("stopwatch-tool", {
       case "minuteMark2":
         let index2 = this.minuteMark2Callbacks.indexOf(fn);
         this.minuteMark2Callbacks.splice(index2, 1);
+        break;
+      case "minuteMark3":
+        let index3 = this.minuteMark3Callbacks.indexOf(fn);
+        this.minuteMark3Callbacks.splice(index3, 1);
         break;
     }
   },
@@ -177,6 +196,13 @@ AFRAME.registerComponent("stopwatch-tool", {
             this.minuteMark2Reached = true;
           }
 
+          if(minutes >= this.minuteMark3 && this.minuteMark3Reached == false) {
+            this.minuteMark3Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark3Reached = true;
+          }
+
           let seconds = roundedlocalCurrentTime - minutes*60;
           if(minutes < 10) {
             if(seconds < 10) 
@@ -235,6 +261,19 @@ AFRAME.registerComponent("stopwatch-tool", {
     });
   },
 
+  adjustSpeed(value) {
+    this.speedVariable = value;
+  },
+
+  setMinuteMark2() {
+    let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
+    let minutes = Math.floor(roundedlocalCurrentTime / 60);
+    console.log(minutes);
+
+    this.minuteMark2 = minutes + (Math.random() * (11 - 5) + 5);
+    console.log(this.minuteMark2);
+  },
+
   onPinButtonClick()
   {
     const node = pinnedEntityToGltf(this.el);
@@ -260,9 +299,5 @@ AFRAME.registerComponent("stopwatch-tool", {
     const sceneEl = this.el.sceneEl;
     sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(soundId);
   },
-
-  adjustSpeed(value) {
-    this.speedVariable = value;
-  }
 
 });

@@ -68,8 +68,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.onLightBurner = AFRAME.utils.bind(this.onLightBurner, this);
             this.onReplaceLighter = AFRAME.utils.bind(this.onReplaceLighter, this);
             this.onPlaceGlassstick = AFRAME.utils.bind(this.onPlaceGlassstick, this);
+            this.stopBurnerSound = AFRAME.utils.bind(this.stopBurnerSound, this);
 
             this.firstExpPart03 = this.expSystem.getTaskById("03");
+            this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
             if(this.firstExpPart03 != null)
                 this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 
@@ -140,7 +142,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onStartBurner() {
-        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
+        this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
+        this.firstExpPart05.components["first-experiment-05"].subscribe("stopBurnerSound", this.stopBurnerSound);
         this.startBtn.object3D.visible = false;
         this.firelighterSocketTripod.components["entity-socket"].enableSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
@@ -164,5 +167,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.stiringBtn.object3D.visible = true;
         this.glassstickSocket.components["entity-socket"].unsubscribe("onSnap", this.onPlaceGlassstick);
     },
+
+    stopBurnerSound() {
+        console.log("stop sound");
+        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
+    }
 
   });

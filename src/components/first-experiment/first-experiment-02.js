@@ -18,6 +18,7 @@ import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
 import spoonSrc from "../../assets/models/GecoLab/spoon.glb";
 import groundSampleSpoonSrc from "../../assets/models/GecoLab/ground-sample-spoon.glb";
+import tongSrc from "../../assets/models/GecoLab/tong.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
@@ -38,6 +39,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
 const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curcibleSrc));
 const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSrc));
 const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSpoonSrc));
+const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc));
 
   AFRAME.registerComponent("first-experiment-02", {
     schema: {
@@ -85,6 +87,8 @@ const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadM
             this.movableEntities.push(this.scaleEntity);
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
             this.movableEntities.push(this.crucibleEntity);
+            // this.tongEntity = this.el.querySelector(".tong-entity");
+            // this.movableEntities.push(this.tongEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -106,6 +110,8 @@ const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadM
             this.sockets.push(this.thermoSocket);
             this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
             this.sockets.push(this.spoonSocket);
+            // this.tongSocket = this.sceneEl.querySelector(".tong-socket");
+            // this.sockets.push(this.tongSocket);
 
             this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
@@ -132,6 +138,7 @@ const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadM
             this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
             this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);
             this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
+            // this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, false);
 
             this.updateUI();
 

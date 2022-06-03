@@ -27,10 +27,12 @@ import { THREE } from "aframe";
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
+            this.flameEntity = this.sceneEl.querySelector(".flame-entity");
 
             this.measureTemp = false;
-            this.temp = 150;
+            this.temp = 340;
             this.tempText = this.thermoEntity.querySelector(".thermo-text");
+            this.measuredCounter = 0;
 
             this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
             this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.stirBtnDown());
@@ -42,11 +44,15 @@ import { THREE } from "aframe";
             this.z = 0;
             this.t = 0;
 
-            this.updateUI();
+            this.lowerBurnerTempBtn = this.el.querySelector(".lower-burner-temp-btn");
+            this.lowerBurnerTempBtn.object3D.addEventListener("interact", () => this.cutBunsenBurner());
+            this.lowerBurnerTempBtn.object3D.visible = false;
 
-            this.firstExpPart04 = this.expSystem.getTaskById("04");
-            if(this.firstExpPart04 != null)
-                // this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
+            this.turnOffBurnerBtn = this.el.querySelector(".stop-burner-btn");
+            this.turnOffBurnerBtn.object3D.addEventListener("interact", () => this.turnOffBunsenBurner());
+            this.turnOffBurnerBtn.object3D.visible = false;
+
+            this.updateUI();
 
             //bind Callback funtions:
             this.startPart05 = AFRAME.utils.bind(this.startPart05, this);
@@ -55,12 +61,18 @@ import { THREE } from "aframe";
             this.stopThermo = AFRAME.utils.bind(this.stopThermo, this);
             this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
             this.startStiring = AFRAME.utils.bind(this.startStiring, this);
-            this.thermoRunning02 = AFRAME.utils.bind(this.thermoRunning02, this);
+            this.cutBunsenBurner = AFRAME.utils.bind(this.cutBunsenBurner, this);
+            this.startCoolingTask = AFRAME.utils.bind(this.startCoolingTask, this);
+            this.turnOffBunsenBurner = AFRAME.utils.bind(this.turnOffBunsenBurner, this);
 
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.thermoRunning02);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.startPart05);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.startCoolingTask);
             }, 300);
+
+            this.minuteMark1FinishedCallbacks = [];
+            this.stopBurnerSoundCallbacks = [];
 
             this.expSystem.registerTask(this.el, "05");
         });
@@ -68,6 +80,15 @@ import { THREE } from "aframe";
 
     subscribe(eventName, fn)
     {
+        switch(eventName) {
+            case "minuteMark1Finished":
+              this.minuteMark1FinishedCallbacks.push(fn);
+              break;
+            case "stopBurnerSound":
+                this.stopBurnerSoundCallbacks.push(fn);
+                console.log(this.stopBurnerSoundCallbacks);
+                break;
+        }
     },
 
     unsubscribe(eventName, fn)
@@ -82,8 +103,10 @@ import { THREE } from "aframe";
             this.temp += 0.01;
             let roundedTemp = Math.round(this.temp);
             let displayTemp = roundedTemp + " °C";
-            console.log(displayTemp);
             this.tempText.setAttribute("text", { value: displayTemp });
+            if(this.temp > 500) {
+                this.lowerBurnerTempBtn.object3D.visible = true;
+            }
         }
 
         if(this.updatePos && this.stopStiring == false) {
@@ -96,6 +119,12 @@ import { THREE } from "aframe";
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
                 this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+
+                if(this.temp < 500) {
+                    this.minuteMark1FinishedCallbacks.forEach(cb => {
+                        cb();
+                    });
+                }
             }
         }
     },
@@ -132,17 +161,27 @@ import { THREE } from "aframe";
 
     glassStickPlaced() {
         this.thermoSocket05.components["entity-socket"].enableSocket();
+        this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.glassStickPlaced);
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
     },
 
     thermoRunning() {
         this.measureTemp = true;
+        this.thermoSocket05.components["entity-socket"].unsubscribe("onSnap", this.thermoRunning);
         
-        setTimeout(() => {
-            this.thermoSocketGeneral.components["entity-socket"].enableSocket();
-            this.thermoSocketGeneral.components["entity-socket"].subscribe("onPickedUp", this.stopThermo);
-            this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
-        }, 4000);
+        if(this.measuredCounter == 0) {
+            setTimeout(() => {
+                this.measuredCounter++;
+                this.thermoSocketGeneral.components["entity-socket"].enableSocket();
+                this.thermoSocketGeneral.components["entity-socket"].subscribe("onPickedUp", this.stopThermo);
+                this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
+            }, 4000);
+        }
+
+        if(this.measuredCounter > 0) {
+            this.temp = 497;
+            this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
+        }
     },
 
     stopThermo() {
@@ -161,9 +200,26 @@ import { THREE } from "aframe";
         this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
     },
 
-    thermoRunning02() {
-        this.measureTemp = true;
+    cutBunsenBurner() {
+        this.measureTemp = false;
+        console.log("feedback for lowering burner power missing...");
+        this.thermoSocketGeneral.components["entity-socket"].enableSocket();
+        this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
+        this.lowerBurnerTempBtn.object3D.visible = false;
+        this.t = 0;
+    },
+
+    startCoolingTask() {
+        this.turnOffBurnerBtn.object3D.visible = true;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
+        this.glassStickSocket.components["entity-socket"].enableSocket();
+    },
+
+    turnOffBunsenBurner() {
+        this.flameEntity.object3D.visible = false;
+        this.stopBurnerSoundCallbacks.forEach(cb => {
+            cb();
+        });
     }
 
   });
