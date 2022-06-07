@@ -53,15 +53,18 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.speedVariable = 1000;
 
-      this.minuteMark1 = Math.random() * (4 - 3) + 3;
+      this.minuteMark1 = Math.random() * (10 - 5) + 5;
       this.minuteMark2 = 60;
-      this.minuteMark3 = 19; //eigtl. 25
+      this.minuteMark3 = 25; //eigtl. 25
+      this.minuteMark4 = 45; //eigtl. 45
       this.minuteMark1Reached = false;
       this.minuteMark2Reached = false;
       this.minuteMark3Reached = false;
+      this.minuteMark4Reached = false;
       this.minuteMark1Callbacks = [];
       this.minuteMark2Callbacks = [];
       this.minuteMark3Callbacks = [];
+      this.minuteMark4Callbacks = [];
 
       this.expSystem = this.el.sceneEl.systems["first-experiments"];
       this.firstExp05 = this.expSystem.getTaskById("05");
@@ -96,6 +99,9 @@ AFRAME.registerComponent("stopwatch-tool", {
       case "minuteMark3":
         this.minuteMark3Callbacks.push(fn);
         break;
+      case "minuteMark4":
+        this.minuteMark4Callbacks.push(fn);
+        break;
     }
   },
 
@@ -113,6 +119,10 @@ AFRAME.registerComponent("stopwatch-tool", {
       case "minuteMark3":
         let index3 = this.minuteMark3Callbacks.indexOf(fn);
         this.minuteMark3Callbacks.splice(index3, 1);
+        break;
+      case "minuteMark4":
+        let index4 = this.minuteMark3Callbacks.indexOf(fn);
+        this.minuteMark3Callbacks.splice(index4, 1);
         break;
     }
   },
@@ -203,6 +213,13 @@ AFRAME.registerComponent("stopwatch-tool", {
             this.minuteMark3Reached = true;
           }
 
+          if(minutes >= this.minuteMark4 && this.minuteMark4Reached == false) {
+            this.minuteMark4Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark4Reached = true;
+          }
+
           let seconds = roundedlocalCurrentTime - minutes*60;
           if(minutes < 10) {
             if(seconds < 10) 
@@ -270,7 +287,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     let minutes = Math.floor(roundedlocalCurrentTime / 60);
     console.log(minutes);
 
-    this.minuteMark2 = minutes + (Math.random() * (11 - 5) + 5);
+    this.minuteMark2 = minutes + (Math.random() * (10 - 5) + 5);
     console.log(this.minuteMark2);
   },
 

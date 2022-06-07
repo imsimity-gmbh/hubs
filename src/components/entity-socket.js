@@ -26,7 +26,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     },
   
     init: function() {
-
+      
       //Select necessary components:
       this.sceneEl = document.querySelector("a-scene");
       this.root = this.el.querySelector(".root");

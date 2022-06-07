@@ -14,6 +14,7 @@ AFRAME.registerSystem("first-experiments", {
     this.experiments03Els = [];
     this.experiments04Els = [];
     this.experiments05Els = [];
+    this.experiments06Els = [];
 
     this.experimentPlacers = [];
 
@@ -60,6 +61,11 @@ AFRAME.registerSystem("first-experiments", {
         el.addEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
         this.updateMyExperimentTask(id);
         break;
+      case "06":
+        this.experiments06Els.push(el);
+        el.addEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
+        this.updateMyExperimentTask(id);
+        break;
     }
   },
 
@@ -96,6 +102,11 @@ AFRAME.registerSystem("first-experiments", {
         el.removeEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
         this.updateMyExperimentTask(id);
         break;
+      case "06":
+        this.experiments06Els.splice(this.experiments06Els.indexOf(el), 1);
+        el.removeEventListener("ownership-changed", () => this.updateMyExperimentTask(id));
+        this.updateMyExperimentTask(id);
+        break;
     }
   },
 
@@ -115,6 +126,8 @@ AFRAME.registerSystem("first-experiments", {
         return this.myExp04;
       case "05":
         return this.myExp05;
+      case "06":
+        return this.myExp06;
     }
   },
 
@@ -168,6 +181,14 @@ AFRAME.registerSystem("first-experiments", {
           this.sceneEl.addState("firstexperiment-05");
         } else {
           this.sceneEl.removeState("firstexperiment-05");
+        }
+        break;
+      case "06":
+        this.myExp06 = this.experiments06Els.find(NAF.utils.isMine);
+        if (this.myExp06) {
+          this.sceneEl.addState("firstexperiment-06");
+        } else {
+          this.sceneEl.removeState("firstexperiment-06");
         }
         break;
     }

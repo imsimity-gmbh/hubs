@@ -920,32 +920,32 @@
             </template>
 
             <template id="interactable-first-experiment-camera">
-                <a-entity class="interactable" first-experiment>
-                    <a-entity class="ui interactable-ui start-btn-wrapper" position="0.3 -0.1 0.2">
+                <a-entity class="interactable" first-experiment> <!--static-->
+                    <a-entity class="ui interactable-ui start-btn-wrapper" position="0.3 -0.1 0.2"> <!--static-->
                         <a-entity class="first-experiment-start-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
                             <a-entity text=" value: Start; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                     </a-entity>
                 </a-entity>
             </template>
 
             <template id="interactable-first-experiment-01-camera">
                 <!--Ground samples:-->
-                <a-entity id="first-experiment-01-wrapper" first-experiment-01>
+                <a-entity id="first-experiment-01-wrapper" first-experiment-01> <!--static-->
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">
-                        <a-entity class="ground-sample-1" position="1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity>
-                        <a-entity class="ground-sample-2" position="0 0.8 0" scale="2.0 2.0 2.0"></a-entity>
-                        <a-entity class="ground-sample-3" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity>
+                        <a-entity class="ground-sample-1" position="1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
+                        <a-entity class="ground-sample-2" position="0 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
+                        <a-entity class="ground-sample-3" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
                         <a-entity class="answer-area" position="0 1.7 0">
                             <a-entity class="ground-sample-btn-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
+                            </a-entity> <!--static-->
                             <a-entity class="ground-sample-btn-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
+                            </a-entity> <!--static-->
                             <a-entity class="ground-sample-btn-3" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
+                            </a-entity> <!--static-->
                         </a-entity>
                     </a-entity>
 
@@ -957,7 +957,7 @@
                         position="0.3 0 0.5">
                             <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?; color: white;"
                                 text-raycast-hack position="0 2.5 0" scale="3 3 3">
-                            </a-entity>
+                            </a-entity> <!--static-->
 
                             <a-entity class="answer-area" position="0 2 0">
                                 <a-entity id="0" class="answer-option-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
@@ -969,60 +969,60 @@
                                 <a-entity id="2" class="answer-option-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
                                     <a-entity text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                                 </a-entity>
-                            </a-entity>
+                            </a-entity> <!--static-->
 
                             <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
                                 <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity>
-                    </a-entity>
+                            </a-entity> <!--static-->
+                    </a-entity> <!--static-->
 
                     <a-entity class="experiment-table-wrapper" position="0 -0.1 0">
                         <a-entity class="bunsen-burner-socket" position="0 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .bunsen-burner-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="tripod-1-socket" position="0 0.62 0" rotation="0 90 0" entity-socket="acceptedEntities: .tripod-1-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="tripod-2-socket" position="0.6 0.62 0" rotation="0 0 0" entity-socket="acceptedEntities: .tripod-2-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="firelighter-socket" position="0.8 0.79 0" rotation="0 90 90" entity-socket="acceptedEntities: .firelighter-entity; radius: 0.4; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="thermo-socket" position="1.2 0.6 -0.2" rotation="0 90 0" entity-socket="acceptedEntities: .thermo-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="glass-stick-socket" position="1.4 0.79 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="spoon-socket" position="1.6 0.6 0" rotation="0 10 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="ground-sample-socket" position="1.8 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.5; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="mortar-socket" position="2.1 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                         <a-entity class="tong-socket" position="1.2 0.6 0.2" rotation="0 0 0" entity-socket="acceptedEntities: .tong-entity; radius: 0.5; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                     </a-entity>
                 </a-entity>
             </template>
 
             <template id="interactable-first-experiment-02-camera">
-                <a-entity first-experiment-02 class="part02-wrapper">
+                <a-entity first-experiment-02 class="part02-wrapper"> 
                     <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
                         <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1115,6 +1115,9 @@
                             <a-entity class="tara-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
                                 <a-entity text=" value: Tara; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
+                            <a-entity class="glow-loss-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
+                                <a-entity text=" value: Gluehverlust berechnen; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.3 0.3 0.3"></a-entity>
+                            </a-entity>
                         </a-entity>
                         <a-entity class="crucible-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1124,6 +1127,7 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="attached-tong-entity" position="0.23 0.15 0"></a-entity>
                         </a-entity>
                         <a-entity class="spoon-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1146,7 +1150,7 @@
                         </a-entity>
                         <a-entity class="skip-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" rotation="0 0 0" scale="0.4 0.4 0.4">
                             <a-entity text=" value: Aufbau Überspringen; width: 3.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
+                        </a-entity> <!--static-->
                     </a-entity>
                 </a-entity>
             </template>
@@ -1158,32 +1162,32 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         <a-entity class="grind-sample-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
                             <a-entity text=" value: Probe moersern; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                        </a-entity>
-                    </a-entity>
+                        </a-entity> <!--static-->
+                    </a-entity> <!--static-->
                     <a-entity class="ground-sample-socket-03" position="-0.55 0.57 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                     <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
                     <a-entity class="spoon-socket-03" position="-0.4 0.61 0.2" rotation="20 270 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
 
-                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 90 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: true;">
+                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: true;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
 
                     <a-entity class="spoon-socket-scale" position="-1.25 0.86 -0.04" rotation="10 90 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
 
                     <a-entity class="scale-socket" position="-1.1 0.5 0" rotation="0 90 0" entity-socket="acceptedEntities: .scale-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                 </a-entity>
             </template>
 
@@ -1193,21 +1197,21 @@
                     <a-entity class="crucible-socket-04" position="0 1.05 0" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                     <a-entity class="firelighter-socket-04" position="0.2 0.95 0.05" rotation="0 0 45" entity-socket="acceptedEntities: .firelighter-entity; radius: 0.4; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
-                    <a-entity class="glass-stick-socket-04" position="0 1.1 0" rotation="0 0 0" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.3; enabled: false;">
+                    </a-entity> <!--static-->
+                    <a-entity class="glass-stick-socket-04" position="0 1.1 0" rotation="0 0 0" entity-socket="acceptedEntities: .glass-stick-entity; radius: 0.8; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                     <a-entity class="start-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                     <a-entity class="stiring-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                 </a-entity>
             </template>
 
@@ -1216,13 +1220,65 @@
                     <a-entity class="thermo-socket-05" position="0 1.45 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .thermo-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
+
                     <a-entity class="lower-burner-temp-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Herunterdrehen; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
                     <a-entity class="stop-burner-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Abschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity>
+                    </a-entity> <!--static-->
+
+                    <a-entity class="tong-socket-crucible" position="0.23 1.2 0" rotation="0 0 0" entity-socket="acceptedEntities: .tong-entity; radius: 0.3; enabled: false;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity> <!--static-->
+                    <a-entity class="crucible-socket-05" position="0.6 1.05 0" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: false;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity> <!--static-->
+                </a-entity>
+            </template>
+
+            <template id="interactable-first-experiment-06-camera">
+                <a-entity class="ui interactable-ui part06-wrapper" first-experiment-06>
+                    <a-entity class="tong-socket-crucible-06" position="0.83 1.2 0" rotation="0 0 0" entity-socket="acceptedEntities: .tong-entity; radius: 0.3; enabled: false;">
+                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                    </a-entity> <!--static-->
+
+                    <a-entity class="discuss-result-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0" scale="2.0 2.0 2.0">
+                        <a-entity text=" value: Ergebnis abstimmen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity> <!--static-->
+
+                    <a-entity 
+                        class="ui interactable-ui multiple-choice-wrapper-06" 
+                        multiple-choice-question="question_id: 1"
+                        position="0.3 0 0.5">
+                            <a-entity class="question-text" text="value: Wie hoch ist der Humusgehalt [%]?; color: white;"
+                                text-raycast-hack position="0 2.5 0" scale="3 3 3">
+                            </a-entity>
+
+                            <a-entity class="answer-area" position="0 2 0">
+                                <a-entity id="0" class="answer-option-0" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort A; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="1" class="answer-option-1" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort B; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                                <a-entity id="2" class="answer-option-2" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
+                                    <a-entity text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                            </a-entity> <!--static-->
+
+                            <a-entity class="submit-button" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
+                                <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity> <!--static-->
+                    </a-entity> <!--static-->
+
+                    <a-entity class="tidy-up-btn" mixin="rounded-text-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
+                        <a-entity text=" value: Aufraeumen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity> <!--static-->
                 </a-entity>
             </template>
 

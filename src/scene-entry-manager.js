@@ -588,6 +588,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart03(".table_main_01");
       this._spawnFirstExperimentPart04(".table_main_01");
       this._spawnFirstExperimentPart05(".table_main_01");
+      this._spawnFirstExperimentPart06(".table_main_01");
       this._spawnStopwatch(".table_main_01");
     });
   };
@@ -627,6 +628,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart03(".table_main_02");
       this._spawnFirstExperimentPart04(".table_main_02");
       this._spawnFirstExperimentPart05(".table_main_02");
+      this._spawnFirstExperimentPart06(".table_main_02");
       this._spawnStopwatch(".table_main_02");
     });
   };
@@ -666,6 +668,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart03(".table_main_03");
       this._spawnFirstExperimentPart04(".table_main_03");
       this._spawnFirstExperimentPart05(".table_main_03");
+      this._spawnFirstExperimentPart06(".table_main_03");
       this._spawnStopwatch(".table_main_03");
     });
   };
@@ -793,7 +796,32 @@ export default class SceneEntryManager {
       this.scene.appendChild(entity);
     
     }
-};
+  };
+
+  _spawnFirstExperimentPart06 = (table) => {
+
+    console.log("Placing");
+
+    if (!this.hubChannel.can("spawn_camera")) return;
+    
+    const myExperiment = this.scene.systems["first-experiments"].getTaskById("06");
+
+    if (myExperiment) {
+      myExperiment.parentNode.removeChild(myExperiment);
+    } else {
+      const entity = document.createElement("a-entity");
+
+      const anchor = this.scene.querySelector(table);
+      const anchorPos = anchor.getAttribute("position");
+      const anchorRot = anchor.getAttribute("rotation");
+
+      entity.setAttribute("networked", { template: "#interactable-first-experiment-06-camera" });
+      entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+      entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+      this.scene.appendChild(entity);
+    
+    }
+  };
 
   _setupRobot = () => {
     this.scene.addEventListener("action_toggle_robot", () => {

@@ -96,7 +96,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.x = (Math.cos(this.t) * 0.02);
             this.z = (Math.sin(this.t) * 0.02);
             this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
-            if(this.t > 2) {
+            if(this.t > 10) {
                 this.stopStir = true;
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
@@ -169,7 +169,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     stopBurnerSound() {
-        console.log("stop sound");
         this.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
     }
 

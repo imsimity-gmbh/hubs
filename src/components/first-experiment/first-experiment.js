@@ -9,6 +9,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
  
  AFRAME.registerComponent("first-experiment", {
     schema: {
+      startClicked: {default: false},
     },
   
     init: function() {
@@ -22,7 +23,12 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
         this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
-        this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
+        this.firstExpStartBtn.object3D.addEventListener("interact", () => this.startExperiment());
+
+        //local version of network variable:
+        this.localStartClicked = false;
+
+        console.log(this.el);
 
         this.updateUI();
 
@@ -33,9 +39,18 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       });
 
     },
+
+    update() {
+      waitForDOMContentLoaded().then(() => { 
+        this.updateUI();
+      });
+    },
     
     updateUI: function() {
-
+      if(this.localStartClicked != this.data.startClicked) {
+        this.startExperiment();
+        this.localStartClicked = this.data.startClicked;
+      }
     },
   
     tick: function() {
@@ -43,6 +58,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
 
     onClickStart() {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("first-experiment", "startClicked", !this.data.startClicked);      
+  
+        this.updateUI();
+      });
+    },
+
+    startExperiment() {
       let callbackId = "action_toggle_first_experiment_" + this.el.id + "_start";
       this.sceneEl.emit(callbackId);
       this.firstExpStartBtn.object3D.visible = false;

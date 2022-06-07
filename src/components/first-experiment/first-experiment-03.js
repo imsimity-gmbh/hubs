@@ -142,7 +142,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
         this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_GRIND_SOUND);
         this.grindSampleClicks++;
-        if(this.grindSampleClicks >= 2) {
+        if(this.grindSampleClicks >= 15) {
             this.groundSampleSocket03.components["entity-socket"].disableSocket();
             this.groundSampleSocket03.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");

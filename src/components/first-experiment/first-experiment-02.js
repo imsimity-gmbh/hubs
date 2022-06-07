@@ -87,8 +87,9 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.movableEntities.push(this.scaleEntity);
             this.crucibleEntity = this.el.querySelector(".crucible-entity");
             this.movableEntities.push(this.crucibleEntity);
-            // this.tongEntity = this.el.querySelector(".tong-entity");
-            // this.movableEntities.push(this.tongEntity);
+            this.attachedTongEntity = this.el.querySelector(".attached-tong-entity");
+            this.tongEntity = this.el.querySelector(".tong-entity");
+            this.movableEntities.push(this.tongEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -110,8 +111,8 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.sockets.push(this.thermoSocket);
             this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
             this.sockets.push(this.spoonSocket);
-            // this.tongSocket = this.sceneEl.querySelector(".tong-socket");
-            // this.sockets.push(this.tongSocket);
+            this.tongSocket = this.sceneEl.querySelector(".tong-socket");
+            this.sockets.push(this.tongSocket);
 
             this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
@@ -137,8 +138,9 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, true);
             this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
             this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);
+            this.spawnItem(tongModelPromise, new THREE.Vector3(0.23, 0.15, 0), this.attachedTongEntity, false);
             this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
-            // this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, false);
+            this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, true);
 
             this.updateUI();
 
@@ -210,7 +212,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             let name = e.className;
             e.className = "interactable " + name;
         });
-        this.skipBtn.object3D.visible = true;
+        // this.skipBtn.object3D.visible = true;
     },
 
     skipAufbau() {

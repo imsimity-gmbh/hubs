@@ -23,11 +23,17 @@ import { THREE } from "aframe";
             this.thermoSocketGeneral = this.sceneEl.querySelector(".thermo-socket")
             this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
             this.glassStickSocketCrucible = this.sceneEl.querySelector(".glass-stick-socket-04");
+            this.tongSocketCrucible = this.el.querySelector(".tong-socket-crucible");
+            this.tongSocketGeneral = this.sceneEl.querySelector(".tong-socket");
+            this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
 
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
             this.flameEntity = this.sceneEl.querySelector(".flame-entity");
+            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+            this.tongEntity = this.sceneEl.querySelector(".tong-entity");
+            this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
             this.measureTemp = false;
             this.temp = 340;
@@ -62,8 +68,12 @@ import { THREE } from "aframe";
             this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
             this.startStiring = AFRAME.utils.bind(this.startStiring, this);
             this.cutBunsenBurner = AFRAME.utils.bind(this.cutBunsenBurner, this);
+            this.waitForCoolingTask = AFRAME.utils.bind(this.waitForCoolingTask, this);
             this.startCoolingTask = AFRAME.utils.bind(this.startCoolingTask, this);
             this.turnOffBunsenBurner = AFRAME.utils.bind(this.turnOffBunsenBurner, this);
+            this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
+            this.cruciblePlacedOnTripod2 = AFRAME.utils.bind(this.cruciblePlacedOnTripod2, this);
+            this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
 
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
@@ -114,16 +124,22 @@ import { THREE } from "aframe";
             this.x = (Math.cos(this.t) * 0.02);
             this.z = (Math.sin(this.t) * 0.02);
             this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
-            if(this.t > 2) {
-                this.stopStir = true;
-                this.updatePos = false;
-                this.stiringBtn.object3D.visible = false;
-                this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
-
+            if(this.t > 10) {
                 if(this.temp < 500) {
+                    this.stopStir = true;
+                    this.updatePos = false;
+                    this.stiringBtn.object3D.visible = false;
+                    this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
                     this.minuteMark1FinishedCallbacks.forEach(cb => {
                         cb();
                     });
+                }
+                else if(this.temp >= 500) {
+                    this.stopStir = true;
+                    this.updatePos = false;
+                    this.stiringBtn.object3D.visible = false;
+                    this.glassStickSocket.components["entity-socket"].enableSocket();
+                    this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.waitForCoolingTask);
                 }
             }
         }
@@ -209,6 +225,11 @@ import { THREE } from "aframe";
         this.t = 0;
     },
 
+    waitForCoolingTask() {
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+        this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.waitForCoolingTask);
+    },
+
     startCoolingTask() {
         this.turnOffBurnerBtn.object3D.visible = true;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
@@ -216,10 +237,36 @@ import { THREE } from "aframe";
     },
 
     turnOffBunsenBurner() {
+        this.turnOffBurnerBtn.object3D.visible = false;
         this.flameEntity.object3D.visible = false;
         this.stopBurnerSoundCallbacks.forEach(cb => {
             cb();
         });
+        
+        this.tongSocketCrucible.components["entity-socket"].enableSocket();
+        this.tongSocketCrucible.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
+    },
+
+    tongPlacedOnCrucible() {
+        this.tongEntity.object3D.visible = false;
+        this.attachedTongEntity.object3D.visible = true;
+        this.crucibleSocket05.components["entity-socket"].enableSocket();
+        this.crucibleSocket05.components["entity-socket"].subscribe("onSnap", this.cruciblePlacedOnTripod2);
+        this.tongSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.tongPlacedOnCrucible);
+    },
+
+    cruciblePlacedOnTripod2() {
+        this.tongEntity.setAttribute("position", {x: 0.6, y: 0, z: 0});
+        this.tongEntity.object3D.visible = true;
+        this.attachedTongEntity.object3D.visible = false;
+        this.tongSocketGeneral.components["entity-socket"].enableSocket();
+        this.tongSocketGeneral.components["entity-socket"].subscribe("onSnap", this.tongReplacedOnTable);
+        this.crucibleSocket05.components["entity-socket"].unsubscribe("onSnap", this.cruciblePlacedOnTripod2);
+    },
+
+    tongReplacedOnTable() {
+        this.tongSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.tongReplacedOnTable);
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
     }
 
   });
