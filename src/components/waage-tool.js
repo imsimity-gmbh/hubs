@@ -22,6 +22,7 @@ AFRAME.registerComponent("waage-tool", {
             this.onPickUpContainer = AFRAME.utils.bind(this.onPickUpContainer, this);
 
             this.crucibleSocket = this.sceneEl.querySelector(".crucible-socket");
+            console.log(this.crucibleSocket);
             if(this.crucibleSocket != null)
                 this.crucibleSocket.object3D.visible = false;
             this.crucibleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
@@ -47,6 +48,7 @@ AFRAME.registerComponent("waage-tool", {
             this.glowLossBtn.object3D.visible = false;
 
             this.onContainerPlacedCallbacks = [];
+            this.onTaraPressedCallbacks = [];
             this.onRightAmountCallbacks = [];
             this.onGlowLossWeighedCallbacks = [];
             // this.onContainerPlaced(); //nur drin bis entity-socket auf waage klappt
@@ -58,6 +60,9 @@ AFRAME.registerComponent("waage-tool", {
         switch(eventName) {
             case "onContainerPlaced":
               this.onContainerPlacedCallbacks.push(fn);
+              break;
+            case "onTaraPressed":
+              this.onTaraPressedCallbacks.push(fn);
               break;
             case "onRightAmount":
               this.onRightAmountCallbacks.push(fn);
@@ -75,13 +80,18 @@ AFRAME.registerComponent("waage-tool", {
               let index = this.onContainerPlacedCallbacks.indexOf(fn);
               this.onContainerPlacedCallbacks.splice(index, 1);
               break;
+            case "onTaraPressed":
+              let index1 = this.onContainerPlacedCallbacks.indexOf(fn);
+              this.onContainerPlacedCallbacks.splice(index1, 1);
+              break;
             case "onRightAmount":
-              let index1 = this.onRightAmountCallbacks.indexOf(fn);
-              this.onRightAmountCallbacks.splice(index1, 1);
+              let index2 = this.onRightAmountCallbacks.indexOf(fn);
+              this.onRightAmountCallbacks.splice(index2, 1);
               break;
             case "onGlowLossWeighed":
-              let index2 = this.onGlowLossWeighedCallbacks.indexOf(fn);
-              this.onGlowLossWeighedCallbacks.splice(index2, 1);
+              let index3 = this.onGlowLossWeighedCallbacks.indexOf(fn);
+              this.onGlowLossWeighedCallbacks.splice(index3, 1);
+              break;
         }
     },
     
@@ -102,6 +112,7 @@ AFRAME.registerComponent("waage-tool", {
 
     onScalePlaced() {
         this.scalePlaced = true;
+        console.log(this.crucibleSocket);
         this.crucibleSocket.setAttribute("position", {x: -1.1, y: 0.7, z: -0.04});
         this.crucibleSocket.object3D.visible = true;
     },
@@ -183,6 +194,9 @@ AFRAME.registerComponent("waage-tool", {
                 });
             }
         }
+        this.onTaraPressedCallbacks.forEach(cb => {
+            cb();
+        });
     },
 
     measureGlowLoss() {

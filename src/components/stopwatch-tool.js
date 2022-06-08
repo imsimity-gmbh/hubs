@@ -53,10 +53,10 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.speedVariable = 1000;
 
-      this.minuteMark1 = Math.random() * (10 - 5) + 5;
+      this.minuteMark1 = Math.random() * (4 - 3) + 3;
       this.minuteMark2 = 60;
-      this.minuteMark3 = 25; //eigtl. 25
-      this.minuteMark4 = 45; //eigtl. 45
+      this.minuteMark3 = 14; //eigtl. 25
+      this.minuteMark4 = 18; //eigtl. 45
       this.minuteMark1Reached = false;
       this.minuteMark2Reached = false;
       this.minuteMark3Reached = false;

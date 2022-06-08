@@ -4,9 +4,13 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
 import { THREE } from "aframe";
 
+/* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
   AFRAME.registerComponent("first-experiment-05", {
     schema: {
+        stirBtnHeld: {default: false},
+        onClickCutBunsenBurner: {default: false},
+        onClickTurnOffBunsenBurner: {default: false},
     },
   
     init: function() {
@@ -41,8 +45,9 @@ import { THREE } from "aframe";
             this.measuredCounter = 0;
 
             this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.stirBtnDown());
-            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.stirBtnUp());
+            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
+            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
+            this.localStirBtnHeld = false;
 
             this.stopStiring = true;
             this.updatePos = false;
@@ -51,12 +56,14 @@ import { THREE } from "aframe";
             this.t = 0;
 
             this.lowerBurnerTempBtn = this.el.querySelector(".lower-burner-temp-btn");
-            this.lowerBurnerTempBtn.object3D.addEventListener("interact", () => this.cutBunsenBurner());
+            this.lowerBurnerTempBtn.object3D.addEventListener("interact", () => this.onCutBunsenBurnerClicked());
             this.lowerBurnerTempBtn.object3D.visible = false;
+            this.localOnClickCutBunsenBurner = false;
 
             this.turnOffBurnerBtn = this.el.querySelector(".stop-burner-btn");
-            this.turnOffBurnerBtn.object3D.addEventListener("interact", () => this.turnOffBunsenBurner());
+            this.turnOffBurnerBtn.object3D.addEventListener("interact", () => this.onTurnOffBunsenBurnerClicked());
             this.turnOffBurnerBtn.object3D.visible = false;
+            this.localOnClickTurnOffBunsenBurner = false;
 
             this.updateUI();
 
@@ -104,8 +111,32 @@ import { THREE } from "aframe";
     unsubscribe(eventName, fn)
     {
     },
+
+    update() {
+        waitForDOMContentLoaded().then(() => { 
+          this.updateUI();
+        });
+    },
     
     updateUI: function() {
+        if(this.localStirBtnHeld != this.data.stirBtnHeld) {
+            if(this.data.stirBtnHeld) 
+                this.stirBtnDown();
+            else if(this.data.stirBtnHeld == false)
+                this.stirBtnUp();
+
+            this.localStirBtnHeld = this.data.stirBtnHeld;
+        }
+
+        if(this.localOnClickCutBunsenBurner != this.data.onClickCutBunsenBurner) {
+            this.cutBunsenBurner();
+            this.localOnClickCutBunsenBurner = this.data.onClickCutBunsenBurner;
+        }
+
+        if(this.localOnClickTurnOffBunsenBurner != this.data.onClickTurnOffBunsenBurner) {
+            this.turnOffBunsenBurner();
+            this.localOnClickTurnOffBunsenBurner = this.data.onClickTurnOffBunsenBurner;
+        }
     },
   
     tick: function() {
@@ -143,6 +174,28 @@ import { THREE } from "aframe";
                 }
             }
         }
+    },
+
+    onHoldStirBtnDown() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "stirBtnHeld", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    onReleaseStirBtn() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "stirBtnHeld", false);      
+      
+            this.updateUI();
+        });
     },
 
     stirBtnDown() {
@@ -216,6 +269,17 @@ import { THREE } from "aframe";
         this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
     },
 
+    onCutBunsenBurnerClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "onClickCutBunsenBurner", true);      
+      
+            this.updateUI();
+        });
+    },
+
     cutBunsenBurner() {
         this.measureTemp = false;
         console.log("feedback for lowering burner power missing...");
@@ -233,7 +297,17 @@ import { THREE } from "aframe";
     startCoolingTask() {
         this.turnOffBurnerBtn.object3D.visible = true;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
-        this.glassStickSocket.components["entity-socket"].enableSocket();
+    },
+
+    onTurnOffBunsenBurnerClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "onClickTurnOffBunsenBurner", true);      
+      
+            this.updateUI();
+        });
     },
 
     turnOffBunsenBurner() {

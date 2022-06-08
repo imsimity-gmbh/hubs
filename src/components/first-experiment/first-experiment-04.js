@@ -9,15 +9,12 @@ import { THREE } from "aframe";
 
 const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 
-//!! Hide Sockets onPickedUp!!
-/*-Get crucible and make it placable on tripod (done)
-- After clicking start place lighter on socket -> ignite
-- Stoppuhr appears (rewrite component for automatic interaction)
-- Add btns for different power levels and give feedback on which is best
----> done, next step  */
+/* Same as before: Buttons networked, at least the startBurnerBtn called on spawn for some reason, entity-socket callbacks not yet  */
 
   AFRAME.registerComponent("first-experiment-04", {
     schema: {
+        startBurnerClicked: {default: false},
+        stirBtnHeld: {default: false},
     },
   
     init: function() {
@@ -52,15 +49,19 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.t = 0;
 
             this.startBtn = this.el.querySelector(".start-burner-btn");
-            this.startBtn.object3D.addEventListener("interact", () => this.onStartBurner());
+            this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
             this.startBtn.object3D.visible = false;
 
+            this.localStartBurnerClicked = false;
+
             this.stiringBtn = this.el.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.stirBtnDown());
-            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.stirBtnUp());
+            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
+            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
             this.stiringBtn.object3D.visible = false;
 
-            this.updateUI();
+            this.localStirBtnHeld = false;
+
+            // this.updateUI();
 
             //bind Callback funtions:
             this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
@@ -86,8 +87,27 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     unsubscribe(eventName, fn)
     {
     },
+
+    update() {
+        waitForDOMContentLoaded().then(() => { 
+          this.updateUI();
+        });
+    },
     
     updateUI: function() {
+        if(this.localStartBurnerClicked != this.data.startBurnerClicked) {
+            this.startBurner();
+            this.localStartBurnerClicked = this.data.startBurnerClicked;
+        }
+
+        if(this.localStirBtnHeld != this.data.stirBtnHeld) {
+            if(this.data.stirBtnHeld) 
+                this.stirBtnDown();
+            else if(this.data.stirBtnHeld == false)
+                this.stirBtnUp();
+
+            this.localStirBtnHeld = this.data.stirBtnHeld;
+        }
     },
   
     tick: function() {
@@ -121,6 +141,28 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         });
     },
 
+    onHoldStirBtnDown() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "stirBtnHeld", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    onReleaseStirBtn() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "stirBtnHeld", false);      
+      
+            this.updateUI();
+        });
+    },
+
     stirBtnDown() {
         this.updatePos = true;
     },
@@ -141,7 +183,18 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.scaleEntity.components["waage-tool"].tara(false);
     },
 
-    onStartBurner() {
+    onStartBurnerClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "startBurnerClicked", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    startBurner() {
         this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.firstExpPart05.components["first-experiment-05"].subscribe("stopBurnerSound", this.stopBurnerSound);
         this.startBtn.object3D.visible = false;

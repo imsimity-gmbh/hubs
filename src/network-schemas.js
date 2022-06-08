@@ -448,6 +448,7 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
+        selector: ".interactable",
         component: "first-experiment",
         property: "startClicked"
       }
@@ -459,6 +460,16 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: "#first-experiment-01-wrapper",
+        component: "first-experiment-01",
+        property: "groundSampleChosen"
+      },
+      {
+        selector: "#first-experiment-01-wrapper",
+        component: "first-experiment-01",
+        property: "groundSampleIndex"
+      }
     ]
   });
 
@@ -468,163 +479,179 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: "mortar-entity",
+        selector: ".part02-wrapper",
         component: "position"
       },
       {
-        selector: "mortar-entity",
+        selector: ".part02-wrapper",
         component: "rotation"
       },
       {
-        selector: "mortar-stick-entity",
+        selector: ".cupboard-wrapper",
         component: "position"
       },
       {
-        selector: "mortar-stick-entity",
+        selector: ".cupboard-wrapper",
         component: "rotation"
       },
       {
-        selector: "ground-sample-entity",
+        selector: ".mortar-entity",
         component: "position"
       },
       {
-        selector: "ground-sample-entity",
+        selector: ".mortar-entity",
         component: "rotation"
       },
       {
-        selector: "bunsen-burner-entity",
+        selector: ".mortar-stick-entity",
         component: "position"
       },
       {
-        selector: "bunsen-burner-entity",
+        selector: ".mortar-stick-entity",
         component: "rotation"
       },
       {
-        selector: "flame-entity",
+        selector: ".ground-sample-entity",
         component: "position"
       },
       {
-        selector: "flame-entity",
+        selector: ".ground-sample-entity",
         component: "rotation"
       },
       {
-        selector: "tripod-1-entity",
+        selector: ".bunsen-burner-entity",
         component: "position"
       },
       {
-        selector: "tripod-1-entity",
+        selector: ".bunsen-burner-entity",
         component: "rotation"
       },
       {
-        selector: "tripod-plate-entity",
+        selector: ".flame-entity",
         component: "position"
       },
       {
-        selector: "tripod-plate-entity",
+        selector: ".flame-entity",
         component: "rotation"
       },
       {
-        selector: "tripod-2-entity",
+        selector: ".tripod-1-entity",
         component: "position"
       },
       {
-        selector: "tripod-2-entity",
+        selector: ".tripod-1-entity",
         component: "rotation"
       },
       {
-        selector: "tripod-triangle-entity",
+        selector: ".tripod-plate-entity",
         component: "position"
       },
       {
-        selector: "tripod-triangle-entity",
+        selector: ".tripod-plate-entity",
         component: "rotation"
       },
       {
-        selector: "firelighter-entity",
+        selector: ".tripod-2-entity",
         component: "position"
       },
       {
-        selector: "firelighter-entity",
+        selector: ".tripod-2-entity",
         component: "rotation"
       },
       {
-        selector: "thermo-entity",
+        selector: ".tripod-triangle-entity",
         component: "position"
       },
       {
-        selector: "thermo-entity",
+        selector: ".tripod-triangle-entity",
         component: "rotation"
       },
       {
-        selector: "thermo-text",
+        selector: ".firelighter-entity",
         component: "position"
       },
       {
-        selector: "thermo-text",
+        selector: ".firelighter-entity",
         component: "rotation"
       },
       {
-        selector: "glass-stick-entity",
+        selector: ".thermo-entity",
         component: "position"
       },
       {
-        selector: "glass-stick-entity",
+        selector: ".thermo-entity",
         component: "rotation"
       },
       {
-        selector: "scale-entity",
+        selector: ".thermo-text",
         component: "position"
       },
       {
-        selector: "scale-entity",
+        selector: ".thermo-text",
         component: "rotation"
       },
       {
-        selector: "display-text",
+        selector: ".glass-stick-entity",
         component: "position"
       },
       {
-        selector: "display-text",
+        selector: ".glass-stick-entity",
         component: "rotation"
       },
       {
-        selector: "tara-btn",
+        selector: ".scale-entity",
         component: "position"
       },
       {
-        selector: "tara-btn",
+        selector: ".scale-entity",
         component: "rotation"
       },
       {
-        selector: "glow-loss-btn",
+        selector: ".display-text",
         component: "position"
       },
       {
-        selector: "glow-loss-btn",
+        selector: ".display-text",
         component: "rotation"
+      },
+      {
+        selector: ".tara-btn",
+        component: "position"
+      },
+      {
+        selector: ".tara-btn",
+        component: "rotation"
+      },
+      {
+        selector: ".glow-loss-btn",
+        component: "position"
+      },
+      {
+        selector: ".glow-loss-btn",
+        component: "rotation"
+      },
+      {
+        selector: ".crucible-entity",
+        component: "position"
       },
       {
         selector: "crucible-entity",
-        component: "position"
-      },
-      {
-        selector: "crucible-entity",
         component: "rotation"
       },
       {
-        selector: "attached-tong-entity",
+        selector: ".attached-tong-entity",
         component: "position"
       },
       {
-        selector: "attached-tong-entity",
+        selector: ".attached-tong-entity",
         component: "rotation"
       },
       {
-        selector: "spoon-entity",
+        selector: ".spoon-entity",
         component: "position"
       },
       {
-        selector: "spoon-entity",
+        selector: ".spoon-entity",
         component: "rotation"
       },
       {
@@ -632,15 +659,15 @@ function registerNetworkSchemas() {
         component: "position"
       },
       {
-        selector: "ground-sample-spoon",
+        selector: ".ground-sample-spoon",
         component: "rotation"
       },
       {
-        selector: "tong-entity",
+        selector: ".tong-entity",
         component: "position"
       },
       {
-        selector: "tong-entity",
+        selector: ".tong-entity",
         component: "rotation"
       }
     ]
@@ -651,6 +678,11 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: ".part03-wrapper",
+        component: "first-experiment-03",
+        property: "grindBtnClicked"
+      }
     ]
   });
 
@@ -659,6 +691,16 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: ".part04-wrapper",
+        component: "first-experiment-04",
+        property: "startBurnerClicked"
+      },
+      {
+        selector: ".part04-wrapper",
+        component: "first-experiment-04",
+        property: "stirBtnHeld"
+      }
     ]
   });
 
@@ -667,6 +709,21 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: ".part05-wrapper",
+        component: "first-experiment-05",
+        property: "stirBtnHeld"
+      },
+      {
+        selector: ".part05-wrapper",
+        component: "first-experiment-05",
+        property: "onClickCutBunsenBurner"
+      },
+      {
+        selector: ".part05-wrapper",
+        component: "first-experiment-05",
+        property: "onClickTurnOffBunsenBurner"
+      }
     ]
   });
 
@@ -675,6 +732,16 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: ".part06-wrapper",
+        component: "first-experiment-06",
+        property: "onClickDiscussResult"
+      },
+      {
+        selector: ".part06-wrapper",
+        component: "first-experiment-06",
+        property: "onClickTidyUp"
+      }
     ]
   });
 

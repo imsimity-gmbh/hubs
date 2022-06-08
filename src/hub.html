@@ -1053,7 +1053,6 @@
                         >
                             <a-entity class="flame-entity" position="0 1 0" rotation="0 0 0" animation-mixer simple-animation></a-entity>
                         </a-entity>
-                        <a-entity class="flame-entity" position="0 1 0" rotation="0 0 0"></a-entity>
                         <a-entity class="tripod-1-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
@@ -1156,7 +1155,7 @@
             </template>
 
             <template id="interactable-first-experiment-03-camera">
-                <a-entity first-experiment-03 class="ui interactable-ui mortar-wrapper">
+                <a-entity first-experiment-03 class="ui interactable-ui part03-wrapper">
                     <a-entity class="mortar-socket-03" position="-0.55 0.5 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
@@ -1174,7 +1173,7 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: true;">
+                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->

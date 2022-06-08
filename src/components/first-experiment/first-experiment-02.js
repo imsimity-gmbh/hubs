@@ -41,6 +41,8 @@ const spoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(spoonSr
 const groundSampleSpoonModelPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSpoonSrc));
 const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc));
 
+/* Networking: How to network entity-socket properly? If callback from onSnap works, part02 should too*/
+
   AFRAME.registerComponent("first-experiment-02", {
     schema: {
     },
@@ -61,27 +63,40 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
             //Get spawnEntity of Models
             this.movableEntities = [];
+            this.hiddenOnSpawn = [];
             this.mortarEntity = this.el.querySelector(".mortar-entity");
             this.movableEntities.push(this.mortarEntity);
+            this.hiddenOnSpawn.push(this.mortarEntity);
             this.mortarStickEntity = this.el.querySelector(".mortar-stick-entity");
+            this.hiddenOnSpawn.push(this.mortarStickEntity);
             this.groundSampleEntity = this.el.querySelector(".ground-sample-entity");
             this.movableEntities.push(this.groundSampleEntity);
+            this.hiddenOnSpawn.push(this.groundSampleEntity);
             this.bunsenBurnerEntity = this.el.querySelector(".bunsen-burner-entity");
             this.movableEntities.push(this.bunsenBurnerEntity);
+            this.hiddenOnSpawn.push(this.bunsenBurnerEntity);
             this.tripod1Entity = this.el.querySelector(".tripod-1-entity");
             this.movableEntities.push(this.tripod1Entity);
+            this.hiddenOnSpawn.push(this.tripod1Entity);
             this.tripod2Entity = this.el.querySelector(".tripod-2-entity");
             this.movableEntities.push(this.tripod2Entity);
+            this.hiddenOnSpawn.push(this.tripod2Entity);
             this.tripodPlateEntity = this.el.querySelector(".tripod-plate-entity");
+            this.hiddenOnSpawn.push(this.tripodPlateEntity);
             this.tripodTriangleEntity = this.el.querySelector(".tripod-triangle-entity");
+            this.hiddenOnSpawn.push(this.tripodTriangleEntity);
             this.firelighterEntity = this.el.querySelector(".firelighter-entity");
             this.movableEntities.push(this.firelighterEntity);
+            this.hiddenOnSpawn.push(this.firelighterEntity);
             this.glassStickEntity = this.el.querySelector(".glass-stick-entity");
             this.movableEntities.push(this.glassStickEntity);
+            this.hiddenOnSpawn.push(this.glassStickEntity);
             this.thermoEntity = this.el.querySelector(".thermo-entity");
             this.movableEntities.push(this.thermoEntity);
+            this.hiddenOnSpawn.push(this.thermoEntity);
             this.spoonEntity = this.el.querySelector(".spoon-entity");
             this.movableEntities.push(this.spoonEntity);
+            this.hiddenOnSpawn.push(this.spoonEntity);
             this.groundSampleSpoonEntity = this.el.querySelector(".ground-sample-spoon");
             this.scaleEntity = this.el.querySelector(".scale-entity");
             this.movableEntities.push(this.scaleEntity);
@@ -90,6 +105,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.attachedTongEntity = this.el.querySelector(".attached-tong-entity");
             this.tongEntity = this.el.querySelector(".tong-entity");
             this.movableEntities.push(this.tongEntity);
+            this.hiddenOnSpawn.push(this.tongEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -124,23 +140,23 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.itemsPlaced = 0;
 
             // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, true);
-            this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, true);
-            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, true);
-            this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, true);
-            this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, true);
-            this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, true);
-            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, true);
-            this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
-            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.45, 0.8, 0), this.glassStickEntity, true);
-            this.spawnItem(spoonModelPromise, new THREE.Vector3(0.65, 0.8, 0), this.spoonEntity, true);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, false);
+            this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, false);
+            this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, false);
+            this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, false);
+            this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, false);
+            this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, false);
+            this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, false);
+            this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, false);
+            this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.45, 0.8, 0), this.glassStickEntity, false);
+            this.spawnItem(spoonModelPromise, new THREE.Vector3(0.65, 0.8, 0), this.spoonEntity, false);
             this.spawnItem(groundSampleSpoonModelPromise, new THREE.Vector3(0, 0.01, 0.1), this.groundSampleSpoonEntity, false);
-            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, true);
-            this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, true);
+            this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, false);
+            this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, false);
             this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.5, 0.8, 0), this.crucibleEntity, false);
             this.spawnItem(tongModelPromise, new THREE.Vector3(0.23, 0.15, 0), this.attachedTongEntity, false);
             this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
-            this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, true);
+            this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, false);
 
             this.updateUI();
 
@@ -200,6 +216,12 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             entity.object3D.scale.set(1.0, 1.0, 1.0);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
+        });
+    },
+
+    showExpItems() {
+        this.hiddenOnSpawn.forEach( hs => {
+            hs.object3D.visible = true;
         });
     },
 

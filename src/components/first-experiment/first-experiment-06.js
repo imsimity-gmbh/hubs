@@ -2,9 +2,12 @@ import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
+/* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
   AFRAME.registerComponent("first-experiment-06", {
     schema: {
+        onClickDiscussResult: {default: false},
+        onClickTidyUp: {default: false},
     },
   
     init: function() {
@@ -28,15 +31,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
             this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
-            this.discussResultBtn.object3D.addEventListener("interact", () => this.discussResult());
+            this.discussResultBtn.object3D.addEventListener("interact", () => this.onDiscussResultClicked());
             this.discussResultBtn.object3D.visible = false;
+            this.localOnClickDiscussResult = false;
 
             this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
             this.multipleChoice06.object3D.visible = false;
 
             this.tidyUpBtn = this.el.querySelector(".tidy-up-btn");
-            this.tidyUpBtn.object3D.addEventListener("interact", () => this.tidyUp());
+            this.tidyUpBtn.object3D.addEventListener("interact", () => this.onTidyUpClicked());
             this.tidyUpBtn.object3D.visible = false;
+            this.localOnClickTidyUp = false;
 
             this.updateUI();
 
@@ -63,8 +68,23 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     unsubscribe(eventName, fn)
     {
     },
+
+    update() {
+        waitForDOMContentLoaded().then(() => { 
+          this.updateUI();
+        });
+    },
     
     updateUI: function() {
+        if(this.localOnClickDiscussResult != this.data.onClickDiscussResult) {
+            this.discussResult();
+            this.localOnClickDiscussResult = this.data.onClickDiscussResult;
+        }
+
+        if(this.localOnClickTidyUp != this.data.onClickTidyUp) {
+            this.tidyUp();
+            this.localOnClickTidyUp = this.data.onClickTidyUp;
+        }
     },
   
     tick: function() {
@@ -112,6 +132,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
         this.discussResultBtn.object3D.visible = true;
     },
 
+    onDiscussResultClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-06", "onClickDiscussResult", true);      
+      
+            this.updateUI();
+        });
+    },
+
     discussResult() {
         this.discussResultBtn.object3D.visible = false;
         this.multipleChoice06.object3D.visible = true;
@@ -126,6 +157,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.tidyUpBtn.object3D.visible = true;
           }, 500);
         }
+    },
+
+    onTidyUpClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-06", "onClickTidyUp", true);      
+      
+            this.updateUI();
+        });
     },
 
     tidyUp() {

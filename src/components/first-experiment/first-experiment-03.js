@@ -14,8 +14,12 @@ const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
 const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curcibleSrc));
 
+/* Networking: grind-btn networked but like the "startBurnerBtn" called on spawn for some reason, 
+    all the other functions are callbacks that are subscribed to "onSnap" or "onPickedUp" of an entity-socket, which I don't know how to network */
+
   AFRAME.registerComponent("first-experiment-03", {
     schema: {
+        grindBtnClicked: {default: false},
     },
   
     init: function() {
@@ -37,7 +41,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             this.grindSampleBtn = this.el.querySelector(".grind-sample-btn");
             this.grindSampleBtn.object3D.visible = false;
-            this.grindSampleBtn.object3D.addEventListener("interact", () => this.grindSample());
+            this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
+            this.localGrindBtnClicked = false;
 
             this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
             this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
@@ -52,7 +57,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.crucibleEntity.object3D.visible = true;
 
-            this.updateUI();
+            // this.updateUI();
 
             this.expSystem.registerTask(this.el, "03");
 
@@ -61,7 +66,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
             this.showScale = AFRAME.utils.bind(this.showScale, this);
-            this.onScaleContainerPlaced = AFRAME.utils.bind(this.onScaleContainerPlaced, this);
+            this.onTaraPressed = AFRAME.utils.bind(this.onTaraPressed, this);
             this.getSampleFromMortar = AFRAME.utils.bind(this.getSampleFromMortar, this);
             this.addSampleToCrucible = AFRAME.utils.bind(this.addSampleToCrucible, this);
             this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
@@ -97,8 +102,17 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         }
     },
     
-    updateUI: function() {
+    update() {
+        waitForDOMContentLoaded().then(() => { 
+          this.updateUI();
+        });
+    },
 
+    updateUI: function() {
+        if(this.localGrindBtnClicked != this.data.grindBtnClicked) {
+            this.grindSample();
+            this.localGrindBtnClicked = this.data.grindBtnClicked;
+        }
     },
   
     tick: function() {
@@ -136,6 +150,17 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.grindSampleBtn.object3D.visible = true;
     },
 
+    onGrindBtnClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-03", "grindBtnClicked", !this.data.grindBtnClicked);      
+      
+            this.updateUI();
+        });
+    },
+
     grindSample() {
         if(this.finishedGrinding)
             return;
@@ -166,16 +191,17 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.scaleEntity.object3D.visible = true;
         this.scaleSocket.components["entity-socket"].enableSocket();
         this.crucibleEntity.object3D.visible = true;
-        this.scaleEntity.components["waage-tool"].subscribe("onContainerPlaced", this.onScaleContainerPlaced);
+        this.scaleEntity.components["waage-tool"].subscribe("onTaraPressed", this.onTaraPressed);
         this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
         this.spoonSocket03.components["entity-socket"].unsubscribe("onSnap", this.showScale);
     },
 
-    onScaleContainerPlaced() {
+    onTaraPressed() {
         this.spoonSocketScale.components["entity-socket"].enableSocket();
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.getSampleFromMortar);
         this.spoonSocketScale.components["entity-socket"].subscribe("onSnap", this.addSampleToCrucible);
+        this.scaleEntity.components["waage-tool"].unsubscribe("onTaraPressed", this.onTaraPressed);
     },
 
     getSampleFromMortar() {
