@@ -1,5 +1,5 @@
 //TODO_LAURA_SOUND: import your new sounds here !
-import { SOUND_MEDIA_LOADED, SOUND_ERROR_BUTTON, SOUND_SUCCESS_BUTTON, SOUND_STOPWATCH_TICKING } from "../systems/sound-effects-system";
+import { SOUND_STOPWATCH_TICKING } from "../systems/sound-effects-system";
 
 import { cloneObject3D } from "../utils/three-utils";
 import { loadModel } from "./gltf-model-plus";
@@ -50,6 +50,30 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.localResetClicked = false;
       this.localCurrentTime = 0;
       this.localDisplayTime = "00:00";
+
+      this.speedVariable = 1000;
+
+      this.minuteMark1 = Math.random() * (4 - 3) + 3;
+      this.minuteMark2 = 60;
+      this.minuteMark3 = 14; //eigtl. 25
+      this.minuteMark4 = 18; //eigtl. 45
+      this.minuteMark1Reached = false;
+      this.minuteMark2Reached = false;
+      this.minuteMark3Reached = false;
+      this.minuteMark4Reached = false;
+      this.minuteMark1Callbacks = [];
+      this.minuteMark2Callbacks = [];
+      this.minuteMark3Callbacks = [];
+      this.minuteMark4Callbacks = [];
+
+      this.expSystem = this.el.sceneEl.systems["first-experiments"];
+      this.firstExp05 = this.expSystem.getTaskById("05");
+
+      this.setMinuteMark2 = AFRAME.utils.bind(this.setMinuteMark2, this);
+
+      if(this.firstExp05 != null) {
+        this.firstExp05.components["first-experiment-05"].subscribe("minuteMark1Finished", this.setMinuteMark2);
+      }
     
       this.updateUI();
 
@@ -63,21 +87,60 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.stopwatchSystem.deregister(this.el);
   },
 
+  subscribe(eventName, fn)
+  {
+    switch(eventName) {
+      case "minuteMark1":
+        this.minuteMark1Callbacks.push(fn);
+        break;
+      case "minuteMark2":
+        this.minuteMark2Callbacks.push(fn);
+        break;
+      case "minuteMark3":
+        this.minuteMark3Callbacks.push(fn);
+        break;
+      case "minuteMark4":
+        this.minuteMark4Callbacks.push(fn);
+        break;
+    }
+  },
+
+  unsubscribe(eventName, fn)
+  {
+    switch(eventName) {
+      case "minuteMark1":
+        let index = this.minuteMark1Callbacks.indexOf(fn);
+        this.minuteMark1Callbacks.splice(index, 1);
+        break;
+      case "minuteMark2":
+        let index2 = this.minuteMark2Callbacks.indexOf(fn);
+        this.minuteMark2Callbacks.splice(index2, 1);
+        break;
+      case "minuteMark3":
+        let index3 = this.minuteMark3Callbacks.indexOf(fn);
+        this.minuteMark3Callbacks.splice(index3, 1);
+        break;
+      case "minuteMark4":
+        let index4 = this.minuteMark3Callbacks.indexOf(fn);
+        this.minuteMark3Callbacks.splice(index4, 1);
+        break;
+    }
+  },
+
   update() {
-    this.updateUI();
+    waitForDOMContentLoaded().then(() => { 
+      this.updateUI();
+    });
   },
 
   updateUI() {  
-    //check if variables initialized:
-    if(!this.myStartButton)
-      return;
-
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
 
       if(this.timerRunning == false) {
         this.startTime = performance.now();
         this.timerRunning = true;
+        // this.playSound(SOUND_STOPWATCH_TICKING); commentet out to keep me from going insane from the ticking noise ;)
       }
     
       else {
@@ -86,7 +149,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       }
       
       this.localStartClicked = this.data.startClicked;
-      console.log(this.timerRunning);
     }
 
     //Check if reset-button has been clicked by anyone
@@ -122,12 +184,42 @@ AFRAME.registerComponent("stopwatch-tool", {
         if(NAF.utils.isMine(networkedEl)) {
 
           let now = performance.now();
-          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / 1000;
+          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / this.speedVariable;
           let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
 
           //Set display-format:
           let formattedTime = "";
           let minutes = Math.floor(roundedlocalCurrentTime / 60);
+
+          //Check minute marks:
+          if(minutes >= this.minuteMark1 && this.minuteMark1Reached == false) {
+            this.minuteMark1Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark1Reached = true;
+          }
+
+          if(minutes >= this.minuteMark2 && this.minuteMark2Reached == false) {
+            this.minuteMark2Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark2Reached = true;
+          }
+
+          if(minutes >= this.minuteMark3 && this.minuteMark3Reached == false) {
+            this.minuteMark3Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark3Reached = true;
+          }
+
+          if(minutes >= this.minuteMark4 && this.minuteMark4Reached == false) {
+            this.minuteMark4Callbacks.forEach(cb => {
+              cb();
+            });
+            this.minuteMark4Reached = true;
+          }
+
           let seconds = roundedlocalCurrentTime - minutes*60;
           if(minutes < 10) {
             if(seconds < 10) 
@@ -145,9 +237,7 @@ AFRAME.registerComponent("stopwatch-tool", {
           //Send value of formattedTime to Server, if different from stored value
           if(formattedTime != this.data.currentTime) 
           {
-              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);      
-
-              this.playSound(SOUND_STOPWATCH_TICKING);
+              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);     
 
               this.updateUI();
           }
@@ -158,9 +248,7 @@ AFRAME.registerComponent("stopwatch-tool", {
             this.localDisplayTime = this.data.currentTime;
           }
         }
-
       });
-
     }
 
   },
@@ -172,7 +260,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       NAF.utils.takeOwnership(networkedEl);
 
       this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
-      console.log("changed value");
 
       this.updateUI();
     });
@@ -189,6 +276,19 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.updateUI();
     });
+  },
+
+  adjustSpeed(value) {
+    this.speedVariable = value;
+  },
+
+  setMinuteMark2() {
+    let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
+    let minutes = Math.floor(roundedlocalCurrentTime / 60);
+    console.log(minutes);
+
+    this.minuteMark2 = minutes + (Math.random() * (10 - 5) + 5);
+    console.log(this.minuteMark2);
   },
 
   onPinButtonClick()
@@ -208,7 +308,13 @@ AFRAME.registerComponent("stopwatch-tool", {
   playSound(soundId)
   {
     const sceneEl = this.el.sceneEl;
-    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(soundId);
+  },
+
+  stopSound()
+  {
+    const sceneEl = this.el.sceneEl;
+    sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(soundId);
   },
 
 });

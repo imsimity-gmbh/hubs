@@ -368,12 +368,18 @@ class MediaBrowserContainer extends Component {
 
     console.log(position_id);
 
-    if (position_id === "position_01")
+    if (position_id === "position_01") {
       scene.emit("action_toggle_first_experiment_01");
-    else if (position_id === "position_02")
+      scene.emit("action_toggle_first_experiment_01_start");
+    }
+    else if (position_id === "position_02") {
       scene.emit("action_toggle_first_experiment_02");
-    else if (position_id === "position_03")
+      scene.emit("action_toggle_first_experiment_02_start");
+    }
+    else if (position_id === "position_03") {
       scene.emit("action_toggle_first_experiment_03");
+      scene.emit("action_toggle_first_experiment_03_start");
+    }
     
       this.close();
   }

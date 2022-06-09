@@ -14,6 +14,9 @@ import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-s
 
 import { Vector3 } from "three";
 
+const blueRGB = new Vector3(0.165, 0.38, 0.749);
+const greenRGB = new Vector3(0.36, 0.91, 0.47);
+
  AFRAME.registerComponent("entity-socket", {
     schema: {
       acceptedEntities: {default: []},
@@ -23,7 +26,7 @@ import { Vector3 } from "three";
     },
   
     init: function() {
-
+      
       //Select necessary components:
       this.sceneEl = document.querySelector("a-scene");
       this.root = this.el.querySelector(".root");
@@ -42,12 +45,14 @@ import { Vector3 } from "three";
           continue;
         }
         this.acceptedEntities.push(component);
+        this.initialPos = component.getAttribute("position");
+        // console.log(this.initialPos);
 
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
 
         //apply material to clonedMesh and it's children
-        this.applyMaterial(hoverMeshEntity, component, 0.165, 0.38, 0.749);
+        this.applyMaterial(hoverMeshEntity, component, blueRGB);
 
         hoverMeshEntity.setAttribute("position", {x: 0, y: 0, z: 0});
         hoverMeshEntity.setAttribute("rotation", {x: 0, y: 0, z: 0});
@@ -67,7 +72,7 @@ import { Vector3 } from "three";
       this.inRadiusEntity = null;
       this.attachedEntity = null;
 
-      this.distance = this.radius + 10;
+      this.distance = this.radius + 1; 
 
       this.objectReleased = true;
 
@@ -82,7 +87,9 @@ import { Vector3 } from "three";
       this.onSnapCallbacks = [];
 
       //Disabled on Start?:
-      this.enableSocket = this.data.enabled;
+      this.socketEnabled = this.data.enabled;
+      if(this.socketEnabled == false) 
+        this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
     },
 
     subscribe(eventName, fn)
@@ -133,12 +140,10 @@ import { Vector3 } from "three";
     },
   
     tick: function() {
-      if(this.enableSocket == false)
-        return;
 
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
-          if(this.heldEntity == null && this.objectReleased) {
+          if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
             this.onPickedUp(this.acceptedEntities[i]);
             this.meshIndex = i;
             this.objectReleased = false;
@@ -177,13 +182,13 @@ import { Vector3 } from "three";
 
     onPickedUp(entity)
     {
-      if(this.enableSocket == false)
-        return;
-
       if(entity == this.attachedEntity) {
+        // this.attachedEntity.object3D.removeFromParent();
         this.attachedEntity = null;
+        this.heldEntity = null;
         this.objectReleased = true;
-        this.hideSocket();
+        console.log("about to hide socket");
+        this.disableSocket();
         return;
       }
       
@@ -197,11 +202,11 @@ import { Vector3 } from "three";
 
     onHoverEnter(entity)
     {
-      if(this.attachedEntity != null || this.enableSocket == false) 
+      if(this.attachedEntity != null) 
         return;
 
       this.hoverMeshes.children[this.meshIndex].object3D.visible = true;
-      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], 0.36, 0.91, 0.47);
+      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], greenRGB);
 
       this.playSound(SOUND_HOVER_ENTER);
 
@@ -215,10 +220,10 @@ import { Vector3 } from "three";
 
     onHoverExit(entity)
     {
-      if(this.attachedEntity != null || this.enableSocket == false)
+      if(this.attachedEntity != null)
         return;
 
-      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], 0.165, 0.38, 0.749);
+      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
 
       this.inRadiusEntity = null;
       this.heldEntity = entity;
@@ -230,11 +235,11 @@ import { Vector3 } from "three";
 
     onReleased(entity)
     {
-      if(this.enableSocket == false)
-        return;
-
       this.heldEntity = null;
       this.wasHeldEntity = entity;
+      // console.log(this.initialPos);
+      // entity.setAttribute("position", {x: this.initialPos.x, y: this.initialPos.y, z: this.initialPos.z});
+      // console.log(entity);
 
       this.objectReleased = true;
 
@@ -245,23 +250,23 @@ import { Vector3 } from "three";
 
     onSnap(entity)
     {
-      if(this.attachedEntity != null || this.enableSocket == false)
+      if(this.attachedEntity != null)
         return;
 
-      this.root.object3D.attach(entity.object3D);
+      this.attachedEntity = entity;
+      this.root.object3D.attach(this.attachedEntity.object3D);
 
-      entity.setAttribute("position", {x: 0, y: 0, z: 0});
+      this.attachedEntity.setAttribute("position", {x: 0, y: 0, z: 0});
 
-      entity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
+      this.attachedEntity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
       this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
 
-      entity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+      this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
 
       this.playSound(SOUND_SNAP_ENTITY);
 
       this.objectReleased = true;
 
-      this.attachedEntity = this.inRadiusEntity;
       this.inRadiusEntity = null;
 
       //Network snappedEntity: (still to do....)
@@ -271,14 +276,14 @@ import { Vector3 } from "three";
       });
     },
 
-    applyMaterial(entity, meshToClone, red, green, blue)
+    applyMaterial(entity, meshToClone, color)
     {
       let mesh = meshToClone.getObject3D('mesh');
       let clonedMesh = mesh.clone();
 
       //create blue material for hover-effect
       let hoverMaterial = new THREE.MeshBasicMaterial();
-      hoverMaterial.color.setRGB(red, green, blue);
+      hoverMaterial.color.setRGB(color.x, color.y, color.z);
       hoverMaterial.transparent = true;
       hoverMaterial.opacity = 0.55;
       hoverMaterial.flatShading = true;
@@ -300,12 +305,21 @@ import { Vector3 } from "three";
       sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
     },
 
-    showSocket() {
-      this.enableSocket = true;
+    enableSocket() {
+      this.socketEnabled = true;
+      this.objectReleased = true;
+      
+      this.hoverMeshes.children[this.meshIndex].object3D.visible = true;
+      this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
+
+      for(let i = 0; i < this.acceptedEntities.length; i++) {
+        this.acceptedEntities[i].setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+      }
     },
 
-    hideSocket() {
-      this.enableSocket = false;
+    disableSocket() {
+      this.socketEnabled = false;
+      this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
     }
   });
   
