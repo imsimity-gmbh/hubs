@@ -8,6 +8,7 @@ import { showFullScreenIfWasFullScreen } from "../utils/fullscreen";
 import { AvatarUrlModalContainer } from "./room/AvatarUrlModalContainer";
 import { SceneUrlModalContainer } from "./room/SceneUrlModalContainer";
 import { ObjectUrlModalContainer } from "./room/ObjectUrlModalContainer";
+import { TeacherUrlModalContainer } from "./room/TeacherUrlModalContainer";
 import { MediaBrowser } from "./room/MediaBrowser";
 import { IconButton } from "./input/IconButton";
 import { ReactComponent as UploadIcon } from "./icons/Upload.svg";
@@ -115,6 +116,10 @@ const customObjectMessages = defineMessages({
   avatar: {
     id: "media-browser.add_custom_avatar",
     defaultMessage: "Avatar GLB URL"
+  },
+  library: {
+    id: "media-browser.add_custom_library",
+    defaultMessage: "Teacher Upload"
   }
 });
 
@@ -294,11 +299,15 @@ class MediaBrowserContainer extends Component {
     const isAvatarApiType = source === "avatars";
     this.pushExitMediaBrowserHistory(!isAvatarApiType);
 
+    console.log(source);
+
     if (source === "scenes") {
       this.props.showNonHistoriedDialog(SceneUrlModalContainer, { hubChannel });
     } else if (isAvatarApiType) {
       this.props.showNonHistoriedDialog(AvatarUrlModalContainer, { scene, store });
-    } else {
+    } else if (source === "library") {
+      this.props.showNonHistoriedDialog(TeacherUrlModalContainer, { scene });
+    } else{
       this.props.showNonHistoriedDialog(ObjectUrlModalContainer, { scene });
     }
   };
@@ -378,6 +387,7 @@ class MediaBrowserContainer extends Component {
   };
 
   render() {
+   
     const intl = this.props.intl;
     const searchParams = new URLSearchParams(this.props.history.location.search);
     const urlSource = this.getUrlSource(searchParams);
@@ -390,6 +400,8 @@ class MediaBrowserContainer extends Component {
     const showEmptyStringOnNoResult = urlSource !== "avatars" && urlSource !== "scenes";
 
     const facets = this.state.facets && this.state.facets.length > 0 ? this.state.facets : undefined;
+
+    console.log(urlSource);
 
     // Don't render anything if we just did a feeling lucky query and are waiting on result.
     if (this.state.selectNextResult) return <div />;
@@ -414,9 +426,34 @@ class MediaBrowserContainer extends Component {
     const hasPrevious = !!searchParams.get("cursor");
 
     const customObjectType =
-      this.state.result && isSceneApiType ? "scene" : urlSource === "avatars" ? "avatar" : "object";
+      this.state.result && isSceneApiType ? "scene" : urlSource === "avatars" ? "avatar" : urlSource === "library" ? "library" : "object";
 
     let searchDescription;
+
+    let library_picture = 
+    {
+      id: "001",
+      attributions: null,
+      description: null,
+      images: { preview: { url: "https://cci.imsimity.com/gecolab/tests/test.png" } },
+      name: "Test Picture",
+      project_id: null,
+      type: "experiment_listing",
+      url: "https://cci.imsimity.com/gecolab/tests/test.png"
+    };
+
+    let library_model = 
+    {
+      id: "002",
+      attributions: null,
+      description: null,
+      images: { preview: { url: "https://cci.imsimity.com/gecolab/digital_library/icons/glb.png" } },
+      name: "Test Model",
+      project_id: null,
+      type: "experiment_listing",
+      url: "https://cci.imsimity.com/gecolab/tests/test.glb"
+    };
+    
 
     let experiments = [
       {
@@ -569,7 +606,23 @@ class MediaBrowserContainer extends Component {
             onClick={e => this.onPlaceExperiment(e, "position_03")}
           />
         }
+        
+        { urlSource === "library" && 
+          <MediaTile
+            key={`001`}
+            entry={library_picture}
+            processThumbnailUrl={this.processThumbnailUrl}
+          />
+        }
+        { urlSource === "library" && 
+          <MediaTile
+            key={`002`}
+            entry={library_model}
+            processThumbnailUrl={this.processThumbnailUrl}
+          />
+        }
 
+        
 
         {this.props.mediaSearchStore.isFetching ||
         this._sendQueryTimeout ||
@@ -608,6 +661,7 @@ class MediaBrowserContainer extends Component {
                   }
                 />
               )}
+
             {entries.map((entry, idx) => {
               const isAvatar = entry.type === "avatar" || entry.type === "avatar_listing";
               const isScene = entry.type === "scene" || entry.type === "scene_listing";

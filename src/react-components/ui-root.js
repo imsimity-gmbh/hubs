@@ -1630,7 +1630,7 @@ class UIRoot extends Component {
                         {this.props.hubChannel.can("spawn_emoji") && <ReactionPopoverContainer />}
                       </>
                     )}
-                    {entered && false &&
+                    {entered &&
                       <DigitalLibraryButtonContainer onClick={() => this.props.mediaSearchStore.sourceNavigate("library")} />
                     }
                     <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} />
