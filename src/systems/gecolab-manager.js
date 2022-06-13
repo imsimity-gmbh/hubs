@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { isNullUndefinedOrEmpty } from "../utils/imsimity";
 
 const GECOLAB_DASHBOARD_API = "https://gecolab-dashboard.herokuapp.com"
+const GECOLAB_LOBBY_ID = "BEZcBg3";
 
 AFRAME.registerSystem('gecolab-manager', {
     schema: {},  // System schema. Parses into `this.data`.
@@ -20,6 +21,12 @@ AFRAME.registerSystem('gecolab-manager', {
         this.studentId = queryParams.get('studentId');
         this.groupId = queryParams.get('groupId');
         this.schoolId = queryParams.get('schoolId');
+
+        const roomId = window.location.pathname.split('/')[1];
+        console.log('Room ID:' + roomId);
+        
+        this.isCurrentlyInLobby = (roomId === GECOLAB_LOBBY_ID);
+        console.log('Currently in lobby ? ' + this.isCurrentlyInLobby);
 
         
         // Values aren't in the params, we get it from cookies 
@@ -176,4 +183,8 @@ AFRAME.registerSystem('gecolab-manager', {
         return (this.student != null);
     },
 
+    isInLobby()
+    {
+        return this.isCurrentlyInLobby;
+    }
 });

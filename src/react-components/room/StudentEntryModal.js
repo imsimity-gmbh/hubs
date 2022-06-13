@@ -14,6 +14,8 @@ import Laborkittel from "../../assets/images/icons/laborkittel_placeholder.png";
 import { StudentEntryModalContainer } from "./StudentEntryModalContainer";
 
 
+var loadedOnce = false;
+
 //Functions for reloading UI:
 function jumpToSecurity(scene, showNonHistoriedDialog, securityRead, securityBtn) {
     console.log(securityBtn);
@@ -87,6 +89,24 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     }
     
     let student = gecolabManager.getStudent();
+
+    // Skip security for Labor entrances
+    if (loadedOnce === false)
+    {
+        if (gecolabManager.isInLobby())
+        {
+            showAcceptBtn = false;
+            showSecurityBtn = true;
+        }
+        else
+        {
+            showAcceptBtn = true;
+            showSecurityBtn = false;
+        }
+
+        loadedOnce = true;
+    }
+    
 
     let avatarGltfUrl = `https://${configs.CORS_PROXY_SERVER}/${profile.avatarId}`;
 
@@ -214,7 +234,7 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     if(showSecurityBtn) 
         toSecurityBtnClassName = "btnActive";
     else 
-        toSecurityBtnClassName = "btnInactive";
+        toSecurityBtnClassName = "btnInactive notThere";
 
 
     if(showSecurity) {
