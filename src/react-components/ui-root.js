@@ -82,6 +82,7 @@ import { SharePopoverContainer } from "./room/SharePopoverContainer";
 import { VoiceButtonContainer } from "./room/VoiceButtonContainer";
 import { ReactionPopoverContainer } from "./room/ReactionPopoverContainer";
 import { NotebookPopoverContainer } from "./room/NotebookPopoverContainer";
+import { InventoryListPopoverContainer } from "./room/InventoryListPopoverContainer";
 import { SafariMicModal } from "./room/SafariMicModal";
 import { RoomSignInModalContainer } from "./auth/RoomSignInModalContainer";
 import { SignInStep } from "./auth/SignInModal";
@@ -1619,6 +1620,7 @@ class UIRoot extends Component {
                           microphoneEnabled={this.mediaDevicesManager.isMicShared}
                         />
 
+                        <InventoryListPopoverContainer />
                         <NotebookPopoverContainer scene={this.props.scene} showNonHistoriedDialog={this.showNonHistoriedDialog} />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         <PlacePopoverContainer
