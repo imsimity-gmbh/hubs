@@ -99,6 +99,8 @@ import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
 import { StudentEntryModalContainer } from "./room/StudentEntryModalContainer";
+import { ChooseGlovesModalContainer } from "./room/ChooseGlovesModalContainer";
+import { ChooseFormulaModalContainer } from "./room/ChooseFormulaModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -328,6 +330,16 @@ class UIRoot extends Component {
     );
     this.props.scene.addEventListener("devicechange", () => {
       this.forceUpdate();
+    });
+    this.props.scene.addEventListener("gecolab_choose_gloves", () => {
+      this.showNonHistoriedDialog(
+        ChooseGlovesModalContainer, { showNonHistoriedDialog: this.showNonHistoriedDialog }
+      );
+    });
+    this.props.scene.addEventListener("gecolab_choose_formula", () => {
+      this.showNonHistoriedDialog(
+        ChooseFormulaModalContainer, { showNonHistoriedDialog: this.showNonHistoriedDialog }
+      );
     });
 
     const scene = this.props.scene;

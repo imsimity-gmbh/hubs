@@ -1,0 +1,37 @@
+img {
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+img:hover {
+    cursor: pointer;
+}
+h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.modal-wrapper {
+    padding: 20px;
+}
+
+.info-text {
+    margin-top:  10px;
+    margin-bottom: 30px;
+}
+
+.formulas {
+    margin-bottom: 10px;
+}
+
+.formula:hover {
+    border: 1px solid black;
+}
+
+.correct {
+    border: 1px solid green;
+}
+.incorrect {
+    border: 1px solid red;
+}

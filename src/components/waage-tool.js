@@ -14,6 +14,7 @@ AFRAME.registerComponent("waage-tool", {
 
         waitForDOMContentLoaded().then(() => { 
             this.weight = 0;
+            this.containerWeight = 80;
             this.displayWeight = this.weight + "g";
 
             this.onScalePlaced = AFRAME.utils.bind(this.onScalePlaced, this);
@@ -33,14 +34,14 @@ AFRAME.registerComponent("waage-tool", {
             this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onScalePlaced);
 
             this.scalePlaced = false;
-            this.ready = false;
+            this.ready = true;
             this.tooMuch = false;
 
             this.displayText = this.el.querySelector(".display-text");
             this.displayText.setAttribute("text", { value: this.displayWeight });
 
             this.taraBtn = this.el.querySelector(".tara-btn");
-            this.taraBtn.object3D.addEventListener("interact", () => this.tara(false));
+            this.taraBtn.object3D.addEventListener("interact", () => this.tara(true));
             this.taraPressed = false;
 
             this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
@@ -117,7 +118,7 @@ AFRAME.registerComponent("waage-tool", {
         this.crucibleSocket.object3D.visible = true;
     },
     onContainerPlaced() {
-        this.weight = 120;
+        this.weight = this.containerWeight;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
         this.ready = true;
@@ -143,10 +144,10 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
-        if(this.taraPressed && this.weight > this.data.rightAmount || this.taraPressed == false && this.weight > (this.data.rightAmount + 120))
+        if(this.taraPressed && this.weight > this.data.rightAmount || this.taraPressed == false && this.weight > (this.data.rightAmount + this.containerWeight))
             this.tooMuch = true;
 
-        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
+        if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + this.containerWeight)) {
             this.ready = false;
             this.onRightAmountCallbacks.forEach(cb => {
                 cb();
@@ -161,7 +162,7 @@ AFRAME.registerComponent("waage-tool", {
         if(this.taraPressed)
             this.weight = this.data.rightAmount;
         else    
-            this.weight = 120 + this.data.rightAmount;
+            this.weight = this.containerWeight + this.data.rightAmount;
 
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
@@ -187,7 +188,7 @@ AFRAME.registerComponent("waage-tool", {
             this.weight = 50;
             this.displayWeight = this.weight + "g";
             this.displayText.setAttribute("text", { value: this.displayWeight });
-            if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + 120)) {
+            if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + this.containerWeight)) {
                 this.ready = false;
                 this.onRightAmountCallbacks.forEach(cb => {
                     cb();
@@ -202,7 +203,7 @@ AFRAME.registerComponent("waage-tool", {
     measureGlowLoss() {
         let rand = Math.random() * (38 - 45) + 38;
         let randRounded = Math.round(rand);
-        this.weight = (120 + randRounded);
+        this.weight = (this.containerWeight + randRounded);
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
