@@ -24,10 +24,10 @@
       this.questionText = this.el.querySelector(".question-text");
 
       //Colors for buttons:
-      this.initialColor = "#375413";
-      this.selectColor = "#214221";
-      this.wrongColor = "#a81c03";
-      this.rightColor = "#18ff03";
+      this.initialColor = "#761614";
+      this.selectColor = "#5e656d";
+      this.wrongColor = "#23AED9";
+      this.rightColor = "#18FF03";
 
 
       let answerArea = this.el.querySelector(".answer-area");
