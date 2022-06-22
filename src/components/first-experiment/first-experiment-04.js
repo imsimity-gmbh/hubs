@@ -179,7 +179,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onPlacedCrucible() {
-        this.startBtn.object3D.visible = true;
+        this.sceneEl.emit("gecolab_choose_gloves");
+        this.startBtn.object3D.visible = true; //actually only after finishing the popup -> add a callback
         this.scaleEntity.components["waage-tool"].tara(false);
     },
 

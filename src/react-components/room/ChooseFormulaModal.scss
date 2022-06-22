@@ -1,15 +1,5 @@
-img {
-    width: 80%;
-    height: auto;
-    margin: 0 auto;
-    margin-bottom: 10px;
-}
-img:hover {
-    cursor: pointer;
-}
-h3 {
-    text-align: center;
-    margin-bottom: 15px;
+strong {
+    font-size: 13px;
 }
 
 .modal-wrapper {
@@ -17,21 +7,43 @@ h3 {
 }
 
 .info-text {
+    font-size: 13px;
     margin-top:  10px;
     margin-bottom: 30px;
+}
+
+.info-text > h3 {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .formulas {
     margin-bottom: 10px;
 }
 
+.formula {
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
 .formula:hover {
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .correct {
     border: 1px solid green;
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
 .incorrect {
     border: 1px solid red;
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }

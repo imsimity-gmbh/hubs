@@ -86,6 +86,7 @@
             <img id="action-button" crossorigin="anonymous" src="./assets/hud/action_button.9.png">
             <img id="button" crossorigin="anonymous" src="./assets/hud/button.9.png">
             <img id="exp-button" crossorigin="anonymous" src="./assets/hud/button_exp.9.png">
+            <img id="burner-btn-0" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_0.png">
 
             <a-asset-item id="drawing-pen" response-type="arraybuffer" src="./assets/models/DrawingPen.glb"></a-asset-item>
             <a-asset-item id="spawn-point" response-type="arraybuffer" src="./assets/models/spawn-point.glb"></a-asset-item>
@@ -1209,6 +1210,11 @@
                     <a-entity class="start-burner-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
+
+                    <a-entity class="burner-ctrl-btn-0" mixin="rounded-burner-action-button-0" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                        <a-entity text=" value: ; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity> <!--static-->
+
                     <a-entity class="stiring-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
                     </a-entity> <!--static-->
@@ -1707,6 +1713,23 @@
                     transparent: false;
                     alphaTest: 0.1;
                     src: #exp-button"
+            ></a-mixin>
+
+            <a-mixin id="rounded-burner-action-button-0"
+                text-button="
+                    textHoverColor: #fff;
+                    textColor: #fff;
+                    "
+                slice9="
+                    width: 0.45;
+                    height: 0.2;
+                    left: 64;
+                    top: 64;
+                    right: 66;
+                    bottom: 66;
+                    transparent: false;
+                    alphaTest: 0.1;
+                    src: #burner-btn-0"
             ></a-mixin>
 
             <a-mixin id="rounded-twitter-text-action-button"

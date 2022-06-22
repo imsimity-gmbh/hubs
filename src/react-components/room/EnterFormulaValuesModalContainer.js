@@ -1,20 +1,20 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
-import { ChooseFormulaModal } from "./ChooseFormulaModal";
+import { EnterFormulaValuesModal } from "./EnterFormulaValuesModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function ChooseFormulaModalContainer({showNonHistoriedDialog, onClose}) {
+export function EnterFormulaValuesModalContainer({showNonHistoriedDialog, onClose}) {
 
     return (
-        <ChooseFormulaModal
+        <EnterFormulaValuesModal
             showNonHistoriedDialog={showNonHistoriedDialog}
             onClose={onClose}
         />
     );
 }
 
-ChooseFormulaModalContainer.propTypes = {
+EnterFormulaValuesModalContainer.propTypes = {
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
 };

@@ -128,8 +128,8 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
 
     chooseFormula() {
-        console.log("Add React-Popup");
-        this.discussResultBtn.object3D.visible = true;
+        this.sceneEl.emit("gecolab_choose_formula");
+        this.discussResultBtn.object3D.visible = true; //Only afer Formula stuff finished
     },
 
     onDiscussResultClicked() {
