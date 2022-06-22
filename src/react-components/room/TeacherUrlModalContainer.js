@@ -2,9 +2,13 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherUrlModal } from "./TeacherUrlModal";
 import configs from "../../utils/configs";
-import { getReticulumFetchUrl } from "../../utils/phoenix-utils.js";
+import { HEROKU_UPLOAD_URI } from "../../utils/imsimity";
+import { getDirectReticulumFetchUrl } from "../../utils/phoenix-utils.js";
+import { guessContentType } from "../../utils/media-url-utils";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
+
+
 
 export function TeacherUrlModalContainer({ scene, onClose }) {
   const onSubmit = useCallback(
@@ -13,21 +17,51 @@ export function TeacherUrlModalContainer({ scene, onClose }) {
       // Upload the File to the Media Endpoint
       try {
 
-        const uri = getReticulumFetchUrl('/api/v1/media');
+        const uri = getDirectReticulumFetchUrl("/api/v1/media");
 
+        console.log('URI: ' + uri);
+
+        console.log('Files:');
+        console.log(file);
+        
+        const f = file[0];
+        console.log('File :');
+        console.log(f);
+
+        const fileName = f.name;
+
+        const desiredContentType =  f.type || guessContentType(f.name);
+        
         const formData = new FormData();
-        formData.append("media", file);
+        formData.append("media", f);
         formData.append("promotion_mode", "with_token");
+
+        if (desiredContentType) {
+          formData.append("desired_content_type", desiredContentType);
+        }
+
+        console.log(formData);
 
         const res = await fetch(uri, { method: "POST", body: formData });
         const payload = await res.json();
 
         console.log("Uploaded done");
         console.log(payload);
-        
+
+        const fileId = payload.file_id;
+        const link = payload.origin + "?token=" + payload.meta.access_token;
+
+        const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}?name=${fileName}&user_id=USER_ID&content_type=${desiredContentType}&file_id=${fileId}&link=${link}` ,  
+          { method: "POST"}
+        );
+
+        console.log(herokuRes);
+        console.log("Metadata sent to Heroku !");
+
       } catch (e) {
         
         console.log("Uploaded failed");
+        console.log(e);
       }
       // Upload metadata to the Heroku server
       

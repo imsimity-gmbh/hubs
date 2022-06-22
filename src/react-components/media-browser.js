@@ -18,6 +18,9 @@ import { fetchReticulumAuthenticated, getReticulumFetchUrl } from "../utils/phoe
 import { proxiedUrlFor, scaledThumbnailUrlFor } from "../utils/media-url-utils";
 import { CreateTile, MediaTile } from "./room/MediaTiles";
 import { SignInMessages } from "./auth/SignInModal";
+
+import { HEROKU_UPLOAD_URI } from "../utils/imsimity";
+
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 
@@ -167,6 +170,18 @@ class MediaBrowserContainer extends Component {
     this.state = this.getStoreAndHistoryState(props);
     this.props.mediaSearchStore.addEventListener("statechanged", this.storeUpdated);
     this.props.mediaSearchStore.addEventListener("sourcechanged", this.sourceChanged);
+
+    const searchParams = new URLSearchParams(this.props.history.location.search);
+    const urlSource = this.getUrlSource(searchParams);
+
+    console.log("Media Browser Constructor");
+    console.log(urlSource);
+
+    if (urlSource === "library")
+    {
+      this.updateLibrary();
+    }
+
   }
 
   componentDidMount() {}
@@ -176,7 +191,38 @@ class MediaBrowserContainer extends Component {
     this.props.mediaSearchStore.removeEventListener("sourcechanged", this.sourceChanged);
   }
 
+  updateLibrary = async () => {
+    const res = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}` ,  
+      { method: "GET"}
+    );
+
+    const libraryListing = await res.json();
+
+
+    var newState = this.state;
+
+    // If result is currently 'Internal server error'
+    if (!newState.result || typeof newState.result === "string")
+    {
+      newState.result = {};
+    }
+
+    newState.result.entries = libraryListing;
+
+    this.setState(newState);
+
+  }
+
   storeUpdated = () => {
+    
+    const searchParams = new URLSearchParams(this.props.history.location.search);
+    const urlSource = this.getUrlSource(searchParams);
+    // Avoid media-store overriding our own findings from Heroku
+    if (urlSource === "library")
+    {
+      return;
+    }
+
     const newState = this.getStoreAndHistoryState(this.props);
     this.setState(newState);
 
@@ -436,30 +482,6 @@ class MediaBrowserContainer extends Component {
 
     let searchDescription;
 
-    let library_picture = 
-    {
-      id: "001",
-      attributions: null,
-      description: null,
-      images: { preview: { url: "https://cci.imsimity.com/gecolab/tests/test.png" } },
-      name: "Test Picture",
-      project_id: null,
-      type: "experiment_listing",
-      url: "https://cci.imsimity.com/gecolab/tests/test.png"
-    };
-
-    let library_model = 
-    {
-      id: "002",
-      attributions: null,
-      description: null,
-      images: { preview: { url: "https://cci.imsimity.com/gecolab/digital_library/icons/glb.png" } },
-      name: "Test Model",
-      project_id: null,
-      type: "experiment_listing",
-      url: "https://cci.imsimity.com/gecolab/tests/test.glb"
-    };
-    
 
     let experiments = [
       {
@@ -612,23 +634,7 @@ class MediaBrowserContainer extends Component {
             onClick={e => this.onPlaceExperiment(e, "position_03")}
           />
         }
-        
-        { urlSource === "library" && 
-          <MediaTile
-            key={`001`}
-            entry={library_picture}
-            processThumbnailUrl={this.processThumbnailUrl}
-          />
-        }
-        { urlSource === "library" && 
-          <MediaTile
-            key={`002`}
-            entry={library_model}
-            processThumbnailUrl={this.processThumbnailUrl}
-          />
-        }
-
-        
+          
 
         {this.props.mediaSearchStore.isFetching ||
         this._sendQueryTimeout ||
