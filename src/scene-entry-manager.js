@@ -589,7 +589,7 @@ export default class SceneEntryManager {
       this._spawnFirstExperimentPart04(".table_main_01");
       this._spawnFirstExperimentPart05(".table_main_01");
       this._spawnFirstExperimentPart06(".table_main_01");
-      this._spawnStopwatch(".table_main_01");
+      // this._spawnStopwatch(".table_main_01");
     });
   };
 

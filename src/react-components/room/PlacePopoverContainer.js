@@ -93,13 +93,13 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
           //   label: <FormattedMessage id="place-popover.item-type.gloves" defaultMessage="Glove Popup" />,
           //   onSelect: () => scene.emit("gecolab_choose_gloves")
           // },
-          hubChannel.can("spawn_camera") && {
-            id: "choose-formula-modal",
-            icon: CameraIcon,
-            color: "accent4",
-            label: <FormattedMessage id="place-popover.item-type.formula" defaultMessage="Formula Popup" />,
-            onSelect: () => scene.emit("gecolab_choose_formula")
-          }
+          // hubChannel.can("spawn_camera") && {
+          //   id: "choose-formula-modal",
+          //   icon: CameraIcon,
+          //   color: "accent4",
+          //   label: <FormattedMessage id="place-popover.item-type.formula" defaultMessage="Formula Popup" />,
+          //   onSelect: () => scene.emit("gecolab_choose_formula")
+          // }
          
         ];
 

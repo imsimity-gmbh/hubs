@@ -57,6 +57,19 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             this.localStartBurnerClicked = false;
 
+            this.ctrlBtn00 = this.el.querySelector(".burner-ctrl-btn-0");
+            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn00.object3D.visible = false;
+            this.ctrlBtn01 = this.el.querySelector(".burner-ctrl-btn-1");
+            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn01.object3D.visible = true;
+            this.ctrlBtn02 = this.el.querySelector(".burner-ctrl-btn-2");
+            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn02.object3D.visible = false;
+            this.ctrlBtn03 = this.el.querySelector(".burner-ctrl-btn-3");
+            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn03.object3D.visible = false;
+
             this.stiringBtn = this.el.querySelector(".stiring-btn");
             this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
             this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());

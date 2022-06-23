@@ -669,6 +669,14 @@ function registerNetworkSchemas() {
       {
         selector: ".tong-entity",
         component: "rotation"
+      },
+      {
+        selector: ".stopwatch-entity",
+        component: "position"
+      },
+      {
+        selector: ".stopwatch-entity",
+        component: "rotation"
       }
     ]
   });
@@ -682,6 +690,11 @@ function registerNetworkSchemas() {
         selector: ".part03-wrapper",
         component: "first-experiment-03",
         property: "grindBtnClicked"
+      },
+      {
+        selector: ".part03-wrapper",
+        component: "first-experiment-03",
+        property: "taraPressed"
       }
     ]
   });

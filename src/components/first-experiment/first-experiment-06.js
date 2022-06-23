@@ -28,7 +28,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.tongEntity = this.sceneEl.querySelector(".tong-entity");
             this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
             this.localFormulaPopupClosed = false;
