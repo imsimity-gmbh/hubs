@@ -21,10 +21,17 @@ AFRAME.registerSystem("first-experiments", {
     this.ticks = 0;
     this.updateMyExperiment = this.updateMyExperiment.bind(this);
     this.updateMyExperimentTask = this.updateMyExperimentTask.bind(this);
-    this.updateMyExperimentPlacer = this.updateMyExperimentPlacer.bind(this);
 
     waitForDOMContentLoaded().then(() => {
       this.updateMyExperiment();
+
+      this.updateMyExperimentTask('01');
+      this.updateMyExperimentTask('02');
+      this.updateMyExperimentTask('03');
+      this.updateMyExperimentTask('04');
+      this.updateMyExperimentTask('05');  
+      this.updateMyExperimentTask('06');    
+      
     });
   },
 
@@ -111,10 +118,16 @@ AFRAME.registerSystem("first-experiments", {
   },
 
   getMyExperiment() {
+
+    this.updateMyExperiment();
+
     return this.myExpBase;
   },
 
   getTaskById(id) {
+
+    this.updateMyExperimentTask(id);
+
     switch(id) {
       case "01":
         return this.myExp01;
@@ -133,7 +146,7 @@ AFRAME.registerSystem("first-experiments", {
 
 
   updateMyExperiment() {
-    this.myExpBase = this.experimentsBaseEls.find(NAF.utils.isMine);
+    this.myExpBase = this.experimentsBaseEls.length > 0 ? this.experimentsBaseEls[0] : null; //.find(NAF.utils.isMine);
     if (this.myExpBase) {
       this.sceneEl.addState("firstexperiment");
     } else {
@@ -144,7 +157,7 @@ AFRAME.registerSystem("first-experiments", {
   updateMyExperimentTask(id) {
     switch(id) {
       case "01":
-        this.myExp01 = this.experiments01Els.find(NAF.utils.isMine);
+        this.myExp01 =  this.experiments01Els.length > 0 ? this.experiments01Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp01) {
           this.sceneEl.addState("firstexperiment-01");
         } else {
@@ -152,7 +165,7 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "02":
-        this.myExp02 = this.experiments02Els.find(NAF.utils.isMine);
+        this.myExp02 = this.experiments02Els.length > 0 ?  this.experiments02Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp02) {
           this.sceneEl.addState("firstexperiment-02");
         } else {
@@ -160,7 +173,7 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "03":
-        this.myExp03 = this.experiments03Els.find(NAF.utils.isMine);
+        this.myExp03 =  this.experiments03Els.length > 0 ?  this.experiments03Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp03) {
           this.sceneEl.addState("firstexperiment-03");
         } else {
@@ -168,7 +181,7 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "04":
-        this.myExp04 = this.experiments04Els.find(NAF.utils.isMine);
+        this.myExp04 = this.experiments04Els.length > 0 ?  this.experiments04Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp04) {
           this.sceneEl.addState("firstexperiment-04");
         } else {
@@ -176,7 +189,7 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "05":
-        this.myExp05 = this.experiments05Els.find(NAF.utils.isMine);
+        this.myExp05 = this.experiments05Els.length > 0 ?  this.experiments05Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp05) {
           this.sceneEl.addState("firstexperiment-05");
         } else {
@@ -184,7 +197,7 @@ AFRAME.registerSystem("first-experiments", {
         }
         break;
       case "06":
-        this.myExp06 = this.experiments06Els.find(NAF.utils.isMine);
+        this.myExp06 = this.experiments06Els.length > 0 ?  this.experiments06Els[0] : null; //.find(NAF.utils.isMine);
         if (this.myExp06) {
           this.sceneEl.addState("firstexperiment-06");
         } else {
@@ -194,36 +207,6 @@ AFRAME.registerSystem("first-experiments", {
     }
   },
 
-  updateMyExperimentPlacer() {
-  
-    this.myExpPlacer = this.experimentPlacers.find(NAF.utils.isMine);
-    console.log(this.myExpPlacer);
-    if (this.myExpPlacer) {
-      this.sceneEl.addState("firstexperiment-placer-01");
-    } else {
-      this.sceneEl.removeState("firstexperiment-placer-01");
-    }
-  },
-
-  registerPlacer(el) {
-   
-    this.experimentPlacers.push(el);
-    el.addEventListener("ownership-changed", () => this.updateMyExperimentPlacer());
-    this.updateMyExperimentPlacer();
-
-  },
-
-  deregisterPlacer(el) {
-   
-    this.experimentPlacers.splice(this.experimentPlacers.indexOf(el), 1);
-    el.removeEventListener("ownership-changed", () => this.updateMyExperimentPlacer());
-    this.updateMyExperimentPlacer();
-  },
-
-
-  getPlacer() {
-    return this.myExpPlacer;
-  },
 
   tick() {
     this.ticks++;
