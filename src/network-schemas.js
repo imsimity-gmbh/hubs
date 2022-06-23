@@ -745,13 +745,6 @@ function registerNetworkSchemas() {
     ]
   });
 
-  NAF.schemas.add({
-    template: "#interactable-first-experiment-placer-camera",
-    components: [
-      "position",
-      "rotation",
-    ]
-  });
 
   NAF.schemas.add({
     template: "#template-waypoint-avatar",
