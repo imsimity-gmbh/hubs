@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherUrlModal } from "./TeacherUrlModal";
 import configs from "../../utils/configs";
-import { HEROKU_UPLOAD_URI } from "../../utils/imsimity";
+import { HEROKU_POST_UPLOAD_URI } from "../../utils/imsimity";
 import { getDirectReticulumFetchUrl } from "../../utils/phoenix-utils.js";
 import { guessContentType } from "../../utils/media-url-utils";
 
@@ -51,9 +51,7 @@ export function TeacherUrlModalContainer({ scene, onClose }) {
         const fileId = payload.file_id;
         const link = payload.origin + "?token=" + payload.meta.access_token;
 
-        const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}?name=${fileName}&user_id=USER_ID&content_type=${desiredContentType}&file_id=${fileId}&link=${link}` ,  
-          { method: "POST"}
-        );
+        const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_UPLOAD_URI}?name=${fileName}&user_id=USER_ID&content_type=${desiredContentType}&file_id=${fileId}&link=${link}`);
 
         console.log(herokuRes);
         console.log("Metadata sent to Heroku !");

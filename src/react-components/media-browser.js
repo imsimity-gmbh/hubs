@@ -698,6 +698,8 @@ class MediaBrowserContainer extends Component {
                   const spokeProjectUrl = getReticulumFetchUrl(`/spoke/projects/${entry.project_id}`);
                   window.open(spokeProjectUrl);
                 };
+              } else if (entry.type === "library_item") {
+                entry.images.preview.url =  `https://${configs.CORS_PROXY_SERVER}/${entry.images.preview.url}`;
               }
 
               let onCopy;
