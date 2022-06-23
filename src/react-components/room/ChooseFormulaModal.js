@@ -7,35 +7,37 @@ import { FormattedMessage } from "react-intl";
 import { styles } from "./ChooseFormulaModal.scss";
 import { Button } from "../input/Button";
 import { CloseButton } from "../input/CloseButton";
-import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig.jpg";
+import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
+import wrongFormula01 from "../../assets/images/icons/humusgehalt_formel_falsch_01.jpg";
+import wrongFormula02 from "../../assets/images/icons/humusgehalt_formel_falsch_02.jpg";
 
-const correctId = 1;
+const correctId = 2;
 let formula1Class = "formula";
 let formula2Class = "formula";
 let formula3Class = "formula";
 
-function onClickFormula(showNonHistoriedDialog, id) {
+function onClickFormula(scene, showNonHistoriedDialog, id) {
     formula1Class = "formula";
     formula2Class = "formula";
     formula3Class = "formula";
     if(id == correctId)
-        formula1Class = "correct";
-    else if(id == 2) 
-        formula2Class = "incorrect";
+        formula2Class = "correct";
+    else if(id == 1) 
+        formula1Class = "incorrect";
     else if(id == 3)
         formula3Class = "incorrect";
 
     showNonHistoriedDialog(
-        ChooseFormulaModalContainer, { showNonHistoriedDialog: showNonHistoriedDialog }
+        ChooseFormulaModalContainer, { scene: scene, showNonHistoriedDialog: showNonHistoriedDialog }
     );
 }
 
-export function ChooseFormulaModal ({ showNonHistoriedDialog, onClose }) {
+export function ChooseFormulaModal ({ scene, showNonHistoriedDialog, onClose }) {
 
-    if(formula1Class == "correct") {
-        formula1Class = "formula";
+    if(formula2Class == "correct") {
+        formula2Class = "formula";
         showNonHistoriedDialog(
-            EnterFormulaValuesModalContainer, { showNonHistoriedDialog: showNonHistoriedDialog }
+            EnterFormulaValuesModalContainer, { scene: scene, showNonHistoriedDialog: showNonHistoriedDialog }
         );
     }
 
@@ -52,9 +54,9 @@ export function ChooseFormulaModal ({ showNonHistoriedDialog, onClose }) {
                     <p>c = Probengewicht <strong>nach</strong> dem Glühen (inkl. Tiegel)</p>
                 </div>
                 <div class="formulas">
-                    <img className={formula1Class} src={correctFormula} onClick={() => onClickFormula(showNonHistoriedDialog, 1)}></img>
-                    <img className={formula2Class} src={correctFormula} onClick={() => onClickFormula(showNonHistoriedDialog, 2)}></img>
-                    <img className={formula3Class} src={correctFormula} onClick={() => onClickFormula(showNonHistoriedDialog, 3)}></img>
+                    <img className={formula1Class} src={wrongFormula01} onClick={() => onClickFormula(scene, showNonHistoriedDialog, 1)}></img>
+                    <img className={formula2Class} src={correctFormula} onClick={() => onClickFormula(scene, showNonHistoriedDialog, 2)}></img>
+                    <img className={formula3Class} src={wrongFormula02} onClick={() => onClickFormula(scene, showNonHistoriedDialog, 3)}></img>
                 </div>
             </div>
         </Modal>
@@ -63,6 +65,7 @@ export function ChooseFormulaModal ({ showNonHistoriedDialog, onClose }) {
     
 
 ChooseFormulaModal.propTypes = {
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
 };

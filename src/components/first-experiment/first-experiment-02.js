@@ -71,7 +71,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.hiddenOnSpawn.push(this.mortarStickEntity);
             this.groundSampleEntity = this.el.querySelector(".ground-sample-entity");
             this.movableEntities.push(this.groundSampleEntity);
-            this.hiddenOnSpawn.push(this.groundSampleEntity);
+            // this.hiddenOnSpawn.push(this.groundSampleEntity);
             this.bunsenBurnerEntity = this.el.querySelector(".bunsen-burner-entity");
             this.movableEntities.push(this.bunsenBurnerEntity);
             this.hiddenOnSpawn.push(this.bunsenBurnerEntity);
@@ -234,6 +234,18 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             let name = e.className;
             e.className = "interactable " + name;
         });
+        this.groundSampleEntity.object3D.visible = true;
+        // switch(groundSampleIndex) {
+        //     case 1:
+        //         this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        //     case 2:
+        //         this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        //     case 3: 
+        //         this.spawnItem(groundSampleModelPromise3, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        // }
         // this.skipBtn.object3D.visible = true;
     },
 

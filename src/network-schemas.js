@@ -694,6 +694,11 @@ function registerNetworkSchemas() {
       {
         selector: ".part04-wrapper",
         component: "first-experiment-04",
+        property: "glovesPopupClosed"
+      },
+      {
+        selector: ".part04-wrapper",
+        component: "first-experiment-04",
         property: "startBurnerClicked"
       },
       {
@@ -732,6 +737,11 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        selector: ".part06-wrapper",
+        component: "first-experiment-06",
+        property: "formulaPopupClosed"
+      },
       {
         selector: ".part06-wrapper",
         component: "first-experiment-06",

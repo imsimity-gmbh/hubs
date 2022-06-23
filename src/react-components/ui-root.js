@@ -333,12 +333,12 @@ class UIRoot extends Component {
     });
     this.props.scene.addEventListener("gecolab_choose_gloves", () => {
       this.showNonHistoriedDialog(
-        ChooseGlovesModalContainer, { showNonHistoriedDialog: this.showNonHistoriedDialog }
+        ChooseGlovesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
       );
     });
     this.props.scene.addEventListener("gecolab_choose_formula", () => {
       this.showNonHistoriedDialog(
-        ChooseFormulaModalContainer, { showNonHistoriedDialog: this.showNonHistoriedDialog }
+        ChooseFormulaModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
       );
     });
 

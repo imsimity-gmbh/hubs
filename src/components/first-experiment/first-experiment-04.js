@@ -13,6 +13,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
   AFRAME.registerComponent("first-experiment-04", {
     schema: {
+        glovesPopupClosed: {default: false},
         startBurnerClicked: {default: false},
         stirBtnHeld: {default: false},
     },
@@ -47,6 +48,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.x = 0;
             this.z = 0;
             this.t = 0;
+
+            this.localGlovesPopupClosed = false;
 
             this.startBtn = this.el.querySelector(".start-burner-btn");
             this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
@@ -95,6 +98,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
     
     updateUI: function() {
+        if(this.localGlovesPopupClosed != this.data.glovesPopupClosed) {
+            this.proceedToStartBurner();
+            this.localGlovesPopupClosed = this.data.glovesPopupClosed;
+        }
+
         if(this.localStartBurnerClicked != this.data.startBurnerClicked) {
             this.startBurner();
             this.localStartBurnerClicked = this.data.startBurnerClicked;
@@ -180,7 +188,21 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     onPlacedCrucible() {
         this.sceneEl.emit("gecolab_choose_gloves");
-        this.startBtn.object3D.visible = true; //actually only after finishing the popup -> add a callback
+    },
+
+    onPopupClosed() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "glovesPopupClosed", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    proceedToStartBurner() {
+        this.startBtn.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].tara(false);
     },
 
