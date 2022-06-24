@@ -448,7 +448,6 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".interactable",
         component: "first-experiment",
         property: "startClicked"
       }
@@ -461,12 +460,10 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: "#first-experiment-01-wrapper",
         component: "first-experiment-01",
         property: "groundSampleChosen"
       },
       {
-        selector: "#first-experiment-01-wrapper",
         component: "first-experiment-01",
         property: "groundSampleIndex"
       }
@@ -478,14 +475,6 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
-      {
-        selector: ".part02-wrapper",
-        component: "position"
-      },
-      {
-        selector: ".part02-wrapper",
-        component: "rotation"
-      },
       {
         selector: ".cupboard-wrapper",
         component: "position"
@@ -679,7 +668,6 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".part03-wrapper",
         component: "first-experiment-03",
         property: "grindBtnClicked"
       }
@@ -692,12 +680,10 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "startBurnerClicked"
       },
       {
-        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "stirBtnHeld"
       }
@@ -710,17 +696,14 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".part05-wrapper",
         component: "first-experiment-05",
         property: "stirBtnHeld"
       },
       {
-        selector: ".part05-wrapper",
         component: "first-experiment-05",
         property: "onClickCutBunsenBurner"
       },
       {
-        selector: ".part05-wrapper",
         component: "first-experiment-05",
         property: "onClickTurnOffBunsenBurner"
       }
@@ -733,12 +716,10 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".part06-wrapper",
         component: "first-experiment-06",
         property: "onClickDiscussResult"
       },
       {
-        selector: ".part06-wrapper",
         component: "first-experiment-06",
         property: "onClickTidyUp"
       }
