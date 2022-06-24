@@ -28,7 +28,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.tongEntity = this.sceneEl.querySelector(".tong-entity");
             this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
             this.localFormulaPopupClosed = false;
@@ -40,6 +40,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
             this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
             this.multipleChoice06.object3D.visible = false;
+            this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
 
             this.tidyUpBtn = this.el.querySelector(".tidy-up-btn");
             this.tidyUpBtn.object3D.addEventListener("interact", () => this.onTidyUpClicked());
@@ -54,10 +55,13 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.onCruciblePlaced = AFRAME.utils.bind(this.onCruciblePlaced, this);
             this.chooseFormula = AFRAME.utils.bind(this.chooseFormula, this);
             this.discussResult = AFRAME.utils.bind(this.discussResult, this);
+            this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
             this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
 
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
+                this.firstExpPart01 = this.expSystem.getTaskById("01");
+                this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
             }, 300);
 
             this.expSystem.registerTask(this.el, "06");
@@ -152,6 +156,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
     proceedToDiscussResult() {
         this.discussResultBtn.object3D.visible = true; 
+    },
+
+    setRightAnswerTxt(index) {
+        let percentage = 0;
+        if(index == 1)
+            percentage = 4.76;
+        else if(index == 2)
+            percentage = 1.7;
+
+        let txt = percentage + "%";
+        this.answerOption2Txt.setAttribute("text", { value: txt });
     },
 
     onDiscussResultClicked() {

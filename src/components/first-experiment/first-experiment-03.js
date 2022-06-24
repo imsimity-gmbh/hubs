@@ -57,7 +57,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.localTaraPressed = false;
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-            this.crucibleEntity.object3D.visible = true;
+            this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
 
             // this.updateUI();
 
@@ -68,6 +68,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
             this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
             this.showScale = AFRAME.utils.bind(this.showScale, this);
+            this.changeCrucibleEntities = AFRAME.utils.bind(this.changeCrucibleEntities, this);
             this.onTaraPressed = AFRAME.utils.bind(this.onTaraPressed, this);
             this.getSampleFromMortar = AFRAME.utils.bind(this.getSampleFromMortar, this);
             this.addSampleToCrucible = AFRAME.utils.bind(this.addSampleToCrucible, this);
@@ -199,10 +200,15 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.playSound(SOUND_ADD_SAMPLE);
         this.scaleEntity.object3D.visible = true;
         this.scaleSocket.components["entity-socket"].enableSocket();
-        this.crucibleEntity.object3D.visible = true;
+        this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.changeCrucibleEntities);
         this.scaleEntity.components["waage-tool"].subscribe("onTaraPressed", this.onTaraPressed);
         this.scaleEntity.components["waage-tool"].subscribe("onRightAmount", this.onRightSampleAmount);
         this.spoonSocket03.components["entity-socket"].unsubscribe("onSnap", this.showScale);
+    },
+
+    changeCrucibleEntities() {
+        this.crucibleEntity.object3D.visible = true;
+        this.crucibleEntityScale.object3D.visible = false;
     },
 
     onTaraPressed() {

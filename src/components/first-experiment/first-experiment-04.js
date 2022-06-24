@@ -15,6 +15,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     schema: {
         glovesPopupClosed: {default: false},
         startBurnerClicked: {default: false},
+        ctrlBtnClicked: {default: false},
+        ctrlBtnIndex: {default: 0},
         stirBtnHeld: {default: false},
     },
   
@@ -58,17 +60,21 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.localStartBurnerClicked = false;
 
             this.ctrlBtn00 = this.el.querySelector(".burner-ctrl-btn-0");
-            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
             this.ctrlBtn00.object3D.visible = false;
             this.ctrlBtn01 = this.el.querySelector(".burner-ctrl-btn-1");
-            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
-            this.ctrlBtn01.object3D.visible = true;
+            this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
+            this.ctrlBtn01.object3D.visible = false;
             this.ctrlBtn02 = this.el.querySelector(".burner-ctrl-btn-2");
-            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
             this.ctrlBtn02.object3D.visible = false;
             this.ctrlBtn03 = this.el.querySelector(".burner-ctrl-btn-3");
-            // this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+            this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
             this.ctrlBtn03.object3D.visible = false;
+
+            this.ctrlBtnBlocked = false;
+            this.localCtrlBtnClicked = false;
+            this.localCtrlBtnIndex = 0;
 
             this.stiringBtn = this.el.querySelector(".stiring-btn");
             this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
@@ -112,13 +118,19 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     
     updateUI: function() {
         if(this.localGlovesPopupClosed != this.data.glovesPopupClosed) {
-            this.proceedToStartBurner();
+            this.proceedToStiring();
             this.localGlovesPopupClosed = this.data.glovesPopupClosed;
         }
 
         if(this.localStartBurnerClicked != this.data.startBurnerClicked) {
             this.startBurner();
             this.localStartBurnerClicked = this.data.startBurnerClicked;
+        }
+
+        if(this.localCtrlBtnClicked != this.data.ctrlBtnClicked) {
+            this.localCtrlBtnIndex = this.data.ctrlBtnIndex;
+            this.controlBurnerPower();
+            this.localCtrlBtnClicked = this.data.ctrlBtnClicked;
         }
 
         if(this.localStirBtnHeld != this.data.stirBtnHeld) {
@@ -195,26 +207,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     startPart04() {
         this.crucibleSocketTripod.components["entity-socket"].enableSocket();
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onSnap", this.onPlacedCrucible);
-        this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
         this.stopwatchEntity.object3D.visible = true;
     },
 
     onPlacedCrucible() {
-        this.sceneEl.emit("gecolab_choose_gloves");
-    },
-
-    onPopupClosed() {
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-    
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("first-experiment-04", "glovesPopupClosed", true);      
-      
-            this.updateUI();
-        });
-    },
-
-    proceedToStartBurner() {
         this.startBtn.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].tara(false);
     },
@@ -239,7 +235,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onLightBurner() {
-        this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
         this.firelighterSocketGeneral.components["entity-socket"].enableSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
@@ -248,6 +243,62 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onReplaceLighter() {
+        this.ctrlBtn00.object3D.visible = true;
+    },
+
+    onClickCtrlBtn(index) {
+        if(this.ctrlBtnBlocked)
+            return;
+
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "ctrlBtnClicked", !this.data.ctrlBtnClicked); 
+            this.el.setAttribute("first-experiment-04", "ctrlBtnIndex", index);         
+      
+            this.updateUI();
+        });
+    },
+
+    controlBurnerPower() {
+        console.log(this.localCtrlBtnIndex);
+        if(this.localCtrlBtnIndex == 2)
+            return;
+
+        this.ctrlBtn00.object3D.visible = false;
+        this.ctrlBtn01.object3D.visible = false;
+        this.ctrlBtn02.object3D.visible = false;
+        this.ctrlBtn03.object3D.visible = false;
+
+        switch(this.localCtrlBtnIndex) {
+            case 0: 
+                this.ctrlBtn01.object3D.visible = true;
+                break;
+            case 1: 
+                this.ctrlBtn02.object3D.visible = true;
+                setTimeout(() => {
+                    this.ctrlBtn02.object3D.visible = false;
+                    this.ctrlBtnBlocked = true;
+                    this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
+                    this.sceneEl.emit("gecolab_choose_gloves");
+                }, 500);
+                break;
+        }
+    },
+
+    onPopupClosed() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-04", "glovesPopupClosed", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    proceedToStiring() {
         this.glassstickSocket.components["entity-socket"].enableSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
     },

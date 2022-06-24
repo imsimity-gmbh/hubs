@@ -808,7 +808,7 @@
                         scalable-when-grabbed
                         set-yxz-order
                     >
-                        <a-entity class="stopwatch-display-text" text="value:00:00; width:3.5; align:center;" text-raycast-hack position="-0.03 0.15 0.16" scale="1.0 1.0 1.0"></a-entity> 
+                        <a-entity class="stopwatch-display-text" text="value:00:00; width:1.4; color: #000; align:center;" text-raycast-hack position="0 0 0" scale="1.0 1.0 1.0"></a-entity> 
                     </a-entity>
                 </a-entity>
             </template>
@@ -928,7 +928,7 @@
                 <a-entity class="interactable" first-experiment> <!--static-->
                     <a-entity class="ui interactable-ui start-btn-wrapper" position="0.3 -0.1 0.2"> <!--static-->
                         <a-entity class="first-experiment-start-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
-                            <a-entity text=" value: Start; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity text=" value: Start; width: 2.8; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity>
                 </a-entity>
@@ -939,16 +939,24 @@
                 <a-entity id="first-experiment-01-wrapper" first-experiment-01> <!--static-->
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">
                         <a-entity class="ground-sample-1" position="1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="ground-sample-2" position="0 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="ground-sample-3" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="answer-area" position="0 1.7 0">
-                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0 0" scale="2.0 2.0 2.0">
+                        <a-entity class="ground-sample-2" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
+                        <a-entity class="sample-btn-wrapper" position="0 1.7 0">
+                            <a-entity class="ground-sample-text-1" text="value: Ort 1: Schwarzwald; color: #000; align:center;"
+                                text-raycast-hack position="-0.9 0.6 0" scale="2 2 2">
+                            </a-entity> <!--static-->
+                            <a-entity class="ground-sample-info-1" text="value: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam; color: #000; align:center;"
+                                text-raycast-hack position="-0.9 0.4 0" scale="1.5 1.5 1.5">
+                            </a-entity> <!--static-->
+                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.9 0 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="ground-sample-text-2" text="value: Ort 2: Noerdliches Oberrheinisches Tiefland; color: #000; align:center;"
+                                text-raycast-hack position="0.9 0.6 0" scale="2 2 2">
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0 0" scale="2.0 2.0 2.0">
+                            <a-entity class="ground-sample-info-2" text="value: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam; color: #000; align:center;"
+                                text-raycast-hack position="0.9 0.4 0" scale="1.5 1.5 1.5">
+                            </a-entity> <!--static-->
+                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.9 0 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                         </a-entity>
@@ -961,22 +969,22 @@
                         multiple-choice-question="question_id: 1"
                         position="0.3 0 0.5">
                             <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?; color: white;"
-                                text-raycast-hack position="0 2.5 0" scale="3 3 3">
+                                text-raycast-hack position="0.5 2.5 0" scale="3 3 3">
                             </a-entity> <!--static-->
 
-                            <a-entity class="answer-area" position="0 2 0">
-                                <a-entity id="0" class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort A; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="answer-area" position="0.5 2 0">
+                                <a-entity id="0" class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
+                                    <a-entity text=" value:Humus ist ein naehrstoffreicher Duenger, welcher essenziell fuer die Landwirtschaft ist.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
-                                <a-entity id="1" class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort B; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                <a-entity id="1" class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
+                                    <a-entity text=" value:Humus ist ein anderes Wort fuer den durch den Menschen produzierten Kompost aus organischen Abfaellen. Die organischen Bestandteile des Humus sind wichtig fuer die Versorgung der Pflanzen mit Naehrstoffen wie Stickstoff oder Phosphor, aber auch fuer die Porenverteilung und damit fuer den Luft- und Waermehaushalt des Bodens.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
-                                <a-entity id="2" class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                <a-entity id="2" class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
+                                    <a-entity text=" value:Als Humus wird die Gesamtheit der abgestorbenen organischen Bodensubstanz bezeichnet. Die organischen Bestandteile des Bodens sind wichtig fuer die Versorgung der Pflanzen mit Naehrstoffen wie Stickstoff oder Phosphor, aber auch fuer die Porenverteilung und damit fuer den Luft- und Waermehaushalt des Bodens.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
                             </a-entity> <!--static-->
 
-                            <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="1.5 1.5 1.5">
+                            <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 1.2 0" scale="2 2 2">
                                 <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                     </a-entity> <!--static-->
@@ -1022,10 +1030,6 @@
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity> <!--static-->
-                        <!-- <a-entity class="stopwatch-socket" position="0.3 0.6 0.3" rotation="0 0 0" entity-socket="acceptedEntities: .stopwatch-entity; radius: 0.5; enabled: true;">
-                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
-                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity> static -->
                     </a-entity>
                 </a-entity>
             </template>
@@ -1121,13 +1125,14 @@
                         >
                             <a-entity class="display-text" text=" value: 0.00g; width:2; align:center; color: black;" text-raycast-hack position="-0.2 0.35 0" rotation="0 -90 0" scale="0.5 0.5 0.5"></a-entity>
                             <a-entity class="tara-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
-                                <a-entity text=" value: Tara; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                <a-entity text=" value: Tara; width: 3.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
                             <a-entity class="glow-loss-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
-                                <a-entity text=" value: Gluehverlust berechnen; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.3 0.3 0.3"></a-entity>
+                                <a-entity text=" value: Gluehverlust berechnen; width: 3; align:center;" text-raycast-hack position="0 0 0.001" scale="0.3 0.3 0.3"></a-entity>
                             </a-entity>
+                            <a-entity class="crucible-entity-scale" position="0 1 0"></a-entity>
                         </a-entity>
-                        <a-entity class="crucible-entity" position="0 1 0" rotation="0 180 0"
+                        <a-entity class="crucible-entity" position="0 1 0" rotation="0 0 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
@@ -1156,18 +1161,6 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                         </a-entity>
-                        <a-entity
-                            class="stopwatch-entity" position="1.4 0.8 -0.2" rotation="-90 0 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
-                            matrix-auto-update
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
-                            stopwatch-tool
-                        >
-                            <a-entity class="stopwatch-display-text" text="value:00:00; width:1.1; color: #000; align:center;" text-raycast-hack position="0 0 0" scale="1.0 1.0 1.0"></a-entity> 
-                        </a-entity>
                         <a-entity class="skip-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" rotation="0 0 0" scale="0.4 0.4 0.4">
                             <a-entity text=" value: Aufbau Überspringen; width: 3.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
@@ -1181,7 +1174,7 @@
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         <a-entity class="grind-sample-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
-                            <a-entity text=" value: Probe moersern; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity text=" value: Probe moersern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity> <!--static-->
                     <a-entity class="ground-sample-socket-03" position="-0.55 0.57 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.3; enabled: false;">
@@ -1194,7 +1187,7 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="crucible-socket" position="-1.1 0.77 -0.04" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: false;">
+                    <a-entity class="crucible-socket" position="-1.1 0.67 -0.04" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
@@ -1227,7 +1220,7 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
                     <a-entity class="start-burner-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
-                        <a-entity text=" value: Anschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        <a-entity text=" value: Anschalten; width: 3.2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
 
                     <a-entity class="burner-ctrl-btn-0" mixin="rounded-burner-action-button-0" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
@@ -1240,7 +1233,7 @@
                     </a-entity> <!--static-->
 
                     <a-entity class="stiring-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
-                        <a-entity text=" value: Ruehren; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.4 0.4 0.4"></a-entity>
+                        <a-entity text=" value: Ruehren; width: 3.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
                 </a-entity>
             </template>
@@ -1250,13 +1243,6 @@
                     <a-entity class="thermo-socket-05" position="0 1.45 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .thermo-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity> <!--static-->
-
-                    <a-entity class="lower-burner-temp-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
-                        <a-entity text=" value: Herunterdrehen; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
-                    <a-entity class="stop-burner-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
-                        <a-entity text=" value: Abschalten; width: 2.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
 
                     <a-entity class="tong-socket-crucible" position="0.23 1.2 0" rotation="0 0 0" entity-socket="acceptedEntities: .tong-entity; radius: 0.3; enabled: false;">
@@ -1277,8 +1263,8 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="discuss-result-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0" scale="2.0 2.0 2.0">
-                        <a-entity text=" value: Ergebnis abstimmen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    <a-entity class="discuss-result-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0" scale="1.5 1.5 1.5">
+                        <a-entity text=" value: Ergebnis abstimmen; width: 1.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
 
                     <a-entity 
@@ -1291,13 +1277,13 @@
 
                             <a-entity class="answer-area" position="0 2 0">
                                 <a-entity id="0" class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.2 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort A; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                    <a-entity text=" value: 5.2%; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                                 </a-entity>
                                 <a-entity id="1" class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort B; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                    <a-entity text=" value: 7.45%; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                                 </a-entity>
                                 <a-entity id="2" class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.2 0 0" scale="2.0 2.0 2.0">
-                                    <a-entity text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                    <a-entity class="answer-option-2-txt" text=" value:Antwort C; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                                 </a-entity>
                             </a-entity> <!--static-->
 
@@ -1306,8 +1292,8 @@
                             </a-entity> <!--static-->
                     </a-entity> <!--static-->
 
-                    <a-entity class="tidy-up-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
-                        <a-entity text=" value: Aufraeumen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    <a-entity class="tidy-up-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.8 1.5 0.5" scale="2.0 2.0 2.0">
+                        <a-entity text=" value: Beenden; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
                 </a-entity>
             </template>

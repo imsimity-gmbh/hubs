@@ -9,8 +9,8 @@ import { THREE } from "aframe";
   AFRAME.registerComponent("first-experiment-05", {
     schema: {
         stirBtnHeld: {default: false},
-        onClickCutBunsenBurner: {default: false},
-        onClickTurnOffBunsenBurner: {default: false},
+        ctrlBtnClicked: {default: false},
+        ctrlBtnIndex: {default: 2},
     },
   
     init: function() {
@@ -31,7 +31,7 @@ import { THREE } from "aframe";
             this.tongSocketGeneral = this.sceneEl.querySelector(".tong-socket");
             this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
             this.flameEntity = this.sceneEl.querySelector(".flame-entity");
@@ -55,15 +55,18 @@ import { THREE } from "aframe";
             this.z = 0;
             this.t = 0;
 
-            this.lowerBurnerTempBtn = this.el.querySelector(".lower-burner-temp-btn");
-            this.lowerBurnerTempBtn.object3D.addEventListener("interact", () => this.onCutBunsenBurnerClicked());
-            this.lowerBurnerTempBtn.object3D.visible = false;
-            this.localOnClickCutBunsenBurner = false;
+            this.ctrlBtn00 = this.sceneEl.querySelector(".burner-ctrl-btn-0");
+            this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
+            this.ctrlBtn01 = this.sceneEl.querySelector(".burner-ctrl-btn-1");
+            this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
+            this.ctrlBtn02 = this.sceneEl.querySelector(".burner-ctrl-btn-2");
+            this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
+            this.ctrlBtn03 = this.sceneEl.querySelector(".burner-ctrl-btn-3");
+            this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
 
-            this.turnOffBurnerBtn = this.el.querySelector(".stop-burner-btn");
-            this.turnOffBurnerBtn.object3D.addEventListener("interact", () => this.onTurnOffBunsenBurnerClicked());
-            this.turnOffBurnerBtn.object3D.visible = false;
-            this.localOnClickTurnOffBunsenBurner = false;
+            this.ctrlBtnBlocked = true;
+            this.localCtrlBtnClicked = false;
+            this.localCtrlBtnIndex = 2;
 
             this.updateUI();
 
@@ -128,9 +131,13 @@ import { THREE } from "aframe";
             this.localStirBtnHeld = this.data.stirBtnHeld;
         }
 
-        if(this.localOnClickCutBunsenBurner != this.data.onClickCutBunsenBurner) {
-            this.cutBunsenBurner();
-            this.localOnClickCutBunsenBurner = this.data.onClickCutBunsenBurner;
+        if(this.localCtrlBtnClicked != this.data.ctrlBtnClicked) {
+            this.localCtrlBtnIndex = this.data.ctrlBtnIndex;
+            if(this.localCtrlBtnIndex == 2)
+                this.cutBunsenBurner();
+            if(this.localCtrlBtnIndex == 1)
+                this.turnOffBunsenBurner();
+            this.localCtrlBtnClicked = this.data.ctrlBtnClicked;
         }
 
         if(this.localOnClickTurnOffBunsenBurner != this.data.onClickTurnOffBunsenBurner) {
@@ -146,7 +153,8 @@ import { THREE } from "aframe";
             let displayTemp = roundedTemp + " °C";
             this.tempText.setAttribute("text", { value: displayTemp });
             if(this.temp > 500) {
-                this.lowerBurnerTempBtn.object3D.visible = true;
+                this.ctrlBtn02.object3D.visible = true;
+                this.ctrlBtnBlocked = false;
             }
         }
 
@@ -191,7 +199,7 @@ import { THREE } from "aframe";
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);
-      
+
             this.el.setAttribute("first-experiment-05", "stirBtnHeld", false);      
       
             this.updateUI();
@@ -269,24 +277,32 @@ import { THREE } from "aframe";
         this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
     },
 
-    onCutBunsenBurnerClicked() {
+    onClickCtrlBtn(index) {
+        if(this.ctrlBtnBlocked)
+            return;
+
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);
       
-            this.el.setAttribute("first-experiment-05", "onClickCutBunsenBurner", true);      
+            this.el.setAttribute("first-experiment-05", "ctrlBtnClicked", !this.data.ctrlBtnClicked);
+            this.el.setAttribute("first-experiment-05", "ctrlBtnIndex", index)      
       
             this.updateUI();
         });
     },
 
     cutBunsenBurner() {
+        this.ctrlBtnBlocked = true;
         this.measureTemp = false;
-        console.log("feedback for lowering burner power missing...");
-        this.thermoSocketGeneral.components["entity-socket"].enableSocket();
-        this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
-        this.lowerBurnerTempBtn.object3D.visible = false;
-        this.t = 0;
+        this.ctrlBtn02.object3D.visible = false;
+        this.ctrlBtn01.object3D.visible = true;
+        setTimeout(() => {
+            this.thermoSocketGeneral.components["entity-socket"].enableSocket();
+            this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
+            this.t = 0;
+            this.ctrlBtn01.object3D.visible = false;
+        }, 500);
     },
 
     waitForCoolingTask() {
@@ -295,30 +311,24 @@ import { THREE } from "aframe";
     },
 
     startCoolingTask() {
-        this.turnOffBurnerBtn.object3D.visible = true;
+        this.ctrlBtn01.object3D.visible= true;
+        this.ctrlBtnBlocked = false;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
     },
 
-    onTurnOffBunsenBurnerClicked() {
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-    
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("first-experiment-05", "onClickTurnOffBunsenBurner", true);      
-      
-            this.updateUI();
-        });
-    },
-
     turnOffBunsenBurner() {
-        this.turnOffBurnerBtn.object3D.visible = false;
+        this.ctrlBtnBlocked = true;
         this.flameEntity.object3D.visible = false;
+        this.ctrlBtn01.object3D.visible = false;
+        this.ctrlBtn00.object3D.visible = true;
         this.stopBurnerSoundCallbacks.forEach(cb => {
             cb();
         });
-        
-        this.tongSocketCrucible.components["entity-socket"].enableSocket();
-        this.tongSocketCrucible.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
+        setTimeout(() => {
+            this.ctrlBtn00.object3D.visible = false;
+            this.tongSocketCrucible.components["entity-socket"].enableSocket();
+            this.tongSocketCrucible.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
+        }, 500);
     },
 
     tongPlacedOnCrucible() {

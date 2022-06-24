@@ -14,26 +14,19 @@ AFRAME.registerComponent("waage-tool", {
 
         waitForDOMContentLoaded().then(() => { 
             this.weight = 0;
-            this.containerWeight = 80;
+            this.containerWeight = 64.55;
+            this.weightAfterGlowing = 0;
             this.displayWeight = this.weight + "g";
 
-            this.onScalePlaced = AFRAME.utils.bind(this.onScalePlaced, this);
             this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
             this.proceedToFormula = AFRAME.utils.bind(this.proceedToFormula, this);
             this.onPickUpContainer = AFRAME.utils.bind(this.onPickUpContainer, this);
 
-            this.crucibleSocket = this.sceneEl.querySelector(".crucible-socket");
-            console.log(this.crucibleSocket);
-            if(this.crucibleSocket != null)
-                this.crucibleSocket.object3D.visible = false;
-            this.crucibleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
-
             this.crucibleSocketTripod = this.sceneEl.querySelector(".crucible-socket-04");
 
             this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
-            this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onScalePlaced);
+            this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
 
-            this.scalePlaced = false;
             this.ready = true;
             this.tooMuch = false;
 
@@ -41,7 +34,7 @@ AFRAME.registerComponent("waage-tool", {
             this.displayText.setAttribute("text", { value: this.displayWeight });
 
             this.taraBtn = this.el.querySelector(".tara-btn");
-            this.taraBtn.object3D.addEventListener("interact", () => this.tara(true));
+            this.taraBtn.object3D.addEventListener("interact", () => this.tara(false));
             this.taraPressed = false;
 
             this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
@@ -101,22 +94,10 @@ AFRAME.registerComponent("waage-tool", {
     },
   
     tick: function() {
-        if(this.scalePlaced)
-            return;
 
-        let waagePos = this.el.getAttribute("position");
-        if(this.crucibleSocket == null)
-            console.log("crucible socket not found");
-        else
-            this.crucibleSocket.setAttribute("position", {x: waagePos.x, y: (waagePos.y + 0.2), z: waagePos.z});
+
     },
 
-    onScalePlaced() {
-        this.scalePlaced = true;
-        console.log(this.crucibleSocket);
-        this.crucibleSocket.setAttribute("position", {x: -1.1, y: 0.7, z: -0.04});
-        this.crucibleSocket.object3D.visible = true;
-    },
     onContainerPlaced() {
         this.weight = this.containerWeight;
         this.displayWeight = this.weight + "g";
@@ -125,7 +106,6 @@ AFRAME.registerComponent("waage-tool", {
         this.onContainerPlacedCallbacks.forEach(cb => {
             cb();
         });
-        this.crucibleSocket.components["entity-socket"].unsubscribe("onSnap", this.onContainerPlaced);
         this.crucibleSocketTripod.components["entity-socket"].subscribe("onPickedUp", this.onPickUpContainer);
     },
 
@@ -200,10 +180,12 @@ AFRAME.registerComponent("waage-tool", {
         });
     },
 
+    setGlowLossWeight(weight) {
+        this.weightAfterGlowing = weight;
+    },
+
     measureGlowLoss() {
-        let rand = Math.random() * (38 - 45) + 38;
-        let randRounded = Math.round(rand);
-        this.weight = (this.containerWeight + randRounded);
+        this.weight = this.weightAfterGlowing;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 

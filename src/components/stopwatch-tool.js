@@ -31,7 +31,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
-      mesh.scale.set(3.00, 3.00, 3.00);
+      mesh.scale.set(4.00, 4.00, 4.00);
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 
@@ -48,15 +48,15 @@ AFRAME.registerComponent("stopwatch-tool", {
       //Local versions of network-variables:
       this.localStartClicked = false;
       this.localResetClicked = false;
+      this.secondPassed = true;
       this.localCurrentTime = 0;
-      this.localDisplayTime = "00:00";
 
       this.speedVariable = 1000;
 
-      this.minuteMark1 = Math.random() * (4 - 3) + 3;
+      this.minuteMark1 = Math.random() * (4 - 2) + 2;
       this.minuteMark2 = 60;
-      this.minuteMark3 = 14; //eigtl. 25
-      this.minuteMark4 = 18; //eigtl. 45
+      this.minuteMark3 = 16; //eigtl. 25
+      this.minuteMark4 = 22; //eigtl. 45
       this.minuteMark1Reached = false;
       this.minuteMark2Reached = false;
       this.minuteMark3Reached = false;
@@ -136,18 +136,7 @@ AFRAME.registerComponent("stopwatch-tool", {
   updateUI() {  
     //Check if start button has been clicked by anyone:
     if(this.localStartClicked != this.data.startClicked) {
-
-      if(this.timerRunning == false) {
-        this.startTime = performance.now();
-        this.timerRunning = true;
-        // this.playSound(SOUND_STOPWATCH_TICKING); commentet out to keep me from going insane from the ticking noise ;)
-      }
-    
-      else {
-        this.timeUntilPause = this.localCurrentTime * 1000;
-        this.timerRunning = false;
-      }
-      
+      this.timerRunning = true;
       this.localStartClicked = this.data.startClicked;
     }
 
@@ -168,9 +157,9 @@ AFRAME.registerComponent("stopwatch-tool", {
     }
 
     //Update display of stopwatch to current time:
-    if(this.timerRunning) {
-      this.myDisplayText.setAttribute("text", { value: this.data.currentTime });
-    }
+    // if(this.timerRunning) {
+    //   this.myDisplayText.setAttribute("text", { value: this.data.currentTime });
+    // }
   },
 
   
@@ -179,48 +168,45 @@ AFRAME.registerComponent("stopwatch-tool", {
     //If timer activated, calculate elapsed time since start and update UI
     if(this.timerRunning) {
 
-      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-
-        if(NAF.utils.isMine(networkedEl)) {
-
-          let now = performance.now();
-          this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / this.speedVariable;
-          let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
-
-          //Set display-format:
-          let formattedTime = "";
-          let minutes = Math.floor(roundedlocalCurrentTime / 60);
-
-          //Check minute marks:
-          if(minutes >= this.minuteMark1 && this.minuteMark1Reached == false) {
+      if(this.secondPassed) {
+        this.secondPassed = false;
+    
+        this.localCurrentTime++;
+    
+        let formattedTime = "";
+    
+        let minutes = Math.floor(this.localCurrentTime / 60);
+        let seconds = this.localCurrentTime - minutes*60;
+    
+        //Check minute marks:
+        if(minutes >= this.minuteMark1 && this.minuteMark1Reached == false) {
             this.minuteMark1Callbacks.forEach(cb => {
               cb();
             });
             this.minuteMark1Reached = true;
           }
-
+    
           if(minutes >= this.minuteMark2 && this.minuteMark2Reached == false) {
             this.minuteMark2Callbacks.forEach(cb => {
               cb();
             });
             this.minuteMark2Reached = true;
           }
-
+    
           if(minutes >= this.minuteMark3 && this.minuteMark3Reached == false) {
             this.minuteMark3Callbacks.forEach(cb => {
               cb();
             });
             this.minuteMark3Reached = true;
           }
-
+    
           if(minutes >= this.minuteMark4 && this.minuteMark4Reached == false) {
             this.minuteMark4Callbacks.forEach(cb => {
               cb();
             });
             this.minuteMark4Reached = true;
           }
-
-          let seconds = roundedlocalCurrentTime - minutes*60;
+    
           if(minutes < 10) {
             if(seconds < 10) 
               formattedTime = "0" + minutes + ":0" + seconds;
@@ -233,22 +219,83 @@ AFRAME.registerComponent("stopwatch-tool", {
             else if(seconds >= 10 && seconds < 60) 
               formattedTime = minutes + ":" + seconds;
           }
+    
+          setTimeout(() => {
+            this.myDisplayText.setAttribute("text", { value: formattedTime });
+            this.secondPassed = true;
+          }, this.speedVariable);
+      }
 
-          //Send value of formattedTime to Server, if different from stored value
-          if(formattedTime != this.data.currentTime) 
-          {
-              this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);     
+      // NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
 
-              this.updateUI();
-          }
-        } 
-        else {
-          if(this.localDisplayTime != this.data.currentTime) {
-            this.playSound(SOUND_STOPWATCH_TICKING);
-            this.localDisplayTime = this.data.currentTime;
-          }
-        }
-      });
+      //   if(NAF.utils.isMine(networkedEl)) {
+
+      //     let now = performance.now();
+      //     this.localCurrentTime = ((now - this.startTime) + this.timeUntilPause) / this.speedVariable;
+      //     let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
+
+      //     //Set display-format:
+      //     let formattedTime = "";
+      //     let minutes = Math.floor(roundedlocalCurrentTime / 60);
+
+      //     //Check minute marks:
+      //     if(minutes >= this.minuteMark1 && this.minuteMark1Reached == false) {
+      //       this.minuteMark1Callbacks.forEach(cb => {
+      //         cb();
+      //       });
+      //       this.minuteMark1Reached = true;
+      //     }
+
+      //     if(minutes >= this.minuteMark2 && this.minuteMark2Reached == false) {
+      //       this.minuteMark2Callbacks.forEach(cb => {
+      //         cb();
+      //       });
+      //       this.minuteMark2Reached = true;
+      //     }
+
+      //     if(minutes >= this.minuteMark3 && this.minuteMark3Reached == false) {
+      //       this.minuteMark3Callbacks.forEach(cb => {
+      //         cb();
+      //       });
+      //       this.minuteMark3Reached = true;
+      //     }
+
+      //     if(minutes >= this.minuteMark4 && this.minuteMark4Reached == false) {
+      //       this.minuteMark4Callbacks.forEach(cb => {
+      //         cb();
+      //       });
+      //       this.minuteMark4Reached = true;
+      //     }
+
+      //     let seconds = roundedlocalCurrentTime - minutes*60;
+      //     if(minutes < 10) {
+      //       if(seconds < 10) 
+      //         formattedTime = "0" + minutes + ":0" + seconds;
+      //       else if(seconds >= 10 && seconds < 60) 
+      //         formattedTime = "0" + minutes + ":" + seconds;
+      //     } 
+      //     else if(minutes >= 10) {
+      //       if(seconds < 10) 
+      //         formattedTime = minutes + ":0" + seconds;
+      //       else if(seconds >= 10 && seconds < 60) 
+      //         formattedTime = minutes + ":" + seconds;
+      //     }
+
+      //     //Send value of formattedTime to Server, if different from stored value
+      //     if(formattedTime != this.data.currentTime) 
+      //     {
+      //         this.el.setAttribute("stopwatch-tool", "currentTime", formattedTime);     
+
+      //         this.updateUI();
+      //     }
+      //   } 
+      //   else {
+      //     if(this.localDisplayTime != this.data.currentTime) {
+      //       this.playSound(SOUND_STOPWATCH_TICKING);
+      //       this.localDisplayTime = this.data.currentTime;
+      //     }
+      //   }
+      // });
     }
 
   },
@@ -259,7 +306,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     
       NAF.utils.takeOwnership(networkedEl);
 
-      this.el.setAttribute("stopwatch-tool", "startClicked", !this.data.startClicked);      
+      this.el.setAttribute("stopwatch-tool", "startClicked", true);      
 
       this.updateUI();
     });
@@ -287,7 +334,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     let minutes = Math.floor(roundedlocalCurrentTime / 60);
     console.log(minutes);
 
-    this.minuteMark2 = minutes + (Math.random() * (10 - 5) + 5);
+    this.minuteMark2 = minutes + (Math.random() * (4 - 2) + 2);
     console.log(this.minuteMark2);
   },
 
