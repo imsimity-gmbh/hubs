@@ -151,7 +151,7 @@ const groundSampleModelPromise3 = waitForDOMContentLoaded().then(() => loadModel
 
     notifyPart02() {
         this.startPart02Callbacks.forEach(cb => {
-          cb(this.groundSampleIndex);
+          cb(this.localGroundSampleIndex);
       });
     },
 

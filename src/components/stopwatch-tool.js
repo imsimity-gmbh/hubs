@@ -31,7 +31,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
-      mesh.scale.set(0.02, 0.02, 0.02);
+      mesh.scale.set(3.00, 3.00, 3.00);
       mesh.matrixNeedsUpdate = true;
       this.el.setObject3D("mesh", mesh);
 

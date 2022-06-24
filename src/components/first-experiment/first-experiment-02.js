@@ -71,7 +71,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.hiddenOnSpawn.push(this.mortarStickEntity);
             this.groundSampleEntity = this.el.querySelector(".ground-sample-entity");
             this.movableEntities.push(this.groundSampleEntity);
-            this.hiddenOnSpawn.push(this.groundSampleEntity);
+            // this.hiddenOnSpawn.push(this.groundSampleEntity);
             this.bunsenBurnerEntity = this.el.querySelector(".bunsen-burner-entity");
             this.movableEntities.push(this.bunsenBurnerEntity);
             this.hiddenOnSpawn.push(this.bunsenBurnerEntity);
@@ -106,6 +106,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.tongEntity = this.el.querySelector(".tong-entity");
             this.movableEntities.push(this.tongEntity);
             this.hiddenOnSpawn.push(this.tongEntity);
+            this.stopwatchEntity = this.el.querySelector(".stopwatch-entity");
+            console.log(this.stopwatchEntity.object3D);
+            this.movableEntities.push(this.stopwatchEntity);
+            this.hiddenOnSpawn.push(this.stopwatchEntity);
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -129,6 +133,8 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             this.sockets.push(this.spoonSocket);
             this.tongSocket = this.sceneEl.querySelector(".tong-socket");
             this.sockets.push(this.tongSocket);
+            // this.stopwatchSocket = this.sceneEl.querySelector(".stopwatch-socket");
+            // this.sockets.push(this.stopwatchSocket);
 
             this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
             this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
@@ -139,7 +145,6 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
             this.itemsPlaced = 0;
 
-            // this.spawnItem(robotModelPromise, new THREE.Vector3(0, 0, 0), this.bunsenBurnerEntity);
             this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, false);
             this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, false);
             this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, false);
@@ -234,6 +239,19 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             let name = e.className;
             e.className = "interactable " + name;
         });
+        this.groundSampleEntity.object3D.visible = true;
+
+        // switch(groundSampleIndex) {
+        //     case 1:
+        //         this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        //     case 2:
+        //         this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        //     case 3: 
+        //         this.spawnItem(groundSampleModelPromise3, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
+        //         break;
+        // }
         // this.skipBtn.object3D.visible = true;
     },
 

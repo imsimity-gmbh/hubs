@@ -6,12 +6,12 @@ import { FormattedMessage } from "react-intl";
 import { styles } from "./EnterFormulaValuesModal.scss";
 import { Button } from "../input/Button";
 import { CloseButton } from "../input/CloseButton";
-import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig.jpg";
+import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
 
 
 
 
-export function EnterFormulaValuesModal ({ showNonHistoriedDialog, onClose }) {
+export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClose }) {
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -23,7 +23,7 @@ export function EnterFormulaValuesModal ({ showNonHistoriedDialog, onClose }) {
         
         let resultTxt = (result).toFixed(2);
         showNonHistoriedDialog(
-            ShowFormulaResultModalContainer, { onClose: onClose, result: resultTxt }
+            ShowFormulaResultModalContainer, { scene: scene, onClose: onClose, result: resultTxt }
         )
     }
 
@@ -58,6 +58,7 @@ export function EnterFormulaValuesModal ({ showNonHistoriedDialog, onClose }) {
     
 
 EnterFormulaValuesModal.propTypes = {
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
 };

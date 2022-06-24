@@ -658,6 +658,14 @@ function registerNetworkSchemas() {
       {
         selector: ".tong-entity",
         component: "rotation"
+      },
+      {
+        selector: ".stopwatch-entity",
+        component: "position"
+      },
+      {
+        selector: ".stopwatch-entity",
+        component: "rotation"
       }
     ]
   });
@@ -670,6 +678,11 @@ function registerNetworkSchemas() {
       {
         component: "first-experiment-03",
         property: "grindBtnClicked"
+      },
+      {
+        selector: ".part03-wrapper",
+        component: "first-experiment-03",
+        property: "taraPressed"
       }
     ]
   });
@@ -680,6 +693,11 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
+        component: "first-experiment-04",
+        property: "glovesPopupClosed"
+      },
+      {
+        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "startBurnerClicked"
       },
@@ -716,6 +734,11 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
+        component: "first-experiment-06",
+        property: "formulaPopupClosed"
+      },
+      {
+        selector: ".part06-wrapper",
         component: "first-experiment-06",
         property: "onClickDiscussResult"
       },

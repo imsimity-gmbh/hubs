@@ -4,10 +4,11 @@ import { ShowFormulaResultModal } from "./ShowFormulaResultModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function ShowFormulaResultModalContainer({ onClose, result}) {
+export function ShowFormulaResultModalContainer({ scene, onClose, result}) {
 
     return (
         <ShowFormulaResultModal
+            scene={scene}
             onClose={onClose}
             result={result}
         />
@@ -15,6 +16,7 @@ export function ShowFormulaResultModalContainer({ onClose, result}) {
 }
 
 ShowFormulaResultModalContainer.propTypes = {
+    scene: PropTypes.object,
     onClose: PropTypes.func,
     result: PropTypes.number
 };

@@ -20,6 +20,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
   AFRAME.registerComponent("first-experiment-03", {
     schema: {
         grindBtnClicked: {default: false},
+        taraPressed: {default: false}
     },
   
     init: function() {
@@ -53,6 +54,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
             this.scaleEntity.object3D.visible = true;
             this.scaleSocket = this.el.querySelector(".scale-socket");
+            this.localTaraPressed = false;
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.crucibleEntity.object3D.visible = true;
@@ -112,6 +114,11 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.localGrindBtnClicked != this.data.grindBtnClicked) {
             this.grindSample();
             this.localGrindBtnClicked = this.data.grindBtnClicked;
+        }
+
+        if(this.localTaraPressed != this.data.taraPressed) {
+            this.proceedToWeighingSample();
+            this.localTaraPressed = this.data.taraPressed;
         }
     },
   
@@ -199,6 +206,17 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     onTaraPressed() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-03", "taraPressed", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    proceedToWeighingSample() {
         this.spoonSocketScale.components["entity-socket"].enableSocket();
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.getSampleFromMortar);

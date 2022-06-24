@@ -1,11 +1,11 @@
-img:hover {
-    cursor: pointer;
-    border: 1px solid white;
-}
-
 .idle {
     width: 90px;
     height: auto;
+}
+
+.idle:hover {
+    cursor: pointer;
+    border: 1px solid white;
 }
 
 .wrong {

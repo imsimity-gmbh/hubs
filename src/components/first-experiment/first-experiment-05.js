@@ -31,7 +31,7 @@ import { THREE } from "aframe";
             this.tongSocketGeneral = this.sceneEl.querySelector(".tong-socket");
             this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
             this.flameEntity = this.sceneEl.querySelector(".flame-entity");

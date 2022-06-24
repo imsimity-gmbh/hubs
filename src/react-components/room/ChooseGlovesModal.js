@@ -15,7 +15,7 @@ let gloves1Class = "idle";
 let gloves2Class = "idle";
 let gloves3Class = "idle";
 
-function onClickGlove(showNonHistoriedDialog, id) {
+function onClickGlove(scene, showNonHistoriedDialog, id) {
     gloves1Class = "idle";
     gloves2Class = "idle";
     gloves3Class = "idle";
@@ -31,14 +31,15 @@ function onClickGlove(showNonHistoriedDialog, id) {
     console.log(gloves3Class);
 
     showNonHistoriedDialog(
-        ChooseGlovesModalContainer, { showNonHistoriedDialog: showNonHistoriedDialog }
+        ChooseGlovesModalContainer, {scene: scene, showNonHistoriedDialog: showNonHistoriedDialog }
     );
 }
 
-export function ChooseGlovesModal ({ showNonHistoriedDialog, onClose }) {
+export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
 
     if(gloves1Class == "right") {
         setTimeout(() => {
+            scene.systems["first-experiments"].getTaskById("04").components["first-experiment-04"].onPopupClosed();
             onClose();
         }, 500);
     }
@@ -53,9 +54,9 @@ export function ChooseGlovesModal ({ showNonHistoriedDialog, onClose }) {
                 Wähle die richtigen Handschuhe aus. Du solltest sie tragen, damit du dich nicht verbrennst!
             </div>
             <div class="gloves">
-                <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(showNonHistoriedDialog, 1)}></img>
-                <img className={gloves2Class} src={gloves2} onClick={() => onClickGlove(showNonHistoriedDialog, 2)}></img>
-                <img className={gloves3Class} src={gloves3} onClick={() => onClickGlove(showNonHistoriedDialog, 3)}></img>
+                <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1)}></img>
+                <img className={gloves2Class} src={gloves2} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2)}></img>
+                <img className={gloves3Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 3)}></img>
             </div>
         </Modal>
     );
@@ -63,6 +64,7 @@ export function ChooseGlovesModal ({ showNonHistoriedDialog, onClose }) {
     
 
 ChooseGlovesModal.propTypes = {
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
 };

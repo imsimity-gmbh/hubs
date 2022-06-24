@@ -4,10 +4,11 @@ import { ChooseFormulaModal } from "./ChooseFormulaModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function ChooseFormulaModalContainer({showNonHistoriedDialog, onClose}) {
+export function ChooseFormulaModalContainer({scene, showNonHistoriedDialog, onClose}) {
 
     return (
         <ChooseFormulaModal
+            scene={scene}
             showNonHistoriedDialog={showNonHistoriedDialog}
             onClose={onClose}
         />
@@ -15,6 +16,7 @@ export function ChooseFormulaModalContainer({showNonHistoriedDialog, onClose}) {
 }
 
 ChooseFormulaModalContainer.propTypes = {
+    scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
 };

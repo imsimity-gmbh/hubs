@@ -6,6 +6,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
   AFRAME.registerComponent("first-experiment-06", {
     schema: {
+        formulaPopupClosed: {default: false},
         onClickDiscussResult: {default: false},
         onClickTidyUp: {default: false},
     },
@@ -27,8 +28,10 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.tongEntity = this.sceneEl.querySelector(".tong-entity");
             this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-entity");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+
+            this.localFormulaPopupClosed = false;
 
             this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
             this.discussResultBtn.object3D.addEventListener("interact", () => this.onDiscussResultClicked());
@@ -76,6 +79,11 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
     
     updateUI: function() {
+        if(this.localFormulaPopupClosed != this.data.formulaPopupClosed) {
+            this.proceedToDiscussResult();
+            this.localFormulaPopupClosed = this.data.formulaPopupClosed;
+        }
+
         if(this.localOnClickDiscussResult != this.data.onClickDiscussResult) {
             this.discussResult();
             this.localOnClickDiscussResult = this.data.onClickDiscussResult;
@@ -129,7 +137,21 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
     chooseFormula() {
         this.sceneEl.emit("gecolab_choose_formula");
-        this.discussResultBtn.object3D.visible = true; //Only afer Formula stuff finished
+    },
+
+    onPopUpClosed() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-06", "formulaPopupClosed", true);      
+      
+            this.updateUI();
+        });
+    },
+
+    proceedToDiscussResult() {
+        this.discussResultBtn.object3D.visible = true; 
     },
 
     onDiscussResultClicked() {
