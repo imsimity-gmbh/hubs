@@ -32,37 +32,51 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
       this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
 
+      this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
+      
       waitForDOMContentLoaded().then(() => {
         
-
-        this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
-
-        this.groundSample1 = this.el.querySelector(".ground-sample-1");
-        this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.9, 0.8, 0), this.groundSample1, false);
-        this.groundSample2 = this.el.querySelector(".ground-sample-2");
-        this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(0.9, 0.8, 0), this.groundSample2, false);
-
-       
-        this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
-        this.btnWrapper.object3D.visible = false;
-
-        this.groundSample1Btn = this.el.querySelector(".ground-sample-btn-1");
-        this.groundSample1Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(1));
-
-        this.groundSample2Btn = this.el.querySelector(".ground-sample-btn-2");
-        this.groundSample2Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(2));
+        const sceneEl = this.el.sceneEl;
+        this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
         
-        this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
-
-        this.multipleChoice = this.el.querySelector("#multiple-choice-question");
-        this.multipleChoice.object3D.visible = false; 
-
-        this.updateUI();
-
+        if (this.experiment02)
+        {
+          // TODO: unsubscribe on delete
+          this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+        }
+       
       });
 
       
+    },
+
+    delayedInit()
+    {
+      this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
+
+      this.groundSample1 = this.el.querySelector(".ground-sample-1");
+      this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.9, 0.8, 0), this.groundSample1, false);
+      this.groundSample2 = this.el.querySelector(".ground-sample-2");
+      this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(0.9, 0.8, 0), this.groundSample2, false);
+
+     
+      this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
+      this.btnWrapper.object3D.visible = false;
+
+      this.groundSample1Btn = this.el.querySelector(".ground-sample-btn-1");
+      this.groundSample1Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(1));
+
+      this.groundSample2Btn = this.el.querySelector(".ground-sample-btn-2");
+      this.groundSample2Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(2));
+      // TODO: Not Found...
+      this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+
+      this.multipleChoice = this.el.querySelector("#multiple-choice-question");
+      this.multipleChoice.object3D.visible = false; 
+
+      this.updateUI();
+
     },
 
     subscribe(eventName, fn)
@@ -183,3 +197,4 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
     }
 
   });
+

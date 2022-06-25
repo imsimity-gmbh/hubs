@@ -74,8 +74,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         const sceneEl = this.el.sceneEl;
         this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
         
-        console.log(this.experiment02);
-
         if (this.experiment02)
         {
           // TODO: unsubscribe on delete

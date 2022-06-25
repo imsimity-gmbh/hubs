@@ -1,6 +1,7 @@
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from "../gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { THREE } from "aframe";
 
 /**
  * First Experiment is the mangager class for the experiment
@@ -18,6 +19,12 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
      
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
+
+      var worldPos = new THREE.Vector3();
+      worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
+      console.log(worldPos);
+
+      // 0 0 0
 
       //local version of network variable:
       this.localStartClicked = false;

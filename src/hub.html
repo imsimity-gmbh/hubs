@@ -936,7 +936,11 @@
 
             <template id="interactable-first-experiment-01-camera">
                 <!--Ground samples:-->
-                <a-entity id="first-experiment-01-wrapper" first-experiment-01> <!--static-->
+                <a-entity id="first-experiment-01-wrapper" 
+                    first-experiment-01
+                    matrix-auto-update
+                    set-yxz-order
+                    > <!--static-->
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">
                         <a-entity class="ground-sample-1" position="1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
                         <a-entity class="ground-sample-2" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
@@ -1035,7 +1039,11 @@
             </template>
 
             <template id="interactable-first-experiment-02-camera">
-                <a-entity first-experiment-02 class="part02-wrapper"> 
+                <a-entity 
+                first-experiment-02 
+                matrix-auto-update
+                set-yxz-order
+                class="part02-wrapper"> 
                     <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
                         <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1169,7 +1177,11 @@
             </template>
 
             <template id="interactable-first-experiment-03-camera">
-                <a-entity first-experiment-03 class="ui interactable-ui part03-wrapper">
+                <a-entity
+                    matrix-auto-update
+                    set-yxz-order 
+                    first-experiment-03 
+                    class="ui interactable-ui part03-wrapper">
                     <a-entity class="mortar-socket-03" position="-0.55 0.5 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.5; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
@@ -1205,7 +1217,12 @@
             </template>
 
             <template id="interactable-first-experiment-04-camera">
-                <a-entity class="ui interactable-ui part04-wrapper" first-experiment-04>
+                <a-entity 
+                    class="ui interactable-ui part04-wrapper" 
+                    first-experiment-04
+                    matrix-auto-update
+                    set-yxz-order
+                    >
                     <!--Remove and spawn the template at the waypoint-->
                     <a-entity class="crucible-socket-04" position="0 1.05 0" rotation="0 0 0" entity-socket="acceptedEntities: .crucible-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
@@ -1239,7 +1256,12 @@
             </template>
 
             <template id="interactable-first-experiment-05-camera">
-                <a-entity class="ui interactable-ui part05-wrapper" first-experiment-05>
+                <a-entity 
+                    class="ui interactable-ui part05-wrapper" 
+                    first-experiment-05
+                    matrix-auto-update
+                    set-yxz-order
+                    >
                     <a-entity class="thermo-socket-05" position="0 1.45 -0.2" rotation="0 90 90" entity-socket="acceptedEntities: .thermo-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
@@ -1257,7 +1279,12 @@
             </template>
 
             <template id="interactable-first-experiment-06-camera">
-                <a-entity class="ui interactable-ui part06-wrapper" first-experiment-06>
+                <a-entity 
+                    class="ui interactable-ui part06-wrapper"
+                    first-experiment-06
+                    matrix-auto-update
+                    set-yxz-order
+                    >
                     <a-entity class="tong-socket-crucible-06" position="0.83 1.2 0" rotation="0 0 0" entity-socket="acceptedEntities: .tong-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>

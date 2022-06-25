@@ -672,7 +672,6 @@ function registerNetworkSchemas() {
         property: "grindBtnClicked"
       },
       {
-        selector: ".part03-wrapper",
         component: "first-experiment-03",
         property: "taraPressed"
       }
@@ -689,7 +688,6 @@ function registerNetworkSchemas() {
         property: "glovesPopupClosed"
       },
       {
-        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "startBurnerClicked"
       },
@@ -698,12 +696,10 @@ function registerNetworkSchemas() {
         property: "ctrlBtnClicked"
       },
       {
-        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "ctrlBtnIndex"
       },
       {
-        selector: ".part04-wrapper",
         component: "first-experiment-04",
         property: "stirBtnHeld"
       }
@@ -740,7 +736,6 @@ function registerNetworkSchemas() {
         property: "formulaPopupClosed"
       },
       {
-        selector: ".part06-wrapper",
         component: "first-experiment-06",
         property: "onClickDiscussResult"
       },
