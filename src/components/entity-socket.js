@@ -12,6 +12,10 @@ Fixing plan:
 
 import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-system";
 
+import { waitForDOMContentLoaded } from "../utils/async-utils";
+
+import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
+
 import { Vector3 } from "three";
 
 const blueRGB = new Vector3(0.165, 0.38, 0.749);
@@ -38,6 +42,54 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       //Get List of accepted Entities and store copy of their meshes in hover-meshes:
       this.acceptedEntities = []; 
+
+      
+      this.radius = this.data.radius;
+  
+      this.heldEntity = null;
+      this.wasHeldEntity = null;
+      this.inRadiusEntity = null;
+      this.attachedEntity = null;
+
+      this.distance = this.radius + 1; 
+
+      this.objectReleased = true;
+
+      //local version of network variables:
+      // this.localSnappedEntity = "";
+
+      //Observer-Arrays:
+      this.onPickedUpCallbacks = [];
+      this.onHoverEnterCallbacks = [];
+      this.onHoverExitCallbacks = [];
+      this.onReleasedCallbacks = [];
+      this.onSnapCallbacks = [];
+
+      //Disabled on Start?:
+      this.socketEnabled = this.data.enabled;
+
+      this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+
+      setTimeout(() => {
+        waitForDOMContentLoaded().then(() => { 
+          const sceneEl = this.el.sceneEl;
+          this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
+          
+          console.log(this.experiment02);
+  
+          if (this.experiment02)
+          {
+            // TODO: unsubscribe on delete
+            this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+          }
+  
+        });    
+      }, IMSIMITY_INIT_DELAY);
+    },
+
+    delayedInit()
+    {
+      console.log('Delayed init');
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {
         let component = this.sceneEl.querySelector(this.data.acceptedEntities[i]);
         if(component == null) {
@@ -65,29 +117,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
       this.rootRot = this.root.getAttribute("rotation");
 
-      this.radius = this.data.radius;
 
-      this.heldEntity = null;
-      this.wasHeldEntity = null;
-      this.inRadiusEntity = null;
-      this.attachedEntity = null;
-
-      this.distance = this.radius + 1; 
-
-      this.objectReleased = true;
-
-      //local version of network variables:
-      // this.localSnappedEntity = "";
-
-      //Observer-Arrays:
-      this.onPickedUpCallbacks = [];
-      this.onHoverEnterCallbacks = [];
-      this.onHoverExitCallbacks = [];
-      this.onReleasedCallbacks = [];
-      this.onSnapCallbacks = [];
-
-      //Disabled on Start?:
-      this.socketEnabled = this.data.enabled;
+      // TODO: Breaking ?
       if(this.socketEnabled == false) 
         this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
     },

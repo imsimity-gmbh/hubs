@@ -27,8 +27,24 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+        this.stopStir = false;
+        this.updatePos = false;
+        this.x = 0;
+        this.z = 0;
+        this.t = 0;
+
+        this.localGlovesPopupClosed = false;
+        this.localStirBtnHeld = false;
+        this.localStartBurnerClicked = false;
+        this.ctrlBtnBlocked = false;
+        this.localCtrlBtnClicked = false;
+        this.localCtrlBtnIndex = 0;
+
+        
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        this.expSystem.registerTask(this.el, "04");
+
         waitForDOMContentLoaded().then(() => { 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
@@ -45,19 +61,12 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
 
-            this.stopStir = false;
-            this.updatePos = false;
-            this.x = 0;
-            this.z = 0;
-            this.t = 0;
-
-            this.localGlovesPopupClosed = false;
+            
 
             this.startBtn = this.el.querySelector(".start-burner-btn");
             this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
             this.startBtn.object3D.visible = false;
 
-            this.localStartBurnerClicked = false;
 
             this.ctrlBtn00 = this.el.querySelector(".burner-ctrl-btn-0");
             this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
@@ -72,16 +81,13 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
             this.ctrlBtn03.object3D.visible = false;
 
-            this.ctrlBtnBlocked = false;
-            this.localCtrlBtnClicked = false;
-            this.localCtrlBtnIndex = 0;
 
             this.stiringBtn = this.el.querySelector(".stiring-btn");
             this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
             this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
             this.stiringBtn.object3D.visible = false;
 
-            this.localStirBtnHeld = false;
+
 
             // this.updateUI();
 
@@ -98,7 +104,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             if(this.firstExpPart03 != null)
                 this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 
-            this.expSystem.registerTask(this.el, "04");
         });
     },
 

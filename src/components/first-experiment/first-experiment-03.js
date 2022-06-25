@@ -29,9 +29,22 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
+    
+        this.grindSampleClicks = 0;
+        this.finishedGrinding = false;
+        this.localGrindBtnClicked = false;
+        this.weighedAmount = 0;
+        this.localTaraPressed = false;
+        
+        this.onFinishPart03Callbacks = [];
+
+        
+
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        this.expSystem.registerTask(this.el, "03");
+
 
         waitForDOMContentLoaded().then(() => { 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
             //Get entity socket of placing positions:
             this.sockets = [];
@@ -43,25 +56,22 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn = this.el.querySelector(".grind-sample-btn");
             this.grindSampleBtn.object3D.visible = false;
             this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
-            this.localGrindBtnClicked = false;
+
 
             this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
             this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
             this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
             this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
-            this.weighedAmount = 0;
 
+            // Missing Scale Entity
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
             this.scaleEntity.object3D.visible = true;
             this.scaleSocket = this.el.querySelector(".scale-socket");
-            this.localTaraPressed = false;
 
             this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
 
             // this.updateUI();
-
-            this.expSystem.registerTask(this.el, "03");
 
             //bind Callback funtion:
             this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
@@ -79,10 +89,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             if(this.firstExpPart02 != null)
                 this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
 
-            this.grindSampleClicks = 0;
-            this.finishedGrinding = false;
 
-            this.onFinishPart03Callbacks = [];
         });
     },
 
@@ -188,7 +195,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn.object3D.visible = false;
             this.mortarStick.object3D.visible = false;
         }
-
+        
         let inintialPos = this.mortarStick.getAttribute("position");
         this.mortarStick.setAttribute("position", {x: inintialPos.x, y: (inintialPos.y - 0.03), z: inintialPos.z});
         setTimeout(() => {

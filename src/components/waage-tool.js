@@ -12,11 +12,21 @@ AFRAME.registerComponent("waage-tool", {
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+        this.weight = 0;
+        this.containerWeight = 64.55;
+        this.weightAfterGlowing = 0;
+        this.displayWeight = this.weight + "g";
+
+        this.ready = true;
+        this.tooMuch = false;
+
+        this.onContainerPlacedCallbacks = [];
+        this.onTaraPressedCallbacks = [];
+        this.onRightAmountCallbacks = [];
+        this.onGlowLossWeighedCallbacks = [];
+
         waitForDOMContentLoaded().then(() => { 
-            this.weight = 0;
-            this.containerWeight = 64.55;
-            this.weightAfterGlowing = 0;
-            this.displayWeight = this.weight + "g";
+            
 
             this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
             this.proceedToFormula = AFRAME.utils.bind(this.proceedToFormula, this);
@@ -24,11 +34,13 @@ AFRAME.registerComponent("waage-tool", {
 
             this.crucibleSocketTripod = this.sceneEl.querySelector(".crucible-socket-04");
 
+            //TODO: NOT FOUND
             this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
+
+            console.log(this.scaleSocket);
+
             this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
 
-            this.ready = true;
-            this.tooMuch = false;
 
             this.displayText = this.el.querySelector(".display-text");
             this.displayText.setAttribute("text", { value: this.displayWeight });
@@ -41,10 +53,7 @@ AFRAME.registerComponent("waage-tool", {
             this.glowLossBtn.object3D.addEventListener("interact", () => this.proceedToFormula());
             this.glowLossBtn.object3D.visible = false;
 
-            this.onContainerPlacedCallbacks = [];
-            this.onTaraPressedCallbacks = [];
-            this.onRightAmountCallbacks = [];
-            this.onGlowLossWeighedCallbacks = [];
+           
             // this.onContainerPlaced(); //nur drin bis entity-socket auf waage klappt
         });
     },

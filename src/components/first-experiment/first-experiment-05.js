@@ -20,8 +20,29 @@ import { THREE } from "aframe";
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+        this.measureTemp = false;
+        this.temp = 340;
+        this.measuredCounter = 0;
+
+        this.localStirBtnHeld = false;
+        this.stopStiring = true;
+        this.updatePos = false;
+        this.x = 0;
+        this.z = 0;
+        this.t = 0;
+        
+        this.ctrlBtnBlocked = true;
+        this.localCtrlBtnClicked = false;
+        this.localCtrlBtnIndex = 2;
+
+        this.minuteMark1FinishedCallbacks = [];
+        this.stopBurnerSoundCallbacks = [];
+
+        
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        this.expSystem.registerTask(this.el, "05");
+
         waitForDOMContentLoaded().then(() => { 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
             this.thermoSocket05 = this.el.querySelector(".thermo-socket-05");
             this.thermoSocketGeneral = this.sceneEl.querySelector(".thermo-socket")
@@ -32,6 +53,9 @@ import { THREE } from "aframe";
             this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
 
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+
+            console.log(this.stopwatchEntity);
+
             this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
             this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
             this.flameEntity = this.sceneEl.querySelector(".flame-entity");
@@ -39,21 +63,15 @@ import { THREE } from "aframe";
             this.tongEntity = this.sceneEl.querySelector(".tong-entity");
             this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
-            this.measureTemp = false;
-            this.temp = 340;
+            
+
             this.tempText = this.thermoEntity.querySelector(".thermo-text");
-            this.measuredCounter = 0;
+            
 
             this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
-            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
-            this.localStirBtnHeld = false;
+            this.stiringBtn.object3D.addEventListener("holdable-button-down", this.onHoldStirBtnDown);
+            this.stiringBtn.object3D.addEventListener("holdable-button-up", this.onReleaseStirBtn);
 
-            this.stopStiring = true;
-            this.updatePos = false;
-            this.x = 0;
-            this.z = 0;
-            this.t = 0;
 
             this.ctrlBtn00 = this.sceneEl.querySelector(".burner-ctrl-btn-0");
             this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
@@ -64,9 +82,6 @@ import { THREE } from "aframe";
             this.ctrlBtn03 = this.sceneEl.querySelector(".burner-ctrl-btn-3");
             this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
 
-            this.ctrlBtnBlocked = true;
-            this.localCtrlBtnClicked = false;
-            this.localCtrlBtnIndex = 2;
 
             this.updateUI();
 
@@ -85,16 +100,16 @@ import { THREE } from "aframe";
             this.cruciblePlacedOnTripod2 = AFRAME.utils.bind(this.cruciblePlacedOnTripod2, this);
             this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
 
+            // TODO: StopwatchEntity not found, I guess
+
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.startCoolingTask);
             }, 300);
 
-            this.minuteMark1FinishedCallbacks = [];
-            this.stopBurnerSoundCallbacks = [];
 
-            this.expSystem.registerTask(this.el, "05");
+
         });
     },
 
@@ -278,6 +293,9 @@ import { THREE } from "aframe";
     },
 
     onClickCtrlBtn(index) {
+
+        console.log('OnClickCtrlBtn');
+
         if(this.ctrlBtnBlocked)
             return;
 
@@ -293,6 +311,7 @@ import { THREE } from "aframe";
     },
 
     cutBunsenBurner() {
+        //TODO: Error here
         this.ctrlBtnBlocked = true;
         this.measureTemp = false;
         this.ctrlBtn02.object3D.visible = false;

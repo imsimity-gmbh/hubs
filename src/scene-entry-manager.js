@@ -583,13 +583,13 @@ export default class SceneEntryManager {
 
   _startFirstExperimentPos01 = () => {
     this.scene.addEventListener("action_toggle_first_experiment_01_start", () => {
+      this._spawnStopwatch(".table_main_01");
+      this._spawnFirstExperimentPart03(".table_main_01");
       this._spawnFirstExperimentPart01(".table_main_01");
       this._spawnFirstExperimentPart02(".table_side_01");
-      this._spawnFirstExperimentPart03(".table_main_01");
       this._spawnFirstExperimentPart04(".table_main_01");
       this._spawnFirstExperimentPart05(".table_main_01");
       this._spawnFirstExperimentPart06(".table_main_01");
-      this._spawnStopwatch(".table_main_01");
     });
   };
 
@@ -623,13 +623,13 @@ export default class SceneEntryManager {
 
   _startFirstExperimentPos02 = () => {
     this.scene.addEventListener("action_toggle_first_experiment_02_start", () => {
+      this._spawnStopwatch(".table_main_02");
+      this._spawnFirstExperimentPart03(".table_main_02");
       this._spawnFirstExperimentPart01(".table_main_02");
       this._spawnFirstExperimentPart02(".table_side_02");
-      this._spawnFirstExperimentPart03(".table_main_02");
       this._spawnFirstExperimentPart04(".table_main_02");
       this._spawnFirstExperimentPart05(".table_main_02");
       this._spawnFirstExperimentPart06(".table_main_02");
-      this._spawnStopwatch(".table_main_02");
     });
   };
 
@@ -663,13 +663,13 @@ export default class SceneEntryManager {
 
   _startFirstExperimentPos03 = () => {
     this.scene.addEventListener("action_toggle_first_experiment_03_start", () => {
+      this._spawnStopwatch(".table_main_03");
+      this._spawnFirstExperimentPart03(".table_main_03");
       this._spawnFirstExperimentPart01(".table_main_03");
       this._spawnFirstExperimentPart02(".table_side_03");
-      this._spawnFirstExperimentPart03(".table_main_03");
       this._spawnFirstExperimentPart04(".table_main_03");
       this._spawnFirstExperimentPart05(".table_main_03");
       this._spawnFirstExperimentPart06(".table_main_03");
-      this._spawnStopwatch(".table_main_03");
     });
   };
 

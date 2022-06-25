@@ -22,8 +22,19 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+      this.localGroundSampleClicked = false;
+      this.localGroundSampleIndex = 0;
+      this.startPart02Callbacks = [];
+      this.groundSampleCallbacks = [];
+
+      this.expSystem = this.el.sceneEl.systems["first-experiments"];
+      this.expSystem.registerTask(this.el, "01");
+
+      this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
+
+
       waitForDOMContentLoaded().then(() => {
-        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        
 
         this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
 
@@ -32,9 +43,7 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
         this.groundSample2 = this.el.querySelector(".ground-sample-2");
         this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(0.9, 0.8, 0), this.groundSample2, false);
 
-        this.localGroundSampleClicked = false;
-        this.localGroundSampleIndex = 0;
-
+       
         this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
         this.btnWrapper.object3D.visible = false;
 
@@ -51,12 +60,9 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
         this.updateUI();
 
-        this.expSystem.registerTask(this.el, "01");
       });
 
-      this.startPart02Callbacks = [];
-      this.groundSampleCallbacks = [];
-      this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
+      
     },
 
     subscribe(eventName, fn)
@@ -117,6 +123,9 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
     },
 
     startPart01() {
+
+      console.log('Show Ground Sample');
+
       this.groundSample1.object3D.visible = true;
       this.groundSample2.object3D.visible = true;
 

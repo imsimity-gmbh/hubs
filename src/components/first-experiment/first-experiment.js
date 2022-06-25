@@ -19,21 +19,20 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+      //local version of network variable:
+      this.localStartClicked = false;
+
+      this.expSystem = this.el.sceneEl.systems["first-experiments"];
+      this.expSystem.register(this.el);
+
       waitForDOMContentLoaded().then(() => {
-        this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
         this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
         this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
-
-        //local version of network variable:
-        this.localStartClicked = false;
-
-        //Get all Exp-parts and show them when start is clicked:
         
 
         this.updateUI();
 
-        this.expSystem.register(this.el);
       });
 
     },
@@ -70,6 +69,9 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
       this.firstExpStartBtn.object3D.visible = false;
       this.firstExpPart01 = this.expSystem.getTaskById("01");
       this.firstExpPart02 = this.expSystem.getTaskById("02");
+
+      console.log(this.firstExpPart01);
+      console.log(this.firstExpPart02);
 
       this.firstExpPart01.components["first-experiment-01"].startPart01(); //for some reason this.firstExpPart01 is undefined for second user (observer)
       this.firstExpPart02.components["first-experiment-02"].showExpItems();

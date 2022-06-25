@@ -18,8 +18,15 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+        this.localFormulaPopupClosed = false;
+        this.localOnClickTidyUp = false;
+        this.localOnClickDiscussResult = false;
+
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        this.expSystem.registerTask(this.el, "06");
+        
         waitForDOMContentLoaded().then(() => { 
-            this.expSystem = this.el.sceneEl.systems["first-experiments"];
+            
 
             this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
             this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
@@ -31,21 +38,17 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
-            this.localFormulaPopupClosed = false;
-
             this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
-            this.discussResultBtn.object3D.addEventListener("interact", () => this.onDiscussResultClicked());
+            this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
             this.discussResultBtn.object3D.visible = false;
-            this.localOnClickDiscussResult = false;
 
             this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
             this.multipleChoice06.object3D.visible = false;
             this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
 
             this.tidyUpBtn = this.el.querySelector(".tidy-up-btn");
-            this.tidyUpBtn.object3D.addEventListener("interact", () => this.onTidyUpClicked());
+            this.tidyUpBtn.object3D.addEventListener("interact", this.onTidyUpClicked);
             this.tidyUpBtn.object3D.visible = false;
-            this.localOnClickTidyUp = false;
 
             this.updateUI();
 
@@ -58,13 +61,14 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
             this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
 
+            // TODO: StopwatchEntity not found, I guess
+
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
                 this.firstExpPart01 = this.expSystem.getTaskById("01");
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
             }, 300);
 
-            this.expSystem.registerTask(this.el, "06");
         });
     },
 
