@@ -70,21 +70,20 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
-      setTimeout(() => {
-        waitForDOMContentLoaded().then(() => { 
-          const sceneEl = this.el.sceneEl;
-          this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
-          
-          console.log(this.experiment02);
-  
-          if (this.experiment02)
-          {
-            // TODO: unsubscribe on delete
-            this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
-          }
-  
-        });    
-      }, IMSIMITY_INIT_DELAY);
+      waitForDOMContentLoaded().then(() => { 
+        const sceneEl = this.el.sceneEl;
+        this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
+        
+        console.log(this.experiment02);
+
+        if (this.experiment02)
+        {
+          // TODO: unsubscribe on delete
+          this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+        }
+
+      });    
+    
     },
 
     delayedInit()
