@@ -785,6 +785,10 @@ function registerNetworkSchemas() {
         property: "taraPressed"
       },
       {
+        component: "first-experiment-03",
+        property: "randomAmounts"
+      },
+      {
         selector: ".mortar-socket-03",
         component: "entity-socket",
         property: "triggerOnSnap"

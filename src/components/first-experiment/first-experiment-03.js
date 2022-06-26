@@ -21,7 +21,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
   AFRAME.registerComponent("first-experiment-03", {
     schema: {
         grindBtnClicked: {default: false},
-        taraPressed: {default: false}
+        taraPressed: {default: false},
+        randomAmounts:  {default: []},
     },
   
     init: function() {
@@ -55,8 +56,25 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "03");
 
+        this.amountsCount = 0;
+
+        
+
 
         waitForDOMContentLoaded().then(() => { 
+
+            // Network the Random vars
+            if (NAF.utils.isMine(this.el))
+            { 
+                var array = [];
+
+                for(var i = 0; i < 10; i++)
+                {
+                    array.push(Math.floor((Math.random() * 15) + 5));
+                }
+
+                this.el.setAttribute("first-experiment-03", "randomAmounts", array); 
+            }
 
             // this.updateUI();
             setTimeout(() => {
@@ -94,8 +112,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
 
             
-
-
+            
         });
     },
 
@@ -255,7 +272,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.scaleEntity.components["waage-tool"].removeWeight();
     },
     addSampleToCrucible() {
-        let amount = Math.floor((Math.random() * 15) + 5);
+
+        let amount = this.data.randomAmounts[this.amountsCount];
+        this.amountsCount++;        
+        
         this.weighedAmount += amount;
 
         if(this.weighedAmount <= 50)
