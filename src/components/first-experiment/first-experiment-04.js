@@ -40,6 +40,13 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.localCtrlBtnClicked = false;
         this.localCtrlBtnIndex = 0;
 
+        //bind Callback funtions:
+        this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
+        this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
+        this.onLightBurner = AFRAME.utils.bind(this.onLightBurner, this);
+        this.onReplaceLighter = AFRAME.utils.bind(this.onReplaceLighter, this);
+        this.onPlaceGlassstick = AFRAME.utils.bind(this.onPlaceGlassstick, this);
+        this.stopBurnerSound = AFRAME.utils.bind(this.stopBurnerSound, this);
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "04");
@@ -91,13 +98,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             // this.updateUI();
 
-            //bind Callback funtions:
-            this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
-            this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
-            this.onLightBurner = AFRAME.utils.bind(this.onLightBurner, this);
-            this.onReplaceLighter = AFRAME.utils.bind(this.onReplaceLighter, this);
-            this.onPlaceGlassstick = AFRAME.utils.bind(this.onPlaceGlassstick, this);
-            this.stopBurnerSound = AFRAME.utils.bind(this.stopBurnerSound, this);
 
             this.firstExpPart03 = this.expSystem.getTaskById("03");
             this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");

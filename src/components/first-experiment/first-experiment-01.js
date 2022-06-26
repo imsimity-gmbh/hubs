@@ -3,6 +3,7 @@ import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
 import groundSampleSrc1 from "../../assets/models/GecoLab/ground-sample-coarse-1.glb";
 import groundSampleSrc2 from "../../assets/models/GecoLab/ground-sample-coarse-2.glb";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
 const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
@@ -34,25 +35,34 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
+      setTimeout(() => {
+        waitForDOMContentLoaded().then(() => {
+        
+          const sceneEl = this.el.sceneEl;
+          this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
+          
+          if (this.experiment02)
+          {
+            // TODO: unsubscribe on delete
+            this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+          }
+          else  
+          {
+            console.log('first-experiment-02 not found');
+            // Fallback, we trigger manualy the delayed init
+            this.delayedInit();
+          }
+         
+        });  
+      }, IMSIMITY_INIT_DELAY * 0.9);
       
-      waitForDOMContentLoaded().then(() => {
-        
-        const sceneEl = this.el.sceneEl;
-        this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
-        
-        if (this.experiment02)
-        {
-          // TODO: unsubscribe on delete
-          this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
-        }
-       
-      });
-
       
     },
 
     delayedInit()
     {
+      console.log('Delayed Init FE-01');
+
       this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
 
       this.groundSample1 = this.el.querySelector(".ground-sample-1");
