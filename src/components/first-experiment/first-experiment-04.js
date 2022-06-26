@@ -6,6 +6,7 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
 import flameModelSrc from "../../assets/models/GecoLab/flame.glb";
 import { THREE } from "aframe";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 
@@ -53,7 +54,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
         waitForDOMContentLoaded().then(() => { 
 
-            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+            setTimeout(() => {
+
+                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
             this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
             this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
             this.flameEntity = this.sceneEl.querySelector(".flame-entity");
@@ -96,14 +99,13 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
 
 
-            // this.updateUI();
-
-
             this.firstExpPart03 = this.expSystem.getTaskById("03");
             this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
             if(this.firstExpPart03 != null)
                 this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 
+            }, IMSIMITY_INIT_DELAY);
+        
         });
     },
 
@@ -122,6 +124,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
     
     updateUI: function() {
+
+        console.log(this.data);
+
         if(this.localGlovesPopupClosed != this.data.glovesPopupClosed) {
             this.proceedToStiring();
             this.localGlovesPopupClosed = this.data.glovesPopupClosed;
@@ -186,7 +191,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
       
             this.el.setAttribute("first-experiment-04", "stirBtnHeld", true);      
       
-            this.updateUI();
         });
     },
 
@@ -197,7 +201,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
       
             this.el.setAttribute("first-experiment-04", "stirBtnHeld", false);      
       
-            this.updateUI();
         });
     },
 
@@ -232,6 +235,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     startBurner() {
+
+        console.log("Starting Burner");
+
         this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.firstExpPart05.components["first-experiment-05"].subscribe("stopBurnerSound", this.stopBurnerSound);
         this.startBtn.object3D.visible = false;
