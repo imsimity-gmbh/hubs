@@ -23,12 +23,12 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
  AFRAME.registerComponent("entity-socket", {
     schema: {
+      triggerOnSnap: {default: false},
+      triggerOnPickedUp: {default: false},
       acceptedEntities: {default: []},
       radius: {default: 0},
       snappedEntity: {default: ""},
       enabled: {default: true},
-      triggerOnSnap: {default: false},
-      triggerOnPickedUp: {default: false},
     },
   
     init: function() {
@@ -89,6 +89,10 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
             // TODO: unsubscribe on delete
             this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
           }
+          else
+          {
+            console.log('ERROR ! entity-socket not well initialized');
+          }
   
         });    
       }, IMSIMITY_INIT_DELAY * 0.5);
@@ -105,8 +109,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           continue;
         }
         this.acceptedEntities.push(component);
-        this.initialPos = component.getAttribute("position");
-        // console.log(this.initialPos);
+
+        // If we don't copy, this vector will be always = to the current pos (reference not copy)
+        this.initialPos = new Vector3().copy(component.object3D.position);
 
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
@@ -177,9 +182,16 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       }
     },
 
+    update() {
+      waitForDOMContentLoaded().then(() => { 
+        this.updateUI();
+      });
+    },
+
     updateUI: function() {
 
-      if(this.localTriggerOnSnap != this.data.triggerOnSnap) {
+
+      if(this.localTriggerOnSnap != this.data.triggerOnSnap && this.data.triggerOnSnap == true) {
 
         this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
         this.playSound(SOUND_SNAP_ENTITY);
@@ -191,7 +203,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         this.localTriggerOnSnap = this.data.localTriggerOnSnap;
       }
 
-      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
+      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp  && this.data.triggerOnPickedUp == true) {
 
         this.disableSocket();
 
@@ -261,8 +273,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           NAF.utils.takeOwnership(networkedEl);
     
           this.el.setAttribute("entity-socket", "triggerOnPickedUp", true); 
-          
-          this.updateUI();
         });
 
         return;
@@ -311,9 +321,10 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     {
       this.heldEntity = null;
       this.wasHeldEntity = entity;
-      // console.log(this.initialPos);
-      // entity.setAttribute("position", {x: this.initialPos.x, y: this.initialPos.y, z: this.initialPos.z});
-      // console.log(entity);
+      
+      console.log(this.initialPos);
+      entity.setAttribute("position", {x: this.initialPos.x, y: this.initialPos.y, z: this.initialPos.z});
+      console.log(entity);
 
       this.objectReleased = true;
 
@@ -333,13 +344,17 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       var parent = this.attachedEntity.object3D.parent;
       
       this.root.object3D.attach(this.attachedEntity.object3D);
+
       this.attachedEntity.object3D.position.set(0, 0, 0);
-      var temp = this.attachedEntity.object3D.position;
-      
+      this.attachedEntity.object3D.rotation.set(0, 0, 0);
+
+      var tempPos = this.attachedEntity.object3D.position;
+      var tempRot = this.attachedEntity.object3D.rotation;
+
       parent.attach(this.attachedEntity.object3D);
 
-      this.attachedEntity.setAttribute("position", {x: temp.x, y: temp.y, z: temp.z});
-      this.attachedEntity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
+      this.attachedEntity.setAttribute("position", {x: tempPos.x, y: tempPos.y, z: tempPos.z});
+      this.attachedEntity.setAttribute("rotation", {x: tempRot.x, y: tempRot.y, z: tempRot.z});
       
       this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
 
@@ -354,8 +369,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("entity-socket", "triggerOnSnap", true); 
-        
-        this.updateUI();
       });
       
     },
@@ -392,7 +405,15 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     enableSocket() {
       this.socketEnabled = true;
       this.objectReleased = true;
+
+      // Reseting values
+      if (NAF.utils.isMine(this.el))
+      { 
+        this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
+        this.el.setAttribute("entity-socket", "triggerOnPickedUp", false);
+      }
       
+      // error hoverMeshes mortar
       this.hoverMeshes.children[this.meshIndex].object3D.visible = true;
       this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
 

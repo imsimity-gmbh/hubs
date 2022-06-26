@@ -36,6 +36,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.localGrindBtnClicked = false;
         this.weighedAmount = 0;
         this.localTaraPressed = false;
+
+        this.sockets = [];
         
         this.onFinishPart03Callbacks = [];
 
@@ -56,38 +58,42 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
         waitForDOMContentLoaded().then(() => { 
 
-            //Get entity socket of placing positions:
-            this.sockets = [];
-            this.mortarSocket03 = this.el.querySelector(".mortar-socket-03");
-            this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
-            this.spoonSocket03 = this.el.querySelector(".spoon-socket-03");
-            this.spoonSocketScale = this.el.querySelector(".spoon-socket-scale");
-
-            this.grindSampleBtn = this.el.querySelector(".grind-sample-btn");
-            this.grindSampleBtn.object3D.visible = false;
-            this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
-
-
-            this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
-            this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
-            this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
-            this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
-
             // this.updateUI();
             setTimeout(() => {
+                this.mortarSocket03 = this.el.querySelector(".mortar-socket-03");
+                this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
+                this.spoonSocket03 = this.el.querySelector(".spoon-socket-03");
+                this.spoonSocketScale = this.el.querySelector(".spoon-socket-scale");
+
+                this.grindSampleBtn = this.el.querySelector(".grind-sample-btn");
+                this.grindSampleBtn.object3D.visible = false;
+                this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
+
+
+                this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
+                this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
+                this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
+                this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
+
+            
                 this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
                 this.scaleEntity.object3D.visible = true;
                 this.scaleSocket = this.el.querySelector(".scale-socket");
 
                 this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
                 this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
+
+                //Subscribe to callback after placing mortar
+                this.firstExpPart02 = this.expSystem.getTaskById("02");
+                if(this.firstExpPart02 != null)
+                    this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
+                else
+                    console.log('ERRROR !!!! ');
+
             }, IMSIMITY_INIT_DELAY);
 
 
-            //Subscribe to callback after placing mortar
-            this.firstExpPart02 = this.expSystem.getTaskById("02");
-            if(this.firstExpPart02 != null)
-                this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
+            
 
 
         });
@@ -151,6 +157,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     startPart03() {
+        // Bug in enableSocket
         this.mortarSocket03.components["entity-socket"].enableSocket();
         this.mortarSocket03.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
         this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
@@ -196,6 +203,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.mortarStick.object3D.visible = false;
         }
         
+        //TODO: Mortar Stick is unkown
         let inintialPos = this.mortarStick.getAttribute("position");
         this.mortarStick.setAttribute("position", {x: inintialPos.x, y: (inintialPos.y - 0.03), z: inintialPos.z});
         setTimeout(() => {
@@ -204,6 +212,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     showScale() {
+
+        console.log('Show Scale');
+
         this.playSound(SOUND_ADD_SAMPLE);
         this.scaleEntity.object3D.visible = true;
         this.scaleSocket.components["entity-socket"].enableSocket();

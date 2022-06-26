@@ -992,9 +992,9 @@
                                 <a-entity text=" value:Antwort abgeben; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                     </a-entity> <!--static-->
-
+                    
                     <a-entity class="experiment-table-wrapper" position="0 -0.1 0">
-                        <a-entity class="bunsen-burner-socket" position="0 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .bunsen-burner-entity; radius: 0.8; enabled: true;">
+                        <a-entity id="bunsen-burner-socket" class="bunsen-burner-socket" position="0 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .bunsen-burner-entity; radius: 0.8; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity> <!--static-->
@@ -1049,6 +1049,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1059,6 +1060,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
@@ -1068,6 +1070,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1078,6 +1081,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1088,6 +1092,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1098,6 +1103,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1107,6 +1113,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1117,6 +1124,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1126,6 +1134,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1144,6 +1153,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1154,6 +1164,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
@@ -1164,6 +1175,7 @@
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
+                            set-yxz-order       
                             set-unowned-body-kinematic
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 

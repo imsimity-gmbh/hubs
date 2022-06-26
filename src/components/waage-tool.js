@@ -1,8 +1,10 @@
 import { waitForDOMContentLoaded } from "../utils/async-utils";
+import { IMSIMITY_INIT_DELAY } from "../utils/imsimity";
 
 AFRAME.registerComponent("waage-tool", {
     schema: {
         rightAmount: {default: 0},
+        taraPressed: {default: false}
     },
   
     init: function() {
@@ -17,6 +19,8 @@ AFRAME.registerComponent("waage-tool", {
         this.weightAfterGlowing = 0;
         this.displayWeight = this.weight + "g";
 
+        this.localTaraPressed = false;
+
         this.ready = true;
         this.tooMuch = false;
 
@@ -25,34 +29,39 @@ AFRAME.registerComponent("waage-tool", {
         this.onRightAmountCallbacks = [];
         this.onGlowLossWeighedCallbacks = [];
 
+        this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
+        this.proceedToFormula = AFRAME.utils.bind(this.proceedToFormula, this);
+        this.onPickUpContainer = AFRAME.utils.bind(this.onPickUpContainer, this);
+
+
         waitForDOMContentLoaded().then(() => { 
+
+            setTimeout(() => {
+
+                this.crucibleSocketTripod = this.sceneEl.querySelector(".crucible-socket-04");
+
+                this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
+
+                console.log(this.scaleSocket);
+
+                this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
+
+
+                this.displayText = this.el.querySelector(".display-text");
+                this.displayText.setAttribute("text", { value: this.displayWeight });
+
+                this.taraBtn = this.el.querySelector(".tara-btn");
+                this.taraBtn.object3D.addEventListener("interact", () => this.tara());
+               
+
+                this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
+                this.glowLossBtn.object3D.addEventListener("interact", () => this.proceedToFormula());
+                this.glowLossBtn.object3D.visible = false;
+
+
+            }, IMSIMITY_INIT_DELAY);
+           
             
-
-            this.onContainerPlaced = AFRAME.utils.bind(this.onContainerPlaced, this);
-            this.proceedToFormula = AFRAME.utils.bind(this.proceedToFormula, this);
-            this.onPickUpContainer = AFRAME.utils.bind(this.onPickUpContainer, this);
-
-            this.crucibleSocketTripod = this.sceneEl.querySelector(".crucible-socket-04");
-
-            //TODO: NOT FOUND
-            this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
-
-            console.log(this.scaleSocket);
-
-            this.scaleSocket.components["entity-socket"].subscribe("onSnap", this.onContainerPlaced);
-
-
-            this.displayText = this.el.querySelector(".display-text");
-            this.displayText.setAttribute("text", { value: this.displayWeight });
-
-            this.taraBtn = this.el.querySelector(".tara-btn");
-            this.taraBtn.object3D.addEventListener("interact", () => this.tara(false));
-            this.taraPressed = false;
-
-            this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
-            this.glowLossBtn.object3D.addEventListener("interact", () => this.proceedToFormula());
-            this.glowLossBtn.object3D.visible = false;
-
            
             // this.onContainerPlaced(); //nur drin bis entity-socket auf waage klappt
         });
@@ -97,9 +106,26 @@ AFRAME.registerComponent("waage-tool", {
               break;
         }
     },
+
+    update() {
+        waitForDOMContentLoaded().then(() => { 
+          this.updateUI();
+        });
+    },
     
     updateUI: function() {
 
+        if(this.localTaraPressed != this.data.taraPressed && this.data.taraPressed == true) {
+            this.weight = 0;
+            this.displayWeight = this.weight + "g";
+            this.displayText.setAttribute("text", { value: this.displayWeight });
+            this.taraPressed = true;
+        
+    
+            this.onTaraPressedCallbacks.forEach(cb => {
+                cb();
+            });
+        }
     },
   
     tick: function() {
@@ -162,31 +188,17 @@ AFRAME.registerComponent("waage-tool", {
         });
     },
 
-    tara(skip) {
-        if(this.ready == false || this.taraPressed)
+    tara() {
+        if(this.ready == false || this.localTaraPressed)
             return;
 
-        if(skip == false) {
-            this.weight = 0;
-            this.displayWeight = this.weight + "g";
-            this.displayText.setAttribute("text", { value: this.displayWeight });
-            this.taraPressed = true;
-        }
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
 
-        if(skip) {
-            this.weight = 50;
-            this.displayWeight = this.weight + "g";
-            this.displayText.setAttribute("text", { value: this.displayWeight });
-            if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + this.containerWeight)) {
-                this.ready = false;
-                this.onRightAmountCallbacks.forEach(cb => {
-                    cb();
-                });
-            }
-        }
-        this.onTaraPressedCallbacks.forEach(cb => {
-            cb();
+            NAF.utils.takeOwnership(networkedEl);
+        
+            this.el.setAttribute("waage-tool", "taraPressed", true); 
         });
+    
     },
 
     setGlowLossWeight(weight) {

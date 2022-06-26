@@ -3,6 +3,7 @@ import { loadModel } from ".././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
 import { THREE } from "aframe";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -99,14 +100,14 @@ import { THREE } from "aframe";
             this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
             this.cruciblePlacedOnTripod2 = AFRAME.utils.bind(this.cruciblePlacedOnTripod2, this);
             this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
-
-            // TODO: StopwatchEntity not found, I guess
-
+            this.onHoldStirBtnDown = AFRAME.utils.bind(this.onHoldStirBtnDown, this);
+            this.onReleaseStirBtn = AFRAME.utils.bind(this.onReleaseStirBtn, this);
+            
             setTimeout(() => {
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.startCoolingTask);
-            }, 300);
+            }, IMSIMITY_INIT_DELAY);
 
 
 
@@ -135,8 +136,33 @@ import { THREE } from "aframe";
           this.updateUI();
         });
     },
+
+    onHoldStirBtnDown() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "stirBtnHeld", true);      
+            
+            // TODO: Unknown
+            this.updateUI();
+        });
+    },
+
+    onReleaseStirBtn() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+
+            this.el.setAttribute("first-experiment-05", "stirBtnHeld", false);      
+            
+            // TODO: Unknown
+            this.updateUI();
+        });
+    },
     
     updateUI: function() {
+
         if(this.localStirBtnHeld != this.data.stirBtnHeld) {
             if(this.data.stirBtnHeld) 
                 this.stirBtnDown();
@@ -159,6 +185,7 @@ import { THREE } from "aframe";
             this.turnOffBunsenBurner();
             this.localOnClickTurnOffBunsenBurner = this.data.onClickTurnOffBunsenBurner;
         }
+        
     },
   
     tick: function() {
@@ -199,27 +226,7 @@ import { THREE } from "aframe";
         }
     },
 
-    onHoldStirBtnDown() {
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("first-experiment-05", "stirBtnHeld", true);      
-      
-            this.updateUI();
-        });
-    },
-
-    onReleaseStirBtn() {
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-    
-            NAF.utils.takeOwnership(networkedEl);
-
-            this.el.setAttribute("first-experiment-05", "stirBtnHeld", false);      
-      
-            this.updateUI();
-        });
-    },
 
     stirBtnDown() {
         this.updatePos = true;

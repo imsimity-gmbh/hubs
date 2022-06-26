@@ -217,7 +217,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     onPlacedCrucible() {
         this.startBtn.object3D.visible = true;
-        this.scaleEntity.components["waage-tool"].tara(false);
+        this.scaleEntity.components["waage-tool"].tara();
     },
 
     onStartBurnerClicked() {

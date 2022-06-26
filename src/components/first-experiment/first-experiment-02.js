@@ -68,6 +68,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.expSystem.registerTask(this.el, "02");
 
         this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+        this.tryTriggeringCallbacks = AFRAME.utils.bind(this.tryTriggeringCallbacks, this);
 
         waitForDOMContentLoaded().then(() => { 
             
@@ -200,7 +201,6 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
     subscribe(eventName, fn)
     {
-        console.log("Subscribing " + eventName);
         switch(eventName) {
             case "onFinishPart02":
               this.onFinishPart02Callbacks.push(fn);
@@ -259,16 +259,29 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
         if (this.modelsSpawned == this.totalModels)
         {
-            console.log("All models spawned for experiment, calling callbacks");
+            this.tryTriggeringCallbacks();   
+        }
+        
+    },
 
-            console.log(this.onObjectSpawnedPart02Callbacks);
+    tryTriggeringCallbacks()
+    {
+        if (this.onObjectSpawnedPart02Callbacks.length == 24)
+        {
+            console.log("all callback subscribed (" + this.onObjectSpawnedPart02Callbacks.length + ") callbacks");
 
             this.onObjectSpawnedPart02Callbacks.forEach(cb => {
                 cb();
             });
+            
+            return;
         }
+
+        console.log('All CB arent subscribed, delaying');
         
+        setTimeout(this.tryTriggeringCallbacks, IMSIMITY_INIT_DELAY);
     },
+
 
     showExpItems() {
 
