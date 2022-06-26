@@ -39,77 +39,72 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         this.minuteMark1FinishedCallbacks = [];
         this.stopBurnerSoundCallbacks = [];
 
+        this.startPart05 = AFRAME.utils.bind(this.startPart05, this);
+        this.glassStickPlaced = AFRAME.utils.bind(this.glassStickPlaced, this);
+        this.thermoRunning = AFRAME.utils.bind(this.thermoRunning, this);
+        this.stopThermo = AFRAME.utils.bind(this.stopThermo, this);
+        this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
+        this.startStiring = AFRAME.utils.bind(this.startStiring, this);
+        this.cutBunsenBurner = AFRAME.utils.bind(this.cutBunsenBurner, this);
+        this.waitForCoolingTask = AFRAME.utils.bind(this.waitForCoolingTask, this);
+        this.startCoolingTask = AFRAME.utils.bind(this.startCoolingTask, this);
+        this.turnOffBunsenBurner = AFRAME.utils.bind(this.turnOffBunsenBurner, this);
+        this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
+        this.cruciblePlacedOnTripod2 = AFRAME.utils.bind(this.cruciblePlacedOnTripod2, this);
+        this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
+        this.onHoldStirBtnDown = AFRAME.utils.bind(this.onHoldStirBtnDown, this);
+        this.onReleaseStirBtn = AFRAME.utils.bind(this.onReleaseStirBtn, this);
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "05");
 
         waitForDOMContentLoaded().then(() => { 
 
-            this.thermoSocket05 = this.el.querySelector(".thermo-socket-05");
-            this.thermoSocketGeneral = this.sceneEl.querySelector(".thermo-socket")
-            this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
-            this.glassStickSocketCrucible = this.sceneEl.querySelector(".glass-stick-socket-04");
-            this.tongSocketCrucible = this.el.querySelector(".tong-socket-crucible");
-            this.tongSocketGeneral = this.sceneEl.querySelector(".tong-socket");
-            this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
-
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
-
-            console.log(this.stopwatchEntity);
-
-            this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
-            this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
-            this.flameEntity = this.sceneEl.querySelector(".flame-entity");
-            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-            this.tongEntity = this.sceneEl.querySelector(".tong-entity");
-            this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
-
-            
-
-            this.tempText = this.thermoEntity.querySelector(".thermo-text");
-            
-
-            this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("holdable-button-down", this.onHoldStirBtnDown);
-            this.stiringBtn.object3D.addEventListener("holdable-button-up", this.onReleaseStirBtn);
-
-
-            this.ctrlBtn00 = this.sceneEl.querySelector(".burner-ctrl-btn-0");
-            this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
-            this.ctrlBtn01 = this.sceneEl.querySelector(".burner-ctrl-btn-1");
-            this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
-            this.ctrlBtn02 = this.sceneEl.querySelector(".burner-ctrl-btn-2");
-            this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
-            this.ctrlBtn03 = this.sceneEl.querySelector(".burner-ctrl-btn-3");
-            this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
-
-
-            this.updateUI();
-
-            //bind Callback funtions:
-            this.startPart05 = AFRAME.utils.bind(this.startPart05, this);
-            this.glassStickPlaced = AFRAME.utils.bind(this.glassStickPlaced, this);
-            this.thermoRunning = AFRAME.utils.bind(this.thermoRunning, this);
-            this.stopThermo = AFRAME.utils.bind(this.stopThermo, this);
-            this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
-            this.startStiring = AFRAME.utils.bind(this.startStiring, this);
-            this.cutBunsenBurner = AFRAME.utils.bind(this.cutBunsenBurner, this);
-            this.waitForCoolingTask = AFRAME.utils.bind(this.waitForCoolingTask, this);
-            this.startCoolingTask = AFRAME.utils.bind(this.startCoolingTask, this);
-            this.turnOffBunsenBurner = AFRAME.utils.bind(this.turnOffBunsenBurner, this);
-            this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
-            this.cruciblePlacedOnTripod2 = AFRAME.utils.bind(this.cruciblePlacedOnTripod2, this);
-            this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
-            this.onHoldStirBtnDown = AFRAME.utils.bind(this.onHoldStirBtnDown, this);
-            this.onReleaseStirBtn = AFRAME.utils.bind(this.onReleaseStirBtn, this);
-            
             setTimeout(() => {
+
+                this.thermoSocket05 = this.el.querySelector(".thermo-socket-05");
+                this.thermoSocketGeneral = this.sceneEl.querySelector(".thermo-socket")
+                this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
+                this.glassStickSocketCrucible = this.sceneEl.querySelector(".glass-stick-socket-04");
+                this.tongSocketCrucible = this.el.querySelector(".tong-socket-crucible");
+                this.tongSocketGeneral = this.sceneEl.querySelector(".tong-socket");
+                this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
+
+                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+
+                console.log(this.stopwatchEntity);
+
+                this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
+                this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
+                this.flameEntity = this.sceneEl.querySelector(".flame-entity");
+                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+                this.tongEntity = this.sceneEl.querySelector(".tong-entity");
+                this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
+
+                
+
+                this.tempText = this.thermoEntity.querySelector(".thermo-text");
+                
+
+                this.stiringBtn = this.sceneEl.querySelector(".stiring-btn");
+                this.stiringBtn.object3D.addEventListener("holdable-button-down", this.onHoldStirBtnDown);
+                this.stiringBtn.object3D.addEventListener("holdable-button-up", this.onReleaseStirBtn);
+
+
+                this.ctrlBtn00 = this.sceneEl.querySelector(".burner-ctrl-btn-0");
+                this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
+                this.ctrlBtn01 = this.sceneEl.querySelector(".burner-ctrl-btn-1");
+                this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
+                this.ctrlBtn02 = this.sceneEl.querySelector(".burner-ctrl-btn-2");
+                this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
+                this.ctrlBtn03 = this.sceneEl.querySelector(".burner-ctrl-btn-3");
+                this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
+
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.startPart05);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.startCoolingTask);
-            }, IMSIMITY_INIT_DELAY);
 
-
+            }, IMSIMITY_INIT_DELAY)
 
         });
     },
@@ -143,9 +138,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("first-experiment-05", "stirBtnHeld", true);      
-            
-            // TODO: Unknown
-            this.updateUI();
+        
         });
     },
 
@@ -156,8 +149,6 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
             this.el.setAttribute("first-experiment-05", "stirBtnHeld", false);      
             
-            // TODO: Unknown
-            this.updateUI();
         });
     },
     
@@ -312,8 +303,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
       
             this.el.setAttribute("first-experiment-05", "ctrlBtnClicked", !this.data.ctrlBtnClicked);
             this.el.setAttribute("first-experiment-05", "ctrlBtnIndex", index)      
-      
-            this.updateUI();
+
         });
     },
 
