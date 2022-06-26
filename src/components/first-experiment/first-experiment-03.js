@@ -9,6 +9,7 @@ import grindedSampleSrc from "../../assets/models/GecoLab/ground_sample_grinded.
 import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
 import { THREE } from "aframe";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
@@ -38,7 +39,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         
         this.onFinishPart03Callbacks = [];
 
-        
+        //bind Callback funtion:
+        this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
+        this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
+        this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
+        this.showScale = AFRAME.utils.bind(this.showScale, this);
+        this.changeCrucibleEntities = AFRAME.utils.bind(this.changeCrucibleEntities, this);
+        this.onTaraPressed = AFRAME.utils.bind(this.onTaraPressed, this);
+        this.getSampleFromMortar = AFRAME.utils.bind(this.getSampleFromMortar, this);
+        this.addSampleToCrucible = AFRAME.utils.bind(this.addSampleToCrucible, this);
+        this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "03");
@@ -63,26 +73,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
             this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
 
-            // Missing Scale Entity
-            this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
-            this.scaleEntity.object3D.visible = true;
-            this.scaleSocket = this.el.querySelector(".scale-socket");
-
-            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-            this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
-
             // this.updateUI();
+            setTimeout(() => {
+                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+                this.scaleEntity.object3D.visible = true;
+                this.scaleSocket = this.el.querySelector(".scale-socket");
 
-            //bind Callback funtion:
-            this.startPart03 = AFRAME.utils.bind(this.startPart03, this);
-            this.onPlacedMortar = AFRAME.utils.bind(this.onPlacedMortar, this);
-            this.onInsertSample = AFRAME.utils.bind(this.onInsertSample, this);
-            this.showScale = AFRAME.utils.bind(this.showScale, this);
-            this.changeCrucibleEntities = AFRAME.utils.bind(this.changeCrucibleEntities, this);
-            this.onTaraPressed = AFRAME.utils.bind(this.onTaraPressed, this);
-            this.getSampleFromMortar = AFRAME.utils.bind(this.getSampleFromMortar, this);
-            this.addSampleToCrucible = AFRAME.utils.bind(this.addSampleToCrucible, this);
-            this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
+                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+                this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
+            }, IMSIMITY_INIT_DELAY);
+
 
             //Subscribe to callback after placing mortar
             this.firstExpPart02 = this.expSystem.getTaskById("02");
