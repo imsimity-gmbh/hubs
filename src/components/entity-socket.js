@@ -26,7 +26,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       acceptedEntities: {default: []},
       radius: {default: 0},
       snappedEntity: {default: ""},
-      enabled: {default: true}
+      enabled: {default: true},
+      triggerOnSnap: {default: false},
+      triggerOnPickedUp: {default: false},
     },
   
     init: function() {
@@ -45,6 +47,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       
       this.radius = this.data.radius;
+
+      console.log(this.data);
   
       this.heldEntity = null;
       this.wasHeldEntity = null;
@@ -54,6 +58,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.distance = this.radius + 1; 
 
       this.objectReleased = true;
+
+      this.localTriggerOnSnap = false;
+      this.localTriggerOnPickedUp = false;
 
       //local version of network variables:
       // this.localSnappedEntity = "";
@@ -118,7 +125,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
       this.rootRot = this.root.getAttribute("rotation");
 
-
       // TODO: Breaking ?
       if(this.socketEnabled == false) 
         this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
@@ -170,9 +176,36 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           break;
       }
     },
+
+    updateUI: function() {
+
+      if(this.localTriggerOnSnap != this.data.triggerOnSnap) {
+
+        this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
+        this.playSound(SOUND_SNAP_ENTITY);
+        
+        this.onSnapCallbacks.forEach(cb => {
+          cb();
+        });
+
+        this.localTriggerOnSnap = this.data.localTriggerOnSnap;
+      }
+
+      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
+
+        this.disableSocket();
+
+        this.onPickedUpCallbacks.forEach(cb => {
+          cb();
+        });
+
+        this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
+      }
+
+    },
   
     tick: function() {
-
+      
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
           if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
@@ -220,16 +253,25 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         this.heldEntity = null;
         this.objectReleased = true;
         console.log("about to hide socket");
-        this.disableSocket();
+        
+
+        // Network
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+          NAF.utils.takeOwnership(networkedEl);
+    
+          this.el.setAttribute("entity-socket", "triggerOnPickedUp", true); 
+          
+          this.updateUI();
+        });
+
         return;
       }
       
       entity.setAttribute("floaty-object", {autoLockOnRelease: true});
       this.heldEntity = entity;
 
-      this.onPickedUpCallbacks.forEach(cb => {
-        cb(entity);
-      });
+      
     },
 
     onHoverEnter(entity)
@@ -286,26 +328,36 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         return;
 
       this.attachedEntity = entity;
+
+      // Hack to parent without parenting
+      var parent = this.attachedEntity.object3D.parent;
+      
       this.root.object3D.attach(this.attachedEntity.object3D);
+      this.attachedEntity.object3D.position.set(0, 0, 0);
+      var temp = this.attachedEntity.object3D.position;
+      
+      parent.attach(this.attachedEntity.object3D);
 
-      this.attachedEntity.setAttribute("position", {x: 0, y: 0, z: 0});
-
+      this.attachedEntity.setAttribute("position", {x: temp.x, y: temp.y, z: temp.z});
       this.attachedEntity.setAttribute("rotation", {x: this.rootRot.x, y: this.rootRot.y, z: this.rootRot.z});
-      this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
-
+      
       this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
 
-      this.playSound(SOUND_SNAP_ENTITY);
 
       this.objectReleased = true;
 
       this.inRadiusEntity = null;
 
-      //Network snappedEntity: (still to do....)
-
-      this.onSnapCallbacks.forEach(cb => {
-        cb(entity);
+      // Network
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("entity-socket", "triggerOnSnap", true); 
+        
+        this.updateUI();
       });
+      
     },
 
     applyMaterial(entity, meshToClone, color)
