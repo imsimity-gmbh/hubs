@@ -466,6 +466,10 @@ function registerNetworkSchemas() {
       {
         component: "first-experiment-01",
         property: "groundSampleIndex"
+      },
+      {
+        component: "first-experiment-01",
+        property: "questionAnswered"
       }
     ]
   });

@@ -13,7 +13,8 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
  AFRAME.registerComponent("first-experiment-01", {
     schema: {
       groundSampleChosen: {default: false},
-      groundSampleIndex: {default: 0}
+      groundSampleIndex: {default: 0},
+      questionAnswered: {default: false},
     },
   
     init: function() {
@@ -25,6 +26,7 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
       this.localGroundSampleClicked = false;
       this.localGroundSampleIndex = 0;
+      this.localQuestionAnswered = false;
       this.startPart02Callbacks = [];
       this.groundSampleCallbacks = [];
 
@@ -123,6 +125,17 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
         this.chooseGroundSample();
         this.localGroundSampleClicked = this.data.groundSampleChosen;
       }
+
+      if (this.localQuestionAnswered != this.data.questionAnswered)
+      {
+        this.localQuestionAnswered = this.data.questionAnswered;
+         
+        this.notifyPart02();
+        
+        setTimeout(() => {
+          this.multipleChoice.object3D.visible = false; 
+        }, 500);
+      }
     },
   
     tick: function() {
@@ -199,10 +212,14 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
     onSubmitMultipleChoice(correctAnswer, selectedAnswer) {
       if(correctAnswer == selectedAnswer) {
-        this.notifyPart02();
-        setTimeout(() => {
-          this.multipleChoice.object3D.visible = false; 
-        }, 500);
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+          NAF.utils.takeOwnership(networkedEl);
+    
+          this.el.setAttribute("first-experiment-01", "questionAnswered", true); 
+          
+          this.updateUI();
+        });
       }
     }
 
