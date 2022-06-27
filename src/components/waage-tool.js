@@ -4,7 +4,8 @@ import { IMSIMITY_INIT_DELAY } from "../utils/imsimity";
 AFRAME.registerComponent("waage-tool", {
     schema: {
         rightAmount: {default: 0},
-        taraPressed: {default: false}
+        taraPressed: {default: false},
+        glowLossPressed: {default: false}
     },
   
     init: function() {
@@ -20,6 +21,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + "g";
 
         this.localTaraPressed = false;
+        this.localGlowLossPressed = false;
 
         this.ready = true;
         this.tooMuch = false;
@@ -52,10 +54,10 @@ AFRAME.registerComponent("waage-tool", {
 
                 this.taraBtn = this.el.querySelector(".tara-btn");
                 this.taraBtn.object3D.addEventListener("interact", () => this.tara());
-               
+
 
                 this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
-                this.glowLossBtn.object3D.addEventListener("interact", () => this.proceedToFormula());
+                this.glowLossBtn.object3D.addEventListener("interact", () => this.onClickGlowLossBtn());
                 this.glowLossBtn.object3D.visible = false;
 
 
@@ -125,6 +127,11 @@ AFRAME.registerComponent("waage-tool", {
             this.onTaraPressedCallbacks.forEach(cb => {
                 cb();
             });
+        }
+
+        if(this.localGlowLossPressed != this.data.glowLossPressed) {
+            this.proceedToFormula();
+            this.localGlowLossPressed = this.data.glowLossPressed;
         }
     },
   
@@ -220,10 +227,20 @@ AFRAME.registerComponent("waage-tool", {
         this.glowLossBtn.object3D.visible = true;
     },
 
+    onClickGlowLossBtn() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+
+            NAF.utils.takeOwnership(networkedEl);
+        
+            this.el.setAttribute("waage-tool", "glowLossPressed", true); 
+        });
+    },
+
     proceedToFormula() {
         this.onGlowLossWeighedCallbacks.forEach(cb => {
             cb();
         });
+        console.log("formel");
         this.glowLossBtn.object3D.visible = false;
     }
 

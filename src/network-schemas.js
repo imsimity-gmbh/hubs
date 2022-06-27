@@ -694,6 +694,11 @@ function registerNetworkSchemas() {
         property: "taraPressed"
       },
       {
+        selector: ".scale-entity",
+        component: "waage-tool",
+        property: "glowLossPressed"
+      },
+      {
         selector: ".display-text",
         component: "position"
       },
