@@ -29,10 +29,6 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
     this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
-
-    
-    this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
-
     //Variables needed for stopwatch logic:
     this.timerRunning = false;
     this.timeUntilPause = 0;
@@ -80,6 +76,9 @@ AFRAME.registerComponent("stopwatch-tool", {
       
 
       setTimeout(() => {
+
+        this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
+
         this.firstExp05 = this.expSystem.getTaskById("05");
       
         if(this.firstExp05 != null) {

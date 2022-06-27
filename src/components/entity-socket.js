@@ -191,32 +191,53 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     updateUI: function() {
 
+      console.log(this.data);
 
-      if(this.localTriggerOnSnap != this.data.triggerOnSnap && this.data.triggerOnSnap == true) {
+      if(this.localTriggerOnSnap != this.data.triggerOnSnap) {
 
-        this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
-        this.playSound(SOUND_SNAP_ENTITY);
+        if (this.data.triggerOnSnap == true)
+        {
+          console.log('Snap');
 
-        // Hack to parent without parenting
-        this.attachedEntity = this.acceptedEntities[0];
+          this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
+          this.playSound(SOUND_SNAP_ENTITY);
 
-        this.placeAttachedEntityLocal();
-        
-        this.onSnapCallbacks.forEach(cb => {
-          cb();
-        });
+          // Hack to parent without parenting
+          this.attachedEntity = this.acceptedEntities[0];
+
+          this.placeAttachedEntityLocal();
+          
+          this.onSnapCallbacks.forEach(cb => {
+            cb();
+          });
+
+          if (NAF.utils.isMine(this.el))
+          { 
+            this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
+          }    
+        }
 
         this.localTriggerOnSnap = this.data.localTriggerOnSnap;
       }
 
-      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp  && this.data.triggerOnPickedUp == true) {
+      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
 
-        this.disableSocket();
+        if (this.data.triggerOnSnap == true)
+        {
+          console.log('PickUp');
 
-        this.onPickedUpCallbacks.forEach(cb => {
-          cb();
-        });
+          this.disableSocket();
 
+          this.onPickedUpCallbacks.forEach(cb => {
+            cb();
+          });
+
+          if (NAF.utils.isMine(this.el))
+          { 
+            this.el.setAttribute("entity-socket", "triggerOnPickedUp", false);
+          }    
+        }
+        
         this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
       }
 
@@ -265,6 +286,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     onPickedUp(entity)
     {
+      console.log('onPickedUp');
       if(entity == this.attachedEntity) {
         // this.attachedEntity.object3D.removeFromParent();
         this.attachedEntity = null;
@@ -343,6 +365,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     onSnap(entity)
     {
+      console.log('onSnap');
+
       if(this.attachedEntity != null)
         return;
 
