@@ -203,6 +203,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           // Hack to parent without parenting
           this.attachedEntity = this.acceptedEntities[0];
 
+          this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+          
           this.placeAttachedEntityLocal();
           
           this.onSnapCallbacks.forEach(cb => {
@@ -362,8 +364,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.attachedEntity = entity;
       
-      this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
-
       this.objectReleased = true;
 
       this.inRadiusEntity = null;
