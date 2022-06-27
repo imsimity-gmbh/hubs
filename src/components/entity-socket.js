@@ -191,8 +191,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     updateUI: function() {
 
-      console.log(this.data);
-
       if(this.localTriggerOnSnap != this.data.triggerOnSnap) {
 
         if (this.data.triggerOnSnap == true)
