@@ -28,14 +28,14 @@ export function NotebookPopoverContainer({scene, showNonHistoriedDialog}) {
             id: "read",
             icon: ReadIcon,
             color: "accent5",
-            label: <FormattedMessage id="notebook-popover.read" defaultMessage="Read" />,
+            label: <FormattedMessage id="notebook-popover.read" defaultMessage="Lesen" />,
             onSelect: () => showReadModal()
           },
           {
             id: "write",
             icon: WriteIcon,
             color: "accent5",
-            label: <FormattedMessage id="notebook-popover.write" defaultMessage="Write" />,
+            label: <FormattedMessage id="notebook-popover.write" defaultMessage="Schreiben" />,
             onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: true})
           }
         ];

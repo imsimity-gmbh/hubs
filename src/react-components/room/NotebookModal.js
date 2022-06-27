@@ -40,14 +40,14 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
 
     return (
       <Modal
-        title={<FormattedMessage id="notebook-write.title" defaultMessage="Write Notes" />}
+        title={<FormattedMessage id="notebook-write.title" defaultMessage="Notiz schreiben" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
         <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
           <TextAreaInputField
             className={styles.noteInput}
             name="note"
-            placeholder="Type a note..."
+            placeholder="Schreibe eine Notiz..."
             type={"text"}
             value={ note || ""}
             onChange={onChange}
@@ -60,7 +60,7 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
             }
           />
           <Button type="submit" preset="accept">
-            <FormattedMessage id="notebook-write.submit-note" defaultMessage="Submit Note" />
+            <FormattedMessage id="notebook-write.submit-note" defaultMessage="Notiz speichern" />
           </Button>
         </Column>
       </Modal>
@@ -71,7 +71,7 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
 
     return (
       <Modal
-        title={<FormattedMessage id="notebook-read.title" defaultMessage="Read Notes" />}
+        title={<FormattedMessage id="notebook-read.title" defaultMessage="Notizen lesen" />}
         beforeTitle={<CloseButton onClick={onClose} />}
       >
         <Column as="form" className={styles.noteField} padding center>
@@ -81,7 +81,7 @@ export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBt
             })}
           </div>
           <Button className={styles.closeNotebook} onClick={onClose}>
-            <FormattedMessage id="notebook-read.close-notebook" defaultMessage="Close Notebook" />
+            <FormattedMessage id="notebook-read.close-notebook" defaultMessage="Notizbuch schließen" />
           </Button>
         </Column>
       </Modal>
