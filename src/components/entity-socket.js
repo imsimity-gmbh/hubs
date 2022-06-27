@@ -38,17 +38,12 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.root = this.el.querySelector(".root");
       this.hoverMeshes = this.el.querySelector(".hover-meshes");
 
-      let temp = new Vector3();
-      this.root.object3D.getWorldPosition(temp);
-      this.rootPos = temp;
-
       //Get List of accepted Entities and store copy of their meshes in hover-meshes:
       this.acceptedEntities = []; 
 
       
       this.radius = this.data.radius;
 
-      console.log(this.data);
   
       this.heldEntity = null;
       this.wasHeldEntity = null;
@@ -76,6 +71,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.socketEnabled = this.data.enabled;
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+      this.placeAttachedEntityLocal = AFRAME.utils.bind(this.placeAttachedEntityLocal, this);
 
       setTimeout(() => {
         waitForDOMContentLoaded().then(() => { 
@@ -124,13 +120,18 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
         this.hoverMeshes.appendChild(hoverMeshEntity);
       }
+
+      let temp = new Vector3();
+      this.root.object3D.getWorldPosition(temp);
+      this.rootPos = temp;
+
       console.log(this.acceptedEntities);
+      console.log(this.rootPos);
 
       this.meshIndex = 0;
       
       this.rootRot = this.root.getAttribute("rotation");
 
-      // TODO: Breaking ?
       if(this.socketEnabled == false) 
         this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
     },
@@ -195,6 +196,11 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
         this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
         this.playSound(SOUND_SNAP_ENTITY);
+
+        // Hack to parent without parenting
+        this.attachedEntity = this.acceptedEntities[0];
+
+        this.placeAttachedEntityLocal();
         
         this.onSnapCallbacks.forEach(cb => {
           cb();
@@ -319,6 +325,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     onReleased(entity)
     {
+      console.log("releasing");
+
       this.heldEntity = null;
       this.wasHeldEntity = entity;
       
@@ -339,25 +347,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         return;
 
       this.attachedEntity = entity;
-
-      // Hack to parent without parenting
-      var parent = this.attachedEntity.object3D.parent;
-      
-      this.root.object3D.attach(this.attachedEntity.object3D);
-
-      this.attachedEntity.object3D.position.set(0, 0, 0);
-      this.attachedEntity.object3D.rotation.set(0, 0, 0);
-
-      var tempPos = this.attachedEntity.object3D.position;
-      var tempRot = this.attachedEntity.object3D.rotation;
-
-      parent.attach(this.attachedEntity.object3D);
-
-      this.attachedEntity.setAttribute("position", {x: tempPos.x, y: tempPos.y, z: tempPos.z});
-      this.attachedEntity.setAttribute("rotation", {x: tempRot.x, y: tempRot.y, z: tempRot.z});
       
       this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
-
 
       this.objectReleased = true;
 
@@ -425,6 +416,18 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     disableSocket() {
       this.socketEnabled = false;
       this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
+    },
+
+    placeAttachedEntityLocal()
+    {
+      var parent = this.attachedEntity.object3D.parent;
+        
+      this.root.object3D.attach(this.attachedEntity.object3D);
+
+      this.attachedEntity.object3D.position.set(0, 0, 0);
+      this.attachedEntity.object3D.rotation.set(0, 0, 0);
+
+      parent.attach(this.attachedEntity.object3D);
     }
   });
   
