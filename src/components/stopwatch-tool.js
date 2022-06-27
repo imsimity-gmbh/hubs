@@ -6,6 +6,7 @@ import { loadModel } from "./gltf-model-plus";
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 import stopwatchModelSrc from "../assets/models/GecoLab/stopwatch.glb";
 import pinnedEntityToGltf from "../utils//pinned-entity-to-gltf.js";
+import { IMSIMITY_INIT_DELAY } from "../utils/imsimity";
 
 // Change stopwatchModelSrc to your model
 const stopwatchModelPromise = waitForDOMContentLoaded().then(() => loadModel(stopwatchModelSrc));
@@ -28,6 +29,40 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
     this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+    //Variables needed for stopwatch logic:
+    this.timerRunning = false;
+    this.timeUntilPause = 0;
+
+    //Local versions of network-variables:
+    this.localStartClicked = false;
+    this.localResetClicked = false;
+    this.secondPassed = true;
+    this.localCurrentTime = 0;
+
+    this.speedVariable = 1000;
+
+    this.minuteMark1 = 7;
+    this.minuteMark2 = 60;
+    this.minuteMark3 = 16; //eigtl. 25
+    this.minuteMark4 = 22; //eigtl. 45
+    this.minuteMark1Reached = false;
+    this.minuteMark2Reached = false;
+    this.minuteMark3Reached = false;
+    this.minuteMark4Reached = false;
+    this.minuteMark1Callbacks = [];
+    this.minuteMark2Callbacks = [];
+    this.minuteMark3Callbacks = [];
+    this.minuteMark4Callbacks = [];
+
+
+    this.setMinuteMark2 = AFRAME.utils.bind(this.setMinuteMark2, this);
+
+    this.expSystem = this.el.sceneEl.systems["first-experiments"];
+
+    this.stopwatchSystem = this.el.sceneEl.systems["stopwatch-tools"];
+    this.stopwatchSystem.register(this.el);
+
+
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
@@ -39,11 +74,8 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
       
-      this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
 
-      //Variables needed for stopwatch logic:
-      this.timerRunning = false;
-      this.timeUntilPause = 0;
+      setTimeout(() => {
 
       //Local versions of network-variables:
       this.localStartClicked = false;
@@ -70,16 +102,20 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.firstExp05 = this.expSystem.getTaskById("05");
 
       this.setMinuteMark2 = AFRAME.utils.bind(this.setMinuteMark2, this);
+        this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
 
-      if(this.firstExp05 != null) {
-        this.firstExp05.components["first-experiment-05"].subscribe("minuteMark1Finished", this.setMinuteMark2);
-      }
+        this.firstExp05 = this.expSystem.getTaskById("05");
+      
+        if(this.firstExp05 != null) {
+          this.firstExp05.components["first-experiment-05"].subscribe("minuteMark1Finished", this.setMinuteMark2);
+        }
+        else
+        {
+          console.log('ERROR !! first-experiment-05 isnt spawned yet' );
+        }
+      }, IMSIMITY_INIT_DELAY);
+     
     
-      this.updateUI();
-
-      this.stopwatchSystem = this.el.sceneEl.systems["stopwatch-tools"];
-      this.stopwatchSystem.register(this.el);
-
     });
   },
 

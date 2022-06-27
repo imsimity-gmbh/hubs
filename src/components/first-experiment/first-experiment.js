@@ -2,6 +2,7 @@ import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from "../gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 import { THREE } from "aframe";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 /**
  * First Experiment is the mangager class for the experiment
@@ -36,10 +37,12 @@ import { THREE } from "aframe";
 
         this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
         this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
+        this.firstExpStartBtn.object3D.visible = false;
+
+        setTimeout(() => {
+          this.firstExpStartBtn.object3D.visible = true;
+        }, IMSIMITY_INIT_DELAY * 6);
         
-
-        this.updateUI();
-
       });
 
     },
