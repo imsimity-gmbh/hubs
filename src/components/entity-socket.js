@@ -208,11 +208,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           this.onSnapCallbacks.forEach(cb => {
             cb();
           });
-
-          if (NAF.utils.isMine(this.el))
-          { 
-            this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
-          }    
         }
 
         this.localTriggerOnSnap = this.data.localTriggerOnSnap;
@@ -229,11 +224,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           this.onPickedUpCallbacks.forEach(cb => {
             cb();
           });
-
-          if (NAF.utils.isMine(this.el))
-          { 
-            this.el.setAttribute("entity-socket", "triggerOnPickedUp", false);
-          }    
+          
         }
         
         this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
@@ -297,7 +288,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
       
           NAF.utils.takeOwnership(networkedEl);
-    
+          
+          this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
           this.el.setAttribute("entity-socket", "triggerOnPickedUp", true); 
         });
 
@@ -382,6 +374,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("entity-socket", "triggerOnSnap", true); 
+        this.el.setAttribute("entity-socket", "triggerOnPickedUp", false); 
       });
       
     },

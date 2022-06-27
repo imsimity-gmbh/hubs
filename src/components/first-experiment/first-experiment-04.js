@@ -57,52 +57,52 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             setTimeout(() => {
 
                 this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-            this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
-            this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
-            this.flameEntity = this.sceneEl.querySelector(".flame-entity");
-            this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+                this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
+                this.flameEntity = this.sceneEl.querySelector(".flame-entity");
+                this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
+                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
 
-            this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
+                this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
 
-            this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
+                this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
 
-            this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
+                this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
 
-            this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
+                this.glassstickSocket = this.el.querySelector(".glass-stick-socket-04");
 
-            
+                
 
-            this.startBtn = this.el.querySelector(".start-burner-btn");
-            this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
-            this.startBtn.object3D.visible = false;
-
-
-            this.ctrlBtn00 = this.el.querySelector(".burner-ctrl-btn-0");
-            this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
-            this.ctrlBtn00.object3D.visible = false;
-            this.ctrlBtn01 = this.el.querySelector(".burner-ctrl-btn-1");
-            this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
-            this.ctrlBtn01.object3D.visible = false;
-            this.ctrlBtn02 = this.el.querySelector(".burner-ctrl-btn-2");
-            this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
-            this.ctrlBtn02.object3D.visible = false;
-            this.ctrlBtn03 = this.el.querySelector(".burner-ctrl-btn-3");
-            this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
-            this.ctrlBtn03.object3D.visible = false;
+                this.startBtn = this.el.querySelector(".start-burner-btn");
+                this.startBtn.object3D.addEventListener("interact", () => this.onStartBurnerClicked());
+                this.startBtn.object3D.visible = false;
 
 
-            this.stiringBtn = this.el.querySelector(".stiring-btn");
-            this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
-            this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
-            this.stiringBtn.object3D.visible = false;
+                this.ctrlBtn00 = this.el.querySelector(".burner-ctrl-btn-0");
+                this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
+                this.ctrlBtn00.object3D.visible = false;
+                this.ctrlBtn01 = this.el.querySelector(".burner-ctrl-btn-1");
+                this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
+                this.ctrlBtn01.object3D.visible = false;
+                this.ctrlBtn02 = this.el.querySelector(".burner-ctrl-btn-2");
+                this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
+                this.ctrlBtn02.object3D.visible = false;
+                this.ctrlBtn03 = this.el.querySelector(".burner-ctrl-btn-3");
+                this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
+                this.ctrlBtn03.object3D.visible = false;
+
+
+                this.stiringBtn = this.el.querySelector(".stiring-btn");
+                this.stiringBtn.object3D.addEventListener("holdable-button-down", () => this.onHoldStirBtnDown());
+                this.stiringBtn.object3D.addEventListener("holdable-button-up", () => this.onReleaseStirBtn());
+                this.stiringBtn.object3D.visible = false;
 
 
 
-            this.firstExpPart03 = this.expSystem.getTaskById("03");
-            this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
-            if(this.firstExpPart03 != null)
-                this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
+                this.firstExpPart03 = this.expSystem.getTaskById("03");
+                this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
+                if(this.firstExpPart03 != null)
+                    this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 
             }, IMSIMITY_INIT_DELAY);
         
@@ -156,9 +156,18 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     tick: function() {
         if(this.updatePos && this.stopStir == false) {
             this.t += 0.03
-            this.x = (Math.cos(this.t) * 0.02);
-            this.z = (Math.sin(this.t) * 0.02);
-            this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
+            this.x = (Math.cos(this.t) * 0.0002);
+            this.z = (Math.sin(this.t) * 0.0002);
+
+
+            var pos = this.glassStickPosition;
+            pos.x += this.x;
+            pos.z += this.z;
+
+            console.log(pos);
+
+            this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
+
             if(this.t > 10) {
                 this.stopStir = true;
                 this.updatePos = false;
@@ -316,6 +325,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     onPlaceGlassstick() {
         this.stiringBtn.object3D.visible = true;
+        this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
         this.glassstickSocket.components["entity-socket"].unsubscribe("onSnap", this.onPlaceGlassstick);
     },
 
