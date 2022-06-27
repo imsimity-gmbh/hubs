@@ -198,9 +198,17 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
         if(this.updatePos && this.stopStiring == false) {
             this.t += 0.03
-            this.x = (Math.cos(this.t) * 0.02);
-            this.z = (Math.sin(this.t) * 0.02);
-            this.glassstickEntity.setAttribute("position", {x: this.x, y: 0, z: this.z});
+            this.x = (Math.cos(this.t) * 0.0002);
+            this.z = (Math.sin(this.t) * 0.0002);
+
+            var pos = this.glassStickPosition;
+            pos.x += this.x;
+            pos.z += this.z;
+
+            console.log(pos);
+
+            this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
+
             if(this.t > 10) {
                 if(this.temp < 500) {
                     this.stopStir = true;
@@ -256,6 +264,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     glassStickPlaced() {
+        this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
         console.log("placed stick");
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);

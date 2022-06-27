@@ -61,9 +61,8 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
             this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
 
-            // TODO: StopwatchEntity not found, I guess
-
             setTimeout(() => {
+                console.log(this.stopwatchEntity);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
                 this.firstExpPart01 = this.expSystem.getTaskById("01");
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
