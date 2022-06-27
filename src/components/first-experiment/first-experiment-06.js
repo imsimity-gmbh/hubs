@@ -1,6 +1,7 @@
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -24,51 +25,55 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "06");
+
+        
+        //bind Callback funtions:
+        this.startPart06 = AFRAME.utils.bind(this.startPart06, this);
+        this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
+        this.onCruciblePlaced = AFRAME.utils.bind(this.onCruciblePlaced, this);
+        this.chooseFormula = AFRAME.utils.bind(this.chooseFormula, this);
+        this.discussResult = AFRAME.utils.bind(this.discussResult, this);
+        this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
+        this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
         
         waitForDOMContentLoaded().then(() => { 
-            
-
-            this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
-            this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
-
-            this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-            this.tongEntity = this.sceneEl.querySelector(".tong-entity");
-            this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
-
-            this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
-            this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
-
-            this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
-            this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
-            this.discussResultBtn.object3D.visible = false;
-
-            this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
-            this.multipleChoice06.object3D.visible = false;
-            this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
-
-            this.tidyUpBtn = this.el.querySelector(".tidy-up-btn");
-            this.tidyUpBtn.object3D.addEventListener("interact", this.onTidyUpClicked);
-            this.tidyUpBtn.object3D.visible = false;
-
-            this.updateUI();
-
-            //bind Callback funtions:
-            this.startPart06 = AFRAME.utils.bind(this.startPart06, this);
-            this.tongPlacedOnCrucible = AFRAME.utils.bind(this.tongPlacedOnCrucible, this);
-            this.onCruciblePlaced = AFRAME.utils.bind(this.onCruciblePlaced, this);
-            this.chooseFormula = AFRAME.utils.bind(this.chooseFormula, this);
-            this.discussResult = AFRAME.utils.bind(this.discussResult, this);
-            this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
-            this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
-
             setTimeout(() => {
+                this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
+                this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
+
+                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+                this.tongEntity = this.sceneEl.querySelector(".tong-entity");
+                this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
+
+                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+
+                this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
+                this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
+                this.discussResultBtn.object3D.visible = false;
+
+                this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
+                this.multipleChoice06.object3D.visible = false;
+                this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
+
+                this.tidyUpBtn = this.el.querySelector(".tidy-up-btn");
+                this.tidyUpBtn.object3D.addEventListener("interact", this.onTidyUpClicked);
+                this.tidyUpBtn.object3D.visible = false;
+
+
                 console.log(this.stopwatchEntity);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
                 this.firstExpPart01 = this.expSystem.getTaskById("01");
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
-            }, 300);
+            }, IMSIMITY_INIT_DELAY);
 
         });
+    },
+
+    hotfix()
+    {
+        this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
+        this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
     },
 
     subscribe(eventName, fn)
@@ -86,6 +91,8 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
     
     updateUI: function() {
+        console.log(this.data);
+
         if(this.localFormulaPopupClosed != this.data.formulaPopupClosed) {
             this.proceedToDiscussResult();
             this.localFormulaPopupClosed = this.data.formulaPopupClosed;
@@ -122,6 +129,8 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
     },
 
     startPart06() {
+        console.log('Starting Part 06');
+        
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
         this.tongSocket06.components["entity-socket"].enableSocket();
         this.tongSocket06.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
@@ -152,8 +161,6 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("first-experiment-06", "formulaPopupClosed", true);      
-      
-            this.updateUI();
         });
     },
 
@@ -178,12 +185,16 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("first-experiment-06", "onClickDiscussResult", true);      
-      
-            this.updateUI();
         });
     },
 
     discussResult() {
+        // one of those is empty
+        this.hotfix();
+
+        console.log(this.discussResultBtn);
+        console.log(this.multipleChoice06);
+
         this.discussResultBtn.object3D.visible = false;
         this.multipleChoice06.object3D.visible = true;
         this.multipleChoice06.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice06);
@@ -205,8 +216,6 @@ import { waitForDOMContentLoaded } from "../../utils/async-utils";
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("first-experiment-06", "onClickTidyUp", true);      
-      
-            this.updateUI();
         });
     },
 

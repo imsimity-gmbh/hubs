@@ -77,31 +77,9 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       setTimeout(() => {
 
-      //Local versions of network-variables:
-      this.localStartClicked = false;
-      this.localResetClicked = false;
-      this.secondPassed = true;
-      this.localCurrentTime = 0;
+        this.expSystem = this.el.sceneEl.systems["first-experiments"];
+        this.firstExp05 = this.expSystem.getTaskById("05");
 
-      this.speedVariable = 1000;
-
-      this.minuteMark1 = 3;
-      this.minuteMark2 = 60;
-      this.minuteMark3 = 16; //eigtl. 25
-      this.minuteMark4 = 22; //eigtl. 45
-      this.minuteMark1Reached = false;
-      this.minuteMark2Reached = false;
-      this.minuteMark3Reached = false;
-      this.minuteMark4Reached = false;
-      this.minuteMark1Callbacks = [];
-      this.minuteMark2Callbacks = [];
-      this.minuteMark3Callbacks = [];
-      this.minuteMark4Callbacks = [];
-
-      this.expSystem = this.el.sceneEl.systems["first-experiments"];
-      this.firstExp05 = this.expSystem.getTaskById("05");
-
-      this.setMinuteMark2 = AFRAME.utils.bind(this.setMinuteMark2, this);
         this.myDisplayText = this.el.querySelector(".stopwatch-display-text");
 
         this.firstExp05 = this.expSystem.getTaskById("05");
@@ -158,7 +136,7 @@ AFRAME.registerComponent("stopwatch-tool", {
         break;
       case "minuteMark4":
         let index4 = this.minuteMark3Callbacks.indexOf(fn);
-        this.minuteMark3Callbacks.splice(index4, 1);
+        this.minuteMark4Callbacks.splice(index4, 1);
         break;
     }
   },

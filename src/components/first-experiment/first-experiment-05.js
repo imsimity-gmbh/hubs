@@ -264,7 +264,6 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     glassStickPlaced() {
-        this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
         console.log("placed stick");
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
@@ -309,6 +308,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     startStiring() {
+        this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
         this.stiringBtn.object3D.visible = true;
         this.stopStiring = false;
         this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
@@ -380,7 +380,15 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     cruciblePlacedOnTripod2() {
-        this.tongEntity.setAttribute("position", {x: 0.6, y: 0, z: 0});
+
+        var parent = this.tongEntity.object3D.parent;
+        
+        this.crucibleSocket05.object3D.attach(this.tongEntity.object3D);
+
+        this.tongEntity.object3D.position.set(0.2, 0.35, 0);
+
+        parent.attach(this.tongEntity.object3D);
+        
         this.tongEntity.object3D.visible = true;
         this.attachedTongEntity.object3D.visible = false;
         this.tongSocketGeneral.components["entity-socket"].enableSocket();
