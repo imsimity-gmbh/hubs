@@ -926,6 +926,10 @@ function registerNetworkSchemas() {
         property: "ctrlBtnIndex"
       },
       {
+        component: "first-experiment-05",
+        property: "measuredCounter"
+      },
+      {
         selector: ".thermo-socket-05",
         component: "entity-socket",
         property: "triggerOnSnap"

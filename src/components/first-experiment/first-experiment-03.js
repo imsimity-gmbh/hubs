@@ -210,7 +210,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.grindSampleClicks++;
         if(this.grindSampleClicks >= 15) {
             this.groundSampleSocket03.components["entity-socket"].disableSocket();
-            this.groundSampleSocket03.object3D.visible = false;
+            this.groundSampleEntity.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
             this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.55, 0.77, 0.2), this.grindSampleEntity, true);
             this.spoonSocket03.components["entity-socket"].enableSocket();
@@ -272,7 +272,6 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.scaleEntity.components["waage-tool"].removeWeight();
     },
     addSampleToCrucible() {
-
         let amount = this.data.randomAmounts[this.amountsCount];
         this.amountsCount++;        
         

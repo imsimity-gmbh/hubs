@@ -12,6 +12,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         stirBtnHeld: {default: false},
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 2},
+        measuredCounter: {default: 0}
     },
   
     init: function() {
@@ -23,7 +24,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
         this.measureTemp = false;
         this.temp = 340;
-        this.measuredCounter = 0;
+        this.localMeasuredCounter = 0;
 
         this.localStirBtnHeld = false;
         this.stopStiring = true;
@@ -176,6 +177,10 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
             this.turnOffBunsenBurner();
             this.localOnClickTurnOffBunsenBurner = this.data.onClickTurnOffBunsenBurner;
         }
+
+        if(this.localMeasuredCounter != this.data.measuredCounter) {
+            this.localMeasuredCounter = this.data.measuredCounter;
+        }
         
     },
   
@@ -244,31 +249,40 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     startPart05() {
+        console.log("start 05");
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
         this.glassStickSocket.components["entity-socket"].enableSocket();
         this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.glassStickPlaced);
     },
 
     glassStickPlaced() {
+        console.log("placed stick");
         this.thermoSocket05.components["entity-socket"].enableSocket();
-        this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.glassStickPlaced);
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
+        this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.glassStickPlaced);
     },
 
     thermoRunning() {
         this.measureTemp = true;
         this.thermoSocket05.components["entity-socket"].unsubscribe("onSnap", this.thermoRunning);
         
-        if(this.measuredCounter == 0) {
+        if(this.localMeasuredCounter == 0) {
             setTimeout(() => {
-                this.measuredCounter++;
                 this.thermoSocketGeneral.components["entity-socket"].enableSocket();
                 this.thermoSocketGeneral.components["entity-socket"].subscribe("onPickedUp", this.stopThermo);
                 this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
+                console.log(this.thermoSocketGeneral.components["entity-socket"].onPickedUpCallbacks);
+                NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+                    NAF.utils.takeOwnership(networkedEl);
+              
+                    this.el.setAttribute("first-experiment-05", "measuredCounter", 1);      
+              
+                });
             }, 4000);
         }
 
-        if(this.measuredCounter > 0) {
+        if(this.localMeasuredCounter > 0) {
             this.temp = 497;
             this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
         }
@@ -280,6 +294,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     thermoOnTable() {
+        this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
         this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
     },
