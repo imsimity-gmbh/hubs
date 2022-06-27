@@ -53,7 +53,7 @@ AFRAME.registerComponent("stopwatch-tool", {
 
       this.speedVariable = 1000;
 
-      this.minuteMark1 = Math.random() * (4 - 2) + 2;
+      this.minuteMark1 = 7;
       this.minuteMark2 = 60;
       this.minuteMark3 = 16; //eigtl. 25
       this.minuteMark4 = 22; //eigtl. 45
@@ -332,10 +332,8 @@ AFRAME.registerComponent("stopwatch-tool", {
   setMinuteMark2() {
     let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
     let minutes = Math.floor(roundedlocalCurrentTime / 60);
-    console.log(minutes);
 
-    this.minuteMark2 = minutes + (Math.random() * (4 - 2) + 2);
-    console.log(this.minuteMark2);
+    this.minuteMark2 = minutes + 8;
   },
 
   onPinButtonClick()

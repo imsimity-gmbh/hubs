@@ -201,6 +201,12 @@ AFRAME.registerComponent("waage-tool", {
     
     },
 
+    reset() {
+        this.weight = 0;
+        this.displayWeight = this.weight + "g";
+        this.displayText.setAttribute("text", { value: this.displayWeight });
+    },
+
     setGlowLossWeight(weight) {
         this.weightAfterGlowing = weight;
     },

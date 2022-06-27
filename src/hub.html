@@ -793,23 +793,20 @@
 
             
             <template id="interactable-stopwatch-camera">
-                <a-entity class="stopwatch-wrapper">
-                    <a-entity
-                        class="interactable stopwatch-tool"
-                        position="0 2 0.2"
-                        body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
-                        stopwatch-tool
-                        tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
-                        matrix-auto-update
-                        shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                        floaty-object="autoLockOnLoad: true;"
-                        owned-object-limiter="counter: #camera-counter"
-                        set-unowned-body-kinematic
-                        scalable-when-grabbed
-                        set-yxz-order
-                    >
-                        <a-entity class="stopwatch-display-text" text="value:00:00; width:1.4; color: #000; align:center;" text-raycast-hack position="0 0 0" scale="1.0 1.0 1.0"></a-entity> 
-                    </a-entity>
+                <a-entity
+                    class="interactable stopwatch-tool"
+                    body-helper="type: dynamic; mass: 0.001; collisionFilterGroup: 1; collisionFilterMask: 8;"
+                    stopwatch-tool
+                    tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
+                    matrix-auto-update
+                    shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
+                    floaty-object="autoLockOnLoad: true;"
+                    owned-object-limiter="counter: #camera-counter"
+                    set-unowned-body-kinematic
+                    scalable-when-grabbed
+                    set-yxz-order
+                >
+                    <a-entity class="stopwatch-display-text" text="value:00:00; width:1.4; color: #000; align:center;" text-raycast-hack position="0 0 0" scale="1.0 1.0 1.0"></a-entity> 
                 </a-entity>
             </template>
 

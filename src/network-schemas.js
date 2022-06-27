@@ -294,25 +294,14 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".stopwatch-wrapper",
-        component: "position",
-      },
-      {
-        selector: ".stopwatch-wrapper",
-        component: "rotation",
-      },
-      {
-        selector: ".stopwatch-tool",
         component: "stopwatch-tool",
         property: "startClicked"
       },
       {
-        selector: ".stopwatch-tool",
         component: "stopwatch-tool",
         property: "resetClicked"
       },
       {
-        selector: ".stopwatch-tool",
         component: "stopwatch-tool",
         property: "currentTime"
       }
