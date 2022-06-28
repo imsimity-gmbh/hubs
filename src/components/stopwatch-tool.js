@@ -43,8 +43,8 @@ AFRAME.registerComponent("stopwatch-tool", {
 
     this.minuteMark1 = 7;
     this.minuteMark2 = 60;
-    this.minuteMark3 = 16; //eigtl. 25
-    this.minuteMark4 = 22; //eigtl. 45
+    this.minuteMark3 = 25; //eigtl. 25
+    this.minuteMark4 = 45; //eigtl. 45
     this.minuteMark1Reached = false;
     this.minuteMark2Reached = false;
     this.minuteMark3Reached = false;
@@ -347,7 +347,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     let roundedlocalCurrentTime = Math.round(this.localCurrentTime);
     let minutes = Math.floor(roundedlocalCurrentTime / 60);
 
-    this.minuteMark2 = minutes + 3;
+    this.minuteMark2 = minutes + 8;
   },
 
   onPinButtonClick()
