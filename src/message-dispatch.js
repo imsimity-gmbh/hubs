@@ -101,6 +101,11 @@ export default class MessageDispatch extends EventTarget {
       this.stopRecord();
 
       document.activeElement.blur(); // Commands should blur
+    }  else if (message.startsWith("@teleport ")) {
+      const commandParts = message.substring(10).split(/\s+/);
+      const url = commandParts[0];
+
+      this.dispatchTeleport(url);
     }
     else {
       this.hubChannel.sendMessage(message);
@@ -278,6 +283,27 @@ export default class MessageDispatch extends EventTarget {
     this.mediaRecorder.start();
   }
 
+  dispatchTeleport = async (url) => {
+
+    const isAdmin = configs.isAdmin();
+
+
+    if (!((url.startsWith("http:") || url.startsWith("https:"))))
+    {
+      console.log(url + " isn't a correct URL to redirect to");
+      return;
+    }
+    
+    if (!isAdmin)
+    {
+      console.log("This command is only available for Admins...");
+      return;
+    }
+
+    console.log("Teleporting to " + url);
+
+    this.hubChannel.sendMessage(url, "teleport");
+  }
 
 
   handleAudioData = (event) => 
