@@ -25,6 +25,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     schema: {
       triggerOnSnap: {default: false},
       triggerOnPickedUp: {default: false},
+      triggerOnRelease: {default: false},
       acceptedEntities: {default: []},
       radius: {default: 0},
       snappedEntity: {default: ""},
@@ -56,6 +57,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.localTriggerOnSnap = false;
       this.localTriggerOnPickedUp = false;
+      this.localTriggerOnRelease = false;
 
       //local version of network variables:
       // this.localSnappedEntity = "";
@@ -106,9 +108,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         }
         this.acceptedEntities.push(component);
 
-        // If we don't copy, this vector will be always = to the current pos (reference not copy)
-        this.initialPos = new Vector3().copy(component.object3D.position);
-
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
 
@@ -121,12 +120,12 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         this.hoverMeshes.appendChild(hoverMeshEntity);
       }
 
+      let acceptedEntity = this.sceneEl.querySelector(this.data.acceptedEntities[0]);
+      this.initialPos = new Vector3().copy(acceptedEntity.object3D.position);
+
       let temp = new Vector3();
       this.root.object3D.getWorldPosition(temp);
       this.rootPos = temp;
-
-      console.log(this.acceptedEntities);
-      console.log(this.rootPos);
 
       this.meshIndex = 0;
       
@@ -211,8 +210,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
             cb();
           });
         }
-
-        this.localTriggerOnSnap = this.data.localTriggerOnSnap;
       }
 
       if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
@@ -223,21 +220,46 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
           this.disableSocket();
 
+          this.attachedEntity = null;
+
           this.onPickedUpCallbacks.forEach(cb => {
             cb();
           });
           
         }
         
-        this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
       }
 
+      if(this.localTriggerOnRelease != this.data.triggerOnRelease) {
+
+        if (this.data.triggerOnRelease == true)
+        {
+          console.log('Release');
+
+          this.acceptedEntities[0].object3D.position.set(this.initialPos.x, this.initialPos.y, this.initialPos.z);
+
+          this.onReleasedCallbacks.forEach(cb => {
+            cb();
+          });
+        }
+      }
+
+      this.localTriggerOnSnap = this.data.localTriggerOnSnap;
+      this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
+      this.localTriggerOnRelease = this.data.triggerOnRelease;
+
+      console.log(this.localTriggerOnRelease);
     },
   
     tick: function() {
       
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
+          if(this.heldEntity == null)
+          {
+            this.onHeld();
+          }
+
           if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
             this.onPickedUp(this.acceptedEntities[i]);
             this.meshIndex = i;
@@ -251,6 +273,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
+          console.log("Held Distance : " + this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -265,6 +288,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.inRadiusEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos);
+          console.log("In Radius Distance : " + this.distance);
           if(this.distance > this.radius)
             this.onHoverExit(this.inRadiusEntity);
         }
@@ -278,6 +302,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     onPickedUp(entity)
     {
       console.log('onPickedUp');
+      console.log(this);
+
       if(entity == this.attachedEntity) {
         // this.attachedEntity.object3D.removeFromParent();
         this.attachedEntity = null;
@@ -343,16 +369,15 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.heldEntity = null;
       this.wasHeldEntity = entity;
-      
-      console.log(this.initialPos);
-      entity.setAttribute("position", {x: this.initialPos.x, y: this.initialPos.y, z: this.initialPos.z});
-      console.log(entity);
-
       this.objectReleased = true;
-
-      this.onReleasedCallbacks.forEach(cb => {
-        cb(entity);
+      
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+        NAF.utils.takeOwnership(networkedEl);
+        
+        this.el.setAttribute("entity-socket", "triggerOnRelease", true); 
       });
+
     },
 
     onSnap(entity)
@@ -377,6 +402,16 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         this.el.setAttribute("entity-socket", "triggerOnPickedUp", false); 
       });
       
+    },
+
+    onHeld()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+
+        this.el.setAttribute("entity-socket", "triggerOnRelease", false);
+      });
     },
 
     applyMaterial(entity, meshToClone, color)
@@ -411,13 +446,21 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     enableSocket() {
       this.socketEnabled = true;
       this.objectReleased = true;
-
+      
       // Reseting values
       if (NAF.utils.isMine(this.el))
       { 
         this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
         this.el.setAttribute("entity-socket", "triggerOnPickedUp", false);
+        this.el.setAttribute("entity-socket", "triggerOnRelease", false);
+      } 
+
+      if (this.initialPos)
+      {
+        let acceptedEntity = this.sceneEl.querySelector(this.data.acceptedEntities[0]);
+        this.initialPos = new Vector3().copy(acceptedEntity.object3D.position);  
       }
+      
       
       // error hoverMeshes mortar
       this.hoverMeshes.children[this.meshIndex].object3D.visible = true;

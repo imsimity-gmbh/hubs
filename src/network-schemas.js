@@ -471,6 +471,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".bunsen-burner-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".tripod-1-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -479,6 +484,11 @@ function registerNetworkSchemas() {
         selector: ".tripod-1-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".tripod-1-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".tripod-2-socket",
@@ -491,6 +501,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".tripod-2-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".firelighter-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -499,6 +514,11 @@ function registerNetworkSchemas() {
         selector: ".firelighter-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".firelighter-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".thermo-socket",
@@ -511,6 +531,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".thermo-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".glass-stick-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -519,6 +544,11 @@ function registerNetworkSchemas() {
         selector: ".glass-stick-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".glass-stick-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".spoon-socket",
@@ -531,6 +561,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".spoon-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".ground-sample-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -539,6 +574,11 @@ function registerNetworkSchemas() {
         selector: ".ground-sample-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".ground-sample-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".mortar-socket",
@@ -551,6 +591,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".mortar-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".tong-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -559,6 +604,11 @@ function registerNetworkSchemas() {
         selector: ".tong-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".tong-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
     ]
   });
@@ -793,6 +843,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".mortar-socket-03",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".ground-sample-socket-03",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -801,6 +856,11 @@ function registerNetworkSchemas() {
         selector: ".ground-sample-socket-03",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".ground-sample-socket-03",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".grind-sample-entity",
@@ -813,6 +873,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".grind-sample-entity",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".crucible-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -821,6 +886,11 @@ function registerNetworkSchemas() {
         selector: ".crucible-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".crucible-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
       {
         selector: ".spoon-socket-03",
@@ -833,6 +903,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".spoon-socket-03",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".spoon-socket-scale",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -843,6 +918,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".spoon-socket-scale",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".scale-socket",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -851,6 +931,11 @@ function registerNetworkSchemas() {
         selector: ".scale-socket",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".scale-socket",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       }
     ]
   });
@@ -891,6 +976,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".crucible-socket-04",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".firelighter-socket-04",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -901,6 +991,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".firelighter-socket-04",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".glass-stick-socket-04",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -909,6 +1004,11 @@ function registerNetworkSchemas() {
         selector: ".glass-stick-socket-04",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".glass-stick-socket-04",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       }
     ]
   });
@@ -945,6 +1045,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".thermo-socket-05",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".crucible-socket-05",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -955,6 +1060,11 @@ function registerNetworkSchemas() {
         property: "triggerOnPickedUp"
       },
       {
+        selector: ".crucible-socket-05",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
+      {
         selector: ".tong-socket-crucible",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -963,6 +1073,11 @@ function registerNetworkSchemas() {
         selector: ".tong-socket-crucible",
         component: "entity-socket",
         property: "triggerOnPickedUp"
+      },
+      {
+        selector: ".tong-socket-crucible",
+        component: "entity-socket",
+        property: "triggerOnRelease"
       },
     ]
   });
@@ -994,7 +1109,11 @@ function registerNetworkSchemas() {
         component: "entity-socket",
         property: "triggerOnPickedUp"
       },
-
+      {
+        selector: ".tong-socket-crucible-06",
+        component: "entity-socket",
+        property: "triggerOnRelease"
+      },
     ]
   });
 
