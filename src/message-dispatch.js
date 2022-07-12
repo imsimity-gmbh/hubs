@@ -8,7 +8,6 @@ import { EventTarget } from "event-target-shim";
 import { ExitReason } from "./react-components/room/ExitedRoomScreen";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 
-import configs from "./utils/configs";
 import { THREE } from "aframe";
 import robotSystem from "./systems/robot-tools";
 
