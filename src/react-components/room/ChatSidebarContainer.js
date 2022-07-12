@@ -117,6 +117,14 @@ export function ChatContextProvider({ messageDispatch, children }) {
         ) {
           setUnreadMessages(true);
         }
+
+        if (newMessage.type === "teleport")
+        {
+          console.log("Recieved a Teleport request !");
+          const urlToTeleport = newMessage.body;
+
+          redirectTo(urlToTeleport);
+        }
       }
 
       if (messageDispatch) {

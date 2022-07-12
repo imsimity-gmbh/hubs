@@ -1,4 +1,4 @@
-import "./utils/configs";
+import configs from "./utils/configs";
 import { getAbsoluteHref } from "./utils/media-url-utils";
 import { isValidSceneUrl } from "./utils/scene-url-utils";
 import { spawnChatMessage } from "./react-components/chat-message";
@@ -106,6 +106,28 @@ export default class MessageDispatch extends EventTarget {
       this.hubChannel.sendMessage(message);
     }
   };
+
+  dispatchTeleport = async (url) => {
+
+    const isAdmin = configs.isAdmin();
+
+
+    if (!((url.startsWith("http:") || url.startsWith("https:"))))
+    {
+      console.log(url + " isn't a correct URL to redirect to");
+      return;
+    }
+    
+    if (!isAdmin)
+    {
+      console.log("This command is only available for Admins...");
+      return;
+    }
+
+    console.log("Teleporting to " + url);
+
+    this.hubChannel.sendMessage(url, "teleport");
+  }
 
   dispatchCommand = async (command, ...args) => {
     const entered = this.scene.is("entered");
