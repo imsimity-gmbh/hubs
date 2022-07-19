@@ -620,123 +620,139 @@ function registerNetworkSchemas() {
       "rotation",
       {
         selector: ".cupboard-wrapper",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".cupboard-wrapper",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".mortar-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".mortar-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".mortar-stick-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".mortar-stick-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".ground-sample-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".ground-sample-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".bunsen-burner-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".bunsen-burner-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".flame-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".flame-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tripod-1-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tripod-1-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tripod-plate-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tripod-plate-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tripod-2-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tripod-2-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tripod-triangle-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tripod-triangle-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".firelighter-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".firelighter-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".thermo-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".thermo-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".thermo-text",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".thermo-text",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".glass-stick-entity",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".glass-stick-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".scale-entity",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".scale-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".scale-entity",
@@ -750,67 +766,82 @@ function registerNetworkSchemas() {
       },
       {
         selector: ".display-text",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".display-text",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tara-btn",
-        component: "position"
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tara-btn",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".glow-loss-btn",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".glow-loss-btn",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".crucible-entity",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: "crucible-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".attached-tong-entity",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".attached-tong-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".spoon-entity",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".spoon-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: "ground-sample-spoon",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".ground-sample-spoon",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
         selector: ".tong-entity",
-        component: "position"
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
         selector: ".tong-entity",
-        component: "rotation"
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       }
     ]
   });
