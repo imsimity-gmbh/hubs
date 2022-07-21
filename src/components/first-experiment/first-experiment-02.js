@@ -178,14 +178,24 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.spawnItem(groundSampleSpoonModelPromise, new THREE.Vector3(0, 0.01, 0.1), this.groundSampleSpoonEntity, false);
         this.spawnItem(firelighterModelPromise, new THREE.Vector3(0.8, 0.8, 0), this.firelighterEntity, false);
         this.spawnItem(thermoModelPromise, new THREE.Vector3(1.1, 0.8, -0.2), this.thermoEntity, false);
-        this.spawnItem(curcibleModelPromise, new THREE.Vector3(3.08, 1, 0.9), this.crucibleEntity, false);
         this.spawnItem(tongModelPromise, new THREE.Vector3(0.23, 0.15, 0), this.attachedTongEntity, false);
         this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
         this.spawnItem(curcibleModelPromise, new THREE.Vector3(0.08, 0.19, 0), this.crucibleEntityScale, true);
         this.spawnItem(tongModelPromise, new THREE.Vector3(1.1, 0.8, 0.2), this.tongEntity, false);
+        
+        
+        // Crucible entity needs special care...
+        var mainTableAnchor = this.expSystem.getTaskById('01').object3D;
+        var sideTableAnchor = this.el.object3D;
+
+        sideTableAnchor.remove(this.crucibleEntity.object3D);
+        mainTableAnchor.add(this.crucibleEntity.object3D);
+
+        this.spawnItem(curcibleModelPromise, new THREE.Vector3(-1.1,0.9,-0.05), this.crucibleEntity, false);
+
+
 
         this.updateUI();
-
        
         //bind Callback funtion:
         this.startPart02 = AFRAME.utils.bind(this.startPart02, this);

@@ -6,9 +6,9 @@ import { FormattedMessage } from "react-intl";
 import { styles } from "./ChooseGlovesModal.scss";
 import { Button } from "../input/Button";
 import { CloseButton } from "../input/CloseButton";
-import gloves1 from "../../assets/images/icons/Icon_Handschuhe_1.png";
-import gloves2 from "../../assets/images/icons/Icon_Handschuhe_2.png";
-import gloves3 from "../../assets/images/icons/Icon_Handschuhe_3.png";
+import gloves1 from "../../assets/images/icons/Icon_Handschuhe_1.png";  // Chemikalienhandschuhe
+import gloves2 from "../../assets/images/icons/Icon_Handschuhe_2.png";  // Fäustlinge
+import gloves3 from "../../assets/images/icons/Icon_Handschuhe_3.png";  // Plastik Handschuhe
 
 const correctId = 1;
 let gloves1Class = "idle";
@@ -54,9 +54,29 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
                 Wähle die richtigen Handschuhe aus. Du solltest sie tragen, damit du dich nicht verbrennst!
             </div>
             <div class="gloves">
-                <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1)}></img>
-                <img className={gloves2Class} src={gloves2} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2)}></img>
-                <img className={gloves3Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 3)}></img>
+                <div>
+                    <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1)}></img>
+                    <div class="gloves-text">
+                        <p>Chemikalien-</p>
+                        <p>handschuhe</p>
+                    </div>
+                </div>
+
+                <div>
+                    <img className={gloves2Class} src={gloves2} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2)}></img>
+                    <div class="gloves-text">
+                        <p>Fäustlinge</p>
+                        <p>&nbsp;</p>
+                    </div>    
+                </div>
+                    
+                <div>
+                    <img className={gloves3Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 3)}></img>
+                    <div class="gloves-text">
+                        <p>Plastik</p>
+                        <p>Handschuhe</p>
+                    </div>   
+                </div>
             </div>
         </Modal>
     );
