@@ -156,8 +156,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     tick: function() {
         if(this.updatePos && this.stopStir == false) {
             this.t += 0.03
-            this.x = (Math.cos(this.t) * 0.0002);
-            this.z = (Math.sin(this.t) * 0.0002);
+            this.x = (Math.cos(this.t) * 0.0004);
+            this.z = (Math.sin(this.t) * 0.0004);
 
 
             var pos = this.glassStickPosition;

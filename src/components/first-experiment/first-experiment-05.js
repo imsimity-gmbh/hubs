@@ -198,8 +198,8 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
         if(this.updatePos && this.stopStiring == false) {
             this.t += 0.03
-            this.x = (Math.cos(this.t) * 0.0002);
-            this.z = (Math.sin(this.t) * 0.0002);
+            this.x = (Math.cos(this.t) * 0.0004);
+            this.z = (Math.sin(this.t) * 0.0004);
 
             var pos = this.glassStickPosition;
             pos.x += this.x;

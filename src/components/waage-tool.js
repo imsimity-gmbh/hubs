@@ -55,6 +55,8 @@ AFRAME.registerComponent("waage-tool", {
                 this.taraBtn = this.el.querySelector(".tara-btn");
                 this.taraBtn.object3D.addEventListener("interact", () => this.tara());
 
+                this.taraBtn.object3D.visible = false;
+                this.displayText.object3D.visible = false;
 
                 this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
                 this.glowLossBtn.object3D.addEventListener("interact", () => this.onClickGlowLossBtn());
@@ -122,7 +124,8 @@ AFRAME.registerComponent("waage-tool", {
             this.displayWeight = this.weight + "g";
             this.displayText.setAttribute("text", { value: this.displayWeight });
             this.taraPressed = true;
-        
+            
+            this.taraBtn.object3D.visible = false;
     
             this.onTaraPressedCallbacks.forEach(cb => {
                 cb();
@@ -141,6 +144,9 @@ AFRAME.registerComponent("waage-tool", {
     },
 
     onContainerPlaced() {
+        this.taraBtn.object3D.visible = true;
+        this.displayText.object3D.visible = true;
+
         this.weight = this.containerWeight;
         this.displayWeight = this.weight + "g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
