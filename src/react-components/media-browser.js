@@ -626,7 +626,7 @@ class MediaBrowserContainer extends Component {
             onClick={e => this.onPlaceExperiment(e, "position_02")}
           />
         }
-        {urlSource === "experiments" &&
+        {false && urlSource === "experiments" &&
           <MediaTile
             key={`003`}
             entry={experiments[2]}
