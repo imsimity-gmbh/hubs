@@ -9,9 +9,9 @@ export function InventoryListContent() {
         <div id="inventory-content" style={{width: "100%"}}>
             <ul>
                 <li>Bunsenbrenner</li>
-                <li>Mörserschale + Mörserstab</li>
-                <li>Dreifuß mit Auflegeplatte</li>
-                <li>Dreifuß mit Auflegedreieck</li>
+                <li>Mörser und Stößel</li>
+                <li>Dreifuß mit aufgelegter Ceran-Schutzplatte</li>
+                <li>Dreifuß mit aufgelegtem Tondreieck</li>
                 <li>Feuerzeug</li>
                 <li>Thermometer</li>
                 <li>Glasstab zum Rühren</li>

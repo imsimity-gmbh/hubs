@@ -485,8 +485,12 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
+        const distToAnchor = 0.2;
+        var radAngle =  deg2rad * anchorRot.y;
+        var dir = {x: Math.sin(radAngle) * distToAnchor, z:  Math.cos(radAngle) * distToAnchor};
+
         entity.setAttribute("networked", { template: "#interactable-stopwatch-camera" });
-        entity.setAttribute("position", {x: (anchorPos.x + 0.2), y: (anchorPos.y + 2), z: (anchorPos.z + 0)});
+        entity.setAttribute("position", {x: (anchorPos.x + dir.x), y: (anchorPos.y + 2), z: (anchorPos.z + dir.z)});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       }
