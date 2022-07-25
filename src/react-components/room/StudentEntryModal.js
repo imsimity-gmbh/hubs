@@ -259,8 +259,8 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
         return (
             <Modal  
                 title={<FormattedMessage id="student-entry.title" defaultMessage="Informationen" />}
-                beforeTitle={<CloseButton onClick={onClose} />}
-            >
+                /* beforeTitle={<CloseButton onClick={onClose} />} */
+             >
                 <div id="wrapper"> 
                     <h4 id="header">
                         Ziehe die Schutzkleidung an und lese die Sicherheitseinweisung

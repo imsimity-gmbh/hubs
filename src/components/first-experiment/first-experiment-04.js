@@ -247,7 +247,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
         console.log("Starting Burner");
 
-        this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.firstExpPart05.components["first-experiment-05"].subscribe("stopBurnerSound", this.stopBurnerSound);
         this.startBtn.object3D.visible = false;
         this.firelighterSocketTripod.components["entity-socket"].enableSocket();
@@ -257,6 +256,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     onLightBurner() {
         this.firelighterSocketGeneral.components["entity-socket"].enableSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
+        this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
         this.flameEntity.components["simple-animation"].printAnimations();
         console.log(this.flameEntity.object3D);

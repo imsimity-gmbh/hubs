@@ -16,7 +16,7 @@ let gloves2Class = "idle";
 function onClickGlove(scene, showNonHistoriedDialog, id) {
     gloves1Class = "idle";
     gloves2Class = "idle";
-    
+
     if(id == correctId)
         gloves1Class = "right";
     else if(id == 2) 
@@ -59,7 +59,7 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
                     <img className={gloves2Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2)}></img>
                     <div class="gloves-text">
                         <p>Einweghandschuhe</p>
-                        <p></p>
+                        <p> </p>
                     </div>   
                 </div>
             </div>
