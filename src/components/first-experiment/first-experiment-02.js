@@ -8,12 +8,15 @@ import mortarStickSrc from "../../assets/models/GecoLab/mortar_stick.glb";
 import groundSampleSrc1 from "../../assets/models/GecoLab/ground-sample-coarse-1.glb";
 import groundSampleSrc2 from "../../assets/models/GecoLab/ground-sample-coarse-2.glb";
 import groundSampleSrc3 from "../../assets/models/GecoLab/ground-sample-coarse-3.glb";
+
+import groundSampleInMortar from "../../assets/models/GecoLab/mortar_with_sample_1.glb";
+
 import bunsenBurnerSrc from "../../assets/models/GecoLab/bunsen_burner.glb";
 import tripodSrc from "../../assets/models/GecoLab/tripod.glb";
 import tripodPlateSrc from "../../assets/models/GecoLab/tripod_plate.glb";
 import tripodTriangleSrc from "../../assets/models/GecoLab/tripod_triangle.glb";
 import firelighterSrc from "../../assets/models/GecoLab/fireliter.glb";
-import glassStickSrc from "../../assets/models/GecoLab/flask_stick.glb";
+import glassStickSrc from "../../assets/models/GecoLab/flask_stick_blue.glb";
 import thermoSrc from "../../assets/models/GecoLab/thermo.glb"; 
 import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
@@ -24,11 +27,11 @@ import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
 
-const mortarModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarSrc));
+const groundSamplePromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
 const mortarStickModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarStickSrc));
-const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
-const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
-const groundSampleModelPromise3 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc3));
+
+const groundSampleInMortarPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleInMortar));
+
 const bunsenBurnerModelPromise = waitForDOMContentLoaded().then(() => loadModel(bunsenBurnerSrc));
 const tripodModelPromise = waitForDOMContentLoaded().then(() => loadModel(tripodSrc));
 const tripodPlateModelPromise = waitForDOMContentLoaded().then(() => loadModel(tripodPlateSrc));
@@ -94,8 +97,8 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.hiddenOnSpawn.push(this.mortarEntity);
         this.mortarStickEntity = this.el.querySelector(".mortar-stick-entity");
         this.hiddenOnSpawn.push(this.mortarStickEntity);
-        this.groundSampleEntity = this.el.querySelector(".ground-sample-entity");
-        this.movableEntities.push(this.groundSampleEntity);
+        /// this.groundSampleEntity = this.el.querySelector(".ground-sample-entity");
+        /// this.movableEntities.push(this.groundSampleEntity);
         // this.hiddenOnSpawn.push(this.groundSampleEntity);
         this.bunsenBurnerEntity = this.el.querySelector(".bunsen-burner-entity");
         this.movableEntities.push(this.bunsenBurnerEntity);
@@ -132,13 +135,14 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.tongEntity = this.el.querySelector(".tong-entity");
         this.movableEntities.push(this.tongEntity);
         this.hiddenOnSpawn.push(this.tongEntity);
+        this.crucibleGroundSample = this.el.querySelector(".crucible-ground-sample");
 
         //Get entity socket of placing positions:
         
         this.mortarSocket = this.sceneEl.querySelector(".mortar-socket");
         this.sockets.push(this.mortarSocket);
-        this.groundSampleSocket = this.sceneEl.querySelector(".ground-sample-socket");
-        this.sockets.push(this.groundSampleSocket);
+        /// this.groundSampleSocket = this.sceneEl.querySelector(".ground-sample-socket");
+        /// this.sockets.push(this.groundSampleSocket);
         this.bunsenBurnerSocket = this.sceneEl.querySelector(".bunsen-burner-socket");
         this.sockets.push(this.bunsenBurnerSocket);
         this.tripod1Socket = this.sceneEl.querySelector(".tripod-1-socket");
@@ -170,9 +174,9 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, false);
         this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, false);
         this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, false);
-        this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, false);
+        this.spawnItem(groundSampleInMortarPromise, new THREE.Vector3(0.3, 0.8, 0), this.mortarEntity, false);
         this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, false);
-        this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, false);
+        /// this.spawnItem(groundSampleInMortarPromise, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, false);
         this.spawnItem(glassStickModelPromise, new THREE.Vector3(0.45, 0.8, 0), this.glassStickEntity, false);
         this.spawnItem(spoonModelPromise, new THREE.Vector3(0.65, 0.8, 0), this.spoonEntity, false);
         this.spawnItem(groundSampleSpoonModelPromise, new THREE.Vector3(0, 0.01, 0.1), this.groundSampleSpoonEntity, false);
@@ -192,7 +196,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         mainTableAnchor.add(this.crucibleEntity.object3D);
 
         this.spawnItem(curcibleModelPromise, new THREE.Vector3(-1.1,0.9,-0.05), this.crucibleEntity, false);
-
+        this.spawnItem(groundSamplePromise, new THREE.Vector3(0, 0.08, 0), this.crucibleGroundSample, true, new THREE.Vector3(0.45,0.45,0.45));
 
 
         this.updateUI();
@@ -244,7 +248,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
     },
 
-    spawnItem(promise, position, entity, show) {
+    spawnItem(promise, position, entity, show, scale = new THREE.Vector3(1,1,1)) {
         promise.then(model => {
             entity.object3D.visible = false;
             const mesh = cloneObject3D(model.scene);
@@ -254,7 +258,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         
             if(show)
                 entity.object3D.visible = true;
-            entity.object3D.scale.set(1.0, 1.0, 1.0);
+            entity.object3D.scale.set(scale.x, scale.y, scale.z);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
             
@@ -276,7 +280,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
     tryTriggeringCallbacks()
     {
-        if (this.onObjectSpawnedPart02Callbacks.length == 24)
+        if (this.onObjectSpawnedPart02Callbacks.length == 22)
         {
             console.log("all callback subscribed (" + this.onObjectSpawnedPart02Callbacks.length + ") callbacks");
 
@@ -311,7 +315,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             let name = e.className;
             e.className = "interactable " + name;
         });
-        this.groundSampleEntity.object3D.visible = true;
+        // this.groundSampleEntity.object3D.visible = true;
 
         // switch(groundSampleIndex) {
         //     case 1:

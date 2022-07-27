@@ -1,8 +1,8 @@
 import { waitForDOMContentLoaded } from "../../utils/async-utils";
 import { cloneObject3D } from "../../utils/three-utils";
 import { loadModel } from ".././gltf-model-plus";
-import groundSampleSrc1 from "../../assets/models/GecoLab/ground-sample-coarse-1.glb";
-import groundSampleSrc2 from "../../assets/models/GecoLab/ground-sample-coarse-2.glb";
+import groundSampleSrc1 from "../../assets/models/GecoLab/mortar_with_sample_1.glb";
+import groundSampleSrc2 from "../../assets/models/GecoLab/mortar_with_sample_2.glb";
 import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
@@ -152,7 +152,7 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
       
           if(show)
             entity.object3D.visible = true;
-          entity.object3D.scale.set(2.0, 2.0, 2.0);
+          entity.object3D.scale.set(1.0, 1.0, 1.0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
           console.log(entity);

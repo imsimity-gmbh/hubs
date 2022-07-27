@@ -646,15 +646,6 @@ function registerNetworkSchemas() {
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
-        selector: ".ground-sample-entity",
-        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
-      },
-      {
-        selector: ".ground-sample-entity",
-        component: "rotation",
-        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
-      },
-      {
         selector: ".bunsen-burner-entity",
         component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
@@ -810,6 +801,16 @@ function registerNetworkSchemas() {
       },
       {
         selector: ".attached-tong-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".crucible-ground-sample",
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".crucible-ground-sample",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },

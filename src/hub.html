@@ -1019,10 +1019,7 @@
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity> <!--static-->
-                        <a-entity class="ground-sample-socket" position="1.8 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.7; enabled: true;">
-                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
-                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        </a-entity> <!--static-->
+    
                         <a-entity class="mortar-socket" position="2.1 0.6 0" rotation="0 0 0" entity-socket="acceptedEntities: .mortar-entity; radius: 0.7; enabled: true;">
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
@@ -1052,16 +1049,6 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                             <a-entity class="mortar-stick-entity" position="0 0 0" rotation="-20 0 0"></a-entity>
-                        </a-entity>
-                        <a-entity class="ground-sample-entity" position="0 1 0" rotation="0 180 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
-                            matrix-auto-update
-                            set-yxz-order       
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;"
-                        >
                         </a-entity>
                         <a-entity class="bunsen-burner-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1156,6 +1143,7 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                             <a-entity class="attached-tong-entity" position="0.23 0.15 0"></a-entity>
+                            <a-entity class="crucible-ground-sample" position="0 0.10 0"></a-entity>
                         </a-entity>
                         <a-entity class="spoon-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1198,10 +1186,7 @@
                             <a-entity text=" value: Probe moersern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity> <!--static-->
-                    <a-entity class="ground-sample-socket-03" position="-0.55 0.57 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .ground-sample-entity; radius: 0.7; enabled: false;">
-                        <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
-                        <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                    </a-entity> <!--static-->
+                    
                     <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
                     <a-entity class="spoon-socket-03" position="-0.4 0.61 0.2" rotation="20 270 0" entity-socket="acceptedEntities: .spoon-entity; radius: 0.7; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>

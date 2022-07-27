@@ -79,7 +79,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             // this.updateUI();
             setTimeout(() => {
                 this.mortarSocket03 = this.el.querySelector(".mortar-socket-03");
-                this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
+                /// this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
                 this.spoonSocket03 = this.el.querySelector(".spoon-socket-03");
                 this.spoonSocketScale = this.el.querySelector(".spoon-socket-scale");
 
@@ -89,7 +89,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
 
                 this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
-                this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
+                /// this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
                 this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
                 this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
 
@@ -181,8 +181,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     onPlacedMortar() {
-        this.groundSampleSocket03.components["entity-socket"].enableSocket();
-        this.groundSampleSocket03.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
+        this.onInsertSample();
+        /// this.groundSampleSocket03.components["entity-socket"].enableSocket();
+        /// this.groundSampleSocket03.components["entity-socket"].subscribe("onSnap", this.onInsertSample);
     },
 
     onInsertSample() {
@@ -209,8 +210,8 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_GRIND_SOUND);
         this.grindSampleClicks++;
         if(this.grindSampleClicks >= 15) {
-            this.groundSampleSocket03.components["entity-socket"].disableSocket();
-            this.groundSampleEntity.object3D.visible = false;
+            /// this.groundSampleSocket03.components["entity-socket"].disableSocket();
+            /// this.groundSampleEntity.object3D.visible = false;
             this.grindSampleEntity = this.el.querySelector(".grind-sample-entity");
             this.spawnItem(grindedSampleModelPromise, new THREE.Vector3(-0.55, 0.77, 0.2), this.grindSampleEntity, true);
             this.spoonSocket03.components["entity-socket"].enableSocket();
