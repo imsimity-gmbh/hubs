@@ -23,6 +23,8 @@ AFRAME.registerComponent("stopwatch-tool", {
   // like Start() in Unity
   init() {
 
+    console.log(this.el.object3D.position);
+
     this.el.object3D.visible = false; // Make invisible until model ready
     this.lastUpdate = performance.now();
 
@@ -43,8 +45,8 @@ AFRAME.registerComponent("stopwatch-tool", {
 
     this.minuteMark1 = 7;
     this.minuteMark2 = 60;
-    this.minuteMark3 = 25; //eigtl. 25
-    this.minuteMark4 = 45; //eigtl. 45
+    this.minuteMark3 = 25;   // 16
+    this.minuteMark4 = 45;   // 20
     this.minuteMark1Reached = false;
     this.minuteMark2Reached = false;
     this.minuteMark3Reached = false;

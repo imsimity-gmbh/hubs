@@ -12,7 +12,12 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         onClickTidyUp: {default: false},
     },
   
+
+    // Somehow called twice
     init: function() {
+
+        console.log('first-experiment-06 init');
+
         this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
@@ -48,11 +53,11 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
                 this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
                 this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
-                this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
+                this.discussResultBtn = document.querySelector(".discuss-result-btn");
                 this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
                 this.discussResultBtn.object3D.visible = false;
 
-                this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
+                this.multipleChoice06 = document.querySelector(".multiple-choice-wrapper-06");
                 this.multipleChoice06.object3D.visible = false;
                 this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
 
@@ -72,8 +77,8 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
     hotfix()
     {
-        this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
-        this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
+        this.discussResultBtn = document.querySelector(".discuss-result-btn");
+        this.multipleChoice06 = document.querySelector(".multiple-choice-wrapper-06");
     },
 
     subscribe(eventName, fn)
@@ -156,6 +161,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     },
 
     onPopUpClosed() {
+        console.log("boop");
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);
@@ -196,6 +202,8 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         console.log(this.multipleChoice06);
 
         this.discussResultBtn.object3D.visible = false;
+
+        // Shown for a few frames
         this.multipleChoice06.object3D.visible = true;
         this.multipleChoice06.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice06);
     },
