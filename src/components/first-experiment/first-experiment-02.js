@@ -20,7 +20,7 @@ import glassStickSrc from "../../assets/models/GecoLab/flask_stick_blue.glb";
 import thermoSrc from "../../assets/models/GecoLab/thermo.glb"; 
 import scaleSrc from "../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
-import spoonSrc from "../../assets/models/GecoLab/spoon.glb";
+import spoonSrc from "../../assets/models/GecoLab/spoon_darker.glb";
 import groundSampleSpoonSrc from "../../assets/models/GecoLab/ground-sample-spoon.glb";
 import tongSrc from "../../assets/models/GecoLab/tong.glb";
 import { THREE } from "aframe";
@@ -196,7 +196,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         mainTableAnchor.add(this.crucibleEntity.object3D);
 
         this.spawnItem(curcibleModelPromise, new THREE.Vector3(-1.1,0.9,-0.05), this.crucibleEntity, false);
-        this.spawnItem(groundSamplePromise, new THREE.Vector3(0, 0.08, 0), this.crucibleGroundSample, true, new THREE.Vector3(0.45,0.45,0.45));
+        this.spawnItem(groundSamplePromise, new THREE.Vector3(0, 0.04, 0), this.crucibleGroundSample, true, new THREE.Vector3(0.38,0.38,0.38));
 
 
         this.updateUI();

@@ -21,6 +21,7 @@ AFRAME.registerSystem('gecolab-manager', {
         this.studentId = queryParams.get('studentId');
         this.groupId = queryParams.get('groupId');
         this.schoolId = queryParams.get('schoolId');
+        this.teacherId = queryParams.get('teacherId');
 
         const roomId = window.location.pathname.split('/')[1];
         console.log('Room ID:' + roomId);
@@ -29,21 +30,41 @@ AFRAME.registerSystem('gecolab-manager', {
         console.log('Currently in lobby ? ' + this.isCurrentlyInLobby);
 
         
+        if (!isNullUndefinedOrEmpty(this.studentId) && !isNullUndefinedOrEmpty(this.groupId))
+        {
+            Cookies.remove('teacherId');
+        }
+        else if (!isNullUndefinedOrEmpty(this.teacherId))
+        {
+            Cookies.remove('studentId');
+            Cookies.remove('groupId');
+        }
+
         // Values aren't in the params, we get it from cookies 
         this.studentId = isNullUndefinedOrEmpty(this.studentId) ? Cookies.get('studentId') : this.studentId;
         this.groupId = isNullUndefinedOrEmpty(this.groupId) ? Cookies.get('groupId') : this.groupId;
         this.schoolId = isNullUndefinedOrEmpty(this.schoolId) ? Cookies.get('schoolId') : this.schoolId;
+        this.teacherId = isNullUndefinedOrEmpty(this.teacherId) ? Cookies.get('teacherId') : this.teacherId;
 
+        if (isNullUndefinedOrEmpty(this.teacherId) == false)
+        {
+            console.log("Teacher login !");
 
-        if (isNullUndefinedOrEmpty(this.studentId) == false)
+            Cookies.set('teacherId', this.teacherId, { expires: 1 });
+
+            console.log("Teacher ID :" + this.teacherId + " found. Initializing...");
+            this.checkInitTeacher();
+
+        }
+        else if (isNullUndefinedOrEmpty(this.studentId) == false)
         {
             // Store the value in cookies, for next time...
-            Cookies.set('studentId', this.studentId);
-            Cookies.set('groupId', this.groupId);
-            Cookies.set('schoolId', this.schoolId);
+            Cookies.set('studentId', this.studentId, { expires: 1 });
+            Cookies.set('groupId', this.groupId, { expires: 1 });
+            Cookies.set('schoolId', this.schoolId, { expires: 1 });
 
             console.log("Student ID :" + this.studentId + " found. Initializing...");
-            this.checkSceneInitialization();
+            this.checkInitStudent();
         }
         else
         {
@@ -52,7 +73,7 @@ AFRAME.registerSystem('gecolab-manager', {
         
     },
 
-    checkSceneInitialization()
+    checkInitTeacher()
     {
         console.log(window.APP);
 
@@ -60,17 +81,67 @@ AFRAME.registerSystem('gecolab-manager', {
         {
             console.log("Scene & Hub Channel are ready");
         
-            this.initFromServer();
+            this.initTeacher();
             return;
         }
 
         console.log("Scene & Hub Channel aren't ready");
 
         // Re-check in 1 second
-        setTimeout(() => { this.checkSceneInitialization() }, 1000);
+        setTimeout(() => { this.checkInitTeacher() }, 1000);
     },
 
-    initFromServer()
+    initTeacher()
+    {
+        if (this.teacherId != null)
+        {
+            fetch(`https://${configs.CORS_PROXY_SERVER}/${GECOLAB_DASHBOARD_API}/api/v1/teacher?teacherId=${this.teacherId}`, {
+                method: 'GET', 
+                cache: 'no-cache'
+            })
+            .then(response => response.json())
+            .then(teacher => {
+                console.log("GECOLAB MANAGER: Teacher found");
+                console.log(teacher);
+                
+                // Initing Teacher
+                this.teacher = teacher;
+                
+                console.log(teacher);
+                
+                const avatarUrl = this.teacher.avatarUrl;
+                const gamerTag = this.teacher.firstname + " " + this.teacher.lastname;
+                
+                this.initializeAvatarAndDisplayName(avatarUrl, gamerTag);
+
+                this.initialized = true;
+            });
+        }
+        else
+        {
+            console.log("GECOLAB MANAGER: no schoolId found")
+        }
+    },
+
+    checkInitStudent()
+    {
+        console.log(window.APP);
+
+        if (window.APP.scene != null && window.APP.hubChannel != null)
+        {
+            console.log("Scene & Hub Channel are ready");
+        
+            this.initStudent();
+            return;
+        }
+
+        console.log("Scene & Hub Channel aren't ready");
+
+        // Re-check in 1 second
+        setTimeout(() => { this.checkInitStudent() }, 1000);
+    },
+
+    initStudent()
     {
         //TODO: Refactor with Asyc / Await ?
         if (this.schoolId != null)
@@ -116,8 +187,11 @@ AFRAME.registerSystem('gecolab-manager', {
                 {
                     console.log("GECOLAB MANAGER: Group not found in school");
                 }
+
+                const avatarUrl = this.student.avatarUrl;
+                const gamerTag = this.student.gamerTag;
                 
-                this.initializeAvatarAndDisplayName();
+                this.initializeAvatarAndDisplayName(avatarUrl, gamerTag);
 
                 this.initialized = true;
             });
@@ -128,18 +202,13 @@ AFRAME.registerSystem('gecolab-manager', {
         }
     },
 
-    initializeAvatarAndDisplayName()
+    initializeAvatarAndDisplayName(avatarUrl, displayName)
     {
-        const avatarUrl = this.student.avatarUrl;
-        const gamerTag = this.student.gamerTag;
-        
-        console.log("Student Avatar found :"+ avatarUrl);
-
         const store = window.APP.store;
         const scene = window.APP.scene;
 
         // We push an update of the AVATAR url for this Student
-        store.update({ profile: { ...store.state.profile, ...{ avatarId: avatarUrl, displayName: gamerTag } } });
+        store.update({ profile: { ...store.state.profile, ...{ avatarId: avatarUrl, displayName: displayName } } });
         scene.emit("avatar_updated");
     },
 
@@ -163,6 +232,16 @@ AFRAME.registerSystem('gecolab-manager', {
         return this.student;
     },
 
+    getTeacher()
+    {
+        if (this.teacher == null)
+        {
+            return null;
+        }
+
+        return this.teacher;
+    },
+
     getGroup()
     {
         if (this.group == null)
@@ -181,6 +260,11 @@ AFRAME.registerSystem('gecolab-manager', {
     isStudent()
     {
         return (this.student != null);
+    },
+
+    isTeacher()
+    {
+        return (this.teacher != null);
     },
 
     isInLobby()

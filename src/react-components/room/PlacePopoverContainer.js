@@ -15,6 +15,7 @@ import { ObjectUrlModalContainer } from "./ObjectUrlModalContainer";
 import configs from "../../utils/configs";
 import { FormattedMessage } from "react-intl";
 
+
 export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistoriedDialog, hubChannel }) {
   const [items, setItems] = useState([]);
 
@@ -29,6 +30,10 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
         const hasActiveFirstExperiment = !!scene.systems["first-experiments"].getMyExperiment();
         
+        const isTeacher = !!scene.systems["gecolab-manager"].isTeacher();
+        const isStudent = !!scene.systems["gecolab-manager"].isStudent();
+
+        console.log("is teacher ? " + isTeacher);
 
         let nextItems = [
           hubChannel.can("spawn_drawing") && {
@@ -71,7 +76,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_robot"),
             selected: hasActiveRobot
           },
-          hubChannel.can("spawn_camera") && {
+          isTeacher && hubChannel.can("spawn_camera") && {
             id: "experiments",
             icon: ExperimentIcon,
             color: "accent5",
@@ -86,20 +91,6 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_camera"),
             selected: hasActiveCamera
           },
-          // hubChannel.can("spawn_camera") && {
-          //   id: "choose-gloves-modal",
-          //   icon: CameraIcon,
-          //   color: "accent4",
-          //   label: <FormattedMessage id="place-popover.item-type.gloves" defaultMessage="Glove Popup" />,
-          //   onSelect: () => scene.emit("gecolab_choose_gloves")
-          // },
-          // hubChannel.can("spawn_camera") && {
-          //   id: "choose-formula-modal",
-          //   icon: CameraIcon,
-          //   color: "accent4",
-          //   label: <FormattedMessage id="place-popover.item-type.formula" defaultMessage="Formula Popup" />,
-          //   onSelect: () => scene.emit("gecolab_choose_formula")
-          // }
          
         ];
 
@@ -109,28 +100,28 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             // TODO: Create text/link dialog
             // { id: "text", icon: TextIcon, color: "blue", label: "Text" },
             // { id: "link", icon: LinkIcon, color: "blue", label: "Link" },
-            configs.integration("tenor") && {
+            false &&  configs.integration("tenor") && {
               id: "gif",
               icon: GIFIcon,
               color: "accent2",
               label: <FormattedMessage id="place-popover.item-type.gif" defaultMessage="GIF" />,
               onSelect: () => mediaSearchStore.sourceNavigate("gifs")
             },
-            configs.integration("sketchfab") && {
+            false && configs.integration("sketchfab") && {
               id: "model",
               icon: ObjectIcon,
               color: "accent2",
               label: <FormattedMessage id="place-popover.item-type.model" defaultMessage="3D Model" />,
               onSelect: () => mediaSearchStore.sourceNavigate("sketchfab")
             },
-            {
+            false && {
               id: "avatar",
               icon: AvatarIcon,
               color: "accent1",
               label: <FormattedMessage id="place-popover.item-type.avatar" defaultMessage="Avatar" />,
               onSelect: () => mediaSearchStore.sourceNavigate("avatars")
             },
-            {
+            false &&  {
               id: "scene",
               icon: SceneIcon,
               color: "accent1",
@@ -138,7 +129,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
               onSelect: () => mediaSearchStore.sourceNavigate("scenes")
             },
             // TODO: Launch system file prompt directly
-            {
+            false &&  {
               id: "upload",
               icon: UploadIcon,
               color: "accent3",
