@@ -93,7 +93,7 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     // Skip security for Labor entrances
     if (loadedOnce === false)
     {
-        if (gecolabManager.isInLobby())
+        if (!gecolabManager.isInLobby())
         {
             showAcceptBtn = false;
             showSecurityBtn = true;
