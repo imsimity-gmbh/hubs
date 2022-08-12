@@ -188,7 +188,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         if(this.measureTemp) {
             this.temp += 0.01;
             let roundedTemp = Math.round(this.temp);
-            let displayTemp = roundedTemp + " *C";
+            let displayTemp = roundedTemp + " °C";
             this.tempText.setAttribute("text", { value: displayTemp });
             if(this.temp > 500) {
                 this.ctrlBtn02.object3D.visible = true;
@@ -298,7 +298,7 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
     stopThermo() {
         this.measureTemp = false;
-        this.tempText.setAttribute("text", { value: "0 *C" });
+        this.tempText.setAttribute("text", { value: "0 °C" });
     },
 
     thermoOnTable() {

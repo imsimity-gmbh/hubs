@@ -7,6 +7,8 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
 const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
 const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
+const groundSampleModelPromise3 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
+const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
 
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
@@ -68,10 +70,13 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
       this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
 
       this.groundSample1 = this.el.querySelector(".ground-sample-1");
-      this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.9, 0.8, 0), this.groundSample1, false);
+      this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-1.5, 0.8, 0), this.groundSample1, false);
       this.groundSample2 = this.el.querySelector(".ground-sample-2");
-      this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(0.9, 0.8, 0), this.groundSample2, false);
-
+      this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(-0.5, 0.8, 0), this.groundSample2, false);
+      this.groundSample3 = this.el.querySelector(".ground-sample-3");
+      this.spawnItem(groundSampleModelPromise3, new THREE.Vector3(0.5, 0.8, 0), this.groundSample3, false);
+      this.groundSample4 = this.el.querySelector(".ground-sample-4");
+      this.spawnItem(groundSampleModelPromise4, new THREE.Vector3(1.5, 0.8, 0), this.groundSample4, false);
      
       this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
       this.btnWrapper.object3D.visible = false;
@@ -81,6 +86,12 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
       this.groundSample2Btn = this.el.querySelector(".ground-sample-btn-2");
       this.groundSample2Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(2));
+
+      this.groundSample3Btn = this.el.querySelector(".ground-sample-btn-3");
+      this.groundSample3Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(3));
+
+      this.groundSample4Btn = this.el.querySelector(".ground-sample-btn-4");
+      this.groundSample4Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(4));
       // TODO: Not Found...
       this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
 
@@ -165,6 +176,8 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
 
       this.groundSample1.object3D.visible = true;
       this.groundSample2.object3D.visible = true;
+      this.groundSample3.object3D.visible = true;
+      this.groundSample4.object3D.visible = true;
 
       this.btnWrapper.object3D.visible = true;
     },
@@ -185,13 +198,25 @@ const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel
         this.groundSamplesWrapper.object3D.visible = false;
 
         if(this.localGroundSampleIndex == 1) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(112.17);
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(112.17); // Schwarzwald Nördlicher
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
         }
         else if(this.localGroundSampleIndex == 2) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.7);
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.79); //  Schwäbische Alb
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }
+        else if(this.localGroundSampleIndex == 3) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.65); // Voralpines Hügel- und Moorland 
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }
+        else if(this.localGroundSampleIndex == 4) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.095); // Odenwald, Spessart und Südröhn 
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });

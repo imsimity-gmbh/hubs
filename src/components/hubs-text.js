@@ -1,4 +1,5 @@
 import createTextGeometry from "three-bmfont-text";
+import configs from "../utils/configs";
 
 // 1 to match other A-Frame default widths.
 const DEFAULT_WIDTH = 1;
@@ -54,11 +55,13 @@ function loadFont(src) {
     .then(resp => resp.json())
     .then(font => {
       // Fix negative Y offsets for Roboto MSDF font from tool. Experimentally determined.
+      /*
       if (src.indexOf("/Roboto-msdf.json") >= 0) {
         for (const ch of font.chars) {
           ch.yoffset += 30;
         }
       }
+      */
       font.widthFactor = computeFontWidthFactor(font);
       return font;
     });
@@ -86,8 +89,8 @@ function loadTexture(src) {
 
 const FONTS = {
   roboto: {
-    json: loadFont("https://cdn.aframe.io/fonts/Roboto-msdf.json"),
-    texture: loadTexture("https://cdn.aframe.io/fonts/Roboto-msdf.png")
+    json: loadFont(`https://${configs.CORS_PROXY_SERVER}/https://cci.imsimity.com/gecolab/fonts/v2/Roboto-msdf.json`),
+    texture: loadTexture(`https://${configs.CORS_PROXY_SERVER}/https://cci.imsimity.com/gecolab/fonts/v2/Roboto.png`)
   }
 };
 
