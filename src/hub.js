@@ -155,13 +155,15 @@ import "./components/multiple-choice-question";
 import "./components/collectible";
 import "./components/waage-tool";
 
-import "./components/first-experiment/first-experiment";
-import "./components/first-experiment/first-experiment-01";
-import "./components/first-experiment/first-experiment-02";
-import "./components/first-experiment/first-experiment-03";
-import "./components/first-experiment/first-experiment-04";
-import "./components/first-experiment/first-experiment-05";
-import "./components/first-experiment/first-experiment-06";
+import "./components/GecoLab/first-experiment/first-experiment";
+import "./components/GecoLab/first-experiment/first-experiment-01";
+import "./components/GecoLab/first-experiment/first-experiment-02";
+import "./components/GecoLab/first-experiment/first-experiment-03";
+import "./components/GecoLab/first-experiment/first-experiment-04";
+import "./components/GecoLab/first-experiment/first-experiment-05";
+import "./components/GecoLab/first-experiment/first-experiment-06";
+
+import "./components/GecoLab/mannequin";
 
 import ReactDOM from "react-dom";
 import React from "react";
@@ -211,6 +213,7 @@ import "./systems/audio-gain-system";
 
 import "./systems/first-experiments";
 import "./systems/gecolab-manager";
+import "./systems/mannequin-manager";
 
 import "./gltf-component-mappings";
 

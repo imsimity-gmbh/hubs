@@ -1,9 +1,9 @@
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import groundSampleSrc1 from "../../assets/models/GecoLab/mortar_with_sample_1.glb";
-import groundSampleSrc2 from "../../assets/models/GecoLab/mortar_with_sample_2.glb";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { loadModel } from "../.././gltf-model-plus";
+import groundSampleSrc1 from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
+import groundSampleSrc2 from "../../../assets/models/GecoLab/mortar_with_sample_2.glb";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
 
 const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
 const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
@@ -173,6 +173,13 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
     startPart01() {
 
       console.log('Show Ground Sample');
+
+      
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+
+      this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[0], 8.0);
+      // Shows this text after the other one is gone
+      this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[1], 7.0);
 
       this.groundSample1.object3D.visible = true;
       this.groundSample2.object3D.visible = true;

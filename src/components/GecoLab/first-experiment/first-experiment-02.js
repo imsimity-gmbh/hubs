@@ -1,28 +1,25 @@
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { loadModel } from "../.././gltf-model-plus";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
 //Initial Models:
-import mortarSrc from "../../assets/models/GecoLab/mortar.glb";
-import mortarStickSrc from "../../assets/models/GecoLab/mortar_stick.glb";
-import groundSampleSrc1 from "../../assets/models/GecoLab/ground-sample-coarse-1.glb";
-import groundSampleSrc2 from "../../assets/models/GecoLab/ground-sample-coarse-2.glb";
-import groundSampleSrc3 from "../../assets/models/GecoLab/ground-sample-coarse-3.glb";
+import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
+import groundSampleSrc1 from "../../../assets/models/GecoLab/ground-sample-coarse-1.glb";
 
-import groundSampleInMortar from "../../assets/models/GecoLab/mortar_with_sample_1.glb";
+import groundSampleInMortar from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
 
-import bunsenBurnerSrc from "../../assets/models/GecoLab/bunsen_burner.glb";
-import tripodSrc from "../../assets/models/GecoLab/tripod.glb";
-import tripodPlateSrc from "../../assets/models/GecoLab/tripod_plate.glb";
-import tripodTriangleSrc from "../../assets/models/GecoLab/tripod_triangle.glb";
-import firelighterSrc from "../../assets/models/GecoLab/fireliter.glb";
-import glassStickSrc from "../../assets/models/GecoLab/flask_stick_blue.glb";
-import thermoSrc from "../../assets/models/GecoLab/thermo.glb"; 
-import scaleSrc from "../../assets/models/GecoLab/scales.glb";
-import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
-import spoonSrc from "../../assets/models/GecoLab/spoon_darker.glb";
-import groundSampleSpoonSrc from "../../assets/models/GecoLab/ground-sample-spoon.glb";
-import tongSrc from "../../assets/models/GecoLab/tong.glb";
+import bunsenBurnerSrc from "../../../assets/models/GecoLab/bunsen_burner.glb";
+import tripodSrc from "../../../assets/models/GecoLab/tripod.glb";
+import tripodPlateSrc from "../../../assets/models/GecoLab/tripod_plate.glb";
+import tripodTriangleSrc from "../../../assets/models/GecoLab/tripod_triangle.glb";
+import firelighterSrc from "../../../assets/models/GecoLab/fireliter.glb";
+import glassStickSrc from "../../../assets/models/GecoLab/flask_stick_blue.glb";
+import thermoSrc from "../../../assets/models/GecoLab/thermo.glb"; 
+import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
+import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
+import spoonSrc from "../../../assets/models/GecoLab/spoon_darker.glb";
+import groundSampleSpoonSrc from "../../../assets/models/GecoLab/ground-sample-spoon.glb";
+import tongSrc from "../../../assets/models/GecoLab/tong.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
@@ -315,20 +312,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             let name = e.className;
             e.className = "interactable " + name;
         });
-        // this.groundSampleEntity.object3D.visible = true;
-
-        // switch(groundSampleIndex) {
-        //     case 1:
-        //         this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
-        //         break;
-        //     case 2:
-        //         this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
-        //         break;
-        //     case 3: 
-        //         this.spawnItem(groundSampleModelPromise3, new THREE.Vector3(-0.85, 0.8, 0), this.groundSampleEntity, true);
-        //         break;
-        // }
-        // this.skipBtn.object3D.visible = true;
+        
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[2], 6.0, MANNEQUIN_BUBBLE_HIGH);
     },
 
     skipAufbau() {
@@ -347,6 +334,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
     onPlacedExperimentItem() {
         this.itemsPlaced++;
         if(this.itemsPlaced >= this.sockets.length) {
+
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[3], 10.0, MANNEQUIN_BUBBLE_HIGH);
+
             this.sockets.forEach(s => {
                 s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
             });

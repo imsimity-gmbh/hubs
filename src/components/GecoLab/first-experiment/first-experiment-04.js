@@ -1,12 +1,12 @@
-import { SOUND_BURNER_SOUND } from "../../systems/sound-effects-system";
+import { SOUND_BURNER_SOUND } from "../../../systems/sound-effects-system";
 
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { loadModel } from "../.././gltf-model-plus";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
-import flameModelSrc from "../../assets/models/GecoLab/flame.glb";
+import flameModelSrc from "../../../assets/models/GecoLab/flame.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
 
 const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 
@@ -230,6 +230,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     onPlacedCrucible() {
         this.startBtn.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].reset();
+
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[6], 10.0, MANNEQUIN_BUBBLE_HIGH);
     },
 
     onStartBurnerClicked() {
@@ -263,6 +267,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
         this.flameEntity.components["simple-animation"].printAnimations();
+        
+        //Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[7], 8.0, MANNEQUIN_BUBBLE_HIGH);
+        
         console.log(this.flameEntity.object3D);
     },
 
@@ -323,6 +332,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     proceedToStiring() {
+        
+        //Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[8], 10.0, MANNEQUIN_BUBBLE_HIGH);
+
         this.glassstickSocket.components["entity-socket"].enableSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
     },

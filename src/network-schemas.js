@@ -396,11 +396,6 @@ function registerNetworkSchemas() {
         property: "radius"
       },
       {
-        selector: "#entity-socket",
-        component: "entity-socket",
-        property: "snappedEntity"
-      },
-      {
         selector: "#multiple-choice-component",
         component: "multiple-choice-question",
         property: "question_id"

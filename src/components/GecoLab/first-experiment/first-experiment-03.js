@@ -1,15 +1,15 @@
-import { SOUND_GRIND_SOUND } from "../../systems/sound-effects-system";
-import { SOUND_ADD_SAMPLE } from "../../systems/sound-effects-system";
+import { SOUND_GRIND_SOUND } from "../../../systems/sound-effects-system";
+import { SOUND_ADD_SAMPLE } from "../../../systems/sound-effects-system";
 
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { loadModel } from "../.././gltf-model-plus";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 //Initial Models:
-import grindedSampleSrc from "../../assets/models/GecoLab/ground_sample_grinded.glb";
-import scaleSrc from "../../assets/models/GecoLab/scales.glb";
-import curcibleSrc from "../../assets/models/GecoLab/crucible.glb";
+import grindedSampleSrc from "../../../assets/models/GecoLab/ground_sample_grinded.glb";
+import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
+import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
@@ -219,6 +219,11 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.finishedGrinding = true;
             this.grindSampleBtn.object3D.visible = false;
             this.mortarStick.object3D.visible = false;
+
+             // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[4], 16.0, MANNEQUIN_BUBBLE_HIGH);
+
         }
         
         //TODO: Mortar Stick is unkown
@@ -284,12 +289,27 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.playSound(SOUND_ADD_SAMPLE);
 
         this.scaleEntity.components["waage-tool"].addWeight(amount);
+
+        // Hack to automaticaly snap back spoon to bowl
+        this.spoonSocket03.components["entity-socket"].disableSocket();
         this.spoonSocket03.components["entity-socket"].enableSocket();
+        this.spoonSocket03.components["entity-socket"].onSnap(this.spoonEntity);
+        
+        // Actiave this one again
+        this.spoonSocketScale.components["entity-socket"].disableSocket();
+        this.spoonSocketScale.components["entity-socket"].enableSocket();
+    
     },
     onRightSampleAmount() {
         this.spoonEntity.object3D.visible = false;
         this.spoonSocketScale.components["entity-socket"].disableSocket();
         this.spoonSocket03.components["entity-socket"].disableSocket();
+
+        
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[5], 6.0, MANNEQUIN_BUBBLE_HIGH);
+
         this.onFinishPart03Callbacks.forEach(cb => {
             cb();
         });

@@ -86,6 +86,7 @@
             <img id="action-button" crossorigin="anonymous" src="./assets/hud/action_button.9.png">
             <img id="button" crossorigin="anonymous" src="./assets/hud/button.9.png">
             <img id="exp-button" crossorigin="anonymous" src="./assets/hud/button_exp.9.png">
+            <img id="mannequin-button" crossorigin="anonymous" src="./assets/hud/button_mannequin.9.png">
             <img id="burner-btn-0" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_0.png">
             <img id="burner-btn-1" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_1.png">
             <img id="burner-btn-2" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_2.png">
@@ -928,8 +929,33 @@
                             <a-entity text=" value: Start; width: 2.8; align:center;"  text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity>
+                    <a-entity 
+                        class="mannequin" 
+                        position="0 0.7 0" 
+                        mannequin
+                        >
+                        <a-entity
+                            class="mannequin-model"
+                            position="-1.7 0 -0.2" 
+                            scale="1.0 1.0 1.0"
+                            rotation="0 30 0"
+                            animation-mixer
+                            simple-animation
+                        >
+                        </a-entity>
+                        <a-entity
+                            class="mannequin-textbox" 
+                            mixin="rounded-mannequin-action-button" 
+                            is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-1 1.3 0.15" 
+                            scale="4.5 4.5 4.5">
+                                <a-entity class="mannequin-text"  text=" value: This is a piece of text\n said by the robot !; width: 0.4; align:center;"  text-raycast-hack position="0 0 0.001" scale="1 1 1"></a-entity>
+                        </a-entity>
+                    </a-entity>
                 </a-entity>
             </template>
+
+            
 
             <template id="interactable-first-experiment-01-camera">
                 <!--Ground samples:-->
@@ -938,7 +964,7 @@
                     matrix-auto-update
                     set-yxz-order
                     > <!--static-->
-                    <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">
+                    <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">                        
                         <a-entity class="ground-sample-1" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
                         <a-entity class="ground-sample-2" position="-0.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
                         <a-entity class="ground-sample-3" position="0.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
@@ -950,7 +976,7 @@
                             <a-entity class="ground-sample-info-1" text="value:  ; color: #000; align:center;"
                                 text-raycast-hack position="-1.5 0.4 0" scale="1.5 1.5 1.5">
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0 0" scale="2.0 2.0 2.0">
+                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0.2 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                             <a-entity class="ground-sample-text-2" text="value: Ort 2: Schwäbische Alb; color: #000; align:center;"
@@ -959,7 +985,7 @@
                             <a-entity class="ground-sample-info-2" text="value:  ; color: #000; align:center;"
                                 text-raycast-hack position="-0.5 0.4 0" scale="1.5 1.5 1.5">
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0 0" scale="2.0 2.0 2.0">
+                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.2 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                             <a-entity class="ground-sample-text-3" text="value: Ort 3: Voralpines Hügel-\nund Moorland; color: #000; align:center;"
@@ -968,7 +994,7 @@
                             <a-entity class="ground-sample-info-3" text="value:  ; color: #000; align:center;"
                                 text-raycast-hack position="0.5 0.4 0" scale="1.5 1.5 1.5">
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 0 0" scale="2.0 2.0 2.0">
+                            <a-entity class="ground-sample-btn-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 0.2 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                             <a-entity class="ground-sample-text-4" text="value: Ort 4: Odenwald,\nSpessart und Südröhn; color: #000; align:center;"
@@ -977,7 +1003,7 @@
                             <a-entity class="ground-sample-info-4" text="value:  ; color: #000; align:center;"
                                 text-raycast-hack position="1.5 0.4 0" scale="1.5 1.5 1.5">
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-4" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0 0" scale="2.0 2.0 2.0">
+                            <a-entity class="ground-sample-btn-4" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0.2 0" scale="2.0 2.0 2.0">
                                 <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                         </a-entity>
@@ -1728,6 +1754,26 @@
                     alphaTest: 0.1;
                     src: #exp-button"
             ></a-mixin>
+
+            <a-mixin id="rounded-mannequin-action-button"
+                text-button="
+                    textHoverColor: #fff;
+                    textColor: #fff;
+                    backgroundColor: #5e656d;
+                    backgroundHoverColor: #5e656d;
+                    "
+                slice9="
+                    width: 0.45;
+                    height: 0.2;
+                    left: 64;
+                    top: 64;
+                    right: 66;
+                    bottom: 66;
+                    transparent: false;
+                    alphaTest: 0.1;
+                    src: #mannequin-button"
+            ></a-mixin>
+
 
             <a-mixin id="rounded-burner-action-button-0"
                 text-button="backgroundHoverColor: #5e656d;"

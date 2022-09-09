@@ -1,9 +1,7 @@
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
-import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -265,6 +263,11 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
 
     glassStickPlaced() {
         console.log("placed stick");
+
+        //Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[9], 8.0, MANNEQUIN_BUBBLE_HIGH);
+
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
         this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.glassStickPlaced);
@@ -364,7 +367,12 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         this.stopBurnerSoundCallbacks.forEach(cb => {
             cb();
         });
+
         setTimeout(() => {
+        
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[11], 10.0, MANNEQUIN_BUBBLE_HIGH);
+
             this.ctrlBtn00.object3D.visible = false;
             this.tongSocketCrucible.components["entity-socket"].enableSocket();
             this.tongSocketCrucible.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);

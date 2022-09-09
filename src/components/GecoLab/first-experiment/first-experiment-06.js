@@ -1,7 +1,6 @@
-import { cloneObject3D } from "../../utils/three-utils";
-import { loadModel } from ".././gltf-model-plus";
-import { waitForDOMContentLoaded } from "../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_BUBBLE_LOW } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -146,6 +145,9 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
         this.tongEntity.object3D.visible = false;
         this.attachedTongEntity.object3D.visible = true;
 
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[12], 10.0, MANNEQUIN_BUBBLE_HIGH);
+
         this.crucibleSocketScale.components["entity-socket"].enableSocket();
         this.crucibleSocketScale.components["entity-socket"].subscribe("onSnap", this.onCruciblePlaced);
         this.tongSocket06.components["entity-socket"].unsubscribe("onSnap", this.tongPlacedOnCrucible);
@@ -154,6 +156,9 @@ import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
     onCruciblePlaced() {
         this.scaleEntity.components["waage-tool"].measureGlowLoss();
         this.crucibleSocketScale.components["entity-socket"].unsubscribe("onSnap", this.onCruciblePlaced);
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[13], 10.0, MANNEQUIN_BUBBLE_HIGH);
     },
 
     chooseFormula() {
