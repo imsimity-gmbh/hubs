@@ -11,6 +11,7 @@ import { ReactComponent as DuplicateIcon } from "../icons/Duplicate.svg";
 import { ReactComponent as SearchIcon } from "../icons/Search.svg";
 import { ReactComponent as HelpIcon } from "../icons/Help.svg";
 import { ReactComponent as ExternalLinkIcon } from "../icons/ExternalLink.svg";
+import { ReactComponent as DeleteIcon } from "../icons/Delete.svg";
 
 const PUBLISHER_FOR_ENTRY_TYPE = {
   sketchfab_model: "Sketchfab",
@@ -218,6 +219,16 @@ export function MediaTile({ entry, processThumbnailUrl, onClick, onEdit, onShowS
               title={intl.formatMessage({ id: "media-tile.action.edit-scene", defaultMessage: "Edit scene" })}
             >
               <PenIcon />
+            </TileAction>
+          )}
+          {entry.type === "library_item" &&
+          onEdit !== null &&
+          (
+            <TileAction
+              onClick={onEdit}
+              title={intl.formatMessage({ id: "media-tile.action.edit-library", defaultMessage: "Delete document" })}
+            >
+              <DeleteIcon />
             </TileAction>
           )}
         {entry.type === "avatar_listing" && (

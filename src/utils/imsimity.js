@@ -16,6 +16,8 @@ export var HEROKU_UPLOAD_URI = "https://gecolab-dashboard.herokuapp.com/api/v1/u
 
 export var HEROKU_POST_UPLOAD_URI = "https://gecolab-dashboard.herokuapp.com/api/v1/post/upload";
 
+export var HEROKU_DELETE_UPLOAD_URI = "https://gecolab-dashboard.herokuapp.com/api/v1/delete/upload";
+
 export var IMSIMITY_INIT_DELAY = 500;
 
 export var MANNEQUIN_BUBBLE_LOW = 0;

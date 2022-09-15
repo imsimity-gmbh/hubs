@@ -51,7 +51,10 @@ export function TeacherUrlModalContainer({ scene, onClose }) {
         const fileId = payload.file_id;
         const link = payload.origin + "?token=" + payload.meta.access_token;
 
-        const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_UPLOAD_URI}?name=${fileName}&user_id=USER_ID&content_type=${desiredContentType}&file_id=${fileId}&link=${link}`);
+        const teacher = scene.systems["gecolab-manager"].getTeacher();
+        var userId = teacher._id;
+
+        const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_UPLOAD_URI}?name=${fileName}&user_id=${userId}&content_type=${desiredContentType}&file_id=${fileId}&link=${link}`);
 
         console.log(herokuRes);
         console.log("Metadata sent to Heroku !");

@@ -19,7 +19,7 @@ import { proxiedUrlFor, scaledThumbnailUrlFor } from "../utils/media-url-utils";
 import { CreateTile, MediaTile } from "./room/MediaTiles";
 import { SignInMessages } from "./auth/SignInModal";
 
-import { HEROKU_UPLOAD_URI } from "../utils/imsimity";
+import { HEROKU_DELETE_UPLOAD_URI, HEROKU_UPLOAD_URI } from "../utils/imsimity";
 
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
@@ -196,6 +196,16 @@ class MediaBrowserContainer extends Component {
   componentWillUnmount() {
     this.props.mediaSearchStore.removeEventListener("statechanged", this.storeUpdated);
     this.props.mediaSearchStore.removeEventListener("sourcechanged", this.sourceChanged);
+  }
+
+  deleteLibraryEntry = async (e, entry) => {
+    
+    const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_DELETE_UPLOAD_URI}?file_id=${entry.id}`);
+
+    console.log(herokuRes);
+    // Update renderer
+    this.close();
+
   }
 
   updateLibrary = async () => {
@@ -740,7 +750,21 @@ class MediaBrowserContainer extends Component {
                   const spokeProjectUrl = getReticulumFetchUrl(`/spoke/projects/${entry.project_id}`);
                   window.open(spokeProjectUrl);
                 };
-              } 
+              } else if (entry.type = "library_item") {
+
+                if (isTeacher)
+                {
+                  onEdit = e => {
+                    e.preventDefault();
+                    // Delete item
+                    this.deleteLibraryEntry(e, entry);
+                  }
+                }
+                else
+                {
+                  onEdit = null;
+                }
+              }
             
               let onCopy;
 
