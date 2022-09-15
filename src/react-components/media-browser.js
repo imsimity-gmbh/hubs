@@ -149,6 +149,13 @@ const emptyMessages = defineMessages({
   }
 });
 
+const libraryThumnails = {
+  glb: "https://cci.imsimity.com/gecolab/digital_library/icons/glb.png",
+  url: "https://cci.imsimity.com/gecolab/digital_library/icons/url.png",
+  pdf: "https://cci.imsimity.com/gecolab/digital_library/icons/pdf.png",
+  mp4: "https://cci.imsimity.com/gecolab/digital_library/icons/mp4.png"
+}
+
 // TODO: Migrate to use MediaGrid and media specific components like RoomTile
 class MediaBrowserContainer extends Component {
   static propTypes = {
@@ -289,6 +296,18 @@ class MediaBrowserContainer extends Component {
   handleEntryClicked = (evt, entry) => {
     evt.preventDefault();
 
+    if (entry.type == "library_item")
+    {
+      if (!!this.props.scene.systems["gecolab-manager"].isStudent())
+      {
+        // if you are a student, just open in a new tab
+        var url = entry.url;
+      
+        window.open(url, '_blank').focus();
+        return;
+      }
+    }
+
     if (!entry.lucky_query) {
       this.selectEntry(entry);
     } else {
@@ -312,6 +331,7 @@ class MediaBrowserContainer extends Component {
   };
 
   handleSourceClicked = source => {
+    //TODO: Fix for Library
     this.props.mediaSearchStore.sourceNavigate(source);
   };
 
@@ -431,7 +451,18 @@ class MediaBrowserContainer extends Component {
   }
 
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
-    if (entry.images.preview.type === "mp4") {
+    if (entry.type == "library_item")
+    {
+      console.log(entry);
+      if (entry.content_type === "image/png" || entry.content_type === "image/jpeg")
+        return scaledThumbnailUrlFor(entry.images.preview.url, thumbnailWidth, thumbnailHeight);
+      else
+      {
+        console.log("unsupported types, or ?");
+        return proxiedUrlFor(entry.images.preview.url);
+      }
+    }
+    else if (entry.images.preview.type === "mp4") {
       return proxiedUrlFor(entry.images.preview.url);
     } else {
       return scaledThumbnailUrlFor(entry.images.preview.url, thumbnailWidth, thumbnailHeight);
@@ -445,11 +476,21 @@ class MediaBrowserContainer extends Component {
     const urlSource = this.getUrlSource(searchParams);
     const isSceneApiType = urlSource === "scenes";
     const isFavorites = urlSource === "favorites";
-    const showCustomOption =
+    var showCustomOption =
       !isFavorites && (!isSceneApiType || this.props.hubChannel.canOrWillIfCreator("update_hub"));
     const entries = (this.state.result && this.state.result.entries) || [];
     const hideSearch = urlSource === "favorites";
     const showEmptyStringOnNoResult = urlSource !== "avatars" && urlSource !== "scenes";
+
+    const isInLibrary = urlSource === "library";
+
+    const isTeacher = !!this.props.scene.systems["gecolab-manager"].isTeacher();
+    const isStudent = !!this.props.scene.systems["gecolab-manager"].isStudent();
+
+    if (isInLibrary && isStudent)
+    {
+      showCustomOption = false;
+    }
 
     const facets = this.state.facets && this.state.facets.length > 0 ? this.state.facets : undefined;
 
@@ -593,7 +634,8 @@ class MediaBrowserContainer extends Component {
         }
         searchDescription={searchDescription}
         headerRight={
-          showCustomOption && (
+          showCustomOption 
+          && (
             <IconButton lg onClick={() => handleCustomClicked(urlSource)}>
               {["scenes", "avatars"].includes(urlSource) ? <LinkIcon /> : <UploadIcon />}
               <p>{intl.formatMessage(customObjectMessages[customObjectType])}</p>
@@ -698,10 +740,8 @@ class MediaBrowserContainer extends Component {
                   const spokeProjectUrl = getReticulumFetchUrl(`/spoke/projects/${entry.project_id}`);
                   window.open(spokeProjectUrl);
                 };
-              } else if (entry.type === "library_item") {
-                entry.images.preview.url =  `https://${configs.CORS_PROXY_SERVER}/${entry.images.preview.url}`;
-              }
-
+              } 
+            
               let onCopy;
 
               if (isAvatar) {
