@@ -284,10 +284,13 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].removeWeight();
     },
+
     addSampleToCrucible() {
         let amount = this.data.randomAmounts[this.amountsCount];
         this.amountsCount++;        
         
+        console.log('Adding soil ' + amount);
+
         this.weighedAmount += amount;
 
         if(this.weighedAmount <= 50)
@@ -298,20 +301,25 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.scaleEntity.components["waage-tool"].addWeight(amount);
 
         // Hack to automaticaly snap back spoon to bowl
-        this.spoonSocket03.components["entity-socket"].disableSocket();
-        this.spoonSocket03.components["entity-socket"].enableSocket();
-        this.spoonSocket03.components["entity-socket"].onSnap(this.spoonEntity);
+        //this.spoonSocket03.components["entity-socket"].disableSocket();
+        //this.spoonSocket03.components["entity-socket"].enableSocket();
+        //this.spoonSocket03.components["entity-socket"].onSnap(this.spoonEntity); 
+
+        
+        this.spoonSocket03.components["entity-socket"].attachedEntity = this.spoonEntity;
+        this.spoonSocket03.components["entity-socket"].placeAttachedEntityLocal();
+        this.getSampleFromMortar();
         
         // Actiave this one again
         this.spoonSocketScale.components["entity-socket"].disableSocket();
         this.spoonSocketScale.components["entity-socket"].enableSocket();
-    
     },
+    
     onRightSampleAmount() {
         this.spoonEntity.object3D.visible = false;
         this.spoonSocketScale.components["entity-socket"].disableSocket();
         this.spoonSocket03.components["entity-socket"].disableSocket();
-
+        
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();

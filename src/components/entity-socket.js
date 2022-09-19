@@ -28,7 +28,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       triggerOnRelease: {default: false},
       acceptedEntities: {default: []},
       radius: {default: 0},
-      snappedEntity: {default: ""},
       enabled: {default: true},
     },
   
@@ -58,9 +57,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.localTriggerOnSnap = false;
       this.localTriggerOnPickedUp = false;
       this.localTriggerOnRelease = false;
-
-      //local version of network variables:
-      // this.localSnappedEntity = "";
 
       //Observer-Arrays:
       this.onPickedUpCallbacks = [];
@@ -204,8 +200,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
           this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
           
+          // Looks like this is shite
           this.placeAttachedEntityLocal();
-          
+
           this.onSnapCallbacks.forEach(cb => {
             cb();
           });
@@ -257,6 +254,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
           if(this.heldEntity == null)
           {
+            console.log("Holding a new object")
             this.onHeld();
           }
 
@@ -447,14 +445,17 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.socketEnabled = true;
       this.objectReleased = true;
       
-      // Reseting values
-      if (NAF.utils.isMine(this.el))
-      { 
-        this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
-        this.el.setAttribute("entity-socket", "triggerOnPickedUp", false);
-        this.el.setAttribute("entity-socket", "triggerOnRelease", false);
-      } 
+      this.localTriggerOnSnap = false;
+      this.localTriggerOnRelease = false;
+      this.localTriggerOnPickedUp = false;
 
+      // Reseting values
+      setTimeout(() => {
+        this.data.triggerOnSnap = false; 
+        this.data.triggerOnPickedUp = false;
+        this.data.triggerOnRelease = false;        
+      }, IMSIMITY_INIT_DELAY);
+      
       if (this.initialPos)
       {
         let acceptedEntity = this.sceneEl.querySelector(this.data.acceptedEntities[0]);
@@ -474,6 +475,11 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     disableSocket() {
       this.socketEnabled = false;
       this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
+
+      this.heldEntity = null;
+      this.wasHeldEntity = null;
+      this.inRadiusEntity = null;
+      this.attachedEntity = null;
     },
 
     placeAttachedEntityLocal()
