@@ -19,12 +19,14 @@ AFRAME.registerSystem("mannequin-manager", {
   },
 
   getMyMannequin() {
+    this.updateMyMannequin();
+
     return this.myMannequin;
   },
 
 
   updateMyMannequin() {
-    this.myMannequin = this.mannequins.find(NAF.utils.isMine);
+    this.myMannequin = this.mannequins.length > 0 ? this.mannequins[0] : null; 
 
     if (this.myMannequin) {
       this.sceneEl.addState("mannequin");
