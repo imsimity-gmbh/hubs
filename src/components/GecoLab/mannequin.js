@@ -37,7 +37,10 @@ AFRAME.registerComponent("mannequin", {
         this.moreButton = this.el.querySelector(".mannequin-moreinfo");
         this.moreButton.object3D.addEventListener("interact", () => this.displayMore());
 
+        this.moreButtonText = this.el.querySelector('.mannequin-moreinfo-text')
+
         this.currentTextId = -1;
+        this.showingMore = false;
 
         robotModelPromise.then(model => {
             const mesh = cloneObject3D(model.scene);
@@ -82,9 +85,12 @@ AFRAME.registerComponent("mannequin", {
         var duration = MANNEQUIN_TEXTS_DURATIONS[textId];
         var text = MANNEQUIN_TEXTS[textId];
 
+        this.showingMore = false;
+
         // Only Show "More" button if there is more information available
         var moreInfoTextAvailable = MANNEQUIN_TEXTS_EXTRA[textId] != "";
         this.moreButton.object3D.visible = moreInfoTextAvailable;
+        this.moreButtonText.setAttribute("text", { value: "Mehr"});
 
         this.currentTextId = textId;
 
@@ -122,9 +128,17 @@ AFRAME.registerComponent("mannequin", {
 
     displayMore : function()
     {
-        var text = MANNEQUIN_TEXTS_EXTRA[this.currentTextId];
+        this.showingMore = !this.showingMore;
+
+        var text = (this.showingMore == true) ? MANNEQUIN_TEXTS_EXTRA[this.currentTextId] : MANNEQUIN_TEXTS[this.currentTextId];
+
+        var buttonText = (this.showingMore == true) ? "Weniger" : "Mehr";
+        
+        this.moreButtonText.setAttribute("text", { value: buttonText});
 
         this.textInput.setAttribute("text", { value: text });
+        
+    
     },
 
 
