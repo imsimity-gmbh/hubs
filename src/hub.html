@@ -973,48 +973,35 @@
                     set-yxz-order
                     > <!--static-->
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">                        
-                        <a-entity class="ground-sample-1" position="-1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="ground-sample-2" position="-0.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="ground-sample-3" position="0.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
-                        <a-entity class="ground-sample-4" position="1.5 0.8 0" scale="2.0 2.0 2.0"></a-entity> <!--static-->
+                        <a-entity class="geco-map" position="0 1 0" scale="1.0 1.0 1.0"></a-entity> <!--static-->
                         <a-entity class="sample-btn-wrapper" position="0 1.7 0">
-                            <a-entity class="ground-sample-text-1" text="value: Ort 1: Schwarzwald; color: #000; align:center;"
-                                text-raycast-hack position="-1.5 0.6 0" scale="2 2 2">
+                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-0.6 -0.25 0.3" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Schwarzwald; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-info-1" text="value:  ; color: #000; align:center;"
-                                text-raycast-hack position="-1.5 0.4 0" scale="1.5 1.5 1.5">
+                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="0.7 -0.15 0.3" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Schwäbische Alb; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.5 0.2 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="ground-sample-btn-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="0.5 -0.7 0.7" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Voralpines Hügel-\nund Moorland; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
-                            <a-entity class="ground-sample-text-2" text="value: Ort 2: Schwäbische Alb; color: #000; align:center;"
-                                text-raycast-hack position="-0.5 0.6 0" scale="2 2 2">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-info-2" text="value:  ; color: #000; align:center;"
-                                text-raycast-hack position="-0.5 0.4 0" scale="1.5 1.5 1.5">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.2 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-text-3" text="value: Ort 3: Voralpines Hügel-\nund Moorland; color: #000; align:center;"
-                                text-raycast-hack position="0.5 0.6 0" scale="2 2 2">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-info-3" text="value:  ; color: #000; align:center;"
-                                text-raycast-hack position="0.5 0.4 0" scale="1.5 1.5 1.5">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 0.2 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-text-4" text="value: Ort 4: Odenwald,\nSpessart und Südröhn; color: #000; align:center;"
-                                text-raycast-hack position="1.5 0.6 0" scale="2 2 2">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-info-4" text="value:  ; color: #000; align:center;"
-                                text-raycast-hack position="1.5 0.4 0" scale="1.5 1.5 1.5">
-                            </a-entity> <!--static-->
-                            <a-entity class="ground-sample-btn-4" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.5 0.2 0" scale="2.0 2.0 2.0">
-                                <a-entity text=" value: Probe untersuchen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="ground-sample-btn-4" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-0.1 0.05 0" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Odenwald,\nSpessart und Südröhn; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                         </a-entity>
+                        <a-entity class="ground-profile-wrapper" position="0 1.2 0.3" scale="1.0 1.0 1.0">
+                            <a-entity class="ground-profile-text" text="value: Location; color: #000; align:center;"
+                                text-raycast-hack position="0 0.8 0" scale="2 2 2">
+                            </a-entity> <!--static-->
+                            <a-entity class="ground-profile-model" position="0 0.2 0" scale="1.0 1.0 1.0"></a-entity> <!--static-->
+                            <a-entity class="ground-profile-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="0 -0.22 0" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Zum Experiment; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity> <!--static-->
+                        </a-entity> <!--static-->
                     </a-entity>
 
                     <!--Multiple-choice:-->
@@ -1023,19 +1010,29 @@
                         class="ui interactable-ui multiple-choice-wrapper" 
                         multiple-choice-question="question_id: 1"
                         position="0.3 0 0.5">
-                            <a-entity class="question-text" text="value: Was ist Humus und warum ist er so wichtig?; color: white;"
+                            <a-entity class="question-text" text="value: Aber was ist eigentlich Humus und warum ist er so wichtig?; color: white;"
                                 text-raycast-hack position="0.5 2.5 0" scale="3 3 3">
                             </a-entity> <!--static-->
 
                             <a-entity class="answer-area" position="0.5 2 0">
                                 <a-entity id="0" class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
-                                    <a-entity text=" value:Humus ist ein nährstoffreicher Duenger, welcher essenziell für die Landwirtschaft ist.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    <a-entity 
+                                    text=" value:Humus ist ein mit Wasser, Luft und Lebewesen durchsetztes Porensystem, dass durch
+                                    den Einfluss verschiedener Umweltfaktoren im Laufe der Zeit entstanden ist.; 
+                                    width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
                                 <a-entity id="1" class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
-                                    <a-entity text=" value:Humus ist ein anderes Wort für den durch den Menschen produzierten Kompost aus organischen Abfällen. Die organischen Bestandteile des Humus sind wichtig für die Versorgung der Pflanzen mit Nährstoffen wie Stickstoff oder Phosphor, aber auch für die Porenverteilung und damit für den Luft- und Wärmehaushalt des Bodens.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    <a-entity 
+                                    text=" value:Humus ist eine feste, natürlich auftretende Vereinigung von Mineralen,
+                                    Gesteinsbruchstücken oder Rückständen von Organismen.; 
+                                    width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
                                 <a-entity id="2" class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
-                                    <a-entity text=" value:Als Humus wird die Gesamtheit der abgestorbenen organischen Bodensubstanz bezeichnet. Die organischen Bestandteile des Bodens sind wichtig für die Versorgung der Pflanzen mit Nährstoffen wie Stickstoff oder Phosphor, aber auch für die Porenverteilung und damit für den Luft- und Wärmehaushalt des Bodens.; width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    <a-entity 
+                                    text=" value:Als Humus wird die Gesamtheit der abgestorbenen organischen Substanzen, wie
+                                    Pflanzenstreu, Wurzeln, aber auch die Ausscheidung und tote Körper von
+                                    Mikroorganismen und Tieren im Boden bezeichnet.; 
+                                    width:1; align:center;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                 </a-entity>
                             </a-entity> <!--static-->
 

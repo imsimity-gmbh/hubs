@@ -456,6 +456,10 @@ function registerNetworkSchemas() {
         property: "questionAnswered"
       },
       {
+        component: "first-experiment-01",
+        property: "groundProfileSkiped"
+      },
+      {
         selector: ".bunsen-burner-socket",
         component: "entity-socket",
         property: "triggerOnSnap"

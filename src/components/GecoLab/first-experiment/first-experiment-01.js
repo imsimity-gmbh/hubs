@@ -1,14 +1,12 @@
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
-import groundSampleSrc1 from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
-import groundSampleSrc2 from "../../../assets/models/GecoLab/mortar_with_sample_2.glb";
+import gecoMapSrc from "../../../assets/models/GecoLab/geco_map.glb";
+import gecoGroundProfileSrc from "../../../assets/models/GecoLab/geco_ground_profile.glb";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
-const groundSampleModelPromise1 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
-const groundSampleModelPromise2 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
-const groundSampleModelPromise3 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc1));
-const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc2));
+const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSrc));
+const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel(gecoGroundProfileSrc));
 
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
@@ -17,6 +15,7 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       groundSampleChosen: {default: false},
       groundSampleIndex: {default: 0},
       questionAnswered: {default: false},
+      groundProfileSkiped: {default: false},
     },
   
     init: function() {
@@ -29,6 +28,8 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       this.localGroundSampleClicked = false;
       this.localGroundSampleIndex = 0;
       this.localQuestionAnswered = false;
+      this.localGroundProfileSkiped = false;
+
       this.startPart02Callbacks = [];
       this.groundSampleCallbacks = [];
 
@@ -36,6 +37,7 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       this.expSystem.registerTask(this.el, "01");
 
       this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
+      this.onGroundProfileSkiped = AFRAME.utils.bind(this.onGroundProfileSkiped, this);
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
@@ -68,16 +70,20 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       console.log('Delayed Init FE-01');
 
       this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
-
-      this.groundSample1 = this.el.querySelector(".ground-sample-1");
-      this.spawnItem(groundSampleModelPromise1, new THREE.Vector3(-1.5, 0.8, 0), this.groundSample1, false);
-      this.groundSample2 = this.el.querySelector(".ground-sample-2");
-      this.spawnItem(groundSampleModelPromise2, new THREE.Vector3(-0.5, 0.8, 0), this.groundSample2, false);
-      this.groundSample3 = this.el.querySelector(".ground-sample-3");
-      this.spawnItem(groundSampleModelPromise3, new THREE.Vector3(0.5, 0.8, 0), this.groundSample3, false);
-      this.groundSample4 = this.el.querySelector(".ground-sample-4");
-      this.spawnItem(groundSampleModelPromise4, new THREE.Vector3(1.5, 0.8, 0), this.groundSample4, false);
      
+      this.gecoMap = this.el.querySelector(".geco-map");
+      this.spawnMap(gecoMapPromise, new THREE.Vector3(0, 1.05, 0.15), this.gecoMap, false);
+
+      this.groundProfile = this.el.querySelector(".ground-profile-wrapper"); 
+      this.groundProfileText = this.el.querySelector(".ground-profile-text"); 
+      this.groundProfileModel = this.el.querySelector(".ground-profile-model"); 
+      this.groundProfileBtn = this.el.querySelector(".ground-profile-btn"); 
+
+      this.spawnGroundProfile(gecoGroundProfilePromise,new THREE.Vector3(0, 0.2, 0), this.groundProfileModel);
+
+      this.groundProfileBtn.object3D.addEventListener("interact", () => this.onGroundProfileSkiped());
+      this.groundProfile.object3D.visible = false;
+
       this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
       this.btnWrapper.object3D.visible = false;
 
@@ -141,29 +147,82 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       {
         this.localQuestionAnswered = this.data.questionAnswered;
          
-        this.notifyPart02();
-        
         setTimeout(() => {
+          console.log("showing Ground Profile");
+          this.groundProfile.object3D.visible = true;
+
+          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });
+          
           this.multipleChoice.object3D.visible = false; 
         }, 500);
       }
+
+      if (this.localGroundProfileSkiped != this.data.groundProfileSkiped)
+      {
+        this.localGroundProfileSkiped = this.data.groundProfileSkiped;
+         
+        setTimeout(() => {
+          this.groundProfile.object3D.visible = false;
+          this.groundSamplesWrapper.object3D.visible = false;
+          this.notifyPart02();
+        }, 500);
+      }
+
+
     },
   
     tick: function() {
 
     },
 
-    spawnItem(promise, position, entity, show) {
+    getGroundSampleName()
+    {
+      switch(this.localGroundSampleIndex)
+      {
+        case 1:
+          return "Schwarzwald";
+        case 2:
+          return "Schwäbische Alb";
+        case 3:
+          return "Voralpines Hügel-\nund Moorland";
+        case 4:
+          return "Odenwald,\nSpessart und Südröhn";
+      }
+
+      return "Error";
+    },
+
+    spawnMap(promise, position, entity, show) {
       promise.then(model => {
           entity.object3D.visible = false;
           const mesh = cloneObject3D(model.scene);
-          mesh.scale.set(3, 3, 3);
+          mesh.scale.set(1, 1, 1);
           mesh.matrixNeedsUpdate = true;
           entity.setObject3D("mesh", mesh);
       
           if(show)
             entity.object3D.visible = true;
-          entity.object3D.scale.set(1.0, 1.0, 1.0);
+
+          entity.object3D.scale.set(0.7, 0.7, 0.7);
+          entity.object3D.rotation.set(0.4, 0, 0);
+          entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
+          entity.object3D.matrixNeedsUpdate = true;
+          console.log(entity);
+      });
+    },
+
+    spawnGroundProfile(promise, position, entity) {
+      promise.then(model => {
+          entity.object3D.visible = false;
+          const mesh = cloneObject3D(model.scene);
+          mesh.scale.set(.5, .5, .5);
+          mesh.matrixNeedsUpdate = true;
+          entity.setObject3D("mesh", mesh);
+    
+          entity.object3D.visible = true;
+
+          entity.object3D.scale.set(1, 1, 1);
+          entity.object3D.rotation.set(0, 0.785398, 0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
           console.log(entity);
@@ -177,11 +236,7 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
       
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
 
-
-      this.groundSample1.object3D.visible = true;
-      this.groundSample2.object3D.visible = true;
-      this.groundSample3.object3D.visible = true;
-      this.groundSample4.object3D.visible = true;
+      this.gecoMap.object3D.visible = true;
 
       this.btnWrapper.object3D.visible = true;
     },
@@ -199,7 +254,8 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
     },
 
     chooseGroundSample() {
-        this.groundSamplesWrapper.object3D.visible = false;
+        this.gecoMap.object3D.visible = false;
+        this.btnWrapper.object3D.visible = false;
 
         if(this.localGroundSampleIndex == 1) {
           this.scaleEntity.components["waage-tool"].setGlowLossWeight(112.17); // Schwarzwald Nördlicher
@@ -250,6 +306,18 @@ const groundSampleModelPromise4 = waitForDOMContentLoaded().then(() => loadModel
           this.updateUI();
         });
       }
+    },
+
+    onGroundProfileSkiped()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("first-experiment-01", "groundProfileSkiped", true); 
+        
+        this.updateUI();
+      });
     }
 
   });
