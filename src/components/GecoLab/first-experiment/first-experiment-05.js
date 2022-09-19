@@ -1,7 +1,7 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -256,6 +256,13 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_B
 
     startPart05() {
         console.log("start 05");
+
+        if (this.localMeasuredCounter > 0)
+        {
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(9);    
+        }
+        
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
         this.glassStickSocket.components["entity-socket"].enableSocket();
         this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.glassStickPlaced);
@@ -266,8 +273,18 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_B
 
         //Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[9], 8.0, MANNEQUIN_BUBBLE_HIGH);
-
+    
+        if (this.localMeasuredCounter == 0)
+        {
+            // The first time the Thermo is turned on
+            this.mannequin.components["mannequin"].displayMessage(8);
+        }
+        else
+        {
+            // The second time the Thermo is turned on
+            this.mannequin.components["mannequin"].displayMessage(10);
+        }
+    
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
         this.glassStickSocket.components["entity-socket"].unsubscribe("onSnap", this.glassStickPlaced);
@@ -371,7 +388,7 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_B
         setTimeout(() => {
         
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[11], 10.0, MANNEQUIN_BUBBLE_HIGH);
+            this.mannequin.components["mannequin"].displayMessage(11);
 
             this.ctrlBtn00.object3D.visible = false;
             this.tongSocketCrucible.components["entity-socket"].enableSocket();

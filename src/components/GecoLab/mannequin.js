@@ -5,11 +5,11 @@ import { sleep } from "../../utils/async-utils";
 import anime from "animejs";
 
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_TEXTS, MANNEQUIN_TEXTS_DURATIONS, MANNEQUIN_TEXTS_BUBBLES, MANNEQUIN_TEXTS_EXTRA } from "../../utils/imsimity";
 
 import { SOUND_CHAT_MESSAGE } from "../../systems/sound-effects-system";
 
-import robotModelSrc from "../../assets/robot.glb";
+import robotModelSrc from "../../assets/models/GecoLab/geco_avatar.glb";
 
 
 const mannequinBubbleLowPosition = new THREE.Vector3(-0.1, 0.5, -0.3);
@@ -34,9 +34,14 @@ AFRAME.registerComponent("mannequin", {
 
         this.isSpeaking = false;
         
+        this.moreButton = this.el.querySelector(".mannequin-moreinfo");
+        this.moreButton.object3D.addEventListener("interact", () => this.displayMore());
+
+        this.currentTextId = -1;
+
         robotModelPromise.then(model => {
             const mesh = cloneObject3D(model.scene);
-            mesh.scale.set(1.75, 1.75, 1.75);
+            mesh.scale.set(0.5, 0.5, 0.5);
             mesh.matrixNeedsUpdate = true;
             this.mannequin.setObject3D("mesh", mesh);
       
@@ -48,17 +53,18 @@ AFRAME.registerComponent("mannequin", {
             this.mannequin.components["animation-mixer"].initMixer(mesh.animations);
       
             this.simpleAnim = this.mannequin.components["simple-animation"];
+            this.simpleAnim.playClip("Animation", true);
             this.simpleAnim.printAnimations();
         });
     },
 
 
 
-    displayMessage: async function(text, duration = 10.0, position = 0)
+    displayMessage: async function(textId)
     {
         if (!this.isSpeaking)
         {
-            this.displayMessageCoroutine(text, duration, position)
+            this.displayMessageCoroutine(textId)
             return;
         }
         else
@@ -66,12 +72,22 @@ AFRAME.registerComponent("mannequin", {
             // Wait 200 ms and try again
             await sleep(200);
 
-            this.displayMessage(text, duration, position);
+            this.displayMessage(textId);
         }
     },
 
-    displayMessageCoroutine :  async function(text, duration, position)
+    displayMessageCoroutine :  async function(textId)
     {
+        var position = MANNEQUIN_TEXTS_BUBBLES[textId];
+        var duration = MANNEQUIN_TEXTS_DURATIONS[textId];
+        var text = MANNEQUIN_TEXTS[textId];
+
+        // Only Show "More" button if there is more information available
+        var moreInfoTextAvailable = MANNEQUIN_TEXTS_EXTRA[textId] != "";
+        this.moreButton.object3D.visible = moreInfoTextAvailable;
+
+        this.currentTextId = textId;
+
         this.isSpeaking = true;
 
         //TODO: Move the Bubble
@@ -86,7 +102,6 @@ AFRAME.registerComponent("mannequin", {
 
         //TODO: Animate the bubble 
         this.playSound(SOUND_CHAT_MESSAGE);
-        this.simpleAnim.playClip("robotAction", true);
 
         // Show the text
         this.textBox.object3D.visible = true;
@@ -98,14 +113,20 @@ AFRAME.registerComponent("mannequin", {
         // Remove the text
         this.textBox.object3D.visible = false;
         
-        
-        this.simpleAnim.resetClips();
         //TODO: Animate back the bubble
         this.playSound(SOUND_CHAT_MESSAGE);
 
 
         this.isSpeaking = false;
     },
+
+    displayMore : function()
+    {
+        var text = MANNEQUIN_TEXTS_EXTRA[this.currentTextId];
+
+        this.textInput.setAttribute("text", { value: text });
+    },
+
 
     playSound(soundId)
     {

@@ -29,19 +29,81 @@ export var MANNEQUIN_BUBBLE_HIGH = 1;
 
 
 export var MANNEQUIN_TEXTS = [
-  "Du wirst das Experiment Humusglühen durchführen. Um den Humusgehalt eines\nBodens im Gelände zu bestimmen kann man ihn mit Hilfe einer Farbskala bewerten.\nAllerdings ist durch das Glühen der Bodenprobe im Labor ein noch genaueres Ergebnis möglich.",
-  "Jetzt kannst du dich noch entscheiden, welchen Standort du näher untersuchen\n möchtest. Damit du dich leichter entscheiden kannst, findest du unter dem Standort\n weitere Informationen.",
   "Um mit dem Experiment zu starten, musste du alle Materialien auf die richtige Stelle auf\n deinem Arbeitsplatz stellen.",
-  "Als erstes musst du deine Bodenprobe in eine Mörserschale geben und die Probe kräftig\n zerkleinern. Du kannst erst mit der Probe weitermachen, wenn die Probe ganz fein ist\n  und sich keine Steine mehr darin befinden!",
-  "Platziere die Waage auf der angezeigten Stelle auf deinem Tisch. Denk daran deine\nWaage immer erst auf null zu setzen. Dafür musst du die Taste TARA drücken. Stell\n deinen Tiegel mit der gemörserten Probe auf die Waage und notiere das Gewicht in\n deinem Notizbuch. Anschließend die Waage erneut auf null setzen (TARA). Nun füllst du\n genau 50g von deiner Probe in den Tiegel.",
-  "Super! Du nimmst jetzt den Tiegel und stellst ihn auf den Dreifuß mit aufgelegter Platte.",
-  "Als nächstes zündest du den Bunsenbrenner mit dem Feuerzeug an und wählst die\n Stärke der Flamme. Wenn du mit Feuer arbeitest, musst du die richtigen Handschuhe\n anziehen.",
-  "Sobald du den Bunsenbrenner angemacht hast, läuft die Zeit.",
-  "Rühr die Probe langsam mit dem Glasstab um. Wenn du fertig bist, kannst du den\n Glasstab wieder hinlegen.",
-  "Ich denke es ist an der Zeit die Temperatur zu messen.",
-  "Denk daran die Probe regelmäßig umzurühren! Denk auch daran, dass du die\n Temperatur messen solltest, um zu schauen, ob die Probe nicht zu heiß ist.",
-  "Und schon bist du fertig. Das ging doch recht schnell, oder? Dreh den Bunsenbrenner\n herunter und stell den Tiegel mit Hilfe der Tiegelzange auf den anderen Dreifuß. Jetzt\n musst du 20 Minuten warten, damit die Bodenprobe abkühlen kann.",
-  "Nimm den Tiegel mit der Tiegelzange und stell ihn auf die Waage. Denk daran die\n Waage auf null zu setzen (TARA). Lies das Gewicht ab und notiere es in deinem\n Notizbuch.",
-  "Wähle nun die richtige Formel, um den Humusgehalt zu berechnen. Setze die Werte\n in die Formel und du kennst den Humusgehalt deines Bodens!"
+  "Als erstes musst du die Probe kräftig zerkleinern.",
+  "Als nächstes musst du deine gemörserte Probe in die Schale einwiegen.",
+  "Denk daran deine Waage immer erst auf null zu setzen.",
+  "Fülle nun genau 50g deiner Bodenprobe in den Mörser auf der Waage.",
+  "Super! Wenn du den Mörser positioniert hast, zündest du den Bunsenbrenner mit\n dem Feuerzeug an und wählst die Stärke der Flamme. Wenn du mit Feuer arbeitest,\n musst du die richtigen Handschuhe anziehen.",
+  "Sobald du den Bunsenbrenner angedreht hast, läuft die Zeit.",
+  "Rühre die Probe mit dem Glasstab um.",
+  "Ich denke, es ist an der Zeit die Temperatur zu messen.",
+  "Denk daran die Probe regelmäßig umzurühren!",
+  "Denk auch daran, dass du die Temperatur messen solltest, um zu kontrollieren, dass die Probe nicht zu heiß ist.",
+  "Und schon bist du fertig. Dreh den Bunsenbrenner herunter und stell die Schale mit Hilfe der Tiegelzange auf den anderen Dreifuß. Jetzt musst du 20 Minuten warten, damit die Bodenprobe abkühlen kann.",
+  "Nach dem Abkühlen muss die Probe erneut ausgewogen werden, um die Gewichtsdifferenz zu errechnen.",
+  "Setze deine notierten Werte in die Formel ein.",
+  "Schau dir die Steckbriefe zu deinem gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu finden!",
+  "Das hast du wirklich super gemacht! Das Experiment Humusglühen ist jetzt beendet.\n Begib dich nun wieder in den Eingangsbereich. Schau dir die Steckbriefe zu deinem\n gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu\n finden!"
+]
+
+
+export var MANNEQUIN_TEXTS_EXTRA = [
+  "",
+  "Stelle den Mörser und Stößel auf das Hologramm. Du kannst erst\n mit der Probe weitermachen, wenn die Probe ganz fein ist und sich keine groben Partikel\n mehr darin befinden! Diese würden das Ergebnis verfälschen.",
+  "Platziere die Waage auf der angezeigten Stelle auf deinem Tisch.\nNotiere das Gewicht vom Mörser in deinem Notizbuch.",
+  "Dafür musst du die Taste „TARA“ drücken.",
+  "Notiere das Gewicht in deinem Notizbuch.",
+  "",
+  "",
+  "Wenn du den Button „Rühren“ mehrfach anklickst, läuft die Stoppuhr schneller.",
+  "",
+  "Wenn du den Button „Rühren“ mehrfach anklickst, läuft die Stoppuhr schneller.",
+  "",
+  "",
+  "Nimm die Schale mit der Tiegelzange und stell ihn auf die Waage. Lies das Gewicht ab und notiere es in deinem Notizbuch.",
+  "Tipp, um die richtige Formel zu finden?",
+  "",
+  "",
+]
+
+export var MANNEQUIN_TEXTS_DURATIONS = [
+  6.0,
+  10.0,
+  16.0,
+  6.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+  10.0,
+]
+
+
+export var MANNEQUIN_TEXTS_BUBBLES = [
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  
 ]
 

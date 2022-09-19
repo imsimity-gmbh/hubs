@@ -233,7 +233,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[6], 10.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(6);
     },
 
     onStartBurnerClicked() {
@@ -270,7 +270,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         
         //Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[7], 8.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(7);
         
         console.log(this.flameEntity.object3D);
     },
@@ -332,11 +332,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     proceedToStiring() {
-        
-        //Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[8], 10.0, MANNEQUIN_BUBBLE_HIGH);
-
         this.glassstickSocket.components["entity-socket"].enableSocket();
         this.glassstickSocket.components["entity-socket"].subscribe("onSnap", this.onPlaceGlassstick);
     },

@@ -9,7 +9,7 @@ import grindedSampleSrc from "../../../assets/models/GecoLab/ground_sample_grind
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
@@ -222,7 +222,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
              // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[4], 16.0, MANNEQUIN_BUBBLE_HIGH);
+            this.mannequin.components["mannequin"].displayMessage(2);
 
         }
         
@@ -250,6 +250,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     changeCrucibleEntities() {
         this.crucibleEntity.object3D.visible = true;
         this.crucibleEntityScale.object3D.visible = false;
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(3);
     },
 
     onTaraPressed() {
@@ -264,6 +267,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     proceedToWeighingSample() {
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(4);
+
         this.spoonSocketScale.components["entity-socket"].enableSocket();
         this.groundSampleSpoonEntity.object3D.visible = true;
         this.spoonSocket03.components["entity-socket"].subscribe("onSnap", this.getSampleFromMortar);
@@ -308,7 +315,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[5], 6.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(5);
 
         this.onFinishPart03Callbacks.forEach(cb => {
             cb();

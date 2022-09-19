@@ -1,7 +1,7 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 //Initial Models:
 import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
 import groundSampleSrc1 from "../../../assets/models/GecoLab/ground-sample-coarse-1.glb";
@@ -315,7 +315,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[2], 6.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(0);
     },
 
     skipAufbau() {
@@ -336,7 +336,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         if(this.itemsPlaced >= this.sockets.length) {
 
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-            this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[3], 10.0, MANNEQUIN_BUBBLE_HIGH);
+            this.mannequin.components["mannequin"].displayMessage(1);
 
             this.sockets.forEach(s => {
                 s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);

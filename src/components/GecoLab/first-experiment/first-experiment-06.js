@@ -1,6 +1,6 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_BUBBLE_LOW } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -146,7 +146,7 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_
         this.attachedTongEntity.object3D.visible = true;
 
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[12], 10.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(12);
 
         this.crucibleSocketScale.components["entity-socket"].enableSocket();
         this.crucibleSocketScale.components["entity-socket"].subscribe("onSnap", this.onCruciblePlaced);
@@ -158,7 +158,7 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_
         this.crucibleSocketScale.components["entity-socket"].unsubscribe("onSnap", this.onCruciblePlaced);
 
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(MANNEQUIN_TEXTS[13], 10.0, MANNEQUIN_BUBBLE_HIGH);
+        this.mannequin.components["mannequin"].displayMessage(13);
     },
 
     chooseFormula() {
@@ -166,7 +166,7 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_
     },
 
     onPopUpClosed() {
-        console.log("boop");
+        console.log("boop"); // works all right
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);
@@ -177,6 +177,9 @@ import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_
 
     proceedToDiscussResult() {
         this.discussResultBtn.object3D.visible = true; 
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(14);
     },
 
     setRightAnswerTxt(index) {
