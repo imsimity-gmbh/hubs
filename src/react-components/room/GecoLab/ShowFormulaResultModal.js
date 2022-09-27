@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
+import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
 import { styles } from "./ShowFormulaResultModal.scss";
-import { Button } from "../input/Button";
+import { Button } from "../../input/Button";
 
 
 export function ShowFormulaResultModal ({ scene, onClose, result }) {

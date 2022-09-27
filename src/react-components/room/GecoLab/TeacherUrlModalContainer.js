@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherUrlModal } from "./TeacherUrlModal";
-import configs from "../../utils/configs";
-import { HEROKU_POST_UPLOAD_URI } from "../../utils/imsimity";
-import { getDirectReticulumFetchUrl } from "../../utils/phoenix-utils.js";
-import { guessContentType } from "../../utils/media-url-utils";
+import configs from "../../../utils/configs";
+import { HEROKU_POST_UPLOAD_URI } from "../../../utils/imsimity";
+import { getDirectReticulumFetchUrl } from "../../../utils/phoenix-utils.js";
+import { guessContentType } from "../../../utils/media-url-utils";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 

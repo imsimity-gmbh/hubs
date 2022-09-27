@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
+import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
 import { ClothingOptions } from "./ClothingOptions";
-import { Button } from "../input/Button";
-import { CloseButton } from "../input/CloseButton";
-import { TextInputField } from "../input/TextInputField";
+import { Button } from "../../input/Button";
+import { CloseButton } from "../../input/CloseButton";
+import { TextInputField } from "../../input/TextInputField";
 import { styles } from "./StudentEntryModal.scss";
-import  configs from "../../utils/configs";
-import AvatarPreview from "../avatar-preview";
-import Laborbrille from "../../assets/images/icons/laborbrille_placeholder.png";
-import Laborkittel from "../../assets/images/icons/laborkittel_placeholder.png";
+import  configs from "../../../utils/configs";
+import AvatarPreview from "../../avatar-preview";
+import Laborbrille from "../../../assets/images/icons/laborbrille_placeholder.png";
+import Laborkittel from "../../../assets/images/icons/laborkittel_placeholder.png";
 import { StudentEntryModalContainer } from "./StudentEntryModalContainer";
 
 

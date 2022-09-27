@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Column } from "../layout/Column";
+import { Column } from "../../layout/Column";
 import styles from "./InventoryListContent.scss";
 
 export function InventoryListContent() {

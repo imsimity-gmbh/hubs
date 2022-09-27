@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ButtonGridPopover } from "../popover/ButtonGridPopover";
-import { Popover } from "../popover/Popover";
-import { ToolbarButton } from "../input/ToolbarButton";
-import { ReactComponent as NotebookIcon } from "../icons/GecoLab/Notebook.svg";
+import { ButtonGridPopover } from "../../popover/ButtonGridPopover";
+import { Popover } from "../../popover/Popover";
+import { ToolbarButton } from "../../input/ToolbarButton";
+import { ReactComponent as NotebookIcon } from "../../icons/GecoLab/Notebook.svg";
 import { defineMessage, useIntl } from "react-intl";
 
 const notebookPopoverTitle = defineMessage({

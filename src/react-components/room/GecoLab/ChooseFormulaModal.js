@@ -2,14 +2,11 @@ import React, { useCallback, useEffect } from "react";
 import { ChooseFormulaModalContainer } from "./ChooseFormulaModalContainer";
 import { EnterFormulaValuesModalContainer } from "./EnterFormulaValuesModalContainer";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
+import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
-import { styles } from "./ChooseFormulaModal.scss";
-import { Button } from "../input/Button";
-import { CloseButton } from "../input/CloseButton";
-import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
-import wrongFormula01 from "../../assets/images/icons/humusgehalt_formel_falsch_01.jpg";
-import wrongFormula02 from "../../assets/images/icons/humusgehalt_formel_falsch_02.jpg";
+import correctFormula from "../../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
+import wrongFormula01 from "../../../assets/images/icons/humusgehalt_formel_falsch_01.jpg";
+import wrongFormula02 from "../../../assets/images/icons/humusgehalt_formel_falsch_02.jpg";
 
 const correctId = 2;
 let formula1Class = "formula";

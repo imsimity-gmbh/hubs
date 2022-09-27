@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { NotebookPopoverButton } from "./NotebookPopover";
-import { ReactComponent as ReadIcon } from "../icons/GecoLab/Read.svg";
-import { ReactComponent as WriteIcon } from "../icons/GecoLab/Write.svg";
+import { ReactComponent as ReadIcon } from "../../icons/GecoLab/Read.svg";
+import { ReactComponent as WriteIcon } from "../../icons/GecoLab/Write.svg";
 import { FormattedMessage } from "react-intl";
 import { NotebookModalContainer } from "./NotebookModalContainer";
 

@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { NotebookModal } from "./NotebookModal";
 import Cookies from "js-cookie";
-import { ReactComponent as DeleteIcon } from "../icons/Delete.svg";
-import { Button } from "../input/Button";
+import { ReactComponent as DeleteIcon } from "../../icons/Delete.svg";
+import { Button } from "../../input/Button";
 import styles from "./NotebookModal.scss";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();

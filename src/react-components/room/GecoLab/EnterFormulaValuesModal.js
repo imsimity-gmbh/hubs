@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { ShowFormulaResultModalContainer } from "./ShowFormulaResultModalContainer";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
+import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
-import { styles } from "./EnterFormulaValuesModal.scss";
-import { Button } from "../input/Button";
-import { CloseButton } from "../input/CloseButton";
-import correctFormula from "../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
+import correctFormula from "../../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
 
 
 

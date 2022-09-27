@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
-import { CloseButton } from "../input/CloseButton";
+import { Modal } from "../../modal/Modal";
+import { CloseButton } from "../../input/CloseButton";
 import { useForm } from "react-hook-form";
-import { Button } from "../input/Button";
-import { Column } from "../layout/Column";
-import { IconButton } from "../input/IconButton";
+import { Button } from "../../input/Button";
+import { Column } from "../../layout/Column";
+import { IconButton } from "../../input/IconButton";
 import styles from "./NotebookModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
-import { TextAreaInputField } from "../input/TextAreaInputField";
+import { TextAreaInputField } from "../../input/TextAreaInputField";
 
 export function NotebookModal({onSubmit, loadNotes, deleteNote, onClose, writeBtn }) {
   const { handleSubmit, register, watch, setValue } = useForm();

@@ -1,5 +1,5 @@
 import React from "react";
-import { RoomLayout } from "../layout/RoomLayout";
+import { RoomLayout } from "../../layout/RoomLayout";
 import { NotebookModal } from "./NotebookModal";
 
 export default {

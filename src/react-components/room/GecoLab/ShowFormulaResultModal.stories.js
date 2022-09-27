@@ -1,5 +1,5 @@
 import React from "react";
-import { RoomLayout } from "../layout/RoomLayout";
+import { RoomLayout } from "../../layout/RoomLayout";
 import { ShowFormulaResultModal } from "./ShowFormulaResultModal";
 
 export default {

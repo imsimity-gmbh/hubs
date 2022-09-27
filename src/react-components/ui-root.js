@@ -81,8 +81,6 @@ import { PlacePopoverContainer } from "./room/PlacePopoverContainer";
 import { SharePopoverContainer } from "./room/SharePopoverContainer";
 import { VoiceButtonContainer } from "./room/VoiceButtonContainer";
 import { ReactionPopoverContainer } from "./room/ReactionPopoverContainer";
-import { NotebookPopoverContainer } from "./room/NotebookPopoverContainer";
-import { InventoryListPopoverContainer } from "./room/InventoryListPopoverContainer";
 import { SafariMicModal } from "./room/SafariMicModal";
 import { RoomSignInModalContainer } from "./auth/RoomSignInModalContainer";
 import { SignInStep } from "./auth/SignInModal";
@@ -98,9 +96,12 @@ import { TweetModalContainer } from "./room/TweetModalContainer";
 import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
-import { StudentEntryModalContainer } from "./room/StudentEntryModalContainer";
-import { ChooseGlovesModalContainer } from "./room/ChooseGlovesModalContainer";
-import { ChooseFormulaModalContainer } from "./room/ChooseFormulaModalContainer";
+
+import { NotebookPopoverContainer } from "./room/GecoLab/NotebookPopoverContainer";
+import { InventoryListPopoverContainer } from "./room/GecoLab/InventoryListPopoverContainer";
+import { StudentEntryModalContainer } from "./room/GecoLab/StudentEntryModalContainer";
+import { ChooseGlovesModalContainer } from "./room/GecoLab/ChooseGlovesModalContainer";
+import { ChooseFormulaModalContainer } from "./room/GecoLab/ChooseFormulaModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 

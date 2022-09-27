@@ -8,7 +8,7 @@ import { showFullScreenIfWasFullScreen } from "../utils/fullscreen";
 import { AvatarUrlModalContainer } from "./room/AvatarUrlModalContainer";
 import { SceneUrlModalContainer } from "./room/SceneUrlModalContainer";
 import { ObjectUrlModalContainer } from "./room/ObjectUrlModalContainer";
-import { TeacherUrlModalContainer } from "./room/TeacherUrlModalContainer";
+import { TeacherUrlModalContainer } from "./room/GecoLab/TeacherUrlModalContainer";
 import { MediaBrowser } from "./room/MediaBrowser";
 import { IconButton } from "./input/IconButton";
 import { ReactComponent as UploadIcon } from "./icons/Upload.svg";
