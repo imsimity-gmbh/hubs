@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { Popover } from "../../popover/Popover";
 import { ToolbarButton } from "../../input/ToolbarButton";
-import { ReactComponent as InventoryIcon } from "../../icons/GeycoLab/Inventory.svg";
+import { ReactComponent as InventoryIcon } from "../../icons/GecoLab/Inventory.svg";
 import { defineMessage, useIntl } from "react-intl";
 import { InventoryListContent } from "./InventoryListContent";
 import styles from "./InventoryListContent.scss";
