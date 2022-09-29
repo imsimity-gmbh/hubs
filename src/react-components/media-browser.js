@@ -9,6 +9,7 @@ import { AvatarUrlModalContainer } from "./room/AvatarUrlModalContainer";
 import { SceneUrlModalContainer } from "./room/SceneUrlModalContainer";
 import { ObjectUrlModalContainer } from "./room/ObjectUrlModalContainer";
 import { TeacherUrlModalContainer } from "./room/GecoLab/TeacherUrlModalContainer";
+import { TeacherExperimentModalContainer } from "./room/GecoLab/TeacherExperimentModalContainer";
 import { MediaBrowser } from "./room/MediaBrowser";
 import { IconButton } from "./input/IconButton";
 import { ReactComponent as UploadIcon } from "./icons/Upload.svg";
@@ -149,12 +150,6 @@ const emptyMessages = defineMessages({
   }
 });
 
-const libraryThumnails = {
-  glb: "https://cci.imsimity.com/gecolab/digital_library/icons/glb.png",
-  url: "https://cci.imsimity.com/gecolab/digital_library/icons/url.png",
-  pdf: "https://cci.imsimity.com/gecolab/digital_library/icons/pdf.png",
-  mp4: "https://cci.imsimity.com/gecolab/digital_library/icons/mp4.png"
-}
 
 // TODO: Migrate to use MediaGrid and media specific components like RoomTile
 class MediaBrowserContainer extends Component {
@@ -443,21 +438,10 @@ class MediaBrowserContainer extends Component {
     const { scene } = this.props;
 
     console.log(position_id);
-
-    if (position_id === "position_01") {
-      scene.emit("action_toggle_first_experiment_01");
-      scene.emit("action_toggle_first_experiment_01_start");
-    }
-    else if (position_id === "position_02") {
-      scene.emit("action_toggle_first_experiment_02");
-      scene.emit("action_toggle_first_experiment_02_start");
-    }
-    else if (position_id === "position_03") {
-      scene.emit("action_toggle_first_experiment_03");
-      scene.emit("action_toggle_first_experiment_03_start");
-    }
     
-      this.close();
+    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id });
+
+    this.close();
   }
 
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {

@@ -3,6 +3,7 @@ import { ChooseGlovesModalContainer } from "./ChooseGlovesModalContainer";
 import PropTypes from "prop-types";
 import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
+import styles from "./ChooseGlovesModal.scss";
 import gloves1 from "../../../assets/images/icons/Icon_Handschuhe_1.png";  // Chemikalienhandschuhe
 import gloves3 from "../../../assets/images/icons/Icon_Handschuhe_3.png";  // Plastik Handschuhe
 

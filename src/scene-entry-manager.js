@@ -559,9 +559,10 @@ export default class SceneEntryManager {
   };
 
   _setupFirstExperimentPos01 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_01", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_01", (groupCode) => {
 
       console.log("Placing");
+      console.log(groupCode);
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
@@ -586,7 +587,7 @@ export default class SceneEntryManager {
   };
 
   _startFirstExperimentPos01 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_01_start", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_01_start", (groupCode) => {
       this._spawnStopwatch(".table_main_01");
       this._spawnFirstExperimentPart03(".table_main_01");
       this._spawnFirstExperimentPart01(".table_main_01");
@@ -598,7 +599,7 @@ export default class SceneEntryManager {
   };
 
   _setupFirstExperimentPos02 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_02", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_02", (groupCode) => {
 
       console.log("Placing");
 
@@ -626,7 +627,7 @@ export default class SceneEntryManager {
   };
 
   _startFirstExperimentPos02 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_02_start", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_02_start", (groupCode) => {
       this._spawnStopwatch(".table_main_02");
       this._spawnFirstExperimentPart03(".table_main_02");
       this._spawnFirstExperimentPart01(".table_main_02");
@@ -638,7 +639,7 @@ export default class SceneEntryManager {
   };
 
   _setupFirstExperimentPos03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_03", (groupCode) => {
 
       console.log("Placing");
 
@@ -666,7 +667,7 @@ export default class SceneEntryManager {
   };
 
   _startFirstExperimentPos03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03_start", () => {
+    this.scene.addEventListener("action_toggle_first_experiment_03_start", (groupCode) => {
       this._spawnStopwatch(".table_main_03");
       this._spawnFirstExperimentPart03(".table_main_03");
       this._spawnFirstExperimentPart01(".table_main_03");

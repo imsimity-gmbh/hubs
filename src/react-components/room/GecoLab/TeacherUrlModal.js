@@ -12,7 +12,7 @@ import styles from "./TeacherUrlModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 
-export function TeacherUrlModal({ showModelCollectionLink, modelCollectionUrl, onSubmit, onClose }) {
+export function TeacherUrlModal({ onSubmit, onClose }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
@@ -99,8 +99,6 @@ export function TeacherUrlModal({ showModelCollectionLink, modelCollectionUrl, o
 
 TeacherUrlModal.propTypes = {
   isMobile: PropTypes.bool,
-  showModelCollectionLink: PropTypes.bool,
-  modelCollectionUrl: PropTypes.string,
   onSubmit: PropTypes.func,
   onClose: PropTypes.func
 };
