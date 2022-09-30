@@ -1130,7 +1130,9 @@ class UIRoot extends Component {
 
     const streaming = this.state.isStreaming;
 
-    const showObjectList = enteredOrWatching;
+    let gecolabManager = this.props.scene.systems["gecolab-manager"];
+    const isStudent = (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent());
+    const showObjectList = enteredOrWatching && !isStudent;
 
     const streamer = getCurrentStreamer();
     const streamerName = streamer && streamer.displayName;
