@@ -35,10 +35,3 @@ NotebookPopoverContainer.propTypes = {
   scene: PropTypes.object.isRequired,
   showNonHistoriedDialog: PropTypes.func.isRequired
 };
-/*
-id: "write",
-icon: WriteIcon,
-color: "accent5",
-label: <FormattedMessage id="notebook-popover.write" defaultMessage="Schreiben" />,
-onSelect: () => showNonHistoriedDialog(NotebookModalContainer, { scene, writeBtn: true})
-*/

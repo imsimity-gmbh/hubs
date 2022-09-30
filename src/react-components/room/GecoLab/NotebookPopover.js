@@ -42,7 +42,7 @@ export function NotebookPopoverButton({ items, onClose }) {
           <Column as="form" center>
             <TextAreaInputField 
               style = {styles} 
-              defaultValue = {JSON.parse(Cookies.get("notes"))}
+              defaultValue = {JSON.parse(Cookies.get("notes") || JSON.stringify("")) }
               onChange={handleOnChange} />
             <Button
               preset="accept"
