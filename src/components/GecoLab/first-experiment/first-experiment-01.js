@@ -148,12 +148,8 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         this.localQuestionAnswered = this.data.questionAnswered;
          
         setTimeout(() => {
-          console.log("showing Ground Profile");
-          this.groundProfile.object3D.visible = true;
-
-          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });
-          
           this.multipleChoice.object3D.visible = false; 
+          this.notifyPart02();
         }, 500);
       }
 
@@ -162,9 +158,14 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         this.localGroundProfileSkiped = this.data.groundProfileSkiped;
          
         setTimeout(() => {
+          this.multipleChoice.object3D.visible = true; 
+          if(this.multipleChoice != null)
+            this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice); //should be networked (I really hope it works)
+          else 
+            console.log("Can't subscribe to multiple-choice1 callback, multiple-choice1 component not found");
+
           this.groundProfile.object3D.visible = false;
           this.groundSamplesWrapper.object3D.visible = false;
-          this.notifyPart02();
         }, 500);
       }
 
@@ -276,17 +277,16 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           });
         }
         else if(this.localGroundSampleIndex == 4) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.09); // Odenwald, Spessart und Südröhn 
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.095); // Odenwald, Spessart und Südröhn 
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
-        }
+        }  
+        
+        console.log("showing Ground Profile");
+          this.groundProfile.object3D.visible = true;
 
-        this.multipleChoice.object3D.visible = true; 
-        if(this.multipleChoice != null)
-            this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice); //should be networked (I really hope it works)
-        else 
-            console.log("Can't subscribe to multiple-choice1 callback, multiple-choice1 component not found");
+          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });   
     },
 
     notifyPart02() {
