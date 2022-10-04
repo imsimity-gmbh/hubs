@@ -90,7 +90,7 @@ AFRAME.registerComponent("mannequin", {
         // Only Show "More" button if there is more information available
         var moreInfoTextAvailable = MANNEQUIN_TEXTS_EXTRA[textId] != "";
         this.moreButton.object3D.visible = moreInfoTextAvailable;
-        this.moreButtonText.setAttribute("text", { value: "Mehr"});
+        this.moreButtonText.setAttribute("text", { value: "Tipp"});
 
         this.currentTextId = textId;
 
@@ -132,7 +132,7 @@ AFRAME.registerComponent("mannequin", {
 
         var text = (this.showingMore == true) ? MANNEQUIN_TEXTS_EXTRA[this.currentTextId] : MANNEQUIN_TEXTS[this.currentTextId];
 
-        var buttonText = (this.showingMore == true) ? "Weniger" : "Mehr";
+        var buttonText = (this.showingMore == true) ? "Weniger" : "Tipp";
         
         this.moreButtonText.setAttribute("text", { value: buttonText});
 
