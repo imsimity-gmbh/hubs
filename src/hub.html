@@ -952,7 +952,7 @@
                             <a-entity class="mannequin-text"  text=" value: This is a piece of text\n said by the robot !; width: 0.4; align:center;"  text-raycast-hack position="0 0 0.001" scale="1 1 1"></a-entity>
                             <a-entity
                                 class="mannequin-moreinfo" 
-                                mixin="rounded-exp-action-button" 
+                                mixin="rounded-mannequin-help-action-button" 
                                 is-remote-hover-target tags="singleActionButton: true;" 
                                 position="-0.18 -0.08 0.01" 
                                 scale="0.25 0.25 0.25">
@@ -1762,10 +1762,29 @@
 
             <a-mixin id="rounded-mannequin-action-button"
                 text-button="
-                    textHoverColor: #fff;
-                    textColor: #fff;
-                    backgroundColor: #5e656d;
-                    backgroundHoverColor: #5e656d;
+                    textHoverColor: #000;
+                    textColor: #000;
+                    backgroundColor: #4A81C2;
+                    backgroundHoverColor: #5B8BC1;
+                    "
+                slice9="
+                    width: 0.45;
+                    height: 0.2;
+                    left: 64;
+                    top: 64;
+                    right: 66;
+                    bottom: 66;
+                    transparent: false;
+                    alphaTest: 0.1;
+                    src: #mannequin-button"
+            ></a-mixin>
+
+            <a-mixin id="rounded-mannequin-help-action-button"
+                text-button="
+                    textHoverColor: #000;
+                    textColor: #424242;
+                    backgroundColor: #BCE8F3;
+                    backgroundHoverColor: #DCEEF2;
                     "
                 slice9="
                     width: 0.45;

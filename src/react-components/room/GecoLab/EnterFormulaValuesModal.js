@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
 import correctFormula from "../../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
+import styles from "./EnterFormulaValuesModal.scss";
 
 
 
