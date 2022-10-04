@@ -102,6 +102,7 @@ import { InventoryListPopoverContainer } from "./room/GecoLab/InventoryListPopov
 import { StudentEntryModalContainer } from "./room/GecoLab/StudentEntryModalContainer";
 import { ChooseGlovesModalContainer } from "./room/GecoLab/ChooseGlovesModalContainer";
 import { ChooseFormulaModalContainer } from "./room/GecoLab/ChooseFormulaModalContainer";
+import { EnterFormulaValuesModalContainer } from "./room/GecoLab/EnterFormulaValuesModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -339,7 +340,7 @@ class UIRoot extends Component {
     });
     this.props.scene.addEventListener("gecolab_choose_formula", () => {
       this.showNonHistoriedDialog(
-        ChooseFormulaModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
+        EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
       );
     });
 
