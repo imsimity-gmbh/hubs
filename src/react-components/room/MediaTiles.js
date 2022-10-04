@@ -231,6 +231,16 @@ export function MediaTile({ entry, processThumbnailUrl, onClick, onEdit, onShowS
               <DeleteIcon />
             </TileAction>
           )}
+          {entry.type === "experiment_listing" &&
+          onEdit !== null &&
+          (
+            <TileAction
+              onClick={onEdit}
+              title={intl.formatMessage({ id: "media-tile.action.edit-library", defaultMessage: "Remove experiment" })}
+            >
+              <DeleteIcon />
+            </TileAction>
+          )}
         {entry.type === "avatar_listing" && (
           <TileAction
             title={intl.formatMessage({

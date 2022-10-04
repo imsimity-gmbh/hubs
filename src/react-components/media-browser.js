@@ -444,6 +444,16 @@ class MediaBrowserContainer extends Component {
     this.close();
   }
 
+  onRemoveExperiment = (e, position_id) => {
+    const { scene } = this.props;
+
+    console.log(position_id);
+    
+    // this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id });
+
+    this.close();
+  }
+
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
     if (entry.type == "library_item")
     {
@@ -477,11 +487,12 @@ class MediaBrowserContainer extends Component {
     const showEmptyStringOnNoResult = urlSource !== "avatars" && urlSource !== "scenes";
 
     const isInLibrary = urlSource === "library";
+    const isInExperiment = urlSource === "experiments";
 
     const isTeacher = !!this.props.scene.systems["gecolab-manager"].isTeacher();
     const isStudent = !!this.props.scene.systems["gecolab-manager"].isStudent();
 
-    if (isInLibrary && isStudent)
+    if (isInLibrary && isStudent || isInExperiment) 
     {
       showCustomOption = false;
     }
@@ -652,6 +663,7 @@ class MediaBrowserContainer extends Component {
             entry={experiments[0]}
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={e => this.onPlaceExperiment(e, "position_01")}
+            onEdit={e => this.onRemoveExperiment(e, "position_01")}
           />
         }
         {urlSource === "experiments" &&
@@ -660,6 +672,7 @@ class MediaBrowserContainer extends Component {
             entry={experiments[1]}
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={e => this.onPlaceExperiment(e, "position_02")}
+            onEdit={e => this.onRemoveExperiment(e, "position_02")}
           />
         }
         {false && urlSource === "experiments" &&
@@ -668,6 +681,7 @@ class MediaBrowserContainer extends Component {
             entry={experiments[2]}
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={e => this.onPlaceExperiment(e, "position_03")}
+            onEdit={e => this.onRemoveExperiment(e, "position_03")}
           />
         }
           
