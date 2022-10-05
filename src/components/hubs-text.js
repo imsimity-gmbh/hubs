@@ -87,6 +87,12 @@ function loadTexture(src) {
   });
 }
 
+// If any extra non-ASCII chars are needed, create a new 512x512 asset file
+// This is the latest charset: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.?!/:;,*§£$ø@+°-~#&²'{}[]|`\()=%*µ àâéèëêïîöôùüûÀÂÉÈËÊÏÎÖÔÜÛçÇ€äÄÖÜß 
+// half-german, half-french
+//
+//  https://aframe.io/docs/1.3.0/components/text.html
+//  https://msdf-bmfont.donmccurdy.com/
 const FONTS = {
   roboto: {
     json: loadFont(`https://${configs.CORS_PROXY_SERVER}/https://cci.imsimity.com/gecolab/fonts/v2/Roboto-msdf.json`),
