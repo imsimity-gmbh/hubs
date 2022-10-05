@@ -14,7 +14,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
   AFRAME.registerComponent("first-experiment-04", {
     schema: {
-        glovesPopupClosed: {default: false},
+        burnerStarted: {default: false},
         startBurnerClicked: {default: false},
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 0},
@@ -34,7 +34,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.z = 0;
         this.t = 0;
 
-        this.localGlovesPopupClosed = false;
+        this.localburnerStarted = false;
         this.localStirBtnHeld = false;
         this.localStartBurnerClicked = false;
         this.ctrlBtnBlocked = false;
@@ -127,9 +127,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
         console.log(this.data);
 
-        if(this.localGlovesPopupClosed != this.data.glovesPopupClosed) {
+        if(this.localburnerStarted != this.data.burnerStarted) {
             this.proceedToStiring();
-            this.localGlovesPopupClosed = this.data.glovesPopupClosed;
+            this.localburnerStarted = this.data.burnerStarted;
         }
 
         if(this.localStartBurnerClicked != this.data.startBurnerClicked) {
@@ -315,6 +315,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                     this.ctrlBtnBlocked = true;
                     this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
                     //this.sceneEl.emit("gecolab_choose_gloves");
+                    this.el.setAttribute("first-experiment-04", "burnerStarted", true);  
                 }, 500);
                 break;
         }
@@ -325,7 +326,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     
             NAF.utils.takeOwnership(networkedEl);
       
-            this.el.setAttribute("first-experiment-04", "glovesPopupClosed", true);      
+                
       
             this.updateUI();
         });

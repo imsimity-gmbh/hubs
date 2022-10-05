@@ -978,7 +978,7 @@ function registerNetworkSchemas() {
       "rotation",
       {
         component: "first-experiment-04",
-        property: "glovesPopupClosed"
+        property: "burnerStarted"
       },
       {
         component: "first-experiment-04",
