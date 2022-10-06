@@ -317,7 +317,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     
     onRightSampleAmount() {
         this.spoonEntity.object3D.visible = false;
-        this.spoonSocketScale.components["entity-socket"].disableSocket();
+        setTimeout(() => {this.spoonSocketScale.components["entity-socket"].disableSocket()},100);
         this.spoonSocket03.components["entity-socket"].disableSocket();
         
         
