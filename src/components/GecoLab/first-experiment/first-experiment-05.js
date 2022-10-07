@@ -20,9 +20,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
-        this.measureTemp = false;
-        this.temp = 340;
+        this.temp = 0;
         this.localMeasuredCounter = 0;
+
+        this.scaleUp;
+        this.wasGreater500 = false;
 
         this.localStirBtnHeld = false;
         this.stopStiring = true;
@@ -41,7 +43,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.startPart05 = AFRAME.utils.bind(this.startPart05, this);
         this.glassStickPlaced = AFRAME.utils.bind(this.glassStickPlaced, this);
         this.thermoRunning = AFRAME.utils.bind(this.thermoRunning, this);
-        this.stopThermo = AFRAME.utils.bind(this.stopThermo, this);
         this.thermoOnTable = AFRAME.utils.bind(this.thermoOnTable, this);
         this.startStiring = AFRAME.utils.bind(this.startStiring, this);
         this.cutBunsenBurner = AFRAME.utils.bind(this.cutBunsenBurner, this);
@@ -53,6 +54,8 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.tongReplacedOnTable = AFRAME.utils.bind(this.tongReplacedOnTable, this);
         this.onHoldStirBtnDown = AFRAME.utils.bind(this.onHoldStirBtnDown, this);
         this.onReleaseStirBtn = AFRAME.utils.bind(this.onReleaseStirBtn, this);
+        this.tempertatureScale = AFRAME.utils.bind(this.tempertatureScale, this);
+        this.tematureCalc = AFRAME.utils.bind(this.tempertatureCalc, this);
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
         this.expSystem.registerTask(this.el, "05");
@@ -183,15 +186,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     },
   
     tick: function() {
-        if(this.measureTemp) {
-            this.temp += 0.01;
-            let roundedTemp = Math.round(this.temp);
-            let displayTemp = roundedTemp + " °C";
-            this.tempText.setAttribute("text", { value: displayTemp });
-            if(this.temp > 500) {
-                this.ctrlBtn02.object3D.visible = true;
-                this.ctrlBtnBlocked = false;
-            }
+
+        if(!this.wasGreater500 && this.temp > 500) {
+            this.ctrlBtn02.object3D.visible = true;
+            this.ctrlBtnBlocked = false;
+            this.wasGreater500 = true;
         }
 
         if(this.updatePos && this.stopStiring == false) {
@@ -208,7 +207,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
             this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
 
             if(this.t > 10) {
-                if(this.temp < 500) {
+                if(!this.wasGreater500) {
                     this.stopStir = true;
                     this.updatePos = false;
                     this.stiringBtn.object3D.visible = false;
@@ -217,7 +216,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
                         cb();
                     });
                 }
-                else if(this.temp >= 500) {
+                else if(this.wasGreater500) {
                     this.stopStir = true;
                     this.updatePos = false;
                     this.stiringBtn.object3D.visible = false;
@@ -228,6 +227,29 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         }
     },
 
+    //minStep is the minimum change each second, higher smoothing means more smaller steps until the aim is reached; smoothing and minStep should always be true positive
+    tempertatureScale(minStep, smoothing, startTemperature, aimTemperature){
+        this.temp = startTemperature;
+        if(this.scaleUp) clearInterval(this.scaleUp);
+        this.scaleUp = setInterval(() => this.tematureCalc(minStep, smoothing, startTemperature, aimTemperature),1000);
+           
+    },
+
+    tempertatureCalc(minStep, smoothing, startTemperature, aimTemperature){
+        if(Math.abs(aimTemperature - this.temp) > minStep){
+            if(aimTemperature > startTemperature)
+                this.temp = this.temp + Math.max(minStep, (aimTemperature - this.temp)/smoothing);
+            else{
+                this.temp = this.temp - Math.max(minStep, (this.temp - aimTemperature)/smoothing);
+            }
+        }
+        else
+            this.temp = aimTemperature;
+        let roundedTemp = Math.round(this.temp);
+        let displayTemp = roundedTemp + " °C";
+        this.tempText.setAttribute("text", { value: displayTemp });
+        if(this.temp == aimTemperature) clearInterval(this.scaleUp);
+    },
     
 
     stirBtnDown() {
@@ -291,13 +313,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     },
 
     thermoRunning() {
-        this.measureTemp = true;
         this.thermoSocket05.components["entity-socket"].unsubscribe("onSnap", this.thermoRunning);
-        
         if(this.localMeasuredCounter == 0) {
+            this.tempertatureScale(1,4,0,376);
             setTimeout(() => {
                 this.thermoSocketGeneral.components["entity-socket"].enableSocket();
-                this.thermoSocketGeneral.components["entity-socket"].subscribe("onPickedUp", this.stopThermo);
                 this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
                 console.log(this.thermoSocketGeneral.components["entity-socket"].onPickedUpCallbacks);
                 NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
@@ -311,20 +331,18 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         }
 
         if(this.localMeasuredCounter > 0) {
-            this.temp = 497;
             this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
+            if(this.temp == 0){
+                this.tempertatureScale(10,4,0,507);
+            }
         }
     },
-
-    stopThermo() {
-        this.measureTemp = false;
-        this.tempText.setAttribute("text", { value: "0 °C" });
-    },
-
+ 
     thermoOnTable() {
         this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
         this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
+        this.tempertatureScale(15,3,this.temp,0);
     },
 
     startStiring() {
@@ -340,7 +358,10 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
         if(this.ctrlBtnBlocked)
             return;
-
+        
+        if(this.temp > 50)
+            this.tempertatureScale(1,5,this.temp,470);
+        
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);
