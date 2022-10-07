@@ -167,7 +167,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.itemsPlaced = 0;
 
         this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, false);
-        this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, false);
+        this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, false, new THREE.Vector3(0.85,0.85,0.85));
         this.spawnItem(bunsenBurnerModelPromise, new THREE.Vector3(-0.5, 0.8, 0), this.bunsenBurnerEntity, false);
         this.spawnItem(tripodModelPromise, new THREE.Vector3(-0.1, 0.8, 0), this.tripod1Entity, false);
         this.spawnItem(tripodPlateModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodPlateEntity, false);

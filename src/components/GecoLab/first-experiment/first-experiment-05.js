@@ -431,7 +431,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         
         this.crucibleSocket05.object3D.attach(this.tongEntity.object3D);
 
-        this.tongEntity.object3D.position.set(0.2, 0.35, 0);
+        this.tongEntity.object3D.position.set(0.27, 0.35, 0);
 
         parent.attach(this.tongEntity.object3D);
         
