@@ -139,14 +139,14 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.tongSocket06.components["entity-socket"].enableSocket();
         this.tongSocket06.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
         this.scaleEntity.components["waage-tool"].subscribe("onGlowLossWeighed", this.chooseFormula);
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(12);
     },
 
     tongPlacedOnCrucible() {
         this.tongEntity.object3D.visible = false;
         this.attachedTongEntity.object3D.visible = true;
-
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(12);
 
         this.crucibleSocketScale.components["entity-socket"].enableSocket();
         this.crucibleSocketScale.components["entity-socket"].subscribe("onSnap", this.onCruciblePlaced);

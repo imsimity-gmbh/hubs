@@ -268,10 +268,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
         this.flameEntity.components["simple-animation"].printAnimations();
         
-        //Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(7);
-        
         console.log(this.flameEntity.object3D);
     },
 
@@ -315,6 +311,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                     this.ctrlBtnBlocked = true;
                     this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
                     //this.sceneEl.emit("gecolab_choose_gloves");
+                    
+                    //Mannequin
+                    this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                    this.mannequin.components["mannequin"].displayMessage(7);
+                    
                     this.el.setAttribute("first-experiment-04", "burnerStarted", true);  
                 }, 500);
                 break;

@@ -279,10 +279,15 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     startPart05() {
         console.log("start 05");
 
-        if (this.localMeasuredCounter > 0)
+        if (this.localMeasuredCounter == 0)
         {
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-            this.mannequin.components["mannequin"].displayMessage(9);    
+            this.mannequin.components["mannequin"].displayMessage(8);  
+        }
+        else if (this.localMeasuredCounter > 0)
+        {
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(10);  
         }
         
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
@@ -295,17 +300,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
         //Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-    
-        if (this.localMeasuredCounter == 0)
-        {
-            // The first time the Thermo is turned on
-            this.mannequin.components["mannequin"].displayMessage(8);
-        }
-        else
-        {
-            // The second time the Thermo is turned on
-            this.mannequin.components["mannequin"].displayMessage(10);
-        }
     
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
@@ -355,6 +349,8 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
         this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
         this.tempertatureScale(15,3,this.temp,0);
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(9);  
     },
 
 
@@ -408,6 +404,9 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.ctrlBtn01.object3D.visible= true;
         this.ctrlBtnBlocked = false;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
+
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(11);
     },
 
     turnOffBunsenBurner() {
@@ -420,10 +419,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         });
 
         setTimeout(() => {
-        
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-            this.mannequin.components["mannequin"].displayMessage(11);
-
             this.ctrlBtn00.object3D.visible = false;
             this.tongSocketCrucible.components["entity-socket"].enableSocket();
             this.tongSocketCrucible.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
