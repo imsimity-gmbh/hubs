@@ -277,7 +277,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           });
         }
         else if(this.localGroundSampleIndex == 4) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.095); // Odenwald, Spessart und Südröhn 
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.09); // Odenwald, Spessart und Südröhn 
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
