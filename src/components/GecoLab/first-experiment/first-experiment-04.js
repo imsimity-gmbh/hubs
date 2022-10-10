@@ -230,10 +230,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     onPlacedCrucible() {
         this.startBtn.object3D.visible = true;
         this.scaleEntity.components["waage-tool"].reset();
-
-        // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-        this.mannequin.components["mannequin"].displayMessage(6);
     },
 
     onStartBurnerClicked() {
@@ -273,6 +269,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     onReplaceLighter() {
         this.ctrlBtn00.object3D.visible = true;
+
+         // Mannequin
+         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+         this.mannequin.components["mannequin"].displayMessage(6);
     },
 
     onClickCtrlBtn(index) {
@@ -315,7 +315,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                     //Mannequin
                     this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
                     this.mannequin.components["mannequin"].displayMessage(7);
-                    
+
                     this.el.setAttribute("first-experiment-04", "burnerStarted", true);  
                 }, 500);
                 break;
