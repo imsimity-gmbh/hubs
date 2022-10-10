@@ -1,13 +1,13 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
-import { ChooseFormulaModal } from "./ChooseFormulaModal";
+import { TemperatureInfoModal } from "./TemperatureInfoModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function ChooseFormulaModalContainer({scene, showNonHistoriedDialog, onClose}) {
+export function TemperatureInfoModalContainer({scene, showNonHistoriedDialog, onClose}) {
 
     return (
-        <ChooseFormulaModal
+        <TemperatureInfoModal
             scene={scene}
             showNonHistoriedDialog={showNonHistoriedDialog}
             onClose={onClose}
@@ -15,7 +15,7 @@ export function ChooseFormulaModalContainer({scene, showNonHistoriedDialog, onCl
     );
 }
 
-ChooseFormulaModalContainer.propTypes = {
+TemperatureInfoModalContainer.propTypes = {
     scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
     onClose: PropTypes.func
