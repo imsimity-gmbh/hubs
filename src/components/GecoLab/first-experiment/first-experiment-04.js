@@ -173,6 +173,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
                 this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+                // Mannequin
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                this.mannequin.components["mannequin"].displayMessage(-1);
             }
         }
     },

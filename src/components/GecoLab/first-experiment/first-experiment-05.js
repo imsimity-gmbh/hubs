@@ -207,6 +207,9 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
             this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
 
             if(this.t > 10) {
+                // Mannequin
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                this.mannequin.components["mannequin"].displayMessage(-1);
                 if(!this.wasGreater500) {
                     this.stopStir = true;
                     this.updatePos = false;
@@ -368,8 +371,12 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         if(this.ctrlBtnBlocked)
             return;
         
-        if(this.temp > 50)
+        if(this.temp > 50){
             this.tempertatureScale(1,5,this.temp,470);
+            // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(-1);
+        }
         
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
@@ -453,6 +460,10 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     tongReplacedOnTable() {
         this.tongSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.tongReplacedOnTable);
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+        
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(-1);
     }
 
   });

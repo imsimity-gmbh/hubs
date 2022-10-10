@@ -65,6 +65,13 @@ AFRAME.registerComponent("mannequin", {
 
     displayMessage: async function(textId)
     {
+        if(textId >= 0)
+            this.displayMessageCoroutine(textId);
+        else{
+            this.textBox.object3D.visible = false;
+            this.playSound(SOUND_CHAT_MESSAGE);
+        }
+        /*
         if (!this.isSpeaking)
         {
             this.displayMessageCoroutine(textId)
@@ -77,12 +84,13 @@ AFRAME.registerComponent("mannequin", {
 
             this.displayMessage(textId);
         }
+        */
     },
 
     displayMessageCoroutine :  async function(textId)
     {
         var position = MANNEQUIN_TEXTS_BUBBLES[textId];
-        var duration = MANNEQUIN_TEXTS_DURATIONS[textId];
+        //var duration = MANNEQUIN_TEXTS_DURATIONS[textId];
         var text = MANNEQUIN_TEXTS[textId];
 
         this.showingMore = false;
@@ -94,7 +102,7 @@ AFRAME.registerComponent("mannequin", {
 
         this.currentTextId = textId;
 
-        this.isSpeaking = true;
+        //this.isSpeaking = true;
 
         //TODO: Move the Bubble
         if (position == MANNEQUIN_BUBBLE_LOW)
@@ -114,16 +122,16 @@ AFRAME.registerComponent("mannequin", {
         this.textInput.setAttribute("text", { value: text });
 
         // Wait for the delay
-        await sleep(1000 * duration);
+        //await sleep(1000 * duration);
 
         // Remove the text
-        this.textBox.object3D.visible = false;
+        //this.textBox.object3D.visible = false;
         
         //TODO: Animate back the bubble
-        this.playSound(SOUND_CHAT_MESSAGE);
+        //this.playSound(SOUND_CHAT_MESSAGE);
 
 
-        this.isSpeaking = false;
+        //this.isSpeaking = false;
     },
 
     displayMore : function()
