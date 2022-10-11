@@ -972,8 +972,8 @@
                     set-yxz-order
                     > <!--static-->
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">                        
-                        <a-entity class="geco-map" position="0 1 0" scale="1.0 1.0 1.0"></a-entity> <!--static-->
-                        <a-entity class="sample-btn-wrapper" position="0 1.7 0">
+                        <a-entity class="geco-map" visible = false position="0 1 0" scale="1.0 1.0 1.0"></a-entity> <!--static-->
+                        <a-entity class="sample-btn-wrapper" visible = false position="0 1.7 0">
                             <a-entity class="ground-sample-btn-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
                                 position="-0.6 -0.25 0.3" scale="1.5 1.5 1.5">
                                 <a-entity text=" value: Schwarzwald; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
@@ -991,7 +991,7 @@
                                 <a-entity text=" value: Odenwald,\nSpessart und Südröhn; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity> <!--static-->
                         </a-entity>
-                        <a-entity class="ground-profile-wrapper" position="0 1.2 0.3" scale="1.0 1.0 1.0">
+                        <a-entity class="ground-profile-wrapper" visible = false position="0 1.2 0.3" scale="1.0 1.0 1.0">
                             <a-entity class="ground-profile-text" text="value: Location; color: #000; align:center;"
                                 text-raycast-hack position="0 0.8 0" scale="2 2 2">
                             </a-entity> <!--static-->
@@ -1008,6 +1008,7 @@
                         id="multiple-choice-question" 
                         class="ui interactable-ui multiple-choice-wrapper" 
                         multiple-choice-question="question_id: 1"
+                        visible="false"
                         position="0.3 0 0.5">
                             <a-entity class="question-text" text="value: Aber was ist eigentlich Humus und warum ist er so wichtig?; color: white;"
                                 text-raycast-hack position="0.5 2.5 0" scale="3 3 3">
@@ -1152,7 +1153,7 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
-                            <a-entity class="thermo-text" text=" value: 0 °C; width:2; align:center; color: black;" text-raycast-hack position="0.018 0.017 0" rotation="-90 -90 0" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity class="thermo-text" visible = false text=" value: 0 °C; width:2; align:center; color: black;" text-raycast-hack position="0.018 0.017 0" rotation="-90 -90 0" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                         <a-entity class="glass-stick-entity" position="0 1 0" rotation="0 80 90"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1174,11 +1175,11 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                             waage-tool="rightAmount: 50;"
                         >
-                            <a-entity class="display-text" text=" value: 0.00g; width:2; align:center; color: black;" text-raycast-hack position="-0.2 0.35 0" rotation="0 -90 0" scale="0.8 0.8 0.8"></a-entity>
-                            <a-entity class="tara-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
+                            <a-entity class="display-text" visible = false text=" value: 0.00g; width:2; align:center; color: black;" text-raycast-hack position="-0.2 0.35 0" rotation="0 -90 0" scale="0.8 0.8 0.8"></a-entity>
+                            <a-entity class="tara-btn" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
                                 <a-entity text=" value: Tara; width: 3.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
-                            <a-entity class="glow-loss-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
+                            <a-entity class="glow-loss-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
                                 <a-entity text=" value: Glühverlust berechnen; width: 3; align:center;" text-raycast-hack position="0 0 0.001" scale="0.3 0.3 0.3"></a-entity>
                             </a-entity>
                             <a-entity class="crucible-entity-scale" position="0 1 0"></a-entity>
@@ -1216,7 +1217,7 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                         </a-entity>
-                        <a-entity class="skip-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" rotation="0 0 0" scale="0.4 0.4 0.4">
+                        <a-entity class="skip-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" rotation="0 0 0" scale="0.4 0.4 0.4">
                             <a-entity text=" value: Aufbau Überspringen; width: 3.4; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity>
@@ -1232,7 +1233,7 @@
                     <a-entity class="mortar-socket-03" position="-0.55 0.5 0.2" rotation="0 90 0" entity-socket="acceptedEntities: .mortar-entity; radius: 1.1; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
-                        <a-entity class="grind-sample-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
+                        <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
                             <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->
                     </a-entity> <!--static-->
@@ -1280,20 +1281,20 @@
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="start-burner-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                    <a-entity class="start-burner-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.125 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Anschalten; width: 3.2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="burner-ctrl-btn-0" mixin="rounded-burner-action-button-0" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
+                    <a-entity class="burner-ctrl-btn-0" visible = false mixin="rounded-burner-action-button-0" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
                     </a-entity> <!--static-->
-                    <a-entity class="burner-ctrl-btn-1" mixin="rounded-burner-action-button-1" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
+                    <a-entity class="burner-ctrl-btn-1" visible = false mixin="rounded-burner-action-button-1" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
                     </a-entity> <!--static-->
-                    <a-entity class="burner-ctrl-btn-2" mixin="rounded-burner-action-button-2" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
+                    <a-entity class="burner-ctrl-btn-2" visible = false mixin="rounded-burner-action-button-2" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
                     </a-entity> <!--static-->
-                    <a-entity class="burner-ctrl-btn-3" mixin="rounded-burner-action-button-3" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
+                    <a-entity class="burner-ctrl-btn-3" visible = false mixin="rounded-burner-action-button-3" is-remote-hover-target tags="singleActionButton: true;" position="0.12 1 0.1" rotation="0 0 0" scale="2.5 2.5 2.5">
                     </a-entity> <!--static-->
 
-                    <a-entity class="stiring-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
+                    <a-entity class="stiring-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="isHoldable: true; holdableButton: true;" position="0 1.35 0.1" rotation="0 0 0" scale="0.4 0.4 0.4">
                         <a-entity text=" value: Rühren; width: 3.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
                 </a-entity>
@@ -1334,13 +1335,14 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="discuss-result-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0" scale="1.5 1.5 1.5">
+                    <a-entity class="discuss-result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0" scale="1.5 1.5 1.5">
                         <a-entity text=" value: Ergebnis abstimmen; width: 1.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
 
                     <a-entity 
                         class="ui interactable-ui multiple-choice-wrapper-06" 
                         multiple-choice-question="question_id: 1"
+                        visible="false"
                         position="0.3 0 0.5">
                             <a-entity class="question-text" text="value: Wie hoch ist der Humusgehalt [%]?; color: white;"
                                 text-raycast-hack position="0 2.5 0" scale="3 3 3">
@@ -1363,7 +1365,7 @@
                             </a-entity> <!--static-->
                     </a-entity> <!--static-->
 
-                    <a-entity class="tidy-up-btn" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.8 1.5 0.5" scale="2.0 2.0 2.0">
+                    <a-entity class="tidy-up-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.8 1.5 0.5" scale="2.0 2.0 2.0">
                         <a-entity text=" value: Beenden; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->
                 </a-entity>

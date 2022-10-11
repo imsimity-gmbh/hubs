@@ -316,6 +316,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
         this.mannequin.components["mannequin"].displayMessage(0);
+
+        this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
+        this.tempText = this.thermoEntity.querySelector(".thermo-text");
+        this.tempText.object3D.visible = true;
     },
 
     skipAufbau() {
