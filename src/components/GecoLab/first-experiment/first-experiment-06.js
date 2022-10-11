@@ -39,6 +39,12 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.discussResult = AFRAME.utils.bind(this.discussResult, this);
         this.setRightAnswerTxt = AFRAME.utils.bind(this.setRightAnswerTxt, this);
         this.onSubmitMultipleChoice06 = AFRAME.utils.bind(this.onSubmitMultipleChoice06, this);
+
+        this.onPopUpClosed = AFRAME.utils.bind(this.onPopUpClosed, this);
+        this.proceedToDiscussResult = AFRAME.utils.bind(this.proceedToDiscussResult, this); 
+        this.onDiscussResultClicked = AFRAME.utils.bind(this.onDiscussResultClicked, this); 
+        this.onTidyUpClicked = AFRAME.utils.bind(this.onTidyUpClicked, this);
+        this.tidyUp = AFRAME.utils.bind(this.tidyUp, this);
         
         waitForDOMContentLoaded().then(() => { 
             setTimeout(() => {
@@ -72,12 +78,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
             }, IMSIMITY_INIT_DELAY);
 
         });
-    },
-
-    hotfix()
-    {
-        this.discussResultBtn = document.querySelector(".discuss-result-btn");
-        this.multipleChoice06 = document.querySelector(".multiple-choice-wrapper-06");
     },
 
     subscribe(eventName, fn)
@@ -203,12 +203,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     },
 
     discussResult() {
-        // one of those is empty
-        this.hotfix();
-
-        console.log(this.discussResultBtn);
-        console.log(this.multipleChoice06);
-
         this.discussResultBtn.object3D.visible = false;
 
         // Shown for a few frames
