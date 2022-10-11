@@ -657,7 +657,7 @@
                     tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                     matrix-auto-update
                     shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                    owned-object-limiter="counter: #camera-counter"
+                    owned-object-limiter="counter: #machine-camera-counter"
                     set-yxz-order
                     animation-mixer
                     simple-animation
@@ -802,7 +802,6 @@
                     matrix-auto-update
                     shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
                     floaty-object="autoLockOnLoad: true;"
-                    owned-object-limiter="counter: #camera-counter"
                     set-unowned-body-kinematic
                     scalable-when-grabbed
                     set-yxz-order
@@ -905,7 +904,7 @@
                 tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
                 matrix-auto-update
                 shape-helper="type: box; fit: manual; halfExtents: 0.22 0.14 0.1; offset: 0 0.02 0;"
-                owned-object-limiter="counter: #camera-counter"
+                owned-object-limiter="counter: #robot-camera-counter"
                 set-yxz-order
                 animation-mixer
                 simple-animation
@@ -1888,7 +1887,11 @@
 
         <a-entity id="camera-counter" networked-counter="max: 1;"></a-entity>
 
-        <a-entity id="first-experiment-counter" networked-counter="max: 1;"></a-entity>
+        <a-entity id="robot-camera-counter" networked-counter="max: 1;"></a-entity>
+
+        <a-entity id="machine-camera-counter" networked-counter="max: 1;"></a-entity>
+
+        <a-entity id="first-experiment-counter" networked-counter="max: 2;"></a-entity>
 
         <a-entity id="drawing-manager" drawing-manager="penSpawner: #pen-spawner"></a-entity>
 
