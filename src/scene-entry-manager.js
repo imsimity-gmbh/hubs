@@ -559,10 +559,11 @@ export default class SceneEntryManager {
   };
 
   _setupFirstExperimentPos01 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_01", (groupCode) => {
+    this.scene.addEventListener("action_toggle_first_experiment_01", (event) => {
 
       console.log("Placing");
-      console.log(groupCode);
+
+      var groupCode = event.detail;
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
@@ -578,30 +579,36 @@ export default class SceneEntryManager {
         const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
-        entity.id = "01";
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
+
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_01" ,"base");
       }
     });
   };
 
   _startFirstExperimentPos01 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_01_start", (groupCode) => {
-      this._spawnStopwatch(".table_main_01");
-      this._spawnFirstExperimentPart03(".table_main_01");
-      this._spawnFirstExperimentPart01(".table_main_01");
-      this._spawnFirstExperimentPart02(".table_side_01");
-      this._spawnFirstExperimentPart04(".table_main_01");
-      this._spawnFirstExperimentPart05(".table_main_01");
-      this._spawnFirstExperimentPart06(".table_main_01");
+    this.scene.addEventListener("action_toggle_first_experiment_01_start", (event) => {
+
+      var groupCode = event.detail;
+
+      this._spawnStopwatch(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart03(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart01(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart02(".table_side_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart04(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart05(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart06(".table_main_01", groupCode, "position_01");
     });
   };
 
   _setupFirstExperimentPos02 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_02", (groupCode) => {
+    this.scene.addEventListener("action_toggle_first_experiment_02", (event) => {
 
       console.log("Placing");
+
+      var groupCode = event.detail;
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
@@ -617,24 +624,27 @@ export default class SceneEntryManager {
         const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
-        entity.id = "02";
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
-      
+        
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_02", "base");
       }
     });
   };
 
   _startFirstExperimentPos02 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_02_start", (groupCode) => {
-      this._spawnStopwatch(".table_main_02");
-      this._spawnFirstExperimentPart03(".table_main_02");
-      this._spawnFirstExperimentPart01(".table_main_02");
-      this._spawnFirstExperimentPart02(".table_side_02");
-      this._spawnFirstExperimentPart04(".table_main_02");
-      this._spawnFirstExperimentPart05(".table_main_02");
-      this._spawnFirstExperimentPart06(".table_main_02");
+    this.scene.addEventListener("action_toggle_first_experiment_02_start", (event) => {
+      
+      var groupCode = event.detail;
+
+      this._spawnStopwatch(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart03(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart01(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart02(".table_side_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart04(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart05(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart06(".table_main_02", groupCode, "position_02");
     });
   };
 
@@ -657,28 +667,31 @@ export default class SceneEntryManager {
         const anchorRot = anchor.getAttribute("rotation");
 
         entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
-        entity.id = "03";
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
-      
+ 
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_03", "base");
       }
     });
   };
 
   _startFirstExperimentPos03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03_start", (groupCode) => {
-      this._spawnStopwatch(".table_main_03");
-      this._spawnFirstExperimentPart03(".table_main_03");
-      this._spawnFirstExperimentPart01(".table_main_03");
-      this._spawnFirstExperimentPart02(".table_side_03");
-      this._spawnFirstExperimentPart04(".table_main_03");
-      this._spawnFirstExperimentPart05(".table_main_03");
-      this._spawnFirstExperimentPart06(".table_main_03");
+    this.scene.addEventListener("action_toggle_first_experiment_03_start", (event) => {
+      
+      var groupCode = event.detail;
+
+      this._spawnStopwatch(".table_main_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart03(".table_main_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart01(".table_main_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart02(".table_side_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart04(".table_main_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart05(".table_main_03", groupCode, "position_03");
+      this._spawnFirstExperimentPart06(".table_main_03", groupCode, "position_03");
     });
   };
 
-  _spawnFirstExperimentPart01 = (table) => {
+  _spawnFirstExperimentPart01 = (table, groupCode, position) => {
 
       console.log("Placing");
 
@@ -699,11 +712,12 @@ export default class SceneEntryManager {
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
-      
+        
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"01");
       }
   };
 
-  _spawnFirstExperimentPart02 = (table) => {
+  _spawnFirstExperimentPart02 = (table, groupCode, position) => {
 
       console.log("Placing");
 
@@ -725,10 +739,11 @@ export default class SceneEntryManager {
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"02");
       }
   };
 
-  _spawnFirstExperimentPart03 = (table) => {
+  _spawnFirstExperimentPart03 = (table, groupCode, position) => {
 
       console.log("Placing");
 
@@ -750,10 +765,11 @@ export default class SceneEntryManager {
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"03");
       }
   };
 
-  _spawnFirstExperimentPart04 = (table) => {
+  _spawnFirstExperimentPart04 = (table, groupCode, position) => {
 
       console.log("Placing");
 
@@ -775,10 +791,11 @@ export default class SceneEntryManager {
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
+        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"04");
       }
   };
 
-  _spawnFirstExperimentPart05 = (table) => {
+  _spawnFirstExperimentPart05 = (table, groupCode, position) => {
 
     console.log("Placing");
 
@@ -799,11 +816,12 @@ export default class SceneEntryManager {
       entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
       entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
       this.scene.appendChild(entity);
-    
+      
+      this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"05");
     }
   };
 
-  _spawnFirstExperimentPart06 = (table) => {
+  _spawnFirstExperimentPart06 = (table, groupCode, position) => {
 
     console.log("Placing");
 
@@ -825,6 +843,7 @@ export default class SceneEntryManager {
       entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
       this.scene.appendChild(entity);
     
+      this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"06");
     }
   };
 

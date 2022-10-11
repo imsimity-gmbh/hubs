@@ -214,6 +214,7 @@ import "./systems/audio-gain-system";
 import "./systems/first-experiments";
 import "./systems/gecolab-manager";
 import "./systems/mannequin-manager";
+import "./systems/experiment-manager";
 
 import "./gltf-component-mappings";
 
