@@ -146,6 +146,9 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       if (this.localQuestionAnswered != this.data.questionAnswered)
       {
         this.localQuestionAnswered = this.data.questionAnswered;
+
+        this.firstExpPart02 = this.expSystem.getTaskById("02");
+        this.firstExpPart02.components["first-experiment-02"].showExpItems();
          
         setTimeout(() => {
           this.multipleChoice.object3D.visible = false; 

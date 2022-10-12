@@ -81,12 +81,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     startExperiment() { 
       this.firstExpStartBtn.object3D.visible = false;
       this.firstExpPart01 = this.expSystem.getTaskById("01");
-      this.firstExpPart02 = this.expSystem.getTaskById("02");
+      
 
 
       this.firstExpPart01.components["first-experiment-01"].startPart01(); //for some reason this.firstExpPart01 is undefined for second user (observer)
-      this.firstExpPart02.components["first-experiment-02"].showExpItems();
-
+     
       console.log("show stuff");
     },
   });
