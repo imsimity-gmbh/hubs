@@ -384,10 +384,10 @@ AFRAME.registerComponent("pen", {
   _doDraw(intersection, dt) {
     //Prevent drawings from "jumping" large distances
     if (
-      this.currentDrawing &&
+      (this.currentDrawing &&
       (this.lastIntersectedObject !== (intersection ? intersection.object : null) &&
         (!intersection ||
-          Math.abs(intersection.distance - this.lastIntersectionDistance) > MAX_DISTANCE_BETWEEN_SURFACES))
+          Math.abs(intersection.distance - this.lastIntersectionDistance) > MAX_DISTANCE_BETWEEN_SURFACES)))
     ) {
       this.worldPosition.copy(this.lastPosition);
       this._endDraw();
@@ -400,7 +400,7 @@ AFRAME.registerComponent("pen", {
       this.lastPosition.copy(this.worldPosition);
     }
 
-    if (this.currentDrawing) {
+    if (this.currentDrawing && ((intersection ? intersection.object.name : null) == "geco_character")) {
       const time = this.timeSinceLastDraw + dt;
       if (
         time >= this.data.drawFrequency &&
@@ -439,11 +439,21 @@ AFRAME.registerComponent("pen", {
   })(),
 
   _startDraw() {
-    this.drawingManager.getDrawing(this).then(drawing => {
-      this.currentDrawing = drawing;
-      this._getNormal(this.normal, this.worldPosition, this.direction);
-      this.currentDrawing.startDraw(this.worldPosition, this.direction, this.normal, this.data.color, this.data.radius);
-    });
+    const cursorPose =
+    this.data.drawMode === DRAW_MODE.PROJECTION &&
+    (this.grabberId === "right-cursor" || this.grabberId === "left-cursor")
+      ? AFRAME.scenes[0].systems.userinput.get(pathsMap[this.grabberId].pose)
+      : null;
+    const intersection = this._getIntersection(cursorPose);
+    console.log((intersection ? intersection.object : null));
+
+    if((intersection ? intersection.object.name : null) == "geco_character"){
+      this.drawingManager.getDrawing(this).then(drawing => {
+        this.currentDrawing = drawing;
+        this._getNormal(this.normal, this.worldPosition, this.direction);
+        this.currentDrawing.startDraw(this.worldPosition, this.direction, this.normal, this.data.color, this.data.radius);
+      });
+    }
   },
 
   _endDraw() {
