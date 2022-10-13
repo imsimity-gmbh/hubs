@@ -459,7 +459,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
     tongReplacedOnTable() {
         this.tongSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.tongReplacedOnTable);
-        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+        this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(50);
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
