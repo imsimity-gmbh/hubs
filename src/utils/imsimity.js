@@ -44,7 +44,10 @@ export var MANNEQUIN_TEXTS = [
   "Nach dem Abkühlen muss die Probe erneut ausgewogen werden, um die Gewichtsdifferenz zu errechnen.",
   "Setze deine notierten Werte in die Formel ein.",
   "Schau dir die Steckbriefe zu deinem gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu finden!",
-  "Das hast du wirklich super gemacht! Das Experiment Humusglühen ist jetzt beendet.\n Begib dich nun wieder in den Eingangsbereich. Schau dir die Steckbriefe zu deinem\n gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu\n finden!"
+  "Das hast du wirklich super gemacht! Das Experiment Humusglühen ist jetzt beendet.\n Begib dich nun wieder in den Eingangsbereich. Schau dir die Steckbriefe zu deinem\n gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu\n finden!",
+  "Du kannst hier das Experiment Humusglühen durchführen. Wenn man den Humusgehalt eines Bodens im Gelände bestimmen will, kann man ihn mit Hilfe einer Farbskala bewerten. Im Labor ist noch eine genauere Methode möglich. ",
+  "Jetzt kannst du dich noch entscheiden, welchen Standort du näher untersuchen möchtest.",
+  "Dies ist die falsche Antwort",
 ]
 
 
@@ -62,6 +65,9 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "",
   "Nimm die Schale mit der Tiegelzange und stell ihn auf die Waage. Lies das Gewicht ab und notiere es in deinem Notizbuch.",
+  "",
+  "",
+  "",
   "",
   "",
   "",
@@ -84,6 +90,9 @@ export var MANNEQUIN_TEXTS_DURATIONS = [
   15.0,
   15.0,
   15.0,
+  0,
+  0,
+  0,
 ]
 
 
@@ -104,6 +113,9 @@ export var MANNEQUIN_TEXTS_BUBBLES = [
   MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_LOW,
   
 ]
 

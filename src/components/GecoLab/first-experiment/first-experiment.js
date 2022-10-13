@@ -40,10 +40,12 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
         this.firstExpStartBtn.object3D.visible = false;
 
-        
-
         setTimeout(() => {
           this.firstExpStartBtn.object3D.visible = true;
+
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+          this.mannequin.components["mannequin"].displayMessage(16);
+          
         }, IMSIMITY_INIT_DELAY * 6);
         
       });

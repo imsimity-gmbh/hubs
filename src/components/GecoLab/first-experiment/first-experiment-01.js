@@ -79,7 +79,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       this.groundProfileModel = this.el.querySelector(".ground-profile-model"); 
       this.groundProfileBtn = this.el.querySelector(".ground-profile-btn"); 
 
-      this.spawnGroundProfile(gecoGroundProfilePromise,new THREE.Vector3(0, 0.2, 0), this.groundProfileModel);
+      this.spawnGroundProfile(gecoGroundProfilePromise,new THREE.Vector3(-0.2, 0.2, -0.1), this.groundProfileModel);
 
       this.groundProfileBtn.object3D.addEventListener("interact", () => this.onGroundProfileSkiped());
       this.groundProfile.object3D.visible = false;
@@ -226,7 +226,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           entity.object3D.visible = true;
 
           entity.object3D.scale.set(1, 1, 1);
-          entity.object3D.rotation.set(0, 0.785398, 0);
+          entity.object3D.rotation.set(0, 0.25, 0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
           console.log(entity);
@@ -243,6 +243,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       this.gecoMap.object3D.visible = true;
 
       this.btnWrapper.object3D.visible = true;
+
+      // Mannequin
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+      this.mannequin.components["mannequin"].displayMessage(17);
     },
 
     onClickGroundSample(index) {
@@ -260,6 +264,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     chooseGroundSample() {
         this.gecoMap.object3D.visible = false;
         this.btnWrapper.object3D.visible = false;
+
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(-1);
 
         if(this.localGroundSampleIndex == 1) {
           this.scaleEntity.components["waage-tool"].setGlowLossWeight(112.17); // Schwarzwald Nördlicher
@@ -300,6 +308,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
 
     onSubmitMultipleChoice(correctAnswer, selectedAnswer) {
       if(correctAnswer == selectedAnswer) {
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin.components["mannequin"].displayMessage(-1);
+
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
           NAF.utils.takeOwnership(networkedEl);
