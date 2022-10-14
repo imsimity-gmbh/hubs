@@ -336,11 +336,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
     },
  
     thermoOnTable() {
+        this.tempertatureScale(15,3,this.temp,0);
         if(this.wasGreater500){
             this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
             this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
             this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
-            this.tempertatureScale(15,3,this.temp,0);
         }
         if(!this.wasGreater500){
             this.sceneEl.emit("gecolab_temperature_info");
@@ -351,7 +351,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
         this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
-        this.tempertatureScale(15,3,this.temp,0);
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
         this.mannequin.components["mannequin"].displayMessage(9);  
     },
