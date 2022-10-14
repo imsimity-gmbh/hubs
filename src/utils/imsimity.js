@@ -59,9 +59,9 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "Notiere das Gewicht in deinem Notizbuch.",
   "",
   "",
-  "Wenn du den Button „Rühren“ mehrfach anklickst, läuft die Stoppuhr schneller.",
+  "Haltet den Button Rühren gedrückt, um den Humus gleichmäßig zu erhitzen.",
   "Stelle das Thermometer in den Mörser und achte auf die Temperatur.",
-  "Wenn du den Button „Rühren“ mehrfach anklickst, läuft die Stoppuhr schneller.",
+  "Haltet den Button Rühren gedrückt, um den Humus gleichmäßig zu erhitzen.",
   "",
   "",
   "Nimm die Schale mit der Tiegelzange und stell ihn auf die Waage. Lies das Gewicht ab und notiere es in deinem Notizbuch.",
@@ -72,29 +72,6 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "",
 ]
-
-export var MANNEQUIN_TEXTS_DURATIONS = [
-  9.0,
-  15.0,
-  24.0,
-  9.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  15.0,
-  0,
-  0,
-  0,
-]
-
 
 export var MANNEQUIN_TEXTS_BUBBLES = [
   MANNEQUIN_BUBBLE_HIGH,

@@ -5,7 +5,7 @@ import { sleep } from "../../utils/async-utils";
 import anime from "animejs";
 
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_TEXTS, MANNEQUIN_TEXTS_DURATIONS, MANNEQUIN_TEXTS_BUBBLES, MANNEQUIN_TEXTS_EXTRA } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_TEXTS, MANNEQUIN_TEXTS_BUBBLES, MANNEQUIN_TEXTS_EXTRA } from "../../utils/imsimity";
 
 import { SOUND_CHAT_MESSAGE } from "../../systems/sound-effects-system";
 
@@ -31,8 +31,6 @@ AFRAME.registerComponent("mannequin", {
 
         this.mannequinManager = this.el.sceneEl.systems["mannequin-manager"];
         this.mannequinManager.register(this.el);
-
-        this.isSpeaking = false;
         
         this.moreButton = this.el.querySelector(".mannequin-moreinfo");
         this.moreButton.object3D.addEventListener("interact", () => this.displayMore());
@@ -71,26 +69,11 @@ AFRAME.registerComponent("mannequin", {
             this.textBox.object3D.visible = false;
             this.playSound(SOUND_CHAT_MESSAGE);
         }
-        /*
-        if (!this.isSpeaking)
-        {
-            this.displayMessageCoroutine(textId)
-            return;
-        }
-        else
-        {
-            // Wait 200 ms and try again
-            await sleep(200);
-
-            this.displayMessage(textId);
-        }
-        */
     },
 
     displayMessageCoroutine :  async function(textId)
     {
         var position = MANNEQUIN_TEXTS_BUBBLES[textId];
-        //var duration = MANNEQUIN_TEXTS_DURATIONS[textId];
         var text = MANNEQUIN_TEXTS[textId];
 
         this.showingMore = false;
@@ -101,8 +84,6 @@ AFRAME.registerComponent("mannequin", {
         this.moreButtonText.setAttribute("text", { value: "Tipp"});
 
         this.currentTextId = textId;
-
-        //this.isSpeaking = true;
 
         //TODO: Move the Bubble
         if (position == MANNEQUIN_BUBBLE_LOW)
@@ -120,18 +101,6 @@ AFRAME.registerComponent("mannequin", {
         // Show the text
         this.textBox.object3D.visible = true;
         this.textInput.setAttribute("text", { value: text });
-
-        // Wait for the delay
-        //await sleep(1000 * duration);
-
-        // Remove the text
-        //this.textBox.object3D.visible = false;
-        
-        //TODO: Animate back the bubble
-        //this.playSound(SOUND_CHAT_MESSAGE);
-
-
-        //this.isSpeaking = false;
     },
 
     displayMore : function()
@@ -145,8 +114,6 @@ AFRAME.registerComponent("mannequin", {
         this.moreButtonText.setAttribute("text", { value: buttonText});
 
         this.textInput.setAttribute("text", { value: text });
-        
-    
     },
 
 
