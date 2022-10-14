@@ -20,9 +20,9 @@ import URL_RIGHT_BUTTON from "../assets/sfx/success_machine.mp3";
 import URL_STOPWATCH_TICKING from "../assets/sfx/stopwatch-tick-loop.mp3";
 import URL_HOVER_ENTER from "../assets/sfx/HoverEnterSound.mp3";
 import URL_SNAP_ENTITY from "../assets/sfx/SnapEntity.mp3";
-import URL_GRIND_SOUND from "../assets/sfx/grind_sound.mp3";
+import URL_GRIND_SOUND from "../assets/sfx/grind_sound.wav";
 import URL_BURNER_SOUND from "../assets/sfx/bunsen-burner-sound.mp3";
-import URL_ADD_SAMPLE from "../assets/sfx/add-sample.mp3";
+import URL_ADD_SAMPLE from "../assets/sfx/add-sample.wav";
 
 //TODO_LAURA_SOUND: if you want to add new sounds, add their URL down there, and the files inside /assets/sfx/
 

@@ -33,7 +33,7 @@ export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose }
             <div class="modal-wrapper">
                 <Column as="form" center>
                     <div class="tempInfo-text">
-                        Beim Erhitzen des Bodens auf 400-500 °C verglüht der Humus, die anderen Bodenbestandteile bleiben größtenteils erhalten. Wenn die Temperatur zu hoch ist, kann der Humusgehalt demnach nicht eindeutig bestimmt werden, weil auch andere Bodenbestandteile verglüht sein können.
+                        <br/>Beim Erhitzen des Bodens auf 400-500 °C verglüht der Humus, die anderen Bodenbestandteile bleiben größtenteils erhalten. Wenn die Temperatur zu hoch ist, kann der Humusgehalt demnach nicht eindeutig bestimmt werden, weil auch andere Bodenbestandteile verglüht sein können.
                     </div>
                     <Button
                     preset="accept"

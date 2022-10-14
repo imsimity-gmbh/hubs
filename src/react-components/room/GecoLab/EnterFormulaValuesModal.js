@@ -3,13 +3,17 @@ import { ShowFormulaResultModalContainer } from "./ShowFormulaResultModalContain
 import PropTypes from "prop-types";
 import { Modal } from "../../modal/Modal";
 import { FormattedMessage } from "react-intl";
-import correctFormula from "../../../assets/images/icons/humusgehalt_formel_richtig_neu.jpg";
+import correctFormula from "../../../assets/images/icons/humusgehalt_formel_richtig_neu.png";
 import styles from "./EnterFormulaValuesModal.scss";
+import { Column } from "../../layout/Column";
+import { useForm } from "react-hook-form";
 
 
 
 
 export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClose }) {
+
+    const {} = useForm();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -30,26 +34,29 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
             title={<FormattedMessage id="enter-values.title" defaultMessage="Werte einsetzen" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
+            <Column as="form" center>
             <div class="modal-wrapper">
                 <div class="info-text">
                     <img class="enter-formula-img" src={correctFormula}></img>
                 </div>
                 <form class="enter-formula-form" onSubmit={handleSubmit}>
-                    <div>
-                        <label for="input-a">a = Tiegel (Leergewicht)</label>
-                        <input id="input-a" name="a" type="number" min="0" step="0.01" required></input>
+                    <div
+                    >
+                        <label for="input-a">a = Tiegel (Leergewicht)<br/></label>
+                        <input id="input-a" name="a" type="number" min="0" step="1" required></input>
                     </div>
                     <div>
-                        <label for="input-b">b = Probengewicht vor dem Glühen</label>
-                        <input id="input-b" name="b" type="number" min="0" step="0.01" required></input>
+                        <label for="input-b">b = Probengewicht vor dem Glühen<br/></label>
+                        <input id="input-b" name="b" type="number" min="0" step="1" required></input>
                     </div>
                     <div>
-                        <label for="input-c">c = Probengewicht nach dem Glühen</label>
-                        <input id="input-c" name="c" type="number" min="0" step="0.01" required></input>
+                        <label for="input-c">c = Probengewicht nach dem Glühen<br/></label>
+                        <input id="input-c" name="c" type="number" min="0" step="1" required></input>
                     </div>
                     <input id="submit-btn" type="submit" value="Berechnen"></input>
                 </form>
             </div>
+            </Column>
         </Modal>
     );
 }
