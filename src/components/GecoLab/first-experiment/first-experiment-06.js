@@ -216,6 +216,11 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
           setTimeout(() => {
             this.multipleChoice06.object3D.visible = false; 
             this.tidyUpBtn.object3D.visible = true;
+            
+             // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin.components["mannequin"].displayMessage(-1);
+
           }, 500);
         }
     },

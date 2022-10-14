@@ -140,6 +140,9 @@
       else {
         this.submitBtn.setAttribute("text-button", {backgroundColor: this.wrongColor});
         console.log("Wrong Answer");
+         // Mannequin
+         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+         this.mannequin.components["mannequin"].displayMessage(19);
       }
 
       this.onSubmitCallbacks.forEach(cb => {
