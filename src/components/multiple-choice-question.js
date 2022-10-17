@@ -142,7 +142,7 @@
         console.log("Wrong Answer");
          // Mannequin
          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-         this.mannequin.components["mannequin"].displayMessage(19);
+         this.mannequin.components["mannequin"].displayMessage(18);
       }
 
       this.onSubmitCallbacks.forEach(cb => {
