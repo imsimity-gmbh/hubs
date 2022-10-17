@@ -23,6 +23,8 @@ import { ObjectContentOrigins } from "./object-types";
 import { getAvatarSrc, getAvatarType } from "./utils/avatar-utils";
 import { SOUND_ENTER_SCENE } from "./systems/sound-effects-system";
 
+import { encodeNetworkId } from "./utils/imsimity";
+
 const isIOS = detectIOS();
 
 export default class SceneEntryManager {
@@ -578,12 +580,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        var networkId = encodeNetworkId("base", groupCode, "position_01");
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
-        this.scene.appendChild(entity);
 
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_01" ,"base");
+        this.scene.appendChild(entity);
       }
     });
   };
@@ -623,12 +626,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        var networkId = encodeNetworkId("base", groupCode, "position_02");
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera", networkId:networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
         
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_02", "base");
       }
     });
   };
@@ -666,12 +670,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera" });
+        var networkId = encodeNetworkId("base", groupCode, "position_03");
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera", networkId:networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
  
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, "position_03", "base");
       }
     });
   };
@@ -707,13 +712,14 @@ export default class SceneEntryManager {
         const anchor = this.scene.querySelector(table);
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
+        
+        var networkId = encodeNetworkId("01", groupCode, position);
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-01-camera" });
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-01-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
         
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"01");
       }
   };
 
@@ -734,12 +740,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-02-camera" });
+        var networkId = encodeNetworkId("02", groupCode, position);
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-02-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"02");
       }
   };
 
@@ -760,12 +767,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-03-camera" });
+        var networkId = encodeNetworkId("03", groupCode, position);
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-03-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
       
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"03");
       }
   };
 
@@ -786,12 +794,13 @@ export default class SceneEntryManager {
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-04-camera" });
+        var networkId = encodeNetworkId("04", groupCode, position);
+
+        entity.setAttribute("networked", { template: "#interactable-first-experiment-04-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
-      
-        this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"04");
+
       }
   };
 
@@ -812,12 +821,13 @@ export default class SceneEntryManager {
       const anchorPos = anchor.getAttribute("position");
       const anchorRot = anchor.getAttribute("rotation");
 
-      entity.setAttribute("networked", { template: "#interactable-first-experiment-05-camera" });
+      var networkId = encodeNetworkId("05", groupCode, position);
+
+      entity.setAttribute("networked", { template: "#interactable-first-experiment-05-camera", networkId: networkId });
       entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
       entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
       this.scene.appendChild(entity);
       
-      this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"05");
     }
   };
 
@@ -838,12 +848,13 @@ export default class SceneEntryManager {
       const anchorPos = anchor.getAttribute("position");
       const anchorRot = anchor.getAttribute("rotation");
 
-      entity.setAttribute("networked", { template: "#interactable-first-experiment-06-camera" });
+      var networkId = encodeNetworkId("06", groupCode, position);
+
+      entity.setAttribute("networked", { template: "#interactable-first-experiment-06-camera", networkId: networkId });
       entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
       entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
       this.scene.appendChild(entity);
     
-      this.scene.systems["experiment-manager"].broadcastCreateExperiment(entity, groupCode, position ,"06");
     }
   };
 

@@ -1,7 +1,7 @@
 
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId } from "../../../utils/imsimity";
 
 /**
  * First Experiment is the mangager class for the experiment
@@ -31,24 +31,29 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
       this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+        var networkId = NAF.utils.getNetworkId(networkedEl);
 
-      this.expSystem.register(this.el);
+        console.log(networkId);
 
-      waitForDOMContentLoaded().then(() => {
+        this.experimentData = decodeNetworkId(networkId);
 
-        this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
-        this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
-        this.firstExpStartBtn.object3D.visible = false;
+        console.log(this.experimentData);
 
-        setTimeout(() => {
-          this.firstExpStartBtn.object3D.visible = true;
+        this.expSystem.register(this.el);
 
-          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
-          this.mannequin.components["mannequin"].displayMessage(16);
-          
-        }, IMSIMITY_INIT_DELAY * 6);
-        
-      });
+        waitForDOMContentLoaded().then(() => {
+
+          this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
+          this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
+          this.firstExpStartBtn.object3D.visible = false;
+
+          setTimeout(() => {
+            this.firstExpStartBtn.object3D.visible = true;
+          }, IMSIMITY_INIT_DELAY * 6);
+                    
+        });
+      });      
 
     },
 
