@@ -28,7 +28,6 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         const hasActiveStopwatch = !!scene.systems["stopwatch-tools"].getMyStopwatch();
         const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
         const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
-        const hasActiveFirstExperiment = !!scene.systems["first-experiments"].getMyExperiment();
         
         const isTeacher = !!scene.systems["gecolab-manager"].isTeacher();
         const isStudent = !!scene.systems["gecolab-manager"].isStudent();

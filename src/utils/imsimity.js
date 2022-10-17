@@ -24,7 +24,33 @@ export var MANNEQUIN_BUBBLE_LOW = 0;
 export var MANNEQUIN_BUBBLE_HIGH = 1;
 
 
+function createId(length) {
+  var result           = '';
+  var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
+export function encodeNetworkId(part, groupCode, position)
+{
+  return part + "-" + groupCode + "-" + position + "-" + createId(7);
+}
+
+export function decodeNetworkId(networkId)
+{
+  var params = networkId.split("-");
+  var data = {};
+
+  data.part = params[0];
+  data.groupCode = params[1];
+  data.position = params[2];
+  data.id = params[3];
+
+  return data;
+}
 
 
 
