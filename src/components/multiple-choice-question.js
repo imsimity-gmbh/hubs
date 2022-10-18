@@ -3,6 +3,9 @@
  * @component multiple-choice-question
  */
 
+import { waitForDOMContentLoaded } from "../utils/async-utils";
+import { getExperimentDataFromParent } from "../utils/imsimity";
+
  AFRAME.registerComponent("multiple-choice-question", {
     schema: {
       question_id: {default: 0},
@@ -41,6 +44,10 @@
 
       //Array for onSubmit-Observer:
       this.onSubmitCallbacks = [];
+
+      waitForDOMContentLoaded().then(() => { 
+        this.experimentData = getExperimentDataFromParent(this.el);
+      });
     },
 
     subscribe(eventName, fn)
@@ -141,7 +148,7 @@
         this.submitBtn.setAttribute("text-button", {backgroundColor: this.wrongColor});
         console.log("Wrong Answer");
          // Mannequin
-         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
          this.mannequin.components["mannequin"].displayMessage(18);
       }
 

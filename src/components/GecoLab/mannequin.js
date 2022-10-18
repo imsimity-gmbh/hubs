@@ -5,7 +5,7 @@ import { sleep } from "../../utils/async-utils";
 import anime from "animejs";
 
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_TEXTS, MANNEQUIN_TEXTS_BUBBLES, MANNEQUIN_TEXTS_EXTRA } from "../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH, MANNEQUIN_TEXTS, MANNEQUIN_TEXTS_BUBBLES, MANNEQUIN_TEXTS_EXTRA, getExperimentDataFromParent } from "../../utils/imsimity";
 
 import { SOUND_CHAT_MESSAGE } from "../../systems/sound-effects-system";
 
@@ -30,7 +30,6 @@ AFRAME.registerComponent("mannequin", {
         this.textBox.object3D.visible = false;
 
         this.mannequinManager = this.el.sceneEl.systems["mannequin-manager"];
-        this.mannequinManager.register(this.el);
         
         this.moreButton = this.el.querySelector(".mannequin-moreinfo");
         this.moreButton.object3D.addEventListener("interact", () => this.displayMore());
@@ -41,6 +40,13 @@ AFRAME.registerComponent("mannequin", {
         this.showingMore = false;
 
         robotModelPromise.then(model => {
+
+            this.experimentData = getExperimentDataFromParent(this.el);
+
+            console.log(this.experimentData);
+
+            this.mannequinManager.register(this.el, this.experimentData);
+
             const mesh = cloneObject3D(model.scene);
             mesh.scale.set(0.5, 0.5, 0.5);
             mesh.matrixNeedsUpdate = true;

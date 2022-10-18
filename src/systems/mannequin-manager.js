@@ -2,36 +2,30 @@ AFRAME.registerSystem("mannequin-manager", {
   init() {
     this.mannequins = [];
     
-    this.updateMyMannequin = this.updateMyMannequin.bind(this);
+  },
+
+  register(el, data) {
+    this.mannequins.push({groupCode: data.groupCode, position: data.position, value:el});
   },
 
 
-  register(el) {
-    this.mannequins.push(el);
-    el.addEventListener("ownership-changed", this.updateMyMannequin);
-    this.updateMyMannequin();
+  deregister(el, data) {
+    this.mannequins.splice(this.mannequins.indexOf({groupCode: data.groupCode, position: data.position, value: el}), 1);
   },
 
-  deregister(el) {
-    this.robotEls.splice(this.robotEls.indexOf(el), 1);
-    el.removeEventListener("ownership-changed", this.updateMyMannequin);
-    this.updateMyMannequin();
+  getMannequinByGroupCode(groupCode) {
+    return this.findByGroupCode(this.mannequins, groupCode);
   },
 
-  getMyMannequin() {
-    this.updateMyMannequin();
+  findByGroupCode(array, groupCode)
+  {
+    var foundObject = array.find(obj => { return obj.groupCode === groupCode });
 
-    return this.myMannequin;
-  },
-
-
-  updateMyMannequin() {
-    this.myMannequin = this.mannequins.length > 0 ? this.mannequins[0] : null; 
-
-    if (this.myMannequin) {
-      this.sceneEl.addState("mannequin");
-    } else {
-      this.sceneEl.removeState("mannequin");
+    if (foundObject == null)
+    {
+      return null;
     }
+      
+    return foundObject.value;
   },
 });

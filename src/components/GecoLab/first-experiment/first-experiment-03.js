@@ -224,7 +224,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.mortarStick.object3D.visible = false;
 
              // Mannequin
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(2);
 
         }
@@ -254,7 +254,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.crucibleEntity.object3D.visible = true;
         this.crucibleEntityScale.object3D.visible = false;
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(3);
     },
 
@@ -271,7 +271,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     proceedToWeighingSample() {
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(4);
 
         this.spoonSocketScale.components["entity-socket"].enableSocket();
@@ -325,7 +325,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         
         
         // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(5);
 
         this.onFinishPart03Callbacks.forEach(cb => {

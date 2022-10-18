@@ -182,7 +182,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                 this.stiringBtn.object3D.visible = false;
                 this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
                 // Mannequin
-                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
                 this.mannequin.components["mannequin"].displayMessage(-1);
             }
         }
@@ -282,7 +282,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.ctrlBtn00.object3D.visible = true;
 
          // Mannequin
-         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
          this.mannequin.components["mannequin"].displayMessage(6);
     },
 
@@ -324,7 +324,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                     //this.sceneEl.emit("gecolab_choose_gloves");
                     
                     //Mannequin
-                    this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                    this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
                     this.mannequin.components["mannequin"].displayMessage(7);
 
                     this.el.setAttribute("first-experiment-04", "burnerStarted", true);  

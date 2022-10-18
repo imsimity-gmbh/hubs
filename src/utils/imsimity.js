@@ -65,45 +65,70 @@ export function getNetworkIdFromEl(el)
   return networked.data.networkId;
 }
 
+
 // a parent searching function, to figure out what's our closest first-experiment-0X, and return the groupCode from this one
 export function getGroupCodeFromParent(entity)
 {
+  var data = getExperimentDataFromParent(entity);
+
+  if (data == null)
+    return null;
+
+  return data.groupCode;
+}
+
+export function getExperimentDataFromParent(entity)
+{
   var parent = null;
+
+
+  parent = entity.closest('#first-experiment-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment'].experimentData;
+  }
 
   parent = entity.closest('#first-experiment-01-wrapper');
 
   if (parent != null)
   {
-    return parent.components['first-experiment-01'].experimentData.groupCode;
+    return parent.components['first-experiment-01'].experimentData;
+  }
+
+  parent = entity.closest('#first-experiment-02-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-02'].experimentData;
   }
 
   parent = entity.closest('#first-experiment-03-wrapper');
 
   if (parent != null)
   {
-    return parent.components['first-experiment-03'].experimentData.groupCode;
+    return parent.components['first-experiment-03'].experimentData;
   }
 
   parent = entity.closest('#first-experiment-04-wrapper');
 
   if (parent != null)
   {
-    return parent.components['first-experiment-04'].experimentData.groupCode;
+    return parent.components['first-experiment-04'].experimentData;
   }
 
   parent = entity.closest('#first-experiment-05-wrapper');
 
   if (parent != null)
   {
-    return parent.components['first-experiment-05'].experimentData.groupCode;
+    return parent.components['first-experiment-05'].experimentData;
   }
-
 
   parent = entity.closest('#first-experiment-06-wrapper');
 
   if (parent != null)
   {
-    return parent.components['first-experiment-06'].experimentData.groupCode;
+    return parent.components['first-experiment-06'].experimentData;
   }
 
 

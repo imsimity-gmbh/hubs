@@ -318,7 +318,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         });
         
         // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(0);
 
         this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
@@ -343,7 +343,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.itemsPlaced++;
         if(this.itemsPlaced >= this.sockets.length) {
 
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(1);
 
             this.sockets.forEach(s => {

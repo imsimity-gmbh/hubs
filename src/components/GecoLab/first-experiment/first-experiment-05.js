@@ -216,7 +216,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
             if(this.t > 10) {
                 // Mannequin
-                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
                 this.mannequin.components["mannequin"].displayMessage(-1);
                 if(!this.wasGreater500) {
                     this.stopStir = true;
@@ -292,12 +292,12 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         if (this.localMeasuredCounter == 0)
         {
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(8);  
         }
         else if (this.localMeasuredCounter > 0)
         {
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(10);  
         }
         
@@ -310,7 +310,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         console.log("placed stick");
 
         //Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
     
         this.thermoSocket05.components["entity-socket"].enableSocket();
         this.thermoSocket05.components["entity-socket"].subscribe("onSnap", this.thermoRunning);
@@ -359,7 +359,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
         this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
         this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(9);  
     },
 
@@ -381,7 +381,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         if(this.temp > 50){
             this.tempertatureScale(1,5,this.temp,470);
             // Mannequin
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(-1);
         }
         
@@ -419,7 +419,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.ctrlBtnBlocked = false;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(11);
     },
 
@@ -469,7 +469,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(50);
         
         // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(-1);
     },
 

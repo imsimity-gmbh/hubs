@@ -19,13 +19,11 @@ AFRAME.registerSystem("first-experiments", {
   },
 
   register(el, data) {
-    console.log(data);
-
     this.experimentsBaseEls.push({groupCode: data.groupCode, position: data.position, value:el});
   },
 
   deregister(el, data) {
-    console.log(data);
+    console.log("deregistering first-experiment");
 
     this.experimentsBaseEls.splice(this.experimentsBaseEls.indexOf({groupCode: data.groupCode, position: data.position, value: el}), 1);
   },

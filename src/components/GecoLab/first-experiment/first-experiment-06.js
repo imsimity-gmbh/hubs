@@ -152,7 +152,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.tongSocket06.components["entity-socket"].subscribe("onSnap", this.tongPlacedOnCrucible);
         this.scaleEntity.components["waage-tool"].subscribe("onGlowLossWeighed", this.chooseFormula);
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(12);
     },
 
@@ -169,7 +169,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.scaleEntity.components["waage-tool"].measureGlowLoss();
         this.crucibleSocketScale.components["entity-socket"].unsubscribe("onSnap", this.onCruciblePlaced);
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(13);
     },
 
@@ -190,7 +190,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     proceedToDiscussResult() {
         this.discussResultBtn.object3D.visible = true; 
 
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(14);
     },
 
@@ -230,7 +230,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.tidyUpBtn.object3D.visible = true;
             
              // Mannequin
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(-1);
 
           }, 500);

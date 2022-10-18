@@ -249,14 +249,14 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       console.log('Show Ground Sample');
 
       
-      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
 
       this.gecoMap.object3D.visible = true;
 
       this.btnWrapper.object3D.visible = true;
 
       // Mannequin
-      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
       this.mannequin.components["mannequin"].displayMessage(17);
     },
 
@@ -277,7 +277,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         this.btnWrapper.object3D.visible = false;
 
         // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(-1);
 
         if(this.localGroundSampleIndex == 1) {
@@ -320,7 +320,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     onSubmitMultipleChoice(correctAnswer, selectedAnswer) {
       if(correctAnswer == selectedAnswer) {
         // Mannequin
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(-1);
 
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
