@@ -428,6 +428,10 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       for(let i = 0; i < clonedMesh.children.length; i++) {
         clonedMesh.children[i].material = hoverMaterial;
       }
+    
+      if(clonedMesh.children[0].children.length > 0){
+        clonedMesh.children[0].children[0].material = hoverMaterial;
+      }
 
       entity.setObject3D("mesh", clonedMesh);
 

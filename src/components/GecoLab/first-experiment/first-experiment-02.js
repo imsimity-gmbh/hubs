@@ -13,13 +13,13 @@ import tripodSrc from "../../../assets/models/GecoLab/tripod.glb";
 import tripodPlateSrc from "../../../assets/models/GecoLab/tripod_plate.glb";
 import tripodTriangleSrc from "../../../assets/models/GecoLab/tripod_triangle.glb";
 import firelighterSrc from "../../../assets/models/GecoLab/fireliter.glb";
-import glassStickSrc from "../../../assets/models/GecoLab/flask_stick_blue.glb";
-import thermoSrc from "../../../assets/models/GecoLab/thermo.glb"; 
+import glassStickSrc from "../../../assets/models/GecoLab/stick_w_collider.glb";
+import thermoSrc from "../../../assets/models/GecoLab/thermo_w_collider.glb"; 
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
-import spoonSrc from "../../../assets/models/GecoLab/spoon_darker.glb";
+import spoonSrc from "../../../assets/models/GecoLab/spoon_w_collider.glb";
 import groundSampleSpoonSrc from "../../../assets/models/GecoLab/ground-sample-spoon.glb";
-import tongSrc from "../../../assets/models/GecoLab/tong.glb";
+import tongSrc from "../../../assets/models/GecoLab/tong_w_collider.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));
