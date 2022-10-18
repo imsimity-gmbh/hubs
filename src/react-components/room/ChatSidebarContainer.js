@@ -18,7 +18,7 @@ import { spawnChatMessage } from "../chat-message";
 import { discordBridgesForPresences } from "../../utils/phoenix-utils";
 import { useIntl } from "react-intl";
 import { MAX_MESSAGE_LENGTH } from "../../utils/chat-message";
-import { redirectTo } from "../../utils/imsimity";
+import { redirectTo, spawnOrDeleteExperiment } from "../../utils/imsimity";
 
 const ChatContext = createContext({ messageGroups: [], sendMessage: () => {} });
 
@@ -125,6 +125,23 @@ export function ChatContextProvider({ messageDispatch, children }) {
           const urlToTeleport = newMessage.body;
 
           redirectTo(urlToTeleport);
+        }
+
+        if (newMessage.type === "gecolab-spawn")
+        {
+          console.log("Recieved a Gecolab request !");
+          
+          var data = newMessage.body;
+
+          // TODO: refactor
+          var ownId = window.APP.dialog._clientId;
+          var scene = window.APP.scene;
+
+          // We are the Moderator
+          if (ownId === data.moderatorId)
+          {
+            spawnOrDeleteExperiment(data.position, data.groupCode, scene);
+          }
         }
       }
 

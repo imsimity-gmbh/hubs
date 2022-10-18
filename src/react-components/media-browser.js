@@ -519,10 +519,11 @@ class MediaBrowserContainer extends Component {
     const { scene } = this.props;
     const { presences } = this.props;
     const { sessionId } = this.props;
+    const { hubChannel } = this.props;
 
     console.log(sessionId);
     
-    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId });
+    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId, hubChannel: hubChannel });
 
     this.close();
   }
@@ -538,7 +539,7 @@ class MediaBrowserContainer extends Component {
 
     console.log("Deleting " + groupCode);
 
-    spawnOrDeleteExperiment(position_id, groupCode);
+    spawnOrDeleteExperiment(position_id, groupCode, scene);
     
     this.close();
   }

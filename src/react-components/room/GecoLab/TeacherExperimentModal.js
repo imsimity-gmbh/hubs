@@ -26,6 +26,22 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   );
 
   
+  const removeLobbyUsersAndKeepOnlyNames = (users) =>
+  {
+    var arr = [];
+
+    for(var i = 0; i < users.length; i++)
+    {
+      if(users[i].presence == "room")
+      {
+        arr.push(users[i].profile.displayName);
+      }
+    }
+
+    return arr;
+  }
+
+  
   const onChange = useCallback(
     e => {
       setValue("groupCode", e.target.value);
@@ -42,6 +58,8 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   );
 
   var users = getUsersFromPresences(presences, sessionId);
+
+  users = removeLobbyUsersAndKeepOnlyNames(users);
   
   const groupCode = watch("groupCode", "");
   const moderatorName = watch("moderatorName", users[0]);

@@ -41,21 +41,6 @@ function userFromPresence(id, presence, mySessionId)
   return { id: id, isMe: mySessionId === id, ...meta };
 }
 
-function removeLobbyUsers(users)
-{
-  var arr = [];
-
-  for(var i = 0; i < users.length; i++)
-  {
-    if(users[i].presence == "room")
-    {
-      arr.push(users[i].profile.displayName);
-    }
-  }
-
-  return arr;
-}
-
 
 
 export function encodeNetworkId(part, groupCode, position)
@@ -101,7 +86,7 @@ export function getGroupCodeFromParent(entity)
   return data.groupCode;
 }
 
-export function spawnOrDeleteExperiment(position, groupCode)
+export function spawnOrDeleteExperiment(position, groupCode, scene)
 {
   if (position === "position_01") {
     scene.emit("action_toggle_first_experiment_01", groupCode);
@@ -118,8 +103,6 @@ export function getUsersFromPresences(presences, sessionId)
   var users = Object.entries(presences).map(([id, presence]) => {
     return userFromPresence(id, presence, sessionId);
   });
-
-  users = removeLobbyUsers(users);
 
   return users;
 }
