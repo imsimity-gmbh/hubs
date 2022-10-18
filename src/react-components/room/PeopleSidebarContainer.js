@@ -13,7 +13,7 @@ export function userFromPresence(sessionId, presence, micPresences, mySessionId)
 
 function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
   const [people, setPeople] = useState([]);
-
+  console.log("People" + presences);
   useEffect(
     () => {
       let timeout;
@@ -38,7 +38,7 @@ function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
     },
     [presences, micUpdateFrequency, setPeople, mySessionId]
   );
-
+  console.log("People2" + people);
   return people;
 }
 
@@ -93,7 +93,8 @@ export function PeopleSidebarContainer({
     },
     [setSelectedPersonId]
   );
-
+  console.log("People3 " + presences);
+  console.log("People4 " + people);
   if (selectedPerson) {
     if (selectedPerson.id === mySessionId) {
       return (

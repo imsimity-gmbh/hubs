@@ -12,7 +12,7 @@ import styles from "./TeacherExperimentModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 
-export function TeacherExperimentModal({ onSubmit, location ,onClose }) {
+export function TeacherExperimentModal({ onSubmit, location ,onClose, presences }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
@@ -39,7 +39,7 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose }) {
   const groupCode = watch("groupCode", "");
 
 
-
+  console.log(presences); //steal from presence-logs? window.APP.componentRegistry.playerInfo? window.APP.hubChannel.presence.state[this.playerSessionId]? phoenix-utils.getPresenceEntryforSessions?
   var placingPosition01 = (location === "position_01")
   if (location === "position_01")
   {
@@ -120,5 +120,6 @@ TeacherExperimentModal.propTypes = {
   isMobile: PropTypes.bool,
   onSubmit: PropTypes.func,
   location: PropTypes.string.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  presences: PropTypes.object.isRequired,
 };
