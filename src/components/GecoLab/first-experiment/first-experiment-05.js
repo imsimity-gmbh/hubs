@@ -1,7 +1,7 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -58,9 +58,15 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.tematureCalc = AFRAME.utils.bind(this.tempertatureCalc, this);
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
-        this.expSystem.registerTask(this.el, "05");
 
+    
         waitForDOMContentLoaded().then(() => { 
+
+            var networkId = getNetworkIdFromEl(this.el);
+
+            this.experimentData = decodeNetworkId(networkId);
+
+            this.expSystem.registerTask("05", this.el, this.experimentData);
 
             setTimeout(() => {
 
@@ -109,6 +115,8 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
             }, IMSIMITY_INIT_DELAY)
 
         });
+
+
     },
 
     subscribe(eventName, fn)
@@ -463,6 +471,10 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMyMannequin();
         this.mannequin.components["mannequin"].displayMessage(-1);
+    },
+
+    remove() {
+        this.expSystem.deregisterTask("05", this.el, this.experimentData);
     }
 
   });

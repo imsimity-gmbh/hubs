@@ -52,7 +52,63 @@ export function decodeNetworkId(networkId)
   return data;
 }
 
+export function getNetworkIdFromEl(el)
+{
+  var networked = el.components["networked"];
 
+  if (networked == null)
+  {
+    console.error("networked is undefined for " + el.localName);
+    return "";
+  }
+
+  return networked.data.networkId;
+}
+
+// a parent searching function, to figure out what's our closest first-experiment-0X, and return the groupCode from this one
+export function getGroupCodeFromParent(entity)
+{
+  var parent = null;
+
+  parent = entity.closest('#first-experiment-01-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-01'].experimentData.groupCode;
+  }
+
+  parent = entity.closest('#first-experiment-03-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-03'].experimentData.groupCode;
+  }
+
+  parent = entity.closest('#first-experiment-04-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-04'].experimentData.groupCode;
+  }
+
+  parent = entity.closest('#first-experiment-05-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-05'].experimentData.groupCode;
+  }
+
+
+  parent = entity.closest('#first-experiment-06-wrapper');
+
+  if (parent != null)
+  {
+    return parent.components['first-experiment-06'].experimentData.groupCode;
+  }
+
+
+  return null;
+}
 
 export var MANNEQUIN_TEXTS = [
   "Um mit dem Experiment zu starten, musst du alle Materialien auf die richtige Stelle auf\n deinem Arbeitsplatz stellen.",

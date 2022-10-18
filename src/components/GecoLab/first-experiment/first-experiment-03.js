@@ -9,7 +9,7 @@ import grindedSampleSrc from "../../../assets/models/GecoLab/ground_sample_grind
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
@@ -54,14 +54,19 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.onRightSampleAmount = AFRAME.utils.bind(this.onRightSampleAmount, this);
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
-        this.expSystem.registerTask(this.el, "03");
 
         this.amountsCount = 0;
 
-        
-
 
         waitForDOMContentLoaded().then(() => { 
+
+            var networkId = getNetworkIdFromEl(this.el);
+
+            this.experimentData = decodeNetworkId(networkId);
+
+            this.expSystem.registerTask("03", this.el, this.experimentData);
+            
+
 
             // Network the Random vars
             if (NAF.utils.isMine(this.el))
@@ -102,18 +107,16 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
                 this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
 
                 //Subscribe to callback after placing mortar
-                this.firstExpPart02 = this.expSystem.getTaskById("02");
+                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
                 if(this.firstExpPart02 != null)
                     this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
                 else
                     console.log('ERRROR !!!! ');
 
             }, IMSIMITY_INIT_DELAY);
-
-
-            
-            
+                
         });
+        
     },
 
     subscribe(eventName, fn)
@@ -332,6 +335,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
     playSound(soundID) {
         this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundID);
+    },
+
+    remove() {
+        this.expSystem.deregisterTask("03", this.el, this.experimentData);
     }
 
   });

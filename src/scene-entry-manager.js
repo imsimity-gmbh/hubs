@@ -474,7 +474,7 @@ export default class SceneEntryManager {
     this.scene.addEventListener("video_taken", e => this.hubChannel.sendMessage({ src: e.detail }, "video"));
   };
 
-  _spawnStopwatch = (table) => {
+  _spawnStopwatch = (table, groupCode, position) => {
       if (!this.hubChannel.can("spawn_camera")) return;
       const myStopwatch = this.scene.systems["stopwatch-tools"].getMyStopwatch();
 
@@ -491,7 +491,9 @@ export default class SceneEntryManager {
         var radAngle =  deg2rad * anchorRot.y;
         var dir = {x: Math.sin(radAngle) * distToAnchor, z:  Math.cos(radAngle) * distToAnchor};
 
-        entity.setAttribute("networked", { template: "#interactable-stopwatch-camera" });
+        var networkId = encodeNetworkId("stopwatch", groupCode, position);
+
+        entity.setAttribute("networked", { template: "#interactable-stopwatch-camera", networkId: networkId });
         entity.setAttribute("position", {x: (anchorPos.x + dir.x), y: (anchorPos.y + 2), z: (anchorPos.z + dir.z)});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
         this.scene.appendChild(entity);
@@ -569,7 +571,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getMyExperiment();
+      const myExperiment = this.scene.systems["first-experiments"].getExperimentByGroupCode(groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -615,7 +617,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getMyExperiment();
+      const myExperiment = this.scene.systems["first-experiments"].getExperimentByGroupCode(groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -659,7 +661,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getMyExperiment();
+      const myExperiment = this.scene.systems["first-experiments"].getExperimentByGroupCode(groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -702,7 +704,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getTaskById("01");
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("01", groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -729,7 +731,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getTaskById("02");
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("02", groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -756,7 +758,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getTaskById("03");
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("03", groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -783,7 +785,7 @@ export default class SceneEntryManager {
 
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getTaskById("04");
+      const myExperiment = this.scene.systems["first-experiments"].getTaskById("04", groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
@@ -810,7 +812,7 @@ export default class SceneEntryManager {
 
     if (!this.hubChannel.can("spawn_camera")) return;
     
-    const myExperiment = this.scene.systems["first-experiments"].getTaskById("05");
+    const myExperiment = this.scene.systems["first-experiments"].getTaskById("05", groupCode);
 
     if (myExperiment) {
       myExperiment.parentNode.removeChild(myExperiment);
@@ -837,7 +839,7 @@ export default class SceneEntryManager {
 
     if (!this.hubChannel.can("spawn_camera")) return;
     
-    const myExperiment = this.scene.systems["first-experiments"].getTaskById("06");
+    const myExperiment = this.scene.systems["first-experiments"].getTaskById("06", groupCode);
 
     if (myExperiment) {
       myExperiment.parentNode.removeChild(myExperiment);

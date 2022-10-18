@@ -14,7 +14,7 @@ import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-s
 
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 
-import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
+import { IMSIMITY_INIT_DELAY, getGroupCodeFromParent } from '../utils/imsimity';
 
 import { Vector3 } from "three";
 
@@ -74,22 +74,23 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       setTimeout(() => {
         waitForDOMContentLoaded().then(() => { 
           const sceneEl = this.el.sceneEl;
-          this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
-          
-          console.log(this.experiment02);
+
+          var groupCode = getGroupCodeFromParent(this.el);
   
-          if (this.experiment02)
+          if (groupCode != null)
           {
+            this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02", groupCode);
             // TODO: unsubscribe on delete
             this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
           }
           else
           {
+            console.log(this.el);
             console.log('ERROR ! entity-socket not well initialized');
           }
   
         });    
-      }, IMSIMITY_INIT_DELAY * 0.5);
+      }, IMSIMITY_INIT_DELAY * 3);
     
     },
 

@@ -6,7 +6,7 @@ import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
 import flameModelSrc from "../../../assets/models/GecoLab/flame.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, MANNEQUIN_TEXTS, MANNEQUIN_BUBBLE_LOW, MANNEQUIN_BUBBLE_HIGH } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 
@@ -50,9 +50,14 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.stopBurnerSound = AFRAME.utils.bind(this.stopBurnerSound, this);
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
-        this.expSystem.registerTask(this.el, "04");
 
         waitForDOMContentLoaded().then(() => { 
+
+            var networkId = getNetworkIdFromEl(this.el);
+
+            this.experimentData = decodeNetworkId(networkId);
+    
+            this.expSystem.registerTask("04", this.el, this.experimentData);
 
             setTimeout(() => {
 
@@ -99,7 +104,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
 
 
-                this.firstExpPart03 = this.expSystem.getTaskById("03");
+                this.firstExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
                 this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
                 if(this.firstExpPart03 != null)
                     this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
@@ -107,6 +112,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             }, IMSIMITY_INIT_DELAY);
         
         });
+
+
+        
     },
 
     subscribe(eventName, fn)
@@ -349,6 +357,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     stopBurnerSound() {
         this.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
+    },
+
+    remove() {
+        this.expSystem.deregisterTask("04", this.el, this.experimentData);
     }
 
   });

@@ -3,7 +3,7 @@ import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import gecoMapSrc from "../../../assets/models/GecoLab/geco_map.glb";
 import gecoGroundProfileSrc from "../../../assets/models/GecoLab/geco_ground_profile.glb";
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSrc));
 const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel(gecoGroundProfileSrc));
@@ -34,33 +34,44 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       this.groundSampleCallbacks = [];
 
       this.expSystem = this.el.sceneEl.systems["first-experiments"];
-      this.expSystem.registerTask(this.el, "01");
+
 
       this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
       this.onGroundProfileSkiped = AFRAME.utils.bind(this.onGroundProfileSkiped, this);
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
-      setTimeout(() => {
-        waitForDOMContentLoaded().then(() => {
+      waitForDOMContentLoaded().then(() => {
+        var networkId = getNetworkIdFromEl(this.el);
+
+        this.experimentData = decodeNetworkId(networkId);
+
+        this.expSystem.registerTask("01", this.el, this.experimentData);
         
-          const sceneEl = this.el.sceneEl;
-          this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02");
+        setTimeout(() => {
+          waitForDOMContentLoaded().then(() => {
           
-          if (this.experiment02)
-          {
-            // TODO: unsubscribe on delete
-            this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
-          }
-          else  
-          {
-            console.log('first-experiment-02 not found');
-            // Fallback, we trigger manualy the delayed init
-            this.delayedInit();
-          }
-         
-        });  
-      }, IMSIMITY_INIT_DELAY * 0.9);
+            const sceneEl = this.el.sceneEl;
+            this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02", this.experimentData.groupCode);
+            
+            if (this.experiment02)
+            {
+              // TODO: unsubscribe on delete
+              this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+            }
+            else  
+            {
+              console.log('first-experiment-02 not found');
+              // Fallback, we trigger manualy the delayed init
+              this.delayedInit();
+            }
+           
+          });  
+        }, IMSIMITY_INIT_DELAY * 0.9);
+
+      });
+
+      
       
       
     },
@@ -147,7 +158,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       {
         this.localQuestionAnswered = this.data.questionAnswered;
 
-        this.firstExpPart02 = this.expSystem.getTaskById("02");
+        this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
         this.firstExpPart02.components["first-experiment-02"].showExpItems();
          
         setTimeout(() => {
@@ -333,6 +344,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         
         this.updateUI();
       });
+    },
+
+    remove() {
+      this.expSystem.deregisterTask("01", this.el, this.experimentData);
     }
 
   });

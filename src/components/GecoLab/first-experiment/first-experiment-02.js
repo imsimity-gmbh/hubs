@@ -1,7 +1,7 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 //Initial Models:
 import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
 import groundSampleSrc1 from "../../../assets/models/GecoLab/ground-sample-coarse-1.glb";
@@ -65,18 +65,22 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.totalModels = 18;
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
-        this.expSystem.registerTask(this.el, "02");
 
         this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
         this.tryTriggeringCallbacks = AFRAME.utils.bind(this.tryTriggeringCallbacks, this);
 
         waitForDOMContentLoaded().then(() => { 
-            
+            var networkId = getNetworkIdFromEl(this.el);
+    
+            this.experimentData = decodeNetworkId(networkId);
+    
+            this.expSystem.registerTask("02", this.el, this.experimentData);
+
             setTimeout(() => {
-                console.log('setTimeout');
                 this.delayedInit();
                 
             }, IMSIMITY_INIT_DELAY);
+            
         });
     },
 
@@ -202,7 +206,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.startPart02 = AFRAME.utils.bind(this.startPart02, this);
 
         //Subscribe to callback after submitting multiple choice
-        this.firstExpPart01 = this.expSystem.getTaskById("01");
+        this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
         if(this.firstExpPart01 != null)
             this.firstExpPart01.components["first-experiment-01"].subscribe("startPart02", this.startPart02);
         else 
@@ -360,6 +364,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.onFinishPart02Callbacks.forEach(cb => {
             cb();
         });
+    },
+
+    remove() {
+        this.expSystem.deregisterTask("02", this.el, this.experimentData);
     }
 
   });

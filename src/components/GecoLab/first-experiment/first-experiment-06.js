@@ -1,6 +1,7 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 /* Same as before: Buttons networked, maybe button called on spawn like in 03+04, entity-socket callbacks not yet  */
 
@@ -28,7 +29,6 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.localOnClickDiscussResult = false;
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
-        this.expSystem.registerTask(this.el, "06");
 
         
         //bind Callback funtions:
@@ -46,7 +46,18 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
         this.onTidyUpClicked = AFRAME.utils.bind(this.onTidyUpClicked, this);
         this.tidyUp = AFRAME.utils.bind(this.tidyUp, this);
         
+       
+
         waitForDOMContentLoaded().then(() => { 
+
+
+            var networkId = getNetworkIdFromEl(this.el);
+
+            this.experimentData = decodeNetworkId(networkId);
+    
+            this.expSystem.registerTask("06", this.el, this.experimentData);
+
+
             setTimeout(() => {
                 this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
                 this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
@@ -73,11 +84,12 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
                 console.log(this.stopwatchEntity);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
-                this.firstExpPart01 = this.expSystem.getTaskById("01");
+                this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
             }, IMSIMITY_INIT_DELAY);
 
         });
+
     },
 
     subscribe(eventName, fn)
@@ -236,5 +248,9 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 
     tidyUp() {
         console.log("teleport Items back to initial pos");
+    },
+
+    remove() {
+        this.expSystem.deregisterTask("06", this.el, this.experimentData);
     }
   });

@@ -1,7 +1,7 @@
 
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, decodeNetworkId } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
 
 /**
  * First Experiment is the mangager class for the experiment
@@ -30,9 +30,11 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId } from "../../../utils/imsimity";
       this.localStartClicked = false;
 
       this.expSystem = this.el.sceneEl.systems["first-experiments"];
+     
+      
+      waitForDOMContentLoaded().then(() => {
 
-      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        var networkId = NAF.utils.getNetworkId(networkedEl);
+        var networkId = getNetworkIdFromEl(this.el);
 
         console.log(networkId);
 
@@ -40,20 +42,18 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId } from "../../../utils/imsimity";
 
         console.log(this.experimentData);
 
-        this.expSystem.register(this.el);
+        this.expSystem.register(this.el, this.experimentData.groupCode);
 
-        waitForDOMContentLoaded().then(() => {
 
-          this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
-          this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
-          this.firstExpStartBtn.object3D.visible = false;
+        this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
+        this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
+        this.firstExpStartBtn.object3D.visible = false;
 
-          setTimeout(() => {
-            this.firstExpStartBtn.object3D.visible = true;
-          }, IMSIMITY_INIT_DELAY * 6);
-                    
-        });
-      });      
+        setTimeout(() => {
+          this.firstExpStartBtn.object3D.visible = true;
+        }, IMSIMITY_INIT_DELAY * 6);
+                  
+      });  
 
     },
 
@@ -87,13 +87,16 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId } from "../../../utils/imsimity";
 
     startExperiment() { 
       this.firstExpStartBtn.object3D.visible = false;
-      this.firstExpPart01 = this.expSystem.getTaskById("01");
+      this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
       
-
 
       this.firstExpPart01.components["first-experiment-01"].startPart01(); //for some reason this.firstExpPart01 is undefined for second user (observer)
      
       console.log("show stuff");
     },
+
+    remove() {
+      this.expSystem.deregister(this.el, this.experimentData.groupCode);
+    }
   });
   
