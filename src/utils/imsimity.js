@@ -34,6 +34,30 @@ function createId(length) {
   return result;
 }
 
+function userFromPresence(id, presence, mySessionId) 
+{
+  const meta = presence.metas[presence.metas.length - 1];
+  
+  return { id: id, isMe: mySessionId === id, ...meta };
+}
+
+function removeLobbyUsers(users)
+{
+  var arr = [];
+
+  for(var i = 0; i < users.length; i++)
+  {
+    if(users[i].presence == "room")
+    {
+      arr.push(users[i].profile.displayName);
+    }
+  }
+
+  return arr;
+}
+
+
+
 export function encodeNetworkId(part, groupCode, position)
 {
   return part + "-" + groupCode + "-" + position + "-" + createId(7);
@@ -75,6 +99,29 @@ export function getGroupCodeFromParent(entity)
     return null;
 
   return data.groupCode;
+}
+
+export function spawnOrDeleteExperiment(position, groupCode)
+{
+  if (position === "position_01") {
+    scene.emit("action_toggle_first_experiment_01", groupCode);
+    scene.emit("action_toggle_first_experiment_01_start", groupCode);
+  }
+  else if (position === "position_02") {
+    scene.emit("action_toggle_first_experiment_02", groupCode);
+    scene.emit("action_toggle_first_experiment_02_start", groupCode);
+  }
+}
+
+export function getUsersFromPresences(presences, sessionId)
+{
+  var users = Object.entries(presences).map(([id, presence]) => {
+    return userFromPresence(id, presence, sessionId);
+  });
+
+  users = removeLobbyUsers(users);
+
+  return users;
 }
 
 export function getExperimentDataFromParent(entity)

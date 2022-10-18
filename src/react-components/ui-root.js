@@ -1441,6 +1441,8 @@ class UIRoot extends Component {
                   showNonHistoriedDialog={this.showNonHistoriedDialog}
                   store={this.props.store}
                   scene={this.props.scene}
+                  presences={this.props.presences}
+                  sessionId={this.props.sessionId}
                 />
               )}
             {this.props.hub && (

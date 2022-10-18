@@ -20,7 +20,7 @@ import { proxiedUrlFor, scaledThumbnailUrlFor } from "../utils/media-url-utils";
 import { CreateTile, MediaTile } from "./room/MediaTiles";
 import { SignInMessages } from "./auth/SignInModal";
 
-import { HEROKU_DELETE_UPLOAD_URI, HEROKU_UPLOAD_URI } from "../utils/imsimity";
+import { HEROKU_DELETE_UPLOAD_URI, HEROKU_UPLOAD_URI, spawnOrDeleteExperiment } from "../utils/imsimity";
 
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
@@ -163,7 +163,9 @@ class MediaBrowserContainer extends Component {
     performConditionalSignIn: PropTypes.func,
     showNonHistoriedDialog: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+    presences:  PropTypes.object.isRequired,
+    sessionId:  PropTypes.string.isRequired
   };
 
   state = { query: "", facets: [], showNav: true, selectNextResult: false, clearStashedQueryOnClose: false };
@@ -515,10 +517,12 @@ class MediaBrowserContainer extends Component {
 
   onPlaceExperiment = (e, position_id) => {
     const { scene } = this.props;
+    const { presences } = this.props;
+    const { sessionId } = this.props;
 
-    console.log(position_id);
+    console.log(sessionId);
     
-    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id });
+    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId });
 
     this.close();
   }
@@ -534,14 +538,7 @@ class MediaBrowserContainer extends Component {
 
     console.log("Deleting " + groupCode);
 
-    if (position_id === "position_01") {
-      scene.emit("action_toggle_first_experiment_01", groupCode);
-      scene.emit("action_toggle_first_experiment_01_start", groupCode);
-    }
-    else if (position_id === "position_02") {
-      scene.emit("action_toggle_first_experiment_02", groupCode);
-      scene.emit("action_toggle_first_experiment_02_start", groupCode);
-    }
+    spawnOrDeleteExperiment(position_id, groupCode);
     
     this.close();
   }

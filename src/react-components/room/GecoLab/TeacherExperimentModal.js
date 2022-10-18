@@ -11,24 +11,21 @@ import { ReactComponent as AttachIcon } from "../../icons/Attach.svg";
 import styles from "./TeacherExperimentModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
+import { SelectInputField } from "../../input/SelectInputField";
+import { getUsersFromPresences } from "../../../utils/imsimity";
 
-export function TeacherExperimentModal({ onSubmit, location ,onClose, presences }) {
+export function TeacherExperimentModal({ onSubmit, location ,onClose, presences, sessionId }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
     () => {
       register("groupCode");
+      register("moderatorName");
     },
     [register]
   );
 
-  const onClear = useCallback(
-    () => {     
-      setValue("groupCode", "");
-    },
-    [setValue]
-  );
-
+  
   const onChange = useCallback(
     e => {
       setValue("groupCode", e.target.value);
@@ -36,11 +33,19 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences 
     [setValue]
   );
 
+  const onChangeModerator = useCallback(
+    name => {
+      console.log(name);
+      setValue("moderatorName", name);
+    },
+    [setValue]
+  );
+
+  var users = getUsersFromPresences(presences, sessionId);
+  
   const groupCode = watch("groupCode", "");
+  const moderatorName = watch("moderatorName", users[0]);
 
-
-  console.log(presences); //steal from presence-logs? window.APP.componentRegistry.playerInfo? window.APP.hubChannel.presence.state[this.playerSessionId]? phoenix-utils.getPresenceEntryforSessions?
-  var placingPosition01 = (location === "position_01")
   if (location === "position_01")
   {
     return (
@@ -70,8 +75,14 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences 
               />
             }
           />
+          <SelectInputField 
+            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Moderator" />}
+            value={moderatorName} 
+            options={users} 
+            onChange={onChangeModerator} 
+          />
           <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Exmperiment" />
+            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Experiment" />
           </Button>
         </Column>
       </Modal>
@@ -106,8 +117,14 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences 
               />
             }
           />
+          <SelectInputField 
+            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Moderator" />}
+            value={moderatorName} 
+            options={users} 
+            onChange={onChangeModerator} 
+          />
           <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Exmperiment" />
+            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Experiment" />
           </Button>
         </Column>
       </Modal>
@@ -121,5 +138,6 @@ TeacherExperimentModal.propTypes = {
   onSubmit: PropTypes.func,
   location: PropTypes.string.isRequired,
   onClose: PropTypes.func,
-  presences: PropTypes.object.isRequired,
+  presences:  PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };

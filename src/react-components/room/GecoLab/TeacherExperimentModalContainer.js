@@ -2,26 +2,47 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherExperimentModal } from "./TeacherExperimentModal";
 import configs from "../../../utils/configs";
+import { getUsersFromPresences, spawnOrDeleteExperiment } from "../../../utils/imsimity";
 
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
 
 
-export function TeacherExperimentModalContainer({ scene, location, onClose }) {
+export function TeacherExperimentModalContainer({ scene, location, onClose, presences, sessionId }) {
+
+  const getUserFromName = (users, moderatorName) => {
+    return users.find(u => { return u.profile.displayName === moderatorName });
+  }
+
   const onSubmit = useCallback(
-    ({ groupCode })  =>  {
+    ({ groupCode, moderatorName })  =>  {
 
-      console.log(groupCode);
+      var users = getUsersFromPresences(presences, sessionId);
 
-      if (location === "position_01") {
-        scene.emit("action_toggle_first_experiment_01", groupCode);
-        scene.emit("action_toggle_first_experiment_01_start", groupCode);
+      console.log(users);
+
+      var user = getUserFromName(users, moderatorName);
+
+      if (user == null)
+      {
+        console.log("Could not find Moderator...");
+        
+        onClose();
+
+        return;
       }
-      else if (location === "position_02") {
-        scene.emit("action_toggle_first_experiment_02", groupCode);
-        scene.emit("action_toggle_first_experiment_02_start", groupCode);
+
+      if (user.isMe === true)
+      {
+        spawnOrDeleteExperiment(location, groupCode);
       }
+      else
+      {
+        // We are not the Moderator, we broadcast an event !
+        console.log("We broadcast a Spawn Request to " + moderatorName);
+      }
+      
       
       onClose();
     },
@@ -34,6 +55,8 @@ export function TeacherExperimentModalContainer({ scene, location, onClose }) {
       onSubmit={onSubmit}
       onClose={onClose}
       location={location}
+      presences={presences}
+      sessionId={sessionId}
     />
   );
 }
@@ -41,5 +64,7 @@ export function TeacherExperimentModalContainer({ scene, location, onClose }) {
 TeacherExperimentModalContainer.propTypes = {
   scene: PropTypes.object.isRequired,
   location: PropTypes.string.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  presences:  PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
