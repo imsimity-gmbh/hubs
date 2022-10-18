@@ -11,7 +11,7 @@ const correctId = 1;
 let gloves1Class = "idle";
 let gloves2Class = "idle";
 
-function onClickGlove(scene, showNonHistoriedDialog, id) {
+function onClickGlove(scene, showNonHistoriedDialog, id, groupCode) {
     gloves1Class = "idle";
     gloves2Class = "idle";
 
@@ -22,15 +22,15 @@ function onClickGlove(scene, showNonHistoriedDialog, id) {
     
 
     showNonHistoriedDialog(
-        ChooseGlovesModalContainer, {scene: scene, showNonHistoriedDialog: showNonHistoriedDialog }
+        ChooseGlovesModalContainer, {scene: scene, showNonHistoriedDialog: showNonHistoriedDialog, groupCode: groupCode }
     );
 }
 
-export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
+export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, groupCode }) {
 
     if(gloves1Class == "right") {
         setTimeout(() => {
-            scene.systems["first-experiments"].getTaskById("04").components["first-experiment-04"].onPopupClosed();
+            scene.systems["first-experiments"].getTaskById("04", groupCode).components["first-experiment-04"].onPopupClosed();
             onClose();
         }, 500);
     }
@@ -46,7 +46,7 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
             </div>
             <div class="gloves">
                 <div>
-                    <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1)}></img>
+                    <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1, groupCode)}></img>
                     <div class="gloves-text">
                         <p>feuerfeste</p>
                         <p>Handschuhe</p>
@@ -54,7 +54,7 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
                 </div>
                     
                 <div>
-                    <img className={gloves2Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2)}></img>
+                    <img className={gloves2Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2, groupCode)}></img>
                     <div class="gloves-text">
                         <p>Einweghandschuhe</p>
                         <p> </p>
@@ -69,5 +69,6 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose }) {
 ChooseGlovesModal.propTypes = {
     scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    groupCode: PropTypes.string
 };

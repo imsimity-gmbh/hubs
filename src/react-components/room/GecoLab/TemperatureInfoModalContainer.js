@@ -4,13 +4,14 @@ import { TemperatureInfoModal } from "./TemperatureInfoModal";
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
 
-export function TemperatureInfoModalContainer({scene, showNonHistoriedDialog, onClose}) {
+export function TemperatureInfoModalContainer({scene, showNonHistoriedDialog, onClose, groupCode}) {
 
     return (
         <TemperatureInfoModal
             scene={scene}
             showNonHistoriedDialog={showNonHistoriedDialog}
             onClose={onClose}
+            groupCode={groupCode}
         />
     );
 }
@@ -18,5 +19,6 @@ export function TemperatureInfoModalContainer({scene, showNonHistoriedDialog, on
 TemperatureInfoModalContainer.propTypes = {
     scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    groupCode: PropTypes.string
 };

@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 
 
-export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClose }) {
+export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClose, groupCode }) {
 
     const {} = useForm();
 
@@ -25,7 +25,7 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
         
         let resultTxt = (result).toFixed(2);
         showNonHistoriedDialog(
-            ShowFormulaResultModalContainer, { scene: scene, onClose: onClose, result: resultTxt }
+            ShowFormulaResultModalContainer, { scene: scene, onClose: onClose, result: resultTxt, groupCode: groupCode }
         )
     }
 
@@ -65,5 +65,6 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
 EnterFormulaValuesModal.propTypes = {
     scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    groupCode: PropTypes.string
 };

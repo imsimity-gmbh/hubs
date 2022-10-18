@@ -174,7 +174,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     chooseFormula() {
-        this.sceneEl.emit("gecolab_choose_formula");
+        this.sceneEl.emit("gecolab_choose_formula", this.experimentData.groupCode);
     },
 
     onPopUpClosed() {

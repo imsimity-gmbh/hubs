@@ -333,19 +333,25 @@ class UIRoot extends Component {
     this.props.scene.addEventListener("devicechange", () => {
       this.forceUpdate();
     });
-    this.props.scene.addEventListener("gecolab_choose_gloves", () => {
+    this.props.scene.addEventListener("gecolab_choose_gloves", (event) => {
+      var groupCode = event.detail;
+
       this.showNonHistoriedDialog(
-        ChooseGlovesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
+        ChooseGlovesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode }
       );
     });
-    this.props.scene.addEventListener("gecolab_temperature_info", () => {
+    this.props.scene.addEventListener("gecolab_temperature_info", (event) => {
+      var groupCode = event.detail;
+      
       this.showNonHistoriedDialog(
-        TemperatureInfoModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
+        TemperatureInfoModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
       );
     });
-    this.props.scene.addEventListener("gecolab_choose_formula", () => {
+    this.props.scene.addEventListener("gecolab_choose_formula", (event) => {
+      var groupCode = event.detail;
+      
       this.showNonHistoriedDialog(
-        EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog }
+        EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
       );
     });
 

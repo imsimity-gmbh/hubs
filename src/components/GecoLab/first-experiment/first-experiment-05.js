@@ -351,7 +351,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
         }
         if(!this.wasGreater500){
-            this.sceneEl.emit("gecolab_temperature_info");
+            this.sceneEl.emit("gecolab_temperature_info", this.experimentData.groupCode);
         }
     },
 

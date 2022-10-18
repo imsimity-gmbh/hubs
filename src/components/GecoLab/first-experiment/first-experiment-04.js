@@ -262,7 +262,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.startBtn.object3D.visible = false;
 
         // now showing gloves here
-        this.sceneEl.emit("gecolab_choose_gloves");
+        this.sceneEl.emit("gecolab_choose_gloves", this.experimentData.groupCode);
 
         this.firelighterSocketTripod.components["entity-socket"].enableSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
@@ -321,7 +321,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
                     this.ctrlBtn02.object3D.visible = false;
                     this.ctrlBtnBlocked = true;
                     this.stopwatchEntity.components["stopwatch-tool"].onStartTimer();
-                    //this.sceneEl.emit("gecolab_choose_gloves");
                     
                     //Mannequin
                     this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);

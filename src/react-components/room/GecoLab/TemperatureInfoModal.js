@@ -9,18 +9,18 @@ import { Button } from "../../input/Button";
 
 let btnPushed = false;
 
-function onButtonPush( scene, showNonHistoriedDialog){
+function onButtonPush( scene, showNonHistoriedDialog, groupCode){
     btnPushed = true;
     showNonHistoriedDialog(
-        TemperatureInfoModalContainer, {scene: scene, showNonHistoriedDialog: showNonHistoriedDialog }
+        TemperatureInfoModalContainer, {scene: scene, showNonHistoriedDialog: showNonHistoriedDialog, groupCode: groupCode }
     );
 }
 
-export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose }) {
+export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose, groupCode }) {
 
     if(btnPushed) {
         setTimeout(() => {
-            scene.systems["first-experiments"].getTaskById("05").components["first-experiment-05"].onPopupClosed();
+            scene.systems["first-experiments"].getTaskById("05", groupCode).components["first-experiment-05"].onPopupClosed();
             onClose();
         }, 500);
     }
@@ -37,7 +37,7 @@ export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose }
                     </div>
                     <Button
                     preset="accept"
-                    onClick={() => onButtonPush(scene, showNonHistoriedDialog)}>
+                    onClick={() => onButtonPush(scene, showNonHistoriedDialog, groupCode)}>
                         Schließen
                     </Button>
                 </Column>
@@ -50,5 +50,6 @@ export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose }
 TemperatureInfoModal.propTypes = {
     scene: PropTypes.object,
     showNonHistoriedDialog: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    groupCode: PropTypes.string
 };
