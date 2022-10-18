@@ -54,7 +54,7 @@ AFRAME.registerComponent("mannequin", {
             this.mannequin.components["animation-mixer"].initMixer(mesh.animations);
       
             this.simpleAnim = this.mannequin.components["simple-animation"];
-            this.simpleAnim.playClip("Animation", true);
+            this.simpleAnim.playClip("Key|Take 001|BaseLayer", true);
             this.simpleAnim.printAnimations();
         });
     },

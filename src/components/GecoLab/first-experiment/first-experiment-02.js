@@ -190,7 +190,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         
         
         // Crucible entity needs special care...
-        var mainTableAnchor = this.expSystem.getTaskById('01').object3D;
+        var mainTableAnchor = this.expSystem.getTaskById('01', this.experimentData.groupCode).object3D;
         var sideTableAnchor = this.el.object3D;
 
         sideTableAnchor.remove(this.crucibleEntity.object3D);
