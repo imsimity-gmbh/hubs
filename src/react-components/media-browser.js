@@ -630,9 +630,6 @@ class MediaBrowserContainer extends Component {
       var groupCode01 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_01");
       var groupCode02 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_02");
 
-      console.log(groupCode01);
-      console.log(groupCode02);
-
       deletePosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01") : null;
       deletePosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02") : null;
     }

@@ -135,10 +135,6 @@ AFRAME.registerSystem("first-experiments", {
   getCurrentGroupCodeForPosition(position)
   {
     var foundObject = this.experimentsBaseEls.find(obj => { return obj.position === position });
-
-    console.log(this.experimentsBaseEls);
-
-    console.log(foundObject);
     
     if (foundObject == null)
       return null;
