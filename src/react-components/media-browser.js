@@ -66,6 +66,7 @@ const DEFAULT_FACETS = {
   library: [
     { text: "Images", params: { filter: "images"}},
     { text: "Videos", params: { filter: "videos"}},
+    { text: "Audio", params: { filter: "audio"}},
     { text: "Documents", params: { filter: "documents"}},
     { text: "URLs", params: { filter: "urls"}},
     { text: "Models", params: { filter: "models"}},
@@ -219,6 +220,7 @@ class MediaBrowserContainer extends Component {
       newState.result = {};
     }
 
+    newState.facets = DEFAULT_FACETS["library"]
     newState.result.entries = libraryListing;
 
     this.setState(newState);
@@ -338,9 +340,22 @@ class MediaBrowserContainer extends Component {
   handleSourceClicked = source => {
     //TODO: Fix for Library
     this.props.mediaSearchStore.sourceNavigate(source);
+    const searchParams = new URLSearchParams(this.props.history.location.search);
+    const urlSource = this.getUrlSource(searchParams);
+    if (urlSource === "library")
+    {
+      this.updateLibrary();
+    }
   };
 
   handleFacetClicked = facet => {
+    const searchParams = new URLSearchParams(this.props.history.location.search);
+    const urlSource = this.getUrlSource(searchParams);
+    if (urlSource === "library")
+    {
+      this.librarySort(facet);
+    }
+
     this.setState({ query: "" }, () => {
       const searchParams = this.getSearchClearedSearchParams(true, true, true);
 
@@ -351,6 +366,70 @@ class MediaBrowserContainer extends Component {
       pushHistoryPath(this.props.history, this.props.history.location.pathname, searchParams.toString());
     });
   };
+
+  librarySort = async (facet) => {
+    console.log(facet);
+
+    const res = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}` ,  
+    { method: "GET"}
+    );
+
+    const libraryListing = await res.json();
+    let newlibraryListing = [];
+    
+    switch(facet.text){
+      case "Images":newlibraryListing = libraryListing.filter(this.filterLibImg);break;
+      case "Videos":newlibraryListing = libraryListing.filter(this.filterLibVid);break;
+      case "Audio":newlibraryListing = libraryListing.filter(this.filterLibAud);break;
+      case "Documents":newlibraryListing = libraryListing.filter(this.filterLibDoc);break;
+      case "URLs":newlibraryListing = libraryListing.filter(this.filterLibUrl);break;
+      case "Models":newlibraryListing = libraryListing.filter(this.filterLibMod);break;
+    }
+    console.log(newlibraryListing);
+
+    var newState = this.state;
+
+    // If result is currently 'Internal server error'
+    if (!newState.result || typeof newState.result === "string")
+    {
+      newState.result = {};
+    }
+
+    newState.facets = DEFAULT_FACETS["library"]
+    newState.result.entries = newlibraryListing;
+
+    this.setState(newState);
+  }
+
+  filterLibImg = ele =>{
+    console.log(this);
+    return ele.content_type.includes("image");
+  }
+
+  filterLibVid = ele =>{
+    console.log(this);
+    return ele.content_type.includes("video");
+  }
+
+  filterLibAud = ele =>{
+    console.log(this);
+    return ele.content_type.includes("audio");
+  }
+
+  filterLibDoc = ele =>{
+    console.log(this);
+    return ele.content_type.includes("application");
+  }
+
+  filterLibUrl = ele =>{
+    console.log(this);
+    return ele.content_type.includes("url");
+  }
+
+  filterLibMod = ele =>{
+    console.log(this);
+    return ele.content_type.includes("model");
+  }
 
   getSearchClearedSearchParams = (keepSource, keepNav, keepSelectAction) => {
     return this.props.mediaSearchStore.getSearchClearedSearchParams(
