@@ -42,7 +42,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         console.log(this.experimentData);
 
-        this.expSystem.register(this.el, this.experimentData.groupCode);
+        this.expSystem.register(this.el, this.experimentData);
 
 
         this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");

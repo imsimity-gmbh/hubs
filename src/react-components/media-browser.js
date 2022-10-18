@@ -527,9 +527,22 @@ class MediaBrowserContainer extends Component {
     const { scene } = this.props;
 
     console.log(position_id);
-    
-    // this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id });
 
+    var firstExpSystem = scene.systems["first-experiments"];
+    
+    var groupCode = firstExpSystem.getCurrentGroupCodeForPosition(position_id);
+
+    console.log("Deleting " + groupCode);
+
+    if (position_id === "position_01") {
+      scene.emit("action_toggle_first_experiment_01", groupCode);
+      scene.emit("action_toggle_first_experiment_01_start", groupCode);
+    }
+    else if (position_id === "position_02") {
+      scene.emit("action_toggle_first_experiment_02", groupCode);
+      scene.emit("action_toggle_first_experiment_02_start", groupCode);
+    }
+    
     this.close();
   }
 
@@ -607,6 +620,22 @@ class MediaBrowserContainer extends Component {
 
     let searchDescription;
 
+    var firstExperimentSystem = this.props.scene.systems["first-experiments"]
+
+    var deletePosition01 = null;
+    var deletePosition02 = null;
+
+    if (firstExperimentSystem)
+    {
+      var groupCode01 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_01");
+      var groupCode02 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_02");
+
+      console.log(groupCode01);
+      console.log(groupCode02);
+
+      deletePosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01") : null;
+      deletePosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02") : null;
+    }
 
     let experiments = [
       {
@@ -742,7 +771,7 @@ class MediaBrowserContainer extends Component {
             entry={experiments[0]}
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={e => this.onPlaceExperiment(e, "position_01")}
-            onEdit={e => this.onRemoveExperiment(e, "position_01")}
+            onEdit={deletePosition01}
           />
         }
         {urlSource === "experiments" &&
@@ -751,7 +780,7 @@ class MediaBrowserContainer extends Component {
             entry={experiments[1]}
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={e => this.onPlaceExperiment(e, "position_02")}
-            onEdit={e => this.onRemoveExperiment(e, "position_02")}
+            onEdit={deletePosition02}
           />
         }
         {false && urlSource === "experiments" &&
