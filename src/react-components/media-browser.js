@@ -584,6 +584,14 @@ class MediaBrowserContainer extends Component {
     const isTeacher = !!this.props.scene.systems["gecolab-manager"].isTeacher();
     const isStudent = !!this.props.scene.systems["gecolab-manager"].isStudent();
 
+    var filteredSources = [...SOURCES];
+
+    if (isStudent)
+    {
+      // Pop the last item of the list for Students
+      filteredSources.pop();
+    }
+
     if (isInLibrary && isStudent || isInExperiment) 
     {
       showCustomOption = false;
@@ -640,7 +648,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: "Experiment 1 - Arbeitsbereich 1",
+        name: (deletePosition01 == null) ? "Experiment 1 - Arbeitsbereich 1" : "Experiment 1 - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -650,7 +658,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: "Experiment 1 - Arbeitsbereich 2",
+        name: (deletePosition02 == null) ? "Experiment 1 - Arbeitsbereich 2" : "Experiment 1 - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -731,7 +739,7 @@ class MediaBrowserContainer extends Component {
           }
         }}
         onClearSearch={() => this.handleQueryUpdated("", true)}
-        mediaSources={urlSource === "favorites" ? undefined : SOURCES}
+        mediaSources={urlSource === "favorites" ? undefined : filteredSources}
         selectedSource={urlSource}
         onSelectSource={this.handleSourceClicked}
         activeFilter={activeFilter}
