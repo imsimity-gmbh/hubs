@@ -76,31 +76,31 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
             {(
               <FormattedMessage
                 id="teacher-experiment-modal.message"
-                defaultMessage="Put the Group Code from the Group you want to assign"
+                defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
               />
             )}
           </p>
           <TextInputField
             name="url"
-            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Group Code" />}
+            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
             placeholder="0000"
             value={ groupCode || "0000"}
             onChange={onChange}
             description={
               <FormattedMessage
                 id="teacher-experiment-modal.url-field-description"
-                defaultMessage="You can find your group's code in the Gecolab Dashboard"
+                defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
               />
             }
           />
           <SelectInputField 
-            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Moderator" />}
+            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
             value={moderatorName} 
             options={users} 
             onChange={onChangeModerator} 
           />
           <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Experiment" />
+            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
           </Button>
         </Column>
       </Modal>
@@ -118,31 +118,31 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
             {(
               <FormattedMessage
                 id="teacher-experiment-modal.message"
-                defaultMessage="Put the Group Code from the Group you want to assign"
+                defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
               />
             )}
           </p>
           <TextInputField
             name="url"
-            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Group Code" />}
+            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
             placeholder="0000"
             value={ groupCode || "0000"}
             onChange={onChange}
             description={
               <FormattedMessage
                 id="teacher-experiment-modal.url-field-description"
-                defaultMessage="You can find your group's code in the Gecolab Dashboard"
+                defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
               />
             }
           />
           <SelectInputField 
-            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Moderator" />}
+            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
             value={moderatorName} 
             options={users} 
             onChange={onChangeModerator} 
           />
           <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Place Experiment" />
+            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
           </Button>
         </Column>
       </Modal>

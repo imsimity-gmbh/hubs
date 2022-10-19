@@ -10,7 +10,8 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         stirBtnHeld: {default: false},
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 2},
-        measuredCounter: {default: 0}
+        measuredCounter: {default: 0},
+        thermoPopupClosed: {default: false}
     },
   
     init: function() {
@@ -36,6 +37,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.ctrlBtnBlocked = true;
         this.localCtrlBtnClicked = false;
         this.localCtrlBtnIndex = 2;
+        this.localThermoPopupClosed = false;
 
         this.minuteMark1FinishedCallbacks = [];
         this.stopBurnerSoundCallbacks = [];
@@ -173,12 +175,37 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.localStirBtnHeld = this.data.stirBtnHeld;
         }
 
+
+        
+
+        if(this.localThermoPopupClosed != this.data.thermoPopupClosed) {
+           
+            this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
+            this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
+            this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+            this.mannequin.components["mannequin"].displayMessage(9);  
+
+
+            this.localThermoPopupClosed = this.data.thermoPopupClosed;
+        }
+
+
         if(this.localCtrlBtnClicked != this.data.ctrlBtnClicked) {
             this.localCtrlBtnIndex = this.data.ctrlBtnIndex;
             if(this.localCtrlBtnIndex == 2)
                 this.cutBunsenBurner();
             if(this.localCtrlBtnIndex == 1)
                 this.turnOffBunsenBurner();
+
+            // moved here
+            if(this.temp > 50){
+                this.tempertatureScale(1,5,this.temp,470);
+                // Mannequin
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(-1);
+            }
+
             this.localCtrlBtnClicked = this.data.ctrlBtnClicked;
         }
 
@@ -199,6 +226,8 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.ctrlBtn02.object3D.visible = true;
             this.ctrlBtnBlocked = false;
             this.wasGreater500 = true;
+
+            console.log("Was Greater than 500");
         }
 
         if(this.updatePos && this.stopStiring == false) {
@@ -356,11 +385,14 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     onPopupClosed() {
-        this.thermoSocketGeneral.components["entity-socket"].unsubscribe("onSnap", this.thermoOnTable);
-        this.glassStickSocketCrucible.components["entity-socket"].enableSocket();
-        this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
-        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-        this.mannequin.components["mannequin"].displayMessage(9);  
+
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "thermoPopupClosed", true);
+
+        });
     },
 
 
@@ -378,12 +410,6 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         if(this.ctrlBtnBlocked)
             return;
         
-        if(this.temp > 50){
-            this.tempertatureScale(1,5,this.temp,470);
-            // Mannequin
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-            this.mannequin.components["mannequin"].displayMessage(-1);
-        }
         
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
@@ -394,6 +420,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         });
     },
+
 
     cutBunsenBurner() {
         //TODO: Error here

@@ -247,7 +247,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     tidyUp() {
-        console.log("teleport Items back to initial pos");
+        this.tidyUpBtn.object3D.visible = false;
     },
 
     remove() {
