@@ -530,6 +530,7 @@ class MediaBrowserContainer extends Component {
 
   onRemoveExperiment = (e, position_id) => {
     const { scene } = this.props;
+    const { hubChannel } = this.props;
 
     console.log(position_id);
 
@@ -539,8 +540,13 @@ class MediaBrowserContainer extends Component {
 
     console.log("Deleting " + groupCode);
 
-    spawnOrDeleteExperiment(position_id, groupCode, scene);
-    
+    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true };
+
+    // We are not the Moderator, we broadcast an event !
+    console.log("We broadcast a Despawn Request to all");
+
+    hubChannel.sendMessage(data, "gecolab-spawn");
+     
     this.close();
   }
 
@@ -630,6 +636,9 @@ class MediaBrowserContainer extends Component {
 
     var deletePosition01 = null;
     var deletePosition02 = null;
+    
+    var createPosition01 = null;
+    var createPosition02 = null;
 
     if (firstExperimentSystem)
     {
@@ -638,6 +647,9 @@ class MediaBrowserContainer extends Component {
 
       deletePosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01") : null;
       deletePosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02") : null;
+
+      createPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01") : null;
+      createPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02") : null;
     }
 
     let experiments = [
@@ -773,7 +785,7 @@ class MediaBrowserContainer extends Component {
             key={`001`}
             entry={experiments[0]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "position_01")}
+            onClick={createPosition01}
             onEdit={deletePosition01}
           />
         }
@@ -782,7 +794,7 @@ class MediaBrowserContainer extends Component {
             key={`002`}
             entry={experiments[1]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "position_02")}
+            onClick={createPosition02}
             onEdit={deletePosition02}
           />
         }

@@ -133,12 +133,14 @@ export function ChatContextProvider({ messageDispatch, children }) {
           
           var data = newMessage.body;
 
+          console.log(data);
+
           // TODO: refactor
           var ownId = window.APP.dialog._clientId;
           var scene = window.APP.scene;
 
           // We are the Moderator
-          if (ownId === data.moderatorId)
+          if (ownId === data.moderatorId || data.broadcastToAll == true)
           {
             spawnOrDeleteExperiment(data.position, data.groupCode, scene);
           }

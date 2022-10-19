@@ -476,7 +476,7 @@ export default class SceneEntryManager {
 
   _spawnStopwatch = (table, groupCode, position) => {
       if (!this.hubChannel.can("spawn_camera")) return;
-      const myStopwatch = this.scene.systems["stopwatch-tools"].getMyStopwatch();
+      const myStopwatch = this.scene.systems["first-experiments"].getTaskById("stopwatch", groupCode);
 
       if (myStopwatch) {
         myStopwatch.parentNode.removeChild(myStopwatch);

@@ -88,6 +88,7 @@ export function getGroupCodeFromParent(entity)
 
 export function spawnOrDeleteExperiment(position, groupCode, scene)
 {
+  console.log("Spawning or Deleting Experiment for positon " + position);
   if (position === "position_01") {
     scene.emit("action_toggle_first_experiment_01", groupCode);
     scene.emit("action_toggle_first_experiment_01_start", groupCode);
