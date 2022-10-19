@@ -43,15 +43,15 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
                     <div
                     >
                         <label for="input-a">a = Tiegel (Leergewicht)<br/></label>
-                        <input id="input-a" name="a" type="number" min="0" step="1" required></input>
+                        <input id="input-a" name="a" type="number" min="0" step="0.01" required></input>
                     </div>
                     <div>
                         <label for="input-b">b = Probengewicht vor dem Glühen<br/></label>
-                        <input id="input-b" name="b" type="number" min="0" step="1" required></input>
+                        <input id="input-b" name="b" type="number" min="0" step="0.01" required></input>
                     </div>
                     <div>
                         <label for="input-c">c = Probengewicht nach dem Glühen<br/></label>
-                        <input id="input-c" name="c" type="number" min="0" step="1" required></input>
+                        <input id="input-c" name="c" type="number" min="0" step="0.01" required></input>
                     </div>
                     <input id="submit-btn" type="submit" value="Berechnen"></input>
                 </form>

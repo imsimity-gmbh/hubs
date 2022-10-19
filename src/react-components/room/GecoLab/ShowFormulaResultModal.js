@@ -6,11 +6,11 @@ import { styles } from "./ShowFormulaResultModal.scss";
 import { Button } from "../../input/Button";
 
 
-export function ShowFormulaResultModal ({ scene, onClose, result }) {
+export function ShowFormulaResultModal ({ scene, onClose, result, groupCode }) {
 
     function handleSubmit() {
         // This could be reseting our first-experiment-06 ???
-        scene.systems["first-experiments"].getTaskById("06").components["first-experiment-06"].onPopUpClosed();
+        scene.systems["first-experiments"].getTaskById("06", groupCode).components["first-experiment-06"].onPopUpClosed();
         onClose();
     }
 
@@ -36,5 +36,6 @@ export function ShowFormulaResultModal ({ scene, onClose, result }) {
 ShowFormulaResultModal.propTypes = {
     scene: PropTypes.object,
     onClose: PropTypes.func,
-    result: PropTypes.number
+    result: PropTypes.number,
+    groupCode: PropTypes.string
 };
