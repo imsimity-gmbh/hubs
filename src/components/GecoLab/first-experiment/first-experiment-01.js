@@ -347,6 +347,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     },
 
     remove() {
+      console.log("removing first-experiment 01");
       this.expSystem.deregisterTask("01", this.el, this.experimentData);
     }
 

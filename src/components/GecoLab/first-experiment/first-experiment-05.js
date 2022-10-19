@@ -501,6 +501,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     remove() {
+        console.log("removing first-experiment 05");
         this.expSystem.deregisterTask("05", this.el, this.experimentData);
     }
 

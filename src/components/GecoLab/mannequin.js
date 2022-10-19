@@ -133,4 +133,10 @@ AFRAME.registerComponent("mannequin", {
       const sceneEl = this.el.sceneEl;
       sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
     },
+
+    remove()
+    {
+        console.log("removing mannequin");
+        this.mannequinManager.deregister(this.el, this.experimentData);
+    }
 });

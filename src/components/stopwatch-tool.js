@@ -314,6 +314,7 @@ AFRAME.registerComponent("stopwatch-tool", {
   },
 
   remove() {
+    console.log("removing stopwatch");
     this.expSystem.deregisterTask("stopwatch", this.el, this.experimentData);
   }
 
