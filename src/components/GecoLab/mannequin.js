@@ -41,12 +41,6 @@ AFRAME.registerComponent("mannequin", {
 
         robotModelPromise.then(model => {
 
-            this.experimentData = getExperimentDataFromParent(this.el);
-
-            console.log(this.experimentData);
-
-            this.mannequinManager.register(this.el, this.experimentData);
-
             const mesh = cloneObject3D(model.scene);
             mesh.scale.set(0.5, 0.5, 0.5);
             mesh.matrixNeedsUpdate = true;
@@ -62,7 +56,18 @@ AFRAME.registerComponent("mannequin", {
             this.simpleAnim = this.mannequin.components["simple-animation"];
             this.simpleAnim.playClip("Key|Take 001|BaseLayer", true);
             this.simpleAnim.printAnimations();
+        
         });
+
+        setTimeout(() => {
+
+            this.experimentData = getExperimentDataFromParent(this.el);
+
+            console.log(this.experimentData);
+
+            this.mannequinManager.register(this.el, this.experimentData);
+
+        }, IMSIMITY_INIT_DELAY);
     },
 
 

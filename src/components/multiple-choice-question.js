@@ -4,7 +4,7 @@
  */
 
 import { waitForDOMContentLoaded } from "../utils/async-utils";
-import { getExperimentDataFromParent } from "../utils/imsimity";
+import { getExperimentDataFromParent, IMSIMITY_INIT_DELAY } from "../utils/imsimity";
 
  AFRAME.registerComponent("multiple-choice-question", {
     schema: {
@@ -46,7 +46,9 @@ import { getExperimentDataFromParent } from "../utils/imsimity";
       this.onSubmitCallbacks = [];
 
       waitForDOMContentLoaded().then(() => { 
-        this.experimentData = getExperimentDataFromParent(this.el);
+        setTimeout(() => {
+          this.experimentData = getExperimentDataFromParent(this.el);
+        }, IMSIMITY_INIT_DELAY);
       });
     },
 
