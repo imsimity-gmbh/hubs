@@ -997,6 +997,10 @@ function registerNetworkSchemas() {
         property: "stirBtnHeld"
       },
       {
+        component: "first-experiment-04",
+        property: "stirBtnDone"
+      },
+      {
         selector: ".crucible-socket-04",
         component: "entity-socket",
         property: "triggerOnSnap"
@@ -1052,6 +1056,10 @@ function registerNetworkSchemas() {
       {
         component: "first-experiment-05",
         property: "stirBtnHeld"
+      },
+      {
+        component: "first-experiment-05",
+        property: "stirBtnDone"
       },
       {
         component: "first-experiment-05",
