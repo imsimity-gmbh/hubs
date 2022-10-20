@@ -12,7 +12,10 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 2},
         measuredCounter: {default: 0},
-        thermoPopupClosed: {default: false}
+        thermoPopupClosed: {default: false},
+        minuteMark1: {default: false},
+        minuteMark2: {default: false},
+        minuteMark3: {default: false},
     },
   
     init: function() {
@@ -60,9 +63,16 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.onReleaseStirBtn = AFRAME.utils.bind(this.onReleaseStirBtn, this);
         this.tempertatureScale = AFRAME.utils.bind(this.tempertatureScale, this);
         this.tematureCalc = AFRAME.utils.bind(this.tempertatureCalc, this);
+        this.onMinuteMark1 = AFRAME.utils.bind(this.onMinuteMark1, this);
+        this.onMinuteMark2 = AFRAME.utils.bind(this.onMinuteMark2, this);
+        this.onMinuteMark3 = AFRAME.utils.bind(this.onMinuteMark3, this);
+        
         
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
+        this.localMinuteMark1 = false;
+        this.localMinuteMark2 = false;
+        this.localMinuteMark3 = false;
     
         waitForDOMContentLoaded().then(() => { 
 
@@ -112,15 +122,42 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                 this.ctrlBtn03 = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".burner-ctrl-btn-3");
                 this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
 
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.startPart05);
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.startPart05);
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.startCoolingTask);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.onMinuteMark1);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark2", this.onMinuteMark2);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark3", this.onMinuteMark3);
 
             }, IMSIMITY_INIT_DELAY)
 
         });
 
 
+    },
+
+    onMinuteMark1()
+    {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "minuteMark1", true);      
+        });
+    },
+
+    onMinuteMark2()
+    {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "minuteMark2", true);      
+        });
+    },
+
+    onMinuteMark3()
+    {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-05", "minuteMark3", true);
+        });
     },
 
     subscribe(eventName, fn)
@@ -180,11 +217,30 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         if(this.localStirBtnDone != this.data.stirBtnDone) {
            
 
-
             this.localStirBtnDone = this.data.stirBtnDone;
         }
 
+
+        if(this.localMinuteMark1 != this.data.minuteMark1)
+        {
+            this.startPart05();
+
+            this.localMinuteMark1 = this.data.minuteMark1;
+        }
         
+        if(this.localMinuteMark2 != this.data.minuteMark2)
+        {
+            this.startPart05();
+            
+            this.localMinuteMark2 = this.data.minuteMark2;
+        }
+
+        if(this.localMinuteMark3 != this.data.minuteMark3)
+        {
+            this.startCoolingTask();
+            
+            this.localMinuteMark3 = this.data.minuteMark3;
+        }
 
         if(this.localThermoPopupClosed != this.data.thermoPopupClosed) {
            

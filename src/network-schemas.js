@@ -1071,6 +1071,18 @@ function registerNetworkSchemas() {
       },
       {
         component: "first-experiment-05",
+        property: "minuteMark1"
+      },
+      {
+        component: "first-experiment-05",
+        property: "minuteMark2"
+      },
+      {
+        component: "first-experiment-05",
+        property: "minuteMark3"
+      },
+      {
+        component: "first-experiment-05",
         property: "measuredCounter"
       },
       {
@@ -1141,6 +1153,10 @@ function registerNetworkSchemas() {
       {
         component: "first-experiment-06",
         property: "onClickTidyUp"
+      },
+      {
+        component: "first-experiment-06",
+        property: "minuteMark4"
       },
       {
         selector: ".tong-socket-crucible-06",

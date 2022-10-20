@@ -10,6 +10,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         formulaPopupClosed: {default: false},
         onClickDiscussResult: {default: false},
         onClickTidyUp: {default: false},
+        minuteMark4: {default: false},
     },
   
 
@@ -27,6 +28,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.localFormulaPopupClosed = false;
         this.localOnClickTidyUp = false;
         this.localOnClickDiscussResult = false;
+        this.localMinuteMark4 = false;
 
         this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
@@ -45,6 +47,8 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.onDiscussResultClicked = AFRAME.utils.bind(this.onDiscussResultClicked, this); 
         this.onTidyUpClicked = AFRAME.utils.bind(this.onTidyUpClicked, this);
         this.tidyUp = AFRAME.utils.bind(this.tidyUp, this);
+
+        this.onMinuteMark4 = AFRAME.utils.bind(this.onMinuteMark4, this);
         
        
 
@@ -83,7 +87,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
 
                 console.log(this.stopwatchEntity);
-                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.startPart06);
+                this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.onMinuteMark4);
                 this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
             }, IMSIMITY_INIT_DELAY);
@@ -100,6 +104,15 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     {
     },
 
+    onMinuteMark4()
+    {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("first-experiment-06", "minuteMark4", true);      
+        });
+    },
+
     update() {
         waitForDOMContentLoaded().then(() => { 
           this.updateUI();
@@ -113,6 +126,13 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.proceedToDiscussResult();
             this.localFormulaPopupClosed = this.data.formulaPopupClosed;
         }
+
+        if(this.localMinuteMark4 != this.data.minuteMark4) {
+            this.startPart06();
+
+            this.localMinuteMark4 = this.data.minuteMark4;
+        }
+
 
         if(this.localOnClickDiscussResult != this.data.onClickDiscussResult) {
             this.discussResult();

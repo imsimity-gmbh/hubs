@@ -61,10 +61,6 @@ AFRAME.registerComponent("stopwatch-tool", {
 
     this.expSystem = this.el.sceneEl.systems["first-experiments"];
 
-    this.stopwatchSystem = this.el.sceneEl.systems["stopwatch-tools"];
-    this.stopwatchSystem.register(this.el);
-
-
     // Load the 3D model
     stopwatchModelPromise.then(model => {
       const mesh = cloneObject3D(model.scene);
@@ -105,9 +101,6 @@ AFRAME.registerComponent("stopwatch-tool", {
     
   },
 
-  remove() {
-    this.stopwatchSystem.deregister(this.el);
-  },
 
   subscribe(eventName, fn)
   {
