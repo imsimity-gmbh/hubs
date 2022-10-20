@@ -8,7 +8,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
   AFRAME.registerComponent("first-experiment-05", {
     schema: {
         stirBtnHeld: {default: false},
-        stirBtnDone: {default: false},
+        stirBtnDone: {default: 0},
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 2},
         measuredCounter: {default: 0},
@@ -216,6 +216,25 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         if(this.localStirBtnDone != this.data.stirBtnDone) {
            
+            if(this.data.stirBtnDone == 1)
+            { 
+                this.stopStir = true;
+                this.updatePos = false;
+                this.stiringBtn.object3D.visible = false;
+                this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+                this.minuteMark1FinishedCallbacks.forEach(cb => {
+                    cb();
+                });
+                
+            }
+            else if (this.data.stirBtnDone == 2)
+            {
+                this.stopStir = true;
+                this.updatePos = false;
+                this.stiringBtn.object3D.visible = false;
+                this.glassStickSocket.components["entity-socket"].enableSocket();
+                this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.waitForCoolingTask);
+            }
 
             this.localStirBtnDone = this.data.stirBtnDone;
         }
@@ -312,20 +331,32 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                 this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
                 this.mannequin.components["mannequin"].displayMessage(-1);
                 if(!this.wasGreater500) {
+
+                    // First Stir
                     this.stopStir = true;
                     this.updatePos = false;
-                    this.stiringBtn.object3D.visible = false;
-                    this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
-                    this.minuteMark1FinishedCallbacks.forEach(cb => {
-                        cb();
+                   
+                    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+                        NAF.utils.takeOwnership(networkedEl);
+                  
+                        this.el.setAttribute("first-experiment-05", "stirBtnDone", 1);      
+                  
                     });
                 }
                 else if(this.wasGreater500) {
+
+                    // Second Stir
                     this.stopStir = true;
                     this.updatePos = false;
-                    this.stiringBtn.object3D.visible = false;
-                    this.glassStickSocket.components["entity-socket"].enableSocket();
-                    this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.waitForCoolingTask);
+
+                    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+                        NAF.utils.takeOwnership(networkedEl);
+                  
+                        this.el.setAttribute("first-experiment-05", "stirBtnDone", 2);      
+                  
+                    });
                 }
             }
         }
