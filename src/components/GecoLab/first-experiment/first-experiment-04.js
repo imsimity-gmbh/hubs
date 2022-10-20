@@ -359,6 +359,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     remove() {
+        console.log("removing first-experiment 04");
         this.expSystem.deregisterTask("04", this.el, this.experimentData);
     }
 

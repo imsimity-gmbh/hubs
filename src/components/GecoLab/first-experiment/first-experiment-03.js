@@ -338,6 +338,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     remove() {
+        console.log("removing first-experiment 03");
         this.expSystem.deregisterTask("03", this.el, this.experimentData);
     }
 

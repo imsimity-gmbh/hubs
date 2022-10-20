@@ -247,10 +247,11 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     tidyUp() {
-        console.log("teleport Items back to initial pos");
+        this.tidyUpBtn.object3D.visible = false;
     },
 
     remove() {
+        console.log("removing first-experiment 06");
         this.expSystem.deregisterTask("06", this.el, this.experimentData);
     }
   });

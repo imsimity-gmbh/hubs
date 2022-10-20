@@ -367,6 +367,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
     },
 
     remove() {
+        console.log("removing first-experiment 02");
         this.expSystem.deregisterTask("02", this.el, this.experimentData);
     }
 
