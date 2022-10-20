@@ -19,6 +19,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 0},
         stirBtnHeld: {default: false},
+        stirBtnDone: {default: false},
     },
   
     init: function() {
@@ -36,6 +37,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
         this.localburnerStarted = false;
         this.localStirBtnHeld = false;
+        this.localStirBtnDone = false;
         this.localStartBurnerClicked = false;
         this.ctrlBtnBlocked = false;
         this.localCtrlBtnClicked = false;
@@ -140,6 +142,22 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.localburnerStarted = this.data.burnerStarted;
         }
 
+
+        if(this.localStirBtnDone != this.data.stirBtnDone) {
+            
+            this.stopStir = true;
+            this.updatePos = false;
+            this.stiringBtn.object3D.visible = false;
+            this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+            // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+            this.mannequin.components["mannequin"].displayMessage(-1);
+
+            this.localStirBtnDone = this.data.stirBtnDone;
+        }
+
+
+
         if(this.localStartBurnerClicked != this.data.startBurnerClicked) {
             this.startBurner();
             this.localStartBurnerClicked = this.data.startBurnerClicked;
@@ -179,11 +197,14 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             if(this.t > 10) {
                 this.stopStir = true;
                 this.updatePos = false;
-                this.stiringBtn.object3D.visible = false;
-                this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
-                // Mannequin
-                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-                this.mannequin.components["mannequin"].displayMessage(-1);
+                
+                NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+                    NAF.utils.takeOwnership(networkedEl);
+              
+                    this.el.setAttribute("first-experiment-04", "stirBtnDone", true);      
+              
+                });
             }
         }
     },
@@ -360,6 +381,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
     remove() {
         console.log("removing first-experiment 04");
+
+        this.stopBurnerSound();
+
         this.expSystem.deregisterTask("04", this.el, this.experimentData);
     }
 

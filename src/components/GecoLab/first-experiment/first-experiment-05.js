@@ -8,6 +8,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
   AFRAME.registerComponent("first-experiment-05", {
     schema: {
         stirBtnHeld: {default: false},
+        stirBtnDone: {default: false},
         ctrlBtnClicked: {default: false},
         ctrlBtnIndex: {default: 2},
         measuredCounter: {default: 0},
@@ -28,6 +29,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.wasGreater500 = false;
 
         this.localStirBtnHeld = false;
+        this.localStirBtnDone = false;
         this.stopStiring = true;
         this.updatePos = false;
         this.x = 0;
@@ -175,6 +177,12 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.localStirBtnHeld = this.data.stirBtnHeld;
         }
 
+        if(this.localStirBtnDone != this.data.stirBtnDone) {
+           
+
+
+            this.localStirBtnDone = this.data.stirBtnDone;
+        }
 
         
 
