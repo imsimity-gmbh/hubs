@@ -60,14 +60,14 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
             setTimeout(() => {
                 this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
-                this.crucibleSocketScale = this.sceneEl.querySelector(".crucible-socket");
+                this.crucibleSocketScale = this.expSystem.getTaskById("03", this.experimentData.groupCode).querySelector(".crucible-socket");
 
-                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-                this.tongEntity = this.sceneEl.querySelector(".tong-entity");
+                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
+                this.tongEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".tong-entity");
                 this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
                 this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
-                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
 
                 this.discussResultBtn = document.querySelector(".discuss-result-btn");
                 this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);

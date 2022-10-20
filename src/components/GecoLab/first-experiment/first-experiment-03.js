@@ -93,17 +93,17 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
                 this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
 
 
-                this.mortarEntity = this.sceneEl.querySelector(".mortar-entity");
-                /// this.groundSampleEntity = this.sceneEl.querySelector(".ground-sample-entity");
-                this.spoonEntity = this.sceneEl.querySelector(".spoon-entity");
-                this.groundSampleSpoonEntity = this.sceneEl.querySelector(".ground-sample-spoon");
+                this.mortarEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".mortar-entity");
+                /// this.groundSampleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".ground-sample-entity");
+                this.spoonEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".spoon-entity");
+                this.groundSampleSpoonEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".ground-sample-spoon");
 
             
-                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
                 this.scaleEntity.object3D.visible = true;
                 this.scaleSocket = this.el.querySelector(".scale-socket");
 
-                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
+                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
                 this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
 
                 //Subscribe to callback after placing mortar
@@ -180,7 +180,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         // Bug in enableSocket
         this.mortarSocket03.components["entity-socket"].enableSocket();
         this.mortarSocket03.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
-        this.mortarStick = this.sceneEl.querySelector(".mortar-stick-entity");
+        this.mortarStick = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".mortar-stick-entity");
     },
 
     onPlacedMortar() {

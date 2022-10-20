@@ -61,16 +61,16 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             setTimeout(() => {
 
-                this.crucibleEntity = this.sceneEl.querySelector(".crucible-entity");
-                this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
-                this.firelighterEntity = this.sceneEl.querySelector(".firelighter-entity");
-                this.flameEntity = this.sceneEl.querySelector(".flame-entity");
-                this.glassstickEntity = this.sceneEl.querySelector(".glass-stick-entity");
+                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
+                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
+                this.firelighterEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".firelighter-entity");
+                this.flameEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".flame-entity");
+                this.glassstickEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".glass-stick-entity");
                 this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
 
                 this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
 
-                this.firelighterSocketGeneral = this.sceneEl.querySelector(".firelighter-socket");
+                this.firelighterSocketGeneral = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".firelighter-socket");
 
                 this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
 
@@ -105,7 +105,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
 
                 this.firstExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
-                this.firstExpPart05 = this.sceneEl.querySelector(".part05-wrapper");
+                this.firstExpPart05 = this.expSystem.getTaskById("05", this.experimentData.groupCode);
                 if(this.firstExpPart03 != null)
                     this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
 

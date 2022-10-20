@@ -110,7 +110,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       this.groundSample4Btn = this.el.querySelector(".ground-sample-btn-4");
       this.groundSample4Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(4));
       // TODO: Not Found...
-      this.scaleEntity = this.sceneEl.querySelector(".scale-entity");
+      this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
 
       this.multipleChoice = this.el.querySelector("#multiple-choice-question");
       this.multipleChoice.object3D.visible = false; 

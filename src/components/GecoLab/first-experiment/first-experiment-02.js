@@ -140,25 +140,25 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
         //Get entity socket of placing positions:
         
-        this.mortarSocket = this.sceneEl.querySelector(".mortar-socket");
+        this.mortarSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".mortar-socket");
         this.sockets.push(this.mortarSocket);
-        /// this.groundSampleSocket = this.sceneEl.querySelector(".ground-sample-socket");
+        /// this.groundSampleSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".ground-sample-socket");
         /// this.sockets.push(this.groundSampleSocket);
-        this.bunsenBurnerSocket = this.sceneEl.querySelector(".bunsen-burner-socket");
+        this.bunsenBurnerSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".bunsen-burner-socket");
         this.sockets.push(this.bunsenBurnerSocket);
-        this.tripod1Socket = this.sceneEl.querySelector(".tripod-1-socket");
+        this.tripod1Socket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tripod-1-socket");
         this.sockets.push(this.tripod1Socket);
-        this.tripod2Socket = this.sceneEl.querySelector(".tripod-2-socket");
+        this.tripod2Socket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tripod-2-socket");
         this.sockets.push(this.tripod2Socket);
-        this.firelighterSocket = this.sceneEl.querySelector(".firelighter-socket");
+        this.firelighterSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".firelighter-socket");
         this.sockets.push(this.firelighterSocket);
-        this.glassStickSocket = this.sceneEl.querySelector(".glass-stick-socket");
+        this.glassStickSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".glass-stick-socket");
         this.sockets.push(this.glassStickSocket);
-        this.thermoSocket = this.sceneEl.querySelector(".thermo-socket");
+        this.thermoSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".thermo-socket");
         this.sockets.push(this.thermoSocket);
-        this.spoonSocket = this.sceneEl.querySelector(".spoon-socket");
+        this.spoonSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".spoon-socket");
         this.sockets.push(this.spoonSocket);
-        this.tongSocket = this.sceneEl.querySelector(".tong-socket");
+        this.tongSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tong-socket");
         this.sockets.push(this.tongSocket);
 
         this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
@@ -321,7 +321,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(0);
 
-        this.thermoEntity = this.sceneEl.querySelector(".thermo-entity");
+        this.thermoEntity = this.el.querySelector(".thermo-entity");
         this.tempText = this.thermoEntity.querySelector(".thermo-text");
         this.tempText.object3D.visible = true;
     },
