@@ -252,7 +252,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     tick: function() {
       
       for(let i = 0; i < this.acceptedEntities.length; i++) {
-        if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
+        if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i]) && !this.data.triggerOnPickedUp) {
           if(this.heldEntity == null)
           {
             console.log("Holding a new object")
@@ -374,6 +374,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
         NAF.utils.takeOwnership(networkedEl);
         
+        this.el.setAttribute("entity-socket", "triggerOnPickedUp", false); 
         this.el.setAttribute("entity-socket", "triggerOnRelease", true); 
       });
 
