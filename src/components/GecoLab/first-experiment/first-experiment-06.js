@@ -19,7 +19,6 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         console.log('first-experiment-06 init');
 
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -63,15 +62,21 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
 
             setTimeout(() => {
-                this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
-                this.crucibleSocketScale = this.expSystem.getTaskById("03", this.experimentData.groupCode).querySelector(".crucible-socket");
 
-                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
-                this.tongEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".tong-entity");
+                this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+                this.firstExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
+                
+
+                this.tongSocket06 = this.el.querySelector(".tong-socket-crucible-06");
+                this.crucibleSocketScale = this.firstExpPart03.querySelector(".crucible-socket");
+
+                this.crucibleEntity = this.firstExpPart02.querySelector(".crucible-entity");
+                this.tongEntity = this.firstExpPart02.querySelector(".tong-entity");
                 this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
-                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
-                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
+                this.stopwatchEntity = this.expSystem.getTaskById('stopwatch', this.experimentData.groupCode);
+                this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
 
                 this.discussResultBtn = document.querySelector(".discuss-result-btn");
                 this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
@@ -88,7 +93,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
                 console.log(this.stopwatchEntity);
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark4", this.onMinuteMark4);
-                this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+
                 this.firstExpPart01.components["first-experiment-01"].subscribe("groundSampleSelected", this.setRightAnswerTxt);
             }, IMSIMITY_INIT_DELAY);
 
@@ -194,7 +199,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
 
     chooseFormula() {
-        this.sceneEl.emit("gecolab_choose_formula", this.experimentData.groupCode);
+        this.el.sceneEl.emit("gecolab_choose_formula", this.experimentData.groupCode);
     },
 
     onPopUpClosed() {

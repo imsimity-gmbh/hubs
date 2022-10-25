@@ -19,7 +19,6 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
   
     init: function() {
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -84,23 +83,28 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
             setTimeout(() => {
 
+                this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+                this.firstExpPart04 = this.expSystem.getTaskById("04", this.experimentData.groupCode);
+
+
                 this.thermoSocket05 = this.el.querySelector(".thermo-socket-05");
-                this.thermoSocketGeneral = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".thermo-socket")
-                this.glassStickSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".glass-stick-socket");
-                this.glassStickSocketCrucible = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".glass-stick-socket-04");
+                this.thermoSocketGeneral = this.firstExpPart01.querySelector(".thermo-socket")
+                this.glassStickSocket = this.firstExpPart01.querySelector(".glass-stick-socket");
+                this.glassStickSocketCrucible = this.firstExpPart04.querySelector(".glass-stick-socket-04");
                 this.tongSocketCrucible = this.el.querySelector(".tong-socket-crucible");
-                this.tongSocketGeneral = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tong-socket");
+                this.tongSocketGeneral = this.firstExpPart01.querySelector(".tong-socket");
                 this.crucibleSocket05 = this.el.querySelector(".crucible-socket-05");
 
-                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+                this.stopwatchEntity = this.expSystem.getTaskById('stopwatch', this.experimentData.groupCode);
 
                 console.log(this.stopwatchEntity);
 
-                this.thermoEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".thermo-entity");
-                this.glassstickEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".glass-stick-entity");
-                this.flameEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".flame-entity");
-                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
-                this.tongEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".tong-entity");
+                this.thermoEntity = this.firstExpPart02.querySelector(".thermo-entity");
+                this.glassstickEntity = this.firstExpPart02.querySelector(".glass-stick-entity");
+                this.flameEntity = this.firstExpPart02.querySelector(".flame-entity");
+                this.crucibleEntity = this.firstExpPart02.querySelector(".crucible-entity");
+                this.tongEntity = this.firstExpPart02.querySelector(".tong-entity");
                 this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
 
                 
@@ -108,18 +112,18 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                 this.tempText = this.thermoEntity.querySelector(".thermo-text");
                 
 
-                this.stiringBtn = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".stiring-btn");
+                this.stiringBtn = this.firstExpPart04.querySelector(".stiring-btn");
                 this.stiringBtn.object3D.addEventListener("holdable-button-down", this.onHoldStirBtnDown);
                 this.stiringBtn.object3D.addEventListener("holdable-button-up", this.onReleaseStirBtn);
 
 
-                this.ctrlBtn00 = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".burner-ctrl-btn-0");
+                this.ctrlBtn00 = this.firstExpPart04.querySelector(".burner-ctrl-btn-0");
                 this.ctrlBtn00.object3D.addEventListener("interact", () => this.onClickCtrlBtn(0));
-                this.ctrlBtn01 = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".burner-ctrl-btn-1");
+                this.ctrlBtn01 = this.firstExpPart04.querySelector(".burner-ctrl-btn-1");
                 this.ctrlBtn01.object3D.addEventListener("interact", () => this.onClickCtrlBtn(1));
-                this.ctrlBtn02 = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".burner-ctrl-btn-2");
+                this.ctrlBtn02 = this.firstExpPart04.querySelector(".burner-ctrl-btn-2");
                 this.ctrlBtn02.object3D.addEventListener("interact", () => this.onClickCtrlBtn(2));
-                this.ctrlBtn03 = this.expSystem.getTaskById("04", this.experimentData.groupCode).querySelector(".burner-ctrl-btn-3");
+                this.ctrlBtn03 = this.firstExpPart04.querySelector(".burner-ctrl-btn-3");
                 this.ctrlBtn03.object3D.addEventListener("interact", () => this.onClickCtrlBtn(3));
 
                 this.stopwatchEntity.components["stopwatch-tool"].subscribe("minuteMark1", this.onMinuteMark1);
@@ -475,7 +479,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
         }
         if(!this.wasGreater500){
-            this.sceneEl.emit("gecolab_temperature_info", this.experimentData.groupCode);
+            this.el.sceneEl.emit("gecolab_temperature_info", this.experimentData.groupCode);
         }
     },
 

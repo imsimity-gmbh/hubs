@@ -19,7 +19,6 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     },
   
     init: function() {
-      this.sceneEl = document.querySelector("a-scene");
       this.lastUpdate = performance.now();
      
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -51,13 +50,12 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         setTimeout(() => {
           waitForDOMContentLoaded().then(() => {
           
-            const sceneEl = this.el.sceneEl;
-            this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02", this.experimentData.groupCode);
+            this.firstExpPart02 = this.el.sceneEl.systems["first-experiments"].getTaskById("02", this.experimentData.groupCode);
             
-            if (this.experiment02)
+            if (this.firstExpPart02)
             {
               // TODO: unsubscribe on delete
-              this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+              this.firstExpPart02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
             }
             else  
             {
@@ -79,6 +77,8 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     delayedInit()
     {
       console.log('Delayed Init FE-01');
+
+      this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
 
       this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
      
@@ -110,7 +110,9 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       this.groundSample4Btn = this.el.querySelector(".ground-sample-btn-4");
       this.groundSample4Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(4));
       // TODO: Not Found...
-      this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
+      this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
+
+      console.log(this.scaleEntity);
 
       this.multipleChoice = this.el.querySelector("#multiple-choice-question");
       this.multipleChoice.object3D.visible = false; 
@@ -158,7 +160,6 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       {
         this.localQuestionAnswered = this.data.questionAnswered;
 
-        this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
         this.firstExpPart02.components["first-experiment-02"].showExpItems();
          
         setTimeout(() => {

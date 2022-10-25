@@ -26,7 +26,6 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
   
     init: function() {
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -83,6 +82,19 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             // this.updateUI();
             setTimeout(() => {
+
+                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+
+                if(this.firstExpPart02 == null)
+                {
+                    console.log('Cound not find FIRST EXPERIMENT 02 !!!! ');
+                    return;
+                }
+ 
+                
+                //Subscribe to callback after placing mortar    
+                this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
+
                 this.mortarSocket03 = this.el.querySelector(".mortar-socket-03");
                 /// this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
                 this.spoonSocket03 = this.el.querySelector(".spoon-socket-03");
@@ -93,25 +105,20 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
                 this.grindSampleBtn.object3D.addEventListener("interact", () => this.onGrindBtnClicked());
 
 
-                this.mortarEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".mortar-entity");
-                /// this.groundSampleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".ground-sample-entity");
-                this.spoonEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".spoon-entity");
-                this.groundSampleSpoonEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".ground-sample-spoon");
+                this.mortarEntity = this.firstExpPart02.querySelector(".mortar-entity");
+                /// this.groundSampleEntity = this.firstExpPart02.querySelector(".ground-sample-entity");
+                this.spoonEntity = this.firstExpPart02.querySelector(".spoon-entity");
+                this.groundSampleSpoonEntity = this.firstExpPart02.querySelector(".ground-sample-spoon");
 
             
-                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
+                this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
                 this.scaleEntity.object3D.visible = true;
                 this.scaleSocket = this.el.querySelector(".scale-socket");
 
-                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
+                this.crucibleEntity = this.firstExpPart02.querySelector(".crucible-entity");
                 this.crucibleEntityScale = this.scaleEntity.querySelector(".crucible-entity-scale");
 
-                //Subscribe to callback after placing mortar
-                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
-                if(this.firstExpPart02 != null)
-                    this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
-                else
-                    console.log('ERRROR !!!! ');
+
 
             }, IMSIMITY_INIT_DELAY);
                 
@@ -180,7 +187,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         // Bug in enableSocket
         this.mortarSocket03.components["entity-socket"].enableSocket();
         this.mortarSocket03.components["entity-socket"].subscribe("onSnap", this.onPlacedMortar);
-        this.mortarStick = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".mortar-stick-entity");
+        this.mortarStick = this.firstExpPart02.querySelector(".mortar-stick-entity");
     },
 
     onPlacedMortar() {
@@ -210,7 +217,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         if(this.finishedGrinding)
             return;
 
-        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_GRIND_SOUND);
+        this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_GRIND_SOUND);
         this.grindSampleClicks++;
         if(this.grindSampleClicks >= 15) {
             /// this.groundSampleSocket03.components["entity-socket"].disableSocket();
@@ -334,7 +341,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     playSound(soundID) {
-        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundID);
+        this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundID);
     },
 
     remove() {

@@ -14,17 +14,10 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     },
   
     init: function() {
-      this.sceneEl = document.querySelector("a-scene");
       this.lastUpdate = performance.now();
      
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
-
-      var worldPos = new THREE.Vector3();
-      worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
-      console.log(worldPos);
-
-      // 0 0 0
 
       //local version of network variable:
       this.localStartClicked = false;

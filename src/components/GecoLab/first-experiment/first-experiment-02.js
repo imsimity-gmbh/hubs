@@ -49,7 +49,6 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
     },
   
     init: function() {
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -68,6 +67,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
         this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
         this.tryTriggeringCallbacks = AFRAME.utils.bind(this.tryTriggeringCallbacks, this);
+        this.startPart02 = AFRAME.utils.bind(this.startPart02, this);
 
         waitForDOMContentLoaded().then(() => { 
             var networkId = getNetworkIdFromEl(this.el);
@@ -139,26 +139,35 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.crucibleGroundSample = this.el.querySelector(".crucible-ground-sample");
 
         //Get entity socket of placing positions:
+
+        this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+
+
+        if (this.firstExpPart01 == null)
+        {
+            console.log("FIRST EXPERIMENT 01 not found !!!!!");
+            return;
+        }
         
-        this.mortarSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".mortar-socket");
+        this.mortarSocket = this.firstExpPart01.querySelector(".mortar-socket");
         this.sockets.push(this.mortarSocket);
         /// this.groundSampleSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".ground-sample-socket");
         /// this.sockets.push(this.groundSampleSocket);
-        this.bunsenBurnerSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".bunsen-burner-socket");
+        this.bunsenBurnerSocket = this.firstExpPart01.querySelector(".bunsen-burner-socket");
         this.sockets.push(this.bunsenBurnerSocket);
-        this.tripod1Socket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tripod-1-socket");
+        this.tripod1Socket = this.firstExpPart01.querySelector(".tripod-1-socket");
         this.sockets.push(this.tripod1Socket);
-        this.tripod2Socket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tripod-2-socket");
+        this.tripod2Socket = this.firstExpPart01.querySelector(".tripod-2-socket");
         this.sockets.push(this.tripod2Socket);
-        this.firelighterSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".firelighter-socket");
+        this.firelighterSocket = this.firstExpPart01.querySelector(".firelighter-socket");
         this.sockets.push(this.firelighterSocket);
-        this.glassStickSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".glass-stick-socket");
+        this.glassStickSocket = this.firstExpPart01.querySelector(".glass-stick-socket");
         this.sockets.push(this.glassStickSocket);
-        this.thermoSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".thermo-socket");
+        this.thermoSocket = this.firstExpPart01.querySelector(".thermo-socket");
         this.sockets.push(this.thermoSocket);
-        this.spoonSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".spoon-socket");
+        this.spoonSocket = this.firstExpPart01.querySelector(".spoon-socket");
         this.sockets.push(this.spoonSocket);
-        this.tongSocket = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".tong-socket");
+        this.tongSocket = this.firstExpPart01.querySelector(".tong-socket");
         this.sockets.push(this.tongSocket);
 
         this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
@@ -203,14 +212,10 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.updateUI();
        
         //bind Callback funtion:
-        this.startPart02 = AFRAME.utils.bind(this.startPart02, this);
+
 
         //Subscribe to callback after submitting multiple choice
-        this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
-        if(this.firstExpPart01 != null)
-            this.firstExpPart01.components["first-experiment-01"].subscribe("startPart02", this.startPart02);
-        else 
-            console.log("Can't subscribe to firstExpPart01 callback, entity not found");
+        this.firstExpPart01.components["first-experiment-01"].subscribe("startPart02", this.startPart02);
 
     },
 
