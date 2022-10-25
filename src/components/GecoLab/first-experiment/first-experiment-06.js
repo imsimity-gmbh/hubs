@@ -216,11 +216,16 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
     setRightAnswerTxt(index) {
         let percentage = 0;
-        if(index == 1)
-            percentage = 4.76;
-        else if(index == 2)
-            percentage = 1.7;
 
+        if (index == 1)
+            percentage = 4.76;
+        else if (index == 2)
+            percentage = 1.52;
+        else if (index == 3)
+            percentage = 1.8;
+        else if (index == 4)
+            percentage = 0.91;
+            
         let txt = percentage + "%";
         this.answerOption2Txt.setAttribute("text", { value: txt });
     },
