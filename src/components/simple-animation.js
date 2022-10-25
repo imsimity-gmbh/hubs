@@ -69,13 +69,13 @@ AFRAME.registerComponent("simple-animation", {
       return;
     }
 
-    console.log(clip);
+    //console.log(clip);
 
     this.currentActions.length = 0;
 
     const mesh = this.el.object3D.children[GROUP_ID];
 
-    console.log(mesh);
+    //console.log(mesh);
 
     const action = this.createAction(clipName);
     action.enabled = true;
