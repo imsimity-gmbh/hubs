@@ -256,7 +256,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           if(this.heldEntity == null)
           {
             console.log("Holding a new object")
-            this.onHeld();
+            this.onHeld(this.acceptedEntities[i]);
           }
 
           if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
@@ -270,9 +270,10 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       if(this.heldEntity != null) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.heldEntity)) {
           let worldHeldPos = new Vector3();
+          console.log(this.heldEntity.components["tags"].data.isHoldable);
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
-          //console.log("Held Distance : " + this.distance);
+          console.log("Held Distance : " + this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -287,7 +288,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.inRadiusEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos);
-          //console.log("In Radius Distance : " + this.distance);
+          console.log("In Radius Distance : " + this.distance);
           if(this.distance > this.radius)
             this.onHoverExit(this.inRadiusEntity);
         }
@@ -403,8 +404,20 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
     },
 
-    onHeld()
+    onHeld(entity)
     {
+      if (entity == null)
+      {
+        return;
+      }
+
+
+      this.heldEntity = entity;
+
+      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
+        NAF.utils.takeOwnership(networkedHeldEl);
+      });
+
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
