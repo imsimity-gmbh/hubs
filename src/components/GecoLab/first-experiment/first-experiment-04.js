@@ -23,7 +23,6 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
   
     init: function() {
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -63,16 +62,24 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             setTimeout(() => {
 
-                this.crucibleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".crucible-entity");
-                this.scaleEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".scale-entity");
-                this.firelighterEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".firelighter-entity");
-                this.flameEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".flame-entity");
-                this.glassstickEntity = this.expSystem.getTaskById("02", this.experimentData.groupCode).querySelector(".glass-stick-entity");
-                this.stopwatchEntity = this.sceneEl.querySelector(".stopwatch-tool");
+                this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+                this.firstExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+                this.firstExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
+                this.firstExpPart05 = this.expSystem.getTaskById("05", this.experimentData.groupCode);
+
+                if(this.firstExpPart03 != null)
+                    this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
+
+                this.crucibleEntity = this.firstExpPart02.querySelector(".crucible-entity");
+                this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
+                this.firelighterEntity = this.firstExpPart02.querySelector(".firelighter-entity");
+                this.flameEntity = this.firstExpPart02.querySelector(".flame-entity");
+                this.glassstickEntity = this.firstExpPart02.querySelector(".glass-stick-entity");
+                this.stopwatchEntity = this.expSystem.getTaskById("stopwatch", this.experimentData.groupCode);
 
                 this.crucibleSocketTripod = this.el.querySelector(".crucible-socket-04");
 
-                this.firelighterSocketGeneral = this.expSystem.getTaskById("01", this.experimentData.groupCode).querySelector(".firelighter-socket");
+                this.firelighterSocketGeneral = this.firstExpPart01.querySelector(".firelighter-socket");
 
                 this.firelighterSocketTripod = this.el.querySelector(".firelighter-socket-04");
 
@@ -106,10 +113,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
 
 
-                this.firstExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
-                this.firstExpPart05 = this.expSystem.getTaskById("05", this.experimentData.groupCode);
-                if(this.firstExpPart03 != null)
-                    this.firstExpPart03.components["first-experiment-03"].subscribe("onFinishPart03", this.startPart04);
+            
 
             }, IMSIMITY_INIT_DELAY);
         
@@ -283,7 +287,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.startBtn.object3D.visible = false;
 
         // now showing gloves here
-        this.sceneEl.emit("gecolab_choose_gloves", this.experimentData.groupCode);
+        this.el.sceneEl.emit("gecolab_choose_gloves", this.experimentData.groupCode);
 
         this.firelighterSocketTripod.components["entity-socket"].enableSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
@@ -292,7 +296,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     onLightBurner() {
         this.firelighterSocketGeneral.components["entity-socket"].enableSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
-        this.loopedBurnerSound = this.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
+        this.loopedBurnerSound = this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
         this.flameEntity.components["simple-animation"].printAnimations();
         
@@ -376,7 +380,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     stopBurnerSound() {
-        this.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
+        this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
     },
 
     remove() {

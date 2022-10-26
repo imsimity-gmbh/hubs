@@ -272,7 +272,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
-          console.log("Held Distance : " + this.distance);
+          //console.log("Held Distance : " + this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -287,7 +287,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.inRadiusEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos);
-          console.log("In Radius Distance : " + this.distance);
+          //console.log("In Radius Distance : " + this.distance);
           if(this.distance > this.radius)
             this.onHoverExit(this.inRadiusEntity);
         }

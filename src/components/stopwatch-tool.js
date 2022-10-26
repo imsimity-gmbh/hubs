@@ -23,8 +23,6 @@ AFRAME.registerComponent("stopwatch-tool", {
   // like Start() in Unity
   init() {
 
-    console.log(this.el.object3D.position);
-
     this.el.object3D.visible = false; // Make invisible until model ready
     this.lastUpdate = performance.now();
 
@@ -166,7 +164,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.timeUntilPause = 0;
       this.timerRunning = false;
       this.myDisplayText.setAttribute("text", { value: "00:00" });
-      console.log(this.data.currentTime);
 
       this.localResetClicked = this.data.resetClicked;
     }
@@ -291,7 +288,6 @@ AFRAME.registerComponent("stopwatch-tool", {
       await window.APP.hubChannel.pin(networkId, node);
     });
     this.myPinButtonIcon.setAttribute("icon-button", "active", true);
-    console.log("stopwatch pinned.");
   },
 
   playSound(soundId)
