@@ -278,7 +278,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
     tidyUp() {
         this.tidyUpBtn.object3D.visible = false;
-        this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+        //this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
     },
 
     remove() {
