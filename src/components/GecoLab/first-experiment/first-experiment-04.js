@@ -380,7 +380,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     stopBurnerSound() {
-        this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
+        if (this.loopedBurnerSound)
+            this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopedBurnerSound);
     },
 
     remove() {

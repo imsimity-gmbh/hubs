@@ -21,8 +21,14 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
     () => {
       register("groupCode");
       register("moderatorName");
+
+      if (users)
+      {
+        setValue("groupCode", "0000");
+        setValue("moderatorName", users[0]);
+      }
     },
-    [register]
+    [register, setValue]
   );
 
   
@@ -61,8 +67,8 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
 
   users = removeLobbyUsersAndKeepOnlyNames(users);
   
-  const groupCode = watch("groupCode", "");
-  const moderatorName = watch("moderatorName", users[0]);
+  const groupCode = watch("groupCode");
+  const moderatorName = watch("moderatorName");
 
   if (location === "position_01")
   {
