@@ -30,7 +30,12 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, gro
 
     if(gloves1Class == "right") {
         setTimeout(() => {
+            console.log("Right Answer");
             scene.systems["first-experiments"].getTaskById("04", groupCode).components["first-experiment-04"].onPopupClosed();
+
+            gloves1Class = "idle";
+            gloves2Class = "idle";
+
             onClose();
         }, 500);
     }

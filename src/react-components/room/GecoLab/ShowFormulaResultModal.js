@@ -9,7 +9,6 @@ import { Button } from "../../input/Button";
 export function ShowFormulaResultModal ({ scene, onClose, result, groupCode }) {
 
     function handleSubmit() {
-        // This could be reseting our first-experiment-06 ???
         scene.systems["first-experiments"].getTaskById("06", groupCode).components["first-experiment-06"].onPopUpClosed();
         onClose();
     }

@@ -27,6 +27,10 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
         showNonHistoriedDialog(
             ShowFormulaResultModalContainer, { scene: scene, onClose: onClose, result: resultTxt, groupCode: groupCode }
         )
+
+        e.target.a.value = 0;
+        e.target.b.value = 0;
+        e.target.c.value = 0;
     }
 
     return (

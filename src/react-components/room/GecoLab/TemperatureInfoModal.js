@@ -21,6 +21,9 @@ export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose, 
     if(btnPushed) {
         setTimeout(() => {
             scene.systems["first-experiments"].getTaskById("05", groupCode).components["first-experiment-05"].onPopupClosed();
+
+            btnPushed = false;
+
             onClose();
         }, 500);
     }

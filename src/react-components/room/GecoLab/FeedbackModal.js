@@ -62,6 +62,19 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
         *
         *
         */
+
+        // reseting values
+        star1Class = "idle";
+        star2Class = "idle";
+        star3Class = "idle";
+        star4Class = "idle";
+        star5Class = "idle";
+    
+        onCloseNow = false;
+    
+        rating = 0;
+        feedbackText = "";
+
         onClose();
     }
 
