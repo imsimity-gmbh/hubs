@@ -31,7 +31,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         this.wasGreater500 = false;
 
         this.localStirBtnHeld = false;
-        this.localStirBtnDone = false;
+        this.localStirBtnDone = 0;
         this.stopStiring = true;
         this.updatePos = false;
         this.x = 0;
@@ -209,6 +209,8 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
     
     updateUI: function() {
 
+        console.log(this.data);
+
         if(this.localStirBtnHeld != this.data.stirBtnHeld) {
             if(this.data.stirBtnHeld) 
                 this.stirBtnDown();
@@ -220,22 +222,25 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         if(this.localStirBtnDone != this.data.stirBtnDone) {
            
-            if(this.data.stirBtnDone == 1)
+            if(this.data.stirBtnDone === 1)
             { 
                 this.stopStir = true;
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
+                console.log("BTN DONE 1");
                 this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+
                 this.minuteMark1FinishedCallbacks.forEach(cb => {
                     cb();
                 });
                 
             }
-            else if (this.data.stirBtnDone == 2)
+            else if (this.data.stirBtnDone === 2)
             {
                 this.stopStir = true;
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
+                console.log("BTN DONE 2");
                 this.glassStickSocket.components["entity-socket"].enableSocket();
                 this.glassStickSocket.components["entity-socket"].subscribe("onSnap", this.waitForCoolingTask);
             }
@@ -326,8 +331,6 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             pos.x += this.x;
             pos.z += this.z;
 
-            console.log(pos);
-
             this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
 
             if(this.t > 10) {
@@ -348,7 +351,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                   
                     });
                 }
-                else if(this.wasGreater500) {
+                else {
 
                     // Second Stir
                     this.stopStir = true;

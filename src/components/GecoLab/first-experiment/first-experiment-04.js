@@ -42,6 +42,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.localCtrlBtnClicked = false;
         this.localCtrlBtnIndex = 0;
 
+        this.localStirDoneEventSent = false;
+
         //bind Callback funtions:
         this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
         this.onPlacedCrucible = AFRAME.utils.bind(this.onPlacedCrucible, this);
@@ -152,6 +154,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.stopStir = true;
             this.updatePos = false;
             this.stiringBtn.object3D.visible = false;
+            console.log("ADJUSTING SPEED");
             this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
             // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
@@ -193,14 +196,13 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             var pos = this.glassStickPosition;
             pos.x += this.x;
             pos.z += this.z;
-
-            console.log(pos);
-
+            
             this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
 
-            if(this.t > 10) {
+            if(this.t > 10 && this.localStirDoneEventSent != true) {
                 this.stopStir = true;
                 this.updatePos = false;
+                this.localStirDoneEventSent = true;
                 
                 NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
