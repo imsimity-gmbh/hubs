@@ -222,7 +222,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         if(this.localStirBtnDone != this.data.stirBtnDone) {
            
-            if(this.data.stirBtnDone === 1)
+            if(this.data.stirBtnDone === 1 && this.localStirBtnDone === 0)
             { 
                 this.stopStir = true;
                 this.updatePos = false;
@@ -235,7 +235,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                 });
                 
             }
-            else if (this.data.stirBtnDone === 2)
+            else if (this.data.stirBtnDone === 2 && this.localStirBtnDone === 1)
             {
                 this.stopStir = true;
                 this.updatePos = false;
@@ -249,21 +249,21 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
         }
 
 
-        if(this.localMinuteMark1 != this.data.minuteMark1)
+        if(this.localMinuteMark1 != this.data.minuteMark1 && this.data.minuteMark1 === true)
         {
             this.startPart05();
 
             this.localMinuteMark1 = this.data.minuteMark1;
         }
         
-        if(this.localMinuteMark2 != this.data.minuteMark2)
+        if(this.localMinuteMark2 != this.data.minuteMark2 && this.data.minuteMark2 === true)
         {
             this.startPart05();
             
             this.localMinuteMark2 = this.data.minuteMark2;
         }
 
-        if(this.localMinuteMark3 != this.data.minuteMark3)
+        if(this.localMinuteMark3 != this.data.minuteMark3 && this.data.minuteMark3 === true)
         {
             this.startCoolingTask();
             
@@ -342,7 +342,9 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                     // First Stir
                     this.stopStir = true;
                     this.updatePos = false;
-                   
+                    
+                    console.log("Sending stirBtnDone 1");
+
                     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
                         NAF.utils.takeOwnership(networkedEl);
@@ -356,6 +358,8 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
                     // Second Stir
                     this.stopStir = true;
                     this.updatePos = false;
+
+                    console.log("Sending stirBtnDone 2");
 
                     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     

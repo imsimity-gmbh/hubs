@@ -132,7 +132,7 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
             this.localFormulaPopupClosed = this.data.formulaPopupClosed;
         }
 
-        if(this.localMinuteMark4 != this.data.minuteMark4) {
+        if(this.localMinuteMark4 != this.data.minuteMark4 && this.data.minuteMark4 === true) {
             this.startPart06();
 
             this.localMinuteMark4 = this.data.minuteMark4;
