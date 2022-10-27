@@ -212,13 +212,15 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
 
-        if (this.data.triggerOnSnap == true)
+        if (this.data.triggerOnPickedUp == true)
         {
           console.log('PickUp');
 
           this.disableSocket();
 
           this.attachedEntity = null;
+          this.heldEntity = null;
+          this.objectReleased = true;
 
           this.onPickedUpCallbacks.forEach(cb => {
             cb();
@@ -256,7 +258,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           if(this.heldEntity == null)
           {
             console.log("Holding a new object")
-            this.onHeld(this.acceptedEntities[i]);
+            this.onHeld();
           }
 
           if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
@@ -327,7 +329,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       entity.setAttribute("floaty-object", {autoLockOnRelease: true});
       this.heldEntity = entity;
 
-      
+      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
+        NAF.utils.takeOwnership(networkedHeldEl);
+      });
     },
 
     onHoverEnter(entity)
@@ -404,20 +408,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
     },
 
-    onHeld(entity)
+    onHeld()
     {
-      if (entity == null)
-      {
-        return;
-      }
-
-
-      this.heldEntity = entity;
-
-      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
-        NAF.utils.takeOwnership(networkedHeldEl);
-      });
-
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
