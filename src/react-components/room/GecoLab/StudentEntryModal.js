@@ -252,7 +252,6 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
                     tragen, auch wenn du selbst nicht experimentierst!<br/>
                     Denk daran sauber und sorgfältig zu arbeiten, weil es sonst zu Fehlern beim Experiment
                     kommen kann!<br/>
-                    Essen und Trinken sind im Labor verboten!
                 </div>
                 <Button className={acceptBtnClassName} onClick={() => backToStudentEntry(showNonHistoriedDialog, scene)}>
                     <FormattedMessage id="security-reading.close" defaultMessage="Bestätigen"/>
