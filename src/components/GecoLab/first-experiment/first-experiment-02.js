@@ -46,6 +46,11 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
   AFRAME.registerComponent("first-experiment-02", {
     schema: {
+        //Socket-Snapping-Radius as in-between saves
+        defaultRadius: {default: 1.2},
+        smallerRadius: {default:  1.1},
+        lighterRadius: {default:  0.4},
+        bigRadius: {default: 2.0} //startValue, if needed later
     },
   
     init: function() {
@@ -350,6 +355,14 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
 
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(1);
+
+            //default for place 1 to 3 would be 1.2, they are not overwritten because they are not used another time
+            this.sockets[0].components["entity-socket"].radius = this.data.smallerRadius; 
+            this.sockets[4].components["entity-socket"].radius = this.data.lighterRadius;
+            this.sockets[5].components["entity-socket"].radius = this.data.defaultRadius;
+            this.sockets[6].components["entity-socket"].radius = this.data.defaultRadius;
+            this.sockets[7].components["entity-socket"].radius = this.data.defaultRadius;
+            this.sockets[8].components["entity-socket"].radius = this.data.smallerRadius;
 
             this.sockets.forEach(s => {
                 s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
