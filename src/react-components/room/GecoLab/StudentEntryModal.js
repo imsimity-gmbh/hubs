@@ -97,13 +97,13 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
         {
             showAcceptBtn = false;
             showSecurityBtn = true;
-
-            //onClose();
         }
         else
         {
             showAcceptBtn = true;
             showSecurityBtn = false;
+
+            onClose();
         }
 
         loadedOnce = true;
