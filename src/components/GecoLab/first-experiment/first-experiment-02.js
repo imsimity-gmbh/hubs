@@ -12,7 +12,7 @@ import bunsenBurnerSrc from "../../../assets/models/GecoLab/bunsen_burner.glb";
 import tripodSrc from "../../../assets/models/GecoLab/tripod.glb";
 import tripodPlateSrc from "../../../assets/models/GecoLab/tripod_plate.glb";
 import tripodTriangleSrc from "../../../assets/models/GecoLab/tripod_triangle.glb";
-import firelighterSrc from "../../../assets/models/GecoLab/fireliter.glb";
+import firelighterSrc from "../../../assets/models/GecoLab/lighter.glb";
 import glassStickSrc from "../../../assets/models/GecoLab/stick_w_collider.glb";
 import thermoSrc from "../../../assets/models/GecoLab/thermo_w_collider.glb"; 
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
