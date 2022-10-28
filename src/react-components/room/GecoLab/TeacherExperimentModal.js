@@ -20,32 +20,16 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   useEffect(
     () => {
       register("groupCode");
-      register("moderatorName");
+      register("moderator");
 
       if (users)
       {
         setValue("groupCode", "0000");
-        setValue("moderatorName", users[0]);
+        setValue("moderator", users[0]);
       }
     },
     [register, setValue]
   );
-
-  
-  const removeLobbyUsersAndKeepOnlyNames = (users) =>
-  {
-    var arr = [];
-
-    for(var i = 0; i < users.length; i++)
-    {
-      if(users[i].presence == "room")
-      {
-        arr.push(users[i].profile.displayName);
-      }
-    }
-
-    return arr;
-  }
 
   
   const onChange = useCallback(
@@ -56,105 +40,60 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   );
 
   const onChangeModerator = useCallback(
-    name => {
-      console.log(name);
-      setValue("moderatorName", name);
+    item => {
+      console.log(item);
+      setValue("moderator", item);
     },
     [setValue]
   );
 
   var users = getUsersFromPresences(presences, sessionId);
-
-  users = removeLobbyUsersAndKeepOnlyNames(users);
   
   const groupCode = watch("groupCode");
-  const moderatorName = watch("moderatorName");
+  const moderator = watch("moderator");
+ 
+  return (
+    <Modal
+      title={ (location==="position_01") ? 
+        <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> : 
+        <FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" /> }
+      beforeTitle={<CloseButton onClick={onClose} />}
+    >
+      <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
+        <p>
+          {(
+            <FormattedMessage
+              id="teacher-experiment-modal.message"
+              defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
+            />
+          )}
+        </p>
+        <TextInputField
+          name="url"
+          label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
+          placeholder="0000"
+          value={ groupCode || "0000"}
+          onChange={onChange}
+          description={
+            <FormattedMessage
+              id="teacher-experiment-modal.url-field-description"
+              defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
+            />
+          }
+        />
+        <SelectInputField 
+          label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
+          value={moderator == undefined ? "" :  moderator.label} 
+          options={users} 
+          onChange={onChangeModerator} 
+        />
+        <Button type="submit" preset="accept">
+          <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
+        </Button>
+      </Column>
+    </Modal>
+  );
 
-  if (location === "position_01")
-  {
-    return (
-      <Modal
-        title={<FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" />}
-        beforeTitle={<CloseButton onClick={onClose} />}
-      >
-        <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
-          <p>
-            {(
-              <FormattedMessage
-                id="teacher-experiment-modal.message"
-                defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
-              />
-            )}
-          </p>
-          <TextInputField
-            name="url"
-            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
-            placeholder="0000"
-            value={ groupCode || "0000"}
-            onChange={onChange}
-            description={
-              <FormattedMessage
-                id="teacher-experiment-modal.url-field-description"
-                defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
-              />
-            }
-          />
-          <SelectInputField 
-            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
-            value={moderatorName} 
-            options={users} 
-            onChange={onChangeModerator} 
-          />
-          <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
-          </Button>
-        </Column>
-      </Modal>
-    );
-  }
-  else
-  {
-    return (
-      <Modal
-        title={<FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" />}
-        beforeTitle={<CloseButton onClick={onClose} />}
-      >
-        <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
-          <p>
-            {(
-              <FormattedMessage
-                id="teacher-experiment-modal.message"
-                defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
-              />
-            )}
-          </p>
-          <TextInputField
-            name="url"
-            label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
-            placeholder="0000"
-            value={ groupCode || "0000"}
-            onChange={onChange}
-            description={
-              <FormattedMessage
-                id="teacher-experiment-modal.url-field-description"
-                defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
-              />
-            }
-          />
-          <SelectInputField 
-            label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
-            value={moderatorName} 
-            options={users} 
-            onChange={onChangeModerator} 
-          />
-          <Button type="submit" preset="accept">
-            <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
-          </Button>
-        </Column>
-      </Modal>
-    );
-  }
-  
 }
 
 TeacherExperimentModal.propTypes = {

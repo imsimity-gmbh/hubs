@@ -41,6 +41,32 @@ function userFromPresence(id, presence, mySessionId)
   return { id: id, isMe: mySessionId === id, ...meta };
 }
 
+function formatUserArray(users)
+{
+  var arr = [];
+
+  for(var i = 0; i < users.length; i++)
+  {
+    if(users[i].presence == "room")
+    {
+      var data = {
+        label: users[i].profile.displayName,
+        value: {
+          context: users[i].context,
+          id: users[i].id,
+          isMe: users[i].isMe,
+          profile: users[i].profile,
+        }
+      }
+
+      arr.push(data);
+    }
+  }
+
+  return arr;
+}
+
+
 
 
 export function encodeNetworkId(part, groupCode, position)
@@ -104,6 +130,8 @@ export function getUsersFromPresences(presences, sessionId)
   var users = Object.entries(presences).map(([id, presence]) => {
     return userFromPresence(id, presence, sessionId);
   });
+
+  users = formatUserArray(users);
 
   return users;
 }

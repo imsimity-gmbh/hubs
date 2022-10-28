@@ -11,34 +11,30 @@ const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileV
 
 export function TeacherExperimentModalContainer({ scene, location, onClose, presences, sessionId, hubChannel }) {
 
-  const getUserFromName = (users, moderatorName) => {
-    return users.find(u => { return u.profile.displayName === moderatorName });
-  }
-
   const getOwnUser = (users) => {
-    return users.find(u => { return u.isMe === true });
+    return users.find(u => { return u.value.isMe === true });
   }
   
   const onSubmit = useCallback(
-    ({ groupCode, moderatorName })  =>  {
+    ({ groupCode, moderator })  =>  {
 
       var users = getUsersFromPresences(presences, sessionId);
       var user = null;
 
-      console.log(moderatorName);
+      console.log(moderator);
 
       if (groupCode == null)
         groupCode = "0000";
 
-      if (moderatorName == null)
+      if (moderator == null)
       {
         console.log("Moderator Name is Null, defaulting to Teacher");
 
-        user = getOwnUser(users);
+        user = getOwnUser(users).value;
       }
       else
       {
-        user = getUserFromName(users, moderatorName);
+        user = moderator
       }
       
 
@@ -60,7 +56,7 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
         var data = { position: location, groupCode: groupCode, moderatorId: user.id };
 
         // We are not the Moderator, we broadcast an event !
-        console.log("We broadcast a Spawn Request to " + moderatorName);
+        console.log("We broadcast a Spawn Request to " + user.label);
 
         hubChannel.sendMessage(data, "gecolab-spawn");
       }
