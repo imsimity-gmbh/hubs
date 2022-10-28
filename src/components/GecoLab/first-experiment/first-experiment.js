@@ -44,8 +44,12 @@ import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../
 
         setTimeout(() => {
           this.firstExpStartBtn.object3D.visible = true;
+
+           // Mannequin
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          this.mannequin.components["mannequin"].displayMessage(19);
         }, IMSIMITY_INIT_DELAY * 6);
-                  
+                 
       });  
 
     },

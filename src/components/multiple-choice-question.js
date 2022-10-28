@@ -131,6 +131,9 @@ import { getExperimentDataFromParent, IMSIMITY_INIT_DELAY } from "../utils/imsim
         if(i == this.selectedAnswer)
           continue;
         this.answerOptions[i].setAttribute("text-button", {backgroundColor: this.initialColor});
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(-1);
       }
     },
 

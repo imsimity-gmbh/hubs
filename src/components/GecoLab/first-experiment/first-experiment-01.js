@@ -152,6 +152,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
     updateUI: function() {
       if(this.localGroundSampleClicked != this.data.groundSampleChosen) {
         this.localGroundSampleIndex = this.data.groundSampleIndex;
+        
         this.chooseGroundSample();
         this.localGroundSampleClicked = this.data.groundSampleChosen;
       }
@@ -181,6 +182,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
 
           this.groundProfile.object3D.visible = false;
           this.groundSamplesWrapper.object3D.visible = false;
+
+          // Mannequin
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          this.mannequin.components["mannequin"].displayMessage(-1);
         }, 500);
       }
 
@@ -310,6 +315,10 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           this.groundProfile.object3D.visible = true;
 
           this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });   
+
+          // Mannequin
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          this.mannequin.components["mannequin"].displayMessage(16);
     },
 
     notifyPart02() {
