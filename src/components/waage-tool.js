@@ -9,7 +9,6 @@ AFRAME.registerComponent("waage-tool", {
     },
   
     init: function() {
-        this.sceneEl = document.querySelector("a-scene");
         this.lastUpdate = performance.now();
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
@@ -40,9 +39,13 @@ AFRAME.registerComponent("waage-tool", {
 
             setTimeout(() => {
 
-                this.crucibleSocketTripod = this.sceneEl.querySelector(".crucible-socket-04");
+                this.groupCode = getGroupCodeFromParent(this.el);
 
-                this.scaleSocket = this.sceneEl.querySelector(".scale-socket");
+                const expSystem = this.el.sceneEl.systems["first-experiments"];
+
+                this.crucibleSocketTripod = expSystem.findElementForGroupCode(".crucible-socket-04", this.groupCode);
+
+                this.scaleSocket = expSystem.findElementForGroupCode(".scale-socket", this.groupCode);
 
                 console.log(this.scaleSocket);
 

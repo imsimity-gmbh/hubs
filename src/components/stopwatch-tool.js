@@ -277,6 +277,7 @@ AFRAME.registerComponent("stopwatch-tool", {
     this.minuteMark2 = minutes + 8;
   },
 
+  // probably not working...
   onPinButtonClick()
   {
     const node = pinnedEntityToGltf(this.el);
