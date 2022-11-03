@@ -2,19 +2,13 @@
  * Entity Socket for snapping objects into places
  * @component entity-socket
  */
-
-/* 
-Fixing plan:
-1. new schema to define of socket is disabled on start
-2. function "hide" to disable functionality from another script
-3. function "show" to enable functionality from another script
-*/
-
 import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-system";
 
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 
-import { IMSIMITY_INIT_DELAY, getGroupCodeFromParent } from '../utils/imsimity';
+import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
+
+import { getGroupCodeFromParent } from '../utils/GecoLab/network-helper';
 
 import { Vector3 } from "three";
 

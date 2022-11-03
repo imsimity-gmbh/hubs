@@ -3,7 +3,8 @@ import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import gecoMapSrc from "../../../assets/models/GecoLab/geco_map.glb";
 import gecoGroundProfileSrc from "../../../assets/models/GecoLab/geco_ground_profile.glb";
-import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
 const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSrc));
 const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel(gecoGroundProfileSrc));

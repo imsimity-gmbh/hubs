@@ -23,7 +23,7 @@ import { ObjectContentOrigins } from "./object-types";
 import { getAvatarSrc, getAvatarType } from "./utils/avatar-utils";
 import { SOUND_ENTER_SCENE } from "./systems/sound-effects-system";
 
-import { encodeNetworkId } from "./utils/imsimity";
+import { encodeNetworkId } from "./utils/GecoLab/network-helper";
 
 const isIOS = detectIOS();
 

@@ -1,7 +1,9 @@
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
-import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
+
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 //Initial Models:
 import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
 import groundSampleSrc1 from "../../../assets/models/GecoLab/ground-sample-coarse-1.glb";

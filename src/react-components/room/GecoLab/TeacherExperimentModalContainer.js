@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherExperimentModal } from "./TeacherExperimentModal";
 import configs from "../../../utils/configs";
-import { getUsersFromPresences, spawnOrDeleteExperiment } from "../../../utils/imsimity";
+import { getUsersFromPresences, spawnOrDeleteExperiment, generateGroupCode } from "../../../utils/GecoLab/network-helper";
 
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
