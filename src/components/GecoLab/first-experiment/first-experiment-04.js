@@ -6,7 +6,8 @@ import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
 import flameModelSrc from "../../../assets/models/GecoLab/flame.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
 const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameModelSrc));
 

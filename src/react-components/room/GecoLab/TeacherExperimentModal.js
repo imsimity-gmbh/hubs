@@ -12,7 +12,7 @@ import styles from "./TeacherExperimentModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 import { SelectInputField } from "../../input/SelectInputField";
-import { getUsersFromPresences } from "../../../utils/imsimity";
+import { getUsersFromPresences } from "../../../utils/GecoLab/network-helper";
 
 export function TeacherExperimentModal({ onSubmit, location ,onClose, presences, sessionId }) {
   const { handleSubmit, register, watch, setValue } = useForm();

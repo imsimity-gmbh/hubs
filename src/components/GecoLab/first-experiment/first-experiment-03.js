@@ -9,7 +9,8 @@ import grindedSampleSrc from "../../../assets/models/GecoLab/ground_sample_grind
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
 import { THREE } from "aframe";
-import { IMSIMITY_INIT_DELAY, decodeNetworkId, getNetworkIdFromEl } from "../../../utils/imsimity";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
 const grindedSampleModelPromise = waitForDOMContentLoaded().then(() => loadModel(grindedSampleSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));

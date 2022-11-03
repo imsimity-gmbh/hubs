@@ -18,7 +18,8 @@ import { spawnChatMessage } from "../chat-message";
 import { discordBridgesForPresences } from "../../utils/phoenix-utils";
 import { useIntl } from "react-intl";
 import { MAX_MESSAGE_LENGTH } from "../../utils/chat-message";
-import { redirectTo, spawnOrDeleteExperiment } from "../../utils/imsimity";
+import { redirectTo } from "../../utils/imsimity";
+import { spawnOrDeleteExperiment } from "../../utils/GecoLab/network-helper";
 
 const ChatContext = createContext({ messageGroups: [], sendMessage: () => {} });
 
