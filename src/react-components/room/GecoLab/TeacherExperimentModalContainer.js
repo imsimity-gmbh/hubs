@@ -34,9 +34,14 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
       }
       else
       {
-        user = moderator.value;
+        user = moderator;
       }
       
+      if (user.value != undefined && user.value != null)
+      {
+        user = user.value;
+      }
+
 
       if (user == null)
       {
@@ -46,7 +51,7 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
 
         return;
       }
-      
+
       if (user.isMe)
       {
         spawnOrDeleteExperiment(location, groupCode, scene);
