@@ -62,9 +62,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             var networkId = getNetworkIdFromEl(this.el);
 
-                    this.experimentData = decodeNetworkId(networkId);
+            this.experimentData = decodeNetworkId(networkId);
 
-        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
             this.expSystem.registerTask("03", this.el, this.experimentData);
             
@@ -200,7 +200,11 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
     },
 
     onInsertSample() {
-        this.grindSampleBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.grindSampleBtn.object3D.visible = true;
+        }
+        
         this.mortarStick.setAttribute("position", {x: 0, y: 0.15, z: 0.04});
         this.mortarStick.setAttribute("rotation", {x: -70, y: 0, z: 0});
     },

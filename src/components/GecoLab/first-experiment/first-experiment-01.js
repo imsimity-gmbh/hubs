@@ -260,10 +260,13 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
       
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
 
-      this.gecoMap.object3D.visible = true;
+      if (this.isMember)
+      {
+        this.gecoMap.object3D.visible = true;
 
-      this.btnWrapper.object3D.visible = true;
-
+        this.btnWrapper.object3D.visible = true;  
+      }
+     
       // Mannequin
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
       this.mannequin.components["mannequin"].displayMessage(17);
@@ -315,13 +318,17 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         }  
         
         console.log("showing Ground Profile");
+
+        if (this.isMember)
+        {
           this.groundProfile.object3D.visible = true;
 
-          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });   
-
-          // Mannequin
-          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          this.mannequin.components["mannequin"].displayMessage(16);
+          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });     
+        }
+       
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(16);
     },
 
     notifyPart02() {

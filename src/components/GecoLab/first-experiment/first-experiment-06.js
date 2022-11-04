@@ -57,9 +57,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
             var networkId = getNetworkIdFromEl(this.el);
 
-                    this.experimentData = decodeNetworkId(networkId);
+            this.experimentData = decodeNetworkId(networkId);
 
-        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
     
             this.expSystem.registerTask("06", this.el, this.experimentData);
 
@@ -202,7 +202,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     chooseFormula() {
-        this.el.sceneEl.emit("gecolab_choose_formula", this.experimentData.groupCode);
+        if (this.isMember)
+        {
+            this.el.sceneEl.emit("gecolab_choose_formula", this.experimentData.groupCode);
+        }
     },
 
     onPopUpClosed() {
@@ -216,7 +219,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     proceedToDiscussResult() {
-        this.discussResultBtn.object3D.visible = true; 
+        if (this.isMember)
+        {
+            this.discussResultBtn.object3D.visible = true; 
+        }
 
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(14);
@@ -250,8 +256,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     discussResult() {
         this.discussResultBtn.object3D.visible = false;
 
-        // Shown for a few frames
-        this.multipleChoice06.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.multipleChoice06.object3D.visible = true;    
+        }
+        
         this.multipleChoice06.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice06);
     },
 
@@ -260,9 +269,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
           console.log("Right Answer");
           setTimeout(() => {
             this.multipleChoice06.object3D.visible = false; 
-            this.tidyUpBtn.object3D.visible = true;
             
-             // Mannequin
+            if (this.isMember)
+            {
+                this.tidyUpBtn.object3D.visible = true;
+            }
+            // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(-1);
 
@@ -281,7 +293,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     tidyUp() {
         this.tidyUpBtn.object3D.visible = false;
-        //this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+        
+        if (this.isMember)
+        {
+            //this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+        }
     },
 
     remove() {

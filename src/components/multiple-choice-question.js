@@ -34,11 +34,11 @@ import { getExperimentDataFromParent } from "../utils/GecoLab/network-helper";
       this.rightColor = "#18FF03";
 
 
-      let answerArea = this.el.querySelector(".answer-area");
-      for(let i = 0; i < answerArea.children.length; i++) {
-        answerArea.children[i].object3D.addEventListener("interact", () => this.onSelectAnswer(i));
-        answerArea.children[i].setAttribute("text-button", {backgroundHoverColor: this.selectColor});
-        this.answerOptions.push(answerArea.children[i]);
+      this.answerArea = this.el.querySelector(".answer-area");
+      for(let i = 0; i < this.answerArea.children.length; i++) {
+        this.answerArea.children[i].object3D.addEventListener("interact", () => this.onSelectAnswer(i));
+        this.answerArea.children[i].setAttribute("text-button", {backgroundHoverColor: this.selectColor});
+        this.answerOptions.push(this.answerArea.children[i]);
       }
 
       this.submitBtn.object3D.addEventListener("interact", () => this.onSubmit());
@@ -49,6 +49,15 @@ import { getExperimentDataFromParent } from "../utils/GecoLab/network-helper";
       waitForDOMContentLoaded().then(() => { 
         setTimeout(() => {
           this.experimentData = getExperimentDataFromParent(this.el);
+          this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.experimentData.groupCode);
+
+          if (!this.isMember)
+          {
+            this.questionText.object3D.visible = false;
+            this.answerArea.object3D.visible = false;
+            this.submitBtn.object3D.visible = false;
+          }
+
         }, IMSIMITY_INIT_DELAY);
       });
     },

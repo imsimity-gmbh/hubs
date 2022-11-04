@@ -29,9 +29,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       waitForDOMContentLoaded().then(() => {
 
         var networkId = getNetworkIdFromEl(this.el);
-                this.experimentData = decodeNetworkId(networkId);
-
-        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+        this.experimentData = decodeNetworkId(networkId);
 
         this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
@@ -45,7 +43,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.firstExpStartBtn.object3D.visible = false;
 
         setTimeout(() => {
-          this.firstExpStartBtn.object3D.visible = true;
+
+          if (this.isMember)
+          {
+            this.firstExpStartBtn.object3D.visible = true;
+          }
 
            // Mannequin
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);

@@ -42,12 +42,12 @@ AFRAME.registerComponent("waage-tool", {
 
                 this.groupCode = getGroupCodeFromParent(this.el);
 
-                const expSystem = this.el.sceneEl.systems["first-experiments"];
+                this.expSystem = this.el.sceneEl.systems["first-experiments"];
                 this.isMember = this.expSystem.getIsMemberForGroupCode(this.groupCode);
 
-                this.crucibleSocketTripod = expSystem.findElementForGroupCode(".crucible-socket-04", this.groupCode);
+                this.crucibleSocketTripod = this.expSystem.findElementForGroupCode(".crucible-socket-04", this.groupCode);
 
-                this.scaleSocket = expSystem.findElementForGroupCode(".scale-socket", this.groupCode);
+                this.scaleSocket = this.expSystem.findElementForGroupCode(".scale-socket", this.groupCode);
 
                 console.log(this.scaleSocket);
 
@@ -149,7 +149,11 @@ AFRAME.registerComponent("waage-tool", {
     },
 
     onContainerPlaced() {
-        this.taraBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.taraBtn.object3D.visible = true;
+        }
+
         this.displayText.object3D.visible = true;
 
         this.weight = this.containerWeight;
@@ -235,7 +239,11 @@ AFRAME.registerComponent("waage-tool", {
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
         this.taraBtn.object3D.visible = false;
-        this.glowLossBtn.object3D.visible = true;
+
+        if (this.isMember)
+        {
+            this.glowLossBtn.object3D.visible = true;
+        }
     },
 
     onClickGlowLossBtn() {

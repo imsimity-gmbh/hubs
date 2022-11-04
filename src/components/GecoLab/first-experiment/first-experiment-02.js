@@ -79,9 +79,9 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         waitForDOMContentLoaded().then(() => { 
             var networkId = getNetworkIdFromEl(this.el);
     
-                    this.experimentData = decodeNetworkId(networkId);
+            this.experimentData = decodeNetworkId(networkId);
 
-        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
     
             this.expSystem.registerTask("02", this.el, this.experimentData);
 
@@ -322,14 +322,20 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
     },
 
     startPart02(groundSampleIndex) {
+        
         this.sockets.forEach(s => {
             s.object3D.visible = true;
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
         });
-        this.movableEntities.forEach(e => {
-            let name = e.className;
-            e.className = "interactable " + name;
-        });
+        
+        if (this.isMember)
+        {
+            this.movableEntities.forEach(e => {
+                let name = e.className;
+                e.className = "interactable " + name;
+            });
+        }
+        
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
