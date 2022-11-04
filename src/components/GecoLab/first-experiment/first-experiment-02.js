@@ -79,7 +79,9 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         waitForDOMContentLoaded().then(() => { 
             var networkId = getNetworkIdFromEl(this.el);
     
-            this.experimentData = decodeNetworkId(networkId);
+                    this.experimentData = decodeNetworkId(networkId);
+
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
     
             this.expSystem.registerTask("02", this.el, this.experimentData);
 

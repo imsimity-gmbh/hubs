@@ -43,6 +43,7 @@ AFRAME.registerComponent("waage-tool", {
                 this.groupCode = getGroupCodeFromParent(this.el);
 
                 const expSystem = this.el.sceneEl.systems["first-experiments"];
+                this.isMember = this.expSystem.getIsMemberForGroupCode(this.groupCode);
 
                 this.crucibleSocketTripod = expSystem.findElementForGroupCode(".crucible-socket-04", this.groupCode);
 

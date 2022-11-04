@@ -62,7 +62,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
 
             var networkId = getNetworkIdFromEl(this.el);
 
-            this.experimentData = decodeNetworkId(networkId);
+                    this.experimentData = decodeNetworkId(networkId);
+
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
             this.expSystem.registerTask("03", this.el, this.experimentData);
             

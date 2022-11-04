@@ -59,7 +59,9 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
 
             var networkId = getNetworkIdFromEl(this.el);
 
-            this.experimentData = decodeNetworkId(networkId);
+                    this.experimentData = decodeNetworkId(networkId);
+
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
     
             this.expSystem.registerTask("04", this.el, this.experimentData);
 

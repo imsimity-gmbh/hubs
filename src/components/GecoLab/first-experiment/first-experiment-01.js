@@ -46,6 +46,8 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
 
         this.experimentData = decodeNetworkId(networkId);
 
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+
         this.expSystem.registerTask("01", this.el, this.experimentData);
         
         setTimeout(() => {

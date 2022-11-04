@@ -71,11 +71,11 @@ AFRAME.registerComponent("stopwatch-tool", {
       this.el.object3D.scale.set(1.0, 1.0, 1.0);
       this.el.object3D.matrixNeedsUpdate = true;
 
-      this.expSystem = this.el.sceneEl.systems["first-experiments"];
-
       var networkId = getNetworkIdFromEl(this.el);
 
       this.experimentData = decodeNetworkId(networkId);
+
+      this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
       this.expSystem.registerTask("stopwatch", this.el, this.experimentData);
       

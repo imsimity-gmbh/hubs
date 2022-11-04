@@ -18,7 +18,7 @@ AFRAME.registerSystem("first-experiments", {
     // 2D array of all experiment parts
     this.experimentsAllParts = [this.experiments01Els, this.experiments02Els, this.experiments03Els, this.experiments04Els, this.experiments05Els, this.experiments06Els];
 
-    // "Rights" for
+    // "Rights" for Experiments
     this.experimentsIsMember = [];
   },
 

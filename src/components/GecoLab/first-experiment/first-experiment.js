@@ -25,13 +25,15 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.expSystem = this.el.sceneEl.systems["first-experiments"];
      
       
+      
       waitForDOMContentLoaded().then(() => {
 
         var networkId = getNetworkIdFromEl(this.el);
+                this.experimentData = decodeNetworkId(networkId);
 
-        console.log(networkId);
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
-        this.experimentData = decodeNetworkId(networkId);
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
         console.log(this.experimentData);
 
