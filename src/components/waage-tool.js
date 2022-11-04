@@ -1,5 +1,6 @@
 import { waitForDOMContentLoaded } from "../utils/async-utils";
 import { IMSIMITY_INIT_DELAY } from "../utils/imsimity";
+import { getGroupCodeFromParent } from "../utils/GecoLab/network-helper"
 
 AFRAME.registerComponent("waage-tool", {
     schema: {
