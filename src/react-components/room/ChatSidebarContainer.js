@@ -143,6 +143,12 @@ export function ChatContextProvider({ messageDispatch, children }) {
           // We are the Moderator
           if (ownId === data.moderatorId || data.broadcastToAll == true)
           {
+            if (data.members) 
+            {
+              // We are a member of that experiment
+              scene.systems['first-experiments'].setIsMemberForGroupCode(data.groupCode, data.members.includes(ownId));
+            }
+
             spawnOrDeleteExperiment(data.position, data.groupCode, scene);
           }
         }
