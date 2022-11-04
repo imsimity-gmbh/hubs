@@ -16,15 +16,14 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
   }
   
   const onSubmit = useCallback(
-    ({ groupCode, moderator })  =>  {
+    ({ moderator })  =>  {
 
       var users = getUsersFromPresences(presences, sessionId);
       var user = null;
 
       console.log(moderator);
 
-      if (groupCode == null)
-        groupCode = "0000";
+      const groupCode = generateGroupCode();
 
       if (moderator == null)
       {
