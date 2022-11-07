@@ -224,9 +224,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         }
 
         if(this.localStirBtnDone != this.data.stirBtnDone) {
-           
+        
+
             if(this.data.stirBtnDone === 1 && this.localStirBtnDone === 0)
             { 
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(-1);
+                
                 this.stopStir = true;
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
@@ -240,6 +244,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             }
             else if (this.data.stirBtnDone === 2 && this.localStirBtnDone === 1)
             {
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(-1);
+
                 this.stopStir = true;
                 this.updatePos = false;
                 this.stiringBtn.object3D.visible = false;
@@ -337,9 +344,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             this.glassstickEntity.object3D.position.set(pos.x, pos.y, pos.z);
 
             if(this.t > 10) {
-                // Mannequin
-                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-                this.mannequin.components["mannequin"].displayMessage(-1);
+
                 if(!this.wasGreater500) {
 
                     // First Stir
