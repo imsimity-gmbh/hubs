@@ -328,6 +328,14 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
         });
         
+        if (this.isMember)
+        {
+            this.movableEntities.forEach(e => {
+                let name = e.className;
+                e.className = "interactable " + name;
+            });
+        }
+        
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
