@@ -87,13 +87,13 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
 
   var disableSubmit = !(moderator != null && moderator != undefined);
 
-  if (users && members && moderator)
+  if (users && members)
   {
     for(let i = 0; i < users.length; i++)
     {
       var user = users[i];
 
-      const isModerator = (moderator.id === user.value.id);
+      const isModerator = (!moderator) ? false : (moderator.id === user.value.id);
       const inMembers = members.some(({id}) => id === user.value.id)
       const onClick = (isModerator) ? null : (() => { onClickMember(i) });
 

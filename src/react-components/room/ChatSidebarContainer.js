@@ -140,15 +140,18 @@ export function ChatContextProvider({ messageDispatch, children }) {
           var ownId = window.APP.dialog._clientId;
           var scene = window.APP.scene;
 
+          if (data.members) 
+          {
+            console.log(data.members);
+            var isMember =  data.members.includes(ownId);
+            console.log("Is a Member ? " + isMember);
+            // We are a member of that experiment
+            scene.systems['first-experiments'].setIsMemberForGroupCode(data.groupCode,isMember);
+          }
+
           // We are the Moderator
           if (ownId === data.moderatorId || data.broadcastToAll == true)
           {
-            if (data.members) 
-            {
-              // We are a member of that experiment
-              scene.systems['first-experiments'].setIsMemberForGroupCode(data.groupCode, data.members.includes(ownId));
-            }
-
             spawnOrDeleteExperiment(data.position, data.groupCode, scene);
           }
         }
