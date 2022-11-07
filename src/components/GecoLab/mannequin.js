@@ -122,7 +122,7 @@ AFRAME.registerComponent("mannequin", {
 
         var text = (this.showingMore == true) ? MANNEQUIN_TEXTS_EXTRA[this.currentTextId] : MANNEQUIN_TEXTS[this.currentTextId];
 
-        var buttonText = (this.showingMore == true) ? "Weniger" : "Tipp";
+        var buttonText = (this.showingMore == true) ? "Zurück" : "Tipp";
         
         this.moreButtonText.setAttribute("text", { value: buttonText});
 
