@@ -24,11 +24,6 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
       register("members");
 
       setValue("members", []);
-
-      if (users)
-      {
-        setValue("moderator", users[0].value);
-      }
     },
     [register, setValue]
   );
@@ -90,6 +85,8 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   var groupMemberArray = [];
   var othersArray = [];
 
+  var disableSubmit = !(moderator != null && moderator != undefined);
+
   if (users && members && moderator)
   {
     for(let i = 0; i < users.length; i++)
@@ -150,7 +147,7 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
         </p>
         <SelectInputField 
           label={<FormattedMessage id="teacher-experiment-modal.group-moderator" defaultMessage="Gruppenleiter" />}
-          value={moderator == undefined ? "" : moderator.label} 
+          value={moderator}
           options={users} 
           onChange={onChangeModerator} 
         />
@@ -172,7 +169,7 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
             { othersArray }
           </div>
         </div>
-        <Button type="submit" preset="accept">
+        <Button type="submit" preset="accept" disabled={disableSubmit}>
           <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
         </Button>
       </Column>
