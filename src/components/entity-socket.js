@@ -8,7 +8,7 @@ import { waitForDOMContentLoaded } from "../utils/async-utils";
 
 import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
 
-import { getGroupCodeFromParent } from '../utils/GecoLab/network-helper';
+import { getGroupCodeFromParent, setInteractable } from '../utils/GecoLab/network-helper';
 
 import { Vector3 } from "three";
 
@@ -71,6 +71,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           if (this.groupCode != null)
           {
             this.experiment02 = this.el.sceneEl.systems["first-experiments"].getTaskById("02", this.groupCode);
+            this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.groupCode)
             // TODO: unsubscribe on delete
             this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
           }
@@ -97,7 +98,10 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           continue;
         }
         this.acceptedEntities.push(component);
-
+        
+        // Deactivate interractions for non members
+        setInteractable(component, this.isMember);
+        
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
 
@@ -192,7 +196,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           // Hack to parent without parenting
           this.attachedEntity = this.acceptedEntities[0];
 
-          this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+          setInteractable(this.attachedEntity, false);
           
           this.placeAttachedEntityLocal();
 
@@ -264,7 +268,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       if(this.heldEntity != null) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.heldEntity)) {
           let worldHeldPos = new Vector3();
-          console.log(this.heldEntity.components["tags"].data.isHoldable);
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
           // console.log("Held Distance : " + this.distance);
@@ -471,7 +474,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
 
       for(let i = 0; i < this.acceptedEntities.length; i++) {
-        this.acceptedEntities[i].setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+        // only set "interactable" if this user is a memeber of this experiment
+        var enable = (this.isMember !== undefined) ? this.isMember : true;
+        setInteractable(this.acceptedEntities[i], enable);
       }
     },
 
