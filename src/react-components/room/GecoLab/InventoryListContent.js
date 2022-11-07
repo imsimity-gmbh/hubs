@@ -25,18 +25,18 @@ export function InventoryListContent() {
       <img id="inventory-preview-picture" style={{width: "200px", marginLeft:auto, marginRight:auto}} src={inv_bunsen_burner}></img>
         <div id="inventory-content" style={{width: "100%"}}>
             <ul>
-              <li onMouseEnter={event=>changeImagePreview(1)} onClick={event=>changeImagePreview(1)} style={{fontWeight: bold==1 ? 'bold' : 'normal'}}>Bunsenbrenner</li>
-              <li onMouseEnter={event=>changeImagePreview(2)} onClick={event=>changeImagePreview(2)} style={{fontWeight: bold==2 ? 'bold' : 'normal'}}>Mörser und Stößel</li>
-              <li onMouseEnter={event=>changeImagePreview(3)} onClick={event=>changeImagePreview(3)} style={{fontWeight: bold==3 ? 'bold' : 'normal'}}>Dreifuß mit aufgelegter Ceran-Schutzplatte</li>
-              <li onMouseEnter={event=>changeImagePreview(4)} onClick={event=>changeImagePreview(4)} style={{fontWeight: bold==4 ? 'bold' : 'normal'}}>Dreifuß mit aufgelegtem Tondreieck</li>
-              <li onMouseEnter={event=>changeImagePreview(5)} onClick={event=>changeImagePreview(5)} style={{fontWeight: bold==5 ? 'bold' : 'normal'}}>Feuerzeug</li>
-              <li onMouseEnter={event=>changeImagePreview(6)} onClick={event=>changeImagePreview(6)} style={{fontWeight: bold==6 ? 'bold' : 'normal'}}>Thermometer</li>
-              <li onMouseEnter={event=>changeImagePreview(7)} onClick={event=>changeImagePreview(7)} style={{fontWeight: bold==7 ? 'bold' : 'normal'}}>Glasstab zum Rühren</li>
-              <li onMouseEnter={event=>changeImagePreview(8)} onClick={event=>changeImagePreview(8)} style={{fontWeight: bold==8 ? 'bold' : 'normal'}}>Ausgewählte Bodenprobe</li>
-              <li onMouseEnter={event=>changeImagePreview(9)} onClick={event=>changeImagePreview(9)} style={{fontWeight: bold==9 ? 'bold' : 'normal'}}>Tiegelzange</li>
-              <li onMouseEnter={event=>changeImagePreview(10)} onClick={event=>changeImagePreview(10)} style={{fontWeight: bold==10 ? 'bold' : 'normal'}}>Löffel für Probe</li>
-              <li onMouseEnter={event=>changeImagePreview(11)} onClick={event=>changeImagePreview(11)} style={{fontWeight: bold==11 ? 'bold' : 'normal'}}>Waage (erscheint im Laufe des Experiments)</li>
-              <li onMouseEnter={event=>changeImagePreview(12)} onClick={event=>changeImagePreview(12)} style={{fontWeight: bold==12 ? 'bold' : 'normal'}}>Tiegel (erscheint im Laufe des Experiments)</li>
+              <li onMouseEnter={event=>changeImagePreview(1)} onClick={event=>changeImagePreview(1)} style={{fontWeight: bold==1 ? 'bold' : 'normal', cursor:'pointer'}}>Bunsenbrenner</li>
+              <li onMouseEnter={event=>changeImagePreview(2)} onClick={event=>changeImagePreview(2)} style={{fontWeight: bold==2 ? 'bold' : 'normal', cursor:'pointer'}}>Mörser und Stößel</li>
+              <li onMouseEnter={event=>changeImagePreview(3)} onClick={event=>changeImagePreview(3)} style={{fontWeight: bold==3 ? 'bold' : 'normal', cursor:'pointer'}}>Dreifuß mit aufgelegter Ceran-Schutzplatte</li>
+              <li onMouseEnter={event=>changeImagePreview(4)} onClick={event=>changeImagePreview(4)} style={{fontWeight: bold==4 ? 'bold' : 'normal', cursor:'pointer'}}>Dreifuß mit aufgelegtem Tondreieck</li>
+              <li onMouseEnter={event=>changeImagePreview(5)} onClick={event=>changeImagePreview(5)} style={{fontWeight: bold==5 ? 'bold' : 'normal', cursor:'pointer'}}>Feuerzeug</li>
+              <li onMouseEnter={event=>changeImagePreview(6)} onClick={event=>changeImagePreview(6)} style={{fontWeight: bold==6 ? 'bold' : 'normal', cursor:'pointer'}}>Thermometer</li>
+              <li onMouseEnter={event=>changeImagePreview(7)} onClick={event=>changeImagePreview(7)} style={{fontWeight: bold==7 ? 'bold' : 'normal', cursor:'pointer'}}>Glasstab zum Rühren</li>
+              <li onMouseEnter={event=>changeImagePreview(8)} onClick={event=>changeImagePreview(8)} style={{fontWeight: bold==8 ? 'bold' : 'normal', cursor:'pointer'}}>Ausgewählte Bodenprobe</li>
+              <li onMouseEnter={event=>changeImagePreview(9)} onClick={event=>changeImagePreview(9)} style={{fontWeight: bold==9 ? 'bold' : 'normal', cursor:'pointer'}}>Tiegelzange</li>
+              <li onMouseEnter={event=>changeImagePreview(10)} onClick={event=>changeImagePreview(10)} style={{fontWeight: bold==10 ? 'bold' : 'normal', cursor:'pointer'}}>Löffel für Probe</li>
+              <li onMouseEnter={event=>changeImagePreview(11)} onClick={event=>changeImagePreview(11)} style={{fontWeight: bold==11 ? 'bold' : 'normal', cursor:'pointer'}}>Waage (erscheint im Laufe des Experiments)</li>
+              <li onMouseEnter={event=>changeImagePreview(12)} onClick={event=>changeImagePreview(12)} style={{fontWeight: bold==12 ? 'bold' : 'normal', cursor:'pointer'}}>Tiegel (erscheint im Laufe des Experiments)</li>
             </ul>
         </div>
     </Column>
