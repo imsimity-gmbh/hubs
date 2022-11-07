@@ -11,6 +11,8 @@ import  configs from "../../../utils/configs";
 import AvatarPreview from "../../avatar-preview";
 import Laborbrille from "../../../assets/images/icons/laborbrille_placeholder.png";
 import Laborkittel from "../../../assets/images/icons/laborkittel_placeholder.png";
+import { ReactComponent as GlassesIcon } from "../../icons/GecoLab/Glasses.svg"; 
+import { ReactComponent as LabCoatIcon } from "../../icons/GecoLab/LabCoat.svg"; 
 import { StudentEntryModalContainer } from "./StudentEntryModalContainer";
 
 
@@ -281,29 +283,12 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
                     <br/>
     
                     <div class="flexWrapper">
-                        <ClothingOptions
-                            parentID={"laborkittel"}
-                            elementID={0}
-                            imgSrc={Laborkittel}
-                            onClickWrapperCallback={onClickClothingWrapper} 
-                            onCheckOptionCallback={onCheckOption}
-                            clothingWrapperClassName={clothingWrapperLeftClassName_local}
-                            clothingOptionClassName={clothingOptionLeftClassName_local}
-                        />
-                        
+                        <LabCoatIcon id="student-icon"/>
                         <AvatarPreview 
                             className="preview"
                             avatarGltfUrl={avatarGltfUrl}
                         />
-                        <ClothingOptions
-                            parentID={"laborbrille"}
-                            elementID={1}
-                            imgSrc={Laborbrille}
-                            onClickWrapperCallback={onClickClothingWrapper} 
-                            onCheckOptionCallback={onCheckOption}
-                            clothingWrapperClassName={clothingWrapperRightClassName_local}
-                            clothingOptionClassName={clothingOptionRightClassName_local}
-                        />
+                        <GlassesIcon id="student-icon-glasses"/>
                     </div>
 
                     <Button className={toSecurityBtnClassName} onClick={() => jumpToSecurity(scene, showNonHistoriedDialog, securityRead, showSecurityBtn)}>
