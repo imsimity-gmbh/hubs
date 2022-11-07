@@ -64,7 +64,7 @@ AFRAME.registerComponent("mannequin", {
         setTimeout(() => {
 
             this.experimentData = getExperimentDataFromParent(this.el);
-
+            this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.experimentData.groupCode);
             console.log(this.experimentData);
 
             this.mannequinManager.register(this.el, this.experimentData);
@@ -80,7 +80,11 @@ AFRAME.registerComponent("mannequin", {
             this.displayMessageCoroutine(textId);
         else{
             this.textBox.object3D.visible = false;
-            this.playSound(SOUND_CHAT_MESSAGE);
+
+            if (this.isMember)
+            {
+                this.playSound(SOUND_CHAT_MESSAGE);
+            }
         }
     },
 
@@ -110,8 +114,10 @@ AFRAME.registerComponent("mannequin", {
         }
 
         //TODO: Animate the bubble 
-        this.playSound(SOUND_CHAT_MESSAGE);
-
+        if (this.isMember)
+        {
+            this.playSound(SOUND_CHAT_MESSAGE);
+        }
         // Show the text
         this.textBox.object3D.visible = true;
         this.textInput.setAttribute("text", { value: text });

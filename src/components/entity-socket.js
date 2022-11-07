@@ -442,8 +442,11 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     playSound(soundId)
     {
-      const sceneEl = this.el.sceneEl;
-      sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+      if (this.isMember)
+      {
+        const sceneEl = this.el.sceneEl;
+        sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(soundId);
+      }
     },
 
     enableSocket() {
