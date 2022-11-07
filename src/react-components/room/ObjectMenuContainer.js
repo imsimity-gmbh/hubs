@@ -38,15 +38,9 @@ function PlayerMenuItems({ hubChannel, activeObject, deselectObject }) {
   const hideAvatar = useHideAvatar(hubChannel, activeObject.el);
 
   return (
-    <ObjectMenuButton
-      onClick={() => {
-        deselectObject();
-        hideAvatar();
-      }}
-    >
-      <HideIcon />
+    <ObjectMenuButton>
       <span>
-        <FormattedMessage id="object-menu.hide-avatar-button" defaultMessage="Hide" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
     </ObjectMenuButton>
   );
