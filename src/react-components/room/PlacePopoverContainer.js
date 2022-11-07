@@ -83,6 +83,13 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => mediaSearchStore.sourceNavigate("experiments")
           },
           hubChannel.can("spawn_camera") && {
+            id: "debug",
+            icon: ObjectIcon,
+            color: "accent5",
+            label: <FormattedMessage id="place-popover.item-type.feedback" defaultMessage="Feedback" />,
+            onSelect: () => scene.emit("gecolab_feedback", "0000"),
+          },
+          hubChannel.can("spawn_camera") && {
             id: "camera",
             icon: CameraIcon,
             color: "accent5",

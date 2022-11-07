@@ -296,7 +296,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         
         if (this.isMember)
         {
-            //this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+            this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
         }
     },
 
