@@ -95,6 +95,7 @@ AFRAME.registerComponent("mannequin", {
         var moreInfoTextAvailable = MANNEQUIN_TEXTS_EXTRA[textId] != "";
         this.moreButton.object3D.visible = moreInfoTextAvailable;
         this.moreButtonText.setAttribute("text", { value: "Tipp"});
+        if(textId==16) this.moreButtonText.setAttribute("text", { value: "Weiter"});
 
         this.currentTextId = textId;
 
@@ -123,6 +124,7 @@ AFRAME.registerComponent("mannequin", {
         var text = (this.showingMore == true) ? MANNEQUIN_TEXTS_EXTRA[this.currentTextId] : MANNEQUIN_TEXTS[this.currentTextId];
 
         var buttonText = (this.showingMore == true) ? "Zurück" : "Tipp";
+        if(this.currentTextId==16 && this.showingMore == false) buttonText = "Weiter";
         
         this.moreButtonText.setAttribute("text", { value: buttonText});
 
