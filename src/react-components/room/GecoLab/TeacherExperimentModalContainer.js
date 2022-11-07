@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { TeacherExperimentModal } from "./TeacherExperimentModal";
 import configs from "../../../utils/configs";
-import { getUsersFromPresences, spawnOrDeleteExperiment, generateGroupCode } from "../../../utils/GecoLab/network-helper";
+import { spawnOrDeleteExperiment, generateGroupCode } from "../../../utils/GecoLab/network-helper";
 
 
 const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR();
@@ -10,40 +10,19 @@ const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileV
 
 
 export function TeacherExperimentModalContainer({ scene, location, onClose, presences, sessionId, hubChannel }) {
-
-  const getOwnUser = (users) => {
-    return users.find(u => { return u.value.isMe === true });
-  }
   
   const onSubmit = useCallback(
-    ({ groupCode, moderator })  =>  {
+    ({ moderator, members })  =>  {
 
-      var users = getUsersFromPresences(presences, sessionId);
-      var user = null;
+      members.push(moderator);
 
-      console.log(moderator);
+      var memberIds = members.map((member, index) => (member.id));
 
-      if (groupCode == null)
-        groupCode = "0000";
+      console.log(memberIds);
+
+      const groupCode = generateGroupCode();
 
       if (moderator == null)
-      {
-        console.log("Moderator Name is Null, defaulting to Teacher");
-
-        user = getOwnUser(users).value;
-      }
-      else
-      {
-        user = moderator;
-      }
-      
-      if (user.value != undefined && user.value != null)
-      {
-        user = user.value;
-      }
-
-
-      if (user == null)
       {
         console.log("Could not find Moderator...");
         
@@ -52,21 +31,13 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
         return;
       }
 
-      if (user.isMe)
-      {
-        spawnOrDeleteExperiment(location, groupCode, scene);
-      }
-      else
-      {
-        var data = { position: location, groupCode: groupCode, moderatorId: user.id };
+      var data = { position: location, groupCode: groupCode, moderatorId: moderator.id, members: memberIds };
 
-        // We are not the Moderator, we broadcast an event !
-        console.log("We broadcast a Spawn Request to " + user.label);
+      // We are not the Moderator, we broadcast an event !
+      console.log("We broadcasted a Spawn Request to " + moderator.label);
 
-        hubChannel.sendMessage(data, "gecolab-spawn");
-      }
-      
-      
+      hubChannel.sendMessage(data, "gecolab-spawn");
+
       onClose();
     },
     [scene, hubChannel, onClose]

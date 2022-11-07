@@ -80,6 +80,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
             this.experimentData = decodeNetworkId(networkId);
 
+            this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+
             this.expSystem.registerTask("05", this.el, this.experimentData);
 
             setTimeout(() => {
@@ -487,7 +489,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             this.glassStickSocketCrucible.components["entity-socket"].subscribe("onSnap", this.startStiring);
         }
         if(!this.wasGreater500){
-            this.el.sceneEl.emit("gecolab_temperature_info", this.experimentData.groupCode);
+            if (this.isMember)
+            {
+                this.el.sceneEl.emit("gecolab_temperature_info", this.experimentData.groupCode);
+            }
         }
     },
 
@@ -505,7 +510,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     startStiring() {
         this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
-        this.stiringBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.stiringBtn.object3D.visible = true;
+        }
         this.stopStiring = false;
         this.glassStickSocketCrucible.components["entity-socket"].unsubscribe("onSnap", this.startStiring);
     },
@@ -534,7 +542,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.ctrlBtnBlocked = true;
         this.measureTemp = false;
         this.ctrlBtn02.object3D.visible = false;
-        this.ctrlBtn01.object3D.visible = true;
+        
+        if (this.isMember)
+        {
+            this.ctrlBtn01.object3D.visible = true;
+        }
+        
         setTimeout(() => {
             this.thermoSocketGeneral.components["entity-socket"].enableSocket();
             this.thermoSocketGeneral.components["entity-socket"].subscribe("onSnap", this.thermoOnTable);
@@ -549,7 +562,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     startCoolingTask() {
-        this.ctrlBtn01.object3D.visible= true;
+        if (this.isMember)
+        {
+            this.ctrlBtn01.object3D.visible= true;
+        }
         this.ctrlBtnBlocked = false;
         this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(1000);
 
@@ -561,7 +577,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.ctrlBtnBlocked = true;
         this.flameEntity.object3D.visible = false;
         this.ctrlBtn01.object3D.visible = false;
-        this.ctrlBtn00.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.ctrlBtn00.object3D.visible = true;
+        }
         this.stopBurnerSoundCallbacks.forEach(cb => {
             cb();
         });

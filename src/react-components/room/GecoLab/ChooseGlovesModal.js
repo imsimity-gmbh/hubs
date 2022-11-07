@@ -45,14 +45,14 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, gro
             title={<FormattedMessage id="glove-modal.title" defaultMessage="Feuerschutz" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
-            <div class="safety-text">
+            <div className="safety-text">
                 Sicherheit ist wichtig! <br></br>
                 Wähle die richtigen Handschuhe aus. Du solltest sie tragen, damit du dich nicht verbrennst!
             </div>
-            <div class="gloves">
+            <div className="gloves">
                 <div>
                     <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1, groupCode)}></img>
-                    <div class="gloves-text">
+                    <div className="gloves-text">
                         <p>feuerfeste</p>
                         <p>Handschuhe</p>
                     </div>
@@ -60,7 +60,7 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, gro
                     
                 <div>
                     <img className={gloves2Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2, groupCode)}></img>
-                    <div class="gloves-text">
+                    <div className="gloves-text">
                         <p>Einweghandschuhe</p>
                         <p> </p>
                     </div>   

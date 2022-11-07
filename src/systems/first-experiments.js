@@ -15,7 +15,11 @@ AFRAME.registerSystem("first-experiments", {
     this.experiments06Els = [];
     this.experimentsStopwatchEls = [];
 
+    // 2D array of all experiment parts
+    this.experimentsAllParts = [this.experiments01Els, this.experiments02Els, this.experiments03Els, this.experiments04Els, this.experiments05Els, this.experiments06Els];
 
+    // "Rights" for Experiments
+    this.experimentsIsMember = [];
   },
 
   register(el, data) {
@@ -26,6 +30,9 @@ AFRAME.registerSystem("first-experiments", {
     console.log("deregistering first-experiment");
 
     this.experimentsBaseEls.splice(this.experimentsBaseEls.indexOf({groupCode: data.groupCode, position: data.position, value: el}), 1);
+  
+    // remove
+    this.experimentsIsMember.splice(this.experimentsIsMember.findIndex(item => item.groupCode === data.groupCode), 1);
   },
   
   registerTask(id, el, data) {
@@ -140,5 +147,46 @@ AFRAME.registerSystem("first-experiments", {
       return null;
 
     return foundObject.groupCode;
+  },
+
+  findElementForGroupCode(selector, groupCode)
+  {
+    var element = null;
+
+    for(var i = 0; i < this.experimentsAllParts.length; i++)
+    {
+      var experimentPart = this.findByGroupCode(this.experimentsAllParts[i], groupCode);
+
+      if (experimentPart != null)
+      {
+        // We found the part relative to our groupCode
+        element = experimentPart.querySelector(selector);
+        if (element != null)
+        {
+          console.log(selector + " found for groupCode " + groupCode);
+          break;
+        }
+      }
+    }
+
+    return element;
+  },
+
+  setIsMemberForGroupCode(groupCode, isMember)
+  {
+    console.log("This user is part of the spawned experiment (" + groupCode + ") ? " + isMember);
+    this.experimentsIsMember.push({groupCode: groupCode, isMember: isMember});
+  },
+
+  getIsMemberForGroupCode(groupCode)
+  {
+    var foundObject = this.experimentsIsMember.find(obj => { return obj.groupCode === groupCode });
+
+    if (foundObject == null)
+    {
+      return false;
+    }
+
+    return foundObject.isMember;
   }
 });

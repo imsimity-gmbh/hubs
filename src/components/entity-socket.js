@@ -8,7 +8,7 @@ import { waitForDOMContentLoaded } from "../utils/async-utils";
 
 import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
 
-import { getGroupCodeFromParent } from '../utils/GecoLab/network-helper';
+import { getGroupCodeFromParent, setInteractable } from '../utils/GecoLab/network-helper';
 
 import { Vector3 } from "three";
 
@@ -28,7 +28,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     init: function() {
       
       //Select necessary components:
-      this.sceneEl = document.querySelector("a-scene");
       this.root = this.el.querySelector(".root");
       this.hoverMeshes = this.el.querySelector(".hover-meshes");
 
@@ -67,13 +66,12 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       setTimeout(() => {
         waitForDOMContentLoaded().then(() => { 
-          const sceneEl = this.el.sceneEl;
-
-          var groupCode = getGroupCodeFromParent(this.el);
+          this.groupCode = getGroupCodeFromParent(this.el);
   
-          if (groupCode != null)
+          if (this.groupCode != null)
           {
-            this.experiment02 = sceneEl.systems["first-experiments"].getTaskById("02", groupCode);
+            this.experiment02 = this.el.sceneEl.systems["first-experiments"].getTaskById("02", this.groupCode);
+            this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.groupCode)
             // TODO: unsubscribe on delete
             this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
           }
@@ -92,13 +90,18 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
     {
       console.log('Delayed init');
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {
-        let component = this.sceneEl.querySelector(this.data.acceptedEntities[i]);
+
+        let component = this.el.sceneEl.systems["first-experiments"].findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode);
+        
         if(component == null) {
           console.log("entity -" + this.data.acceptedEntities[i] + "- not found, this entity will not be considered by the socket");
           continue;
         }
         this.acceptedEntities.push(component);
-
+        
+        // Deactivate interractions for non members
+        setInteractable(component, this.isMember);
+        
         //Create empty a-entity for hovermesh and copy mesh of original entity
         let hoverMeshEntity = document.createElement("a-entity");
 
@@ -111,7 +114,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         this.hoverMeshes.appendChild(hoverMeshEntity);
       }
 
-      let acceptedEntity = this.sceneEl.querySelector(this.data.acceptedEntities[0]);
+      let acceptedEntity = this.acceptedEntities[0];
       this.initialPos = new Vector3().copy(acceptedEntity.object3D.position);
 
       let temp = new Vector3();
@@ -193,9 +196,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           // Hack to parent without parenting
           this.attachedEntity = this.acceptedEntities[0];
 
-          this.attachedEntity.setAttribute("tags", {isHandCollisionTarget: false, isHoldable: false});
+          setInteractable(this.attachedEntity, false);
           
-          // Looks like this is shite
           this.placeAttachedEntityLocal();
 
           this.onSnapCallbacks.forEach(cb => {
@@ -266,10 +268,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       if(this.heldEntity != null) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.heldEntity)) {
           let worldHeldPos = new Vector3();
-          console.log(this.heldEntity.components["tags"].data.isHoldable);
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos); //Measure distance between root and heldEntity
-          console.log("Held Distance : " + this.distance);
+          // console.log("Held Distance : " + this.distance);
           if(this.distance < this.radius) {
             this.onHoverEnter(this.heldEntity);
           }
@@ -284,7 +285,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           let worldHeldPos = new Vector3();
           this.inRadiusEntity.object3D.getWorldPosition(worldHeldPos);
           this.distance = this.rootPos.distanceTo(worldHeldPos);
-          console.log("In Radius Distance : " + this.distance);
+          // console.log("In Radius Distance : " + this.distance);
           if(this.distance > this.radius)
             this.onHoverExit(this.inRadiusEntity);
         }
@@ -462,7 +463,8 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
       if (this.initialPos)
       {
-        let acceptedEntity = this.sceneEl.querySelector(this.data.acceptedEntities[0]);
+        // if the acceptedEntities array is initialized, we find it with the finder function
+        let acceptedEntity = (this.acceptedEntities.length > 0) ? this.acceptedEntities[0] : this.el.sceneEl.systems["first-experiments"].findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
         this.initialPos = new Vector3().copy(acceptedEntity.object3D.position);  
       }
       
@@ -472,7 +474,9 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
 
       for(let i = 0; i < this.acceptedEntities.length; i++) {
-        this.acceptedEntities[i].setAttribute("tags", {isHandCollisionTarget: true, isHoldable: true});
+        // only set "interactable" if this user is a memeber of this experiment
+        var enable = (this.isMember !== undefined) ? this.isMember : true;
+        setInteractable(this.acceptedEntities[i], enable);
       }
     },
 

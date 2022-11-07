@@ -2,55 +2,132 @@ import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Modal } from "../../modal/Modal";
 import { CloseButton } from "../../input/CloseButton";
-import { TextInputField } from "../../input/TextInputField";
 import { useForm } from "react-hook-form";
 import { Button } from "../../input/Button";
 import { Column } from "../../layout/Column";
-import { IconButton } from "../../input/IconButton";
-import { ReactComponent as AttachIcon } from "../../icons/Attach.svg";
 import styles from "./TeacherExperimentModal.scss";
 import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 import { SelectInputField } from "../../input/SelectInputField";
 import { getUsersFromPresences } from "../../../utils/GecoLab/network-helper";
 
+import { ReactComponent as ModeratorIcon } from "../../icons/StarOutline.svg";
+import { ReactComponent as RemoveIcon } from "../../icons/Close.svg";
+
+
 export function TeacherExperimentModal({ onSubmit, location ,onClose, presences, sessionId }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
     () => {
-      register("groupCode");
       register("moderator");
+      register("members");
 
-      if (users)
-      {
-        setValue("groupCode", "0000");
-        setValue("moderator", users[0]);
-      }
+      setValue("members", []);
     },
     [register, setValue]
   );
 
+
+  const onChangeModerator = useCallback(user => {
+      console.log(user);
+      setValue("moderator", user);
+
+      var tempMembers = watch("members");
+      const isMember =  tempMembers.some(({id}) => id === user.id)
+
+      if (isMember)
+      {
+        tempMembers.splice(tempMembers.indexOf(user), 1);
+      }
+      
+      setValue("members", tempMembers);
+    },
+    [setValue]
+  );
+
+  const onClickMember = useCallback((id) => {
+      console.log(id);  
+
+      if (users && id < users.length)
+      {
+        var tempMembers = watch("members");
+        const user = users[id].value;
+
+        console.log(user);
+        console.log(tempMembers);
+        
+        const isMember =  tempMembers.some(({id}) => id === user.id)
+
+        if (isMember)
+        {
+          console.log("removing " + users[id].label);
+          tempMembers.splice(tempMembers.indexOf(user), 1);
+        }
+        else
+        {
+          console.log("pushing " + users[id].label);
+          tempMembers.push(user);
+        }
+
+        setValue("members", tempMembers);
+      }
+    },
+    [setValue]
+  );
+
   
-  const onChange = useCallback(
-    e => {
-      setValue("groupCode", e.target.value);
-    },
-    [setValue]
-  );
-
-  const onChangeModerator = useCallback(
-    item => {
-      console.log(item);
-      setValue("moderator", item);
-    },
-    [setValue]
-  );
-
   var users = getUsersFromPresences(presences, sessionId);
-  
-  const groupCode = watch("groupCode");
+
   const moderator = watch("moderator");
+  const members = watch("members");
+
+  var groupMemberArray = [];
+  var othersArray = [];
+
+  var disableSubmit = !(moderator != null && moderator != undefined);
+
+  if (users && members && moderator)
+  {
+    for(let i = 0; i < users.length; i++)
+    {
+      var user = users[i];
+
+      const isModerator = (moderator.id === user.value.id);
+      const inMembers = members.some(({id}) => id === user.value.id)
+      const onClick = (isModerator) ? null : (() => { onClickMember(i) });
+
+      const element =
+        <Button sm preset="accent4" className={classNames(styles.userButton)} onClick={onClick}>
+        {isModerator &&(
+          <ModeratorIcon />
+        )}
+        <span>
+          {user.label}   
+          { inMembers &&( <span>&nbsp;</span>)}
+        </span>
+        { inMembers &&(
+           <RemoveIcon />
+        )}    
+      </Button>
+      
+
+      if (isModerator)
+      {
+        // Always put the moderator first in the array
+        groupMemberArray.unshift(element);
+      }
+      else
+      {
+        if (inMembers)
+          groupMemberArray.push(element);
+        else
+          othersArray.push(element);  
+      }
+    }
+    
+  }
+
  
   return (
     <Modal
@@ -64,30 +141,35 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
           {(
             <FormattedMessage
               id="teacher-experiment-modal.message"
-              defaultMessage="Geben Sie den Gruppencode der Gruppe ein, die Sie zuweisen möchten."
+              defaultMessage="Wählen Sie einen Gruppenleiter und Gruppenmitglieder. Andere können nicht mit diesem Experiment interagieren."
             />
           )}
         </p>
-        <TextInputField
-          name="url"
-          label={<FormattedMessage id="teacher-experiment-modal.url-field-label" defaultMessage="Gruppencode" />}
-          placeholder="0000"
-          value={ groupCode || "0000"}
-          onChange={onChange}
-          description={
-            <FormattedMessage
-              id="teacher-experiment-modal.url-field-description"
-              defaultMessage="Sie können den Code Ihrer Gruppe im Gecolab Dashboard finden."
-            />
-          }
-        />
         <SelectInputField 
-          label={<FormattedMessage id="teacher-experiment-modal.url-select-label" defaultMessage="Gruppenleiter" />}
-          value={moderator == undefined ? "" :  moderator.label} 
+          label={<FormattedMessage id="teacher-experiment-modal.group-moderator" defaultMessage="Gruppenleiter" />}
+          value={moderator}
           options={users} 
           onChange={onChangeModerator} 
         />
-        <Button type="submit" preset="accept">
+        <div className={classNames(styles.membersField)}>
+          <label className={styles.label}>
+            <FormattedMessage id="teacher-experiment-modal.group-members" defaultMessage="Gruppenmitglieder" />
+            <span> ({groupMemberArray.length})</span>
+          </label>
+          <div className={classNames(styles.usersArray)}>
+            { groupMemberArray }
+          </div>
+        </div>
+        <div className={classNames(styles.membersField)}>
+          <label className={styles.label}>
+            <FormattedMessage id="teacher-experiment-modal.others" defaultMessage="Andere" />
+            <span> ({othersArray.length})</span>
+          </label>
+          <div className={classNames(styles.usersArray)}>
+            { othersArray }
+          </div>
+        </div>
+        <Button type="submit" preset="accept" disabled={disableSubmit}>
           <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
         </Button>
       </Column>

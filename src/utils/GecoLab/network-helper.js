@@ -41,6 +41,11 @@ function createId(length) {
     return arr;
   }
   
+
+  export function setInteractable(entity, value = true)
+  {
+    entity.setAttribute("tags", {isHandCollisionTarget: value, isHoldable: value});
+  }
   
   export function generateGroupCode()
   {

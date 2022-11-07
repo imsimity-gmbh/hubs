@@ -60,6 +60,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             var networkId = getNetworkIdFromEl(this.el);
 
             this.experimentData = decodeNetworkId(networkId);
+
+            this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
     
             this.expSystem.registerTask("04", this.el, this.experimentData);
 
@@ -267,7 +269,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onPlacedCrucible() {
-        this.startBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.startBtn.object3D.visible = true;
+        }
+
         this.scaleEntity.components["waage-tool"].reset();
     },
 
@@ -289,9 +295,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
         this.firstExpPart05.components["first-experiment-05"].subscribe("stopBurnerSound", this.stopBurnerSound);
         this.startBtn.object3D.visible = false;
 
-        // now showing gloves here
-        this.el.sceneEl.emit("gecolab_choose_gloves", this.experimentData.groupCode);
-
+        if (this.isMember)
+        {
+            this.el.sceneEl.emit("gecolab_choose_gloves", this.experimentData.groupCode);
+        }
+        
         this.firelighterSocketTripod.components["entity-socket"].enableSocket();
         this.firelighterSocketTripod.components["entity-socket"].subscribe("onSnap", this.onLightBurner);
     },
@@ -299,7 +307,12 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     onLightBurner() {
         this.firelighterSocketGeneral.components["entity-socket"].enableSocket();
         this.firelighterSocketGeneral.components["entity-socket"].subscribe("onSnap", this.onReplaceLighter);
-        this.loopedBurnerSound = this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
+
+        if (this.isMember)
+        {
+            this.loopedBurnerSound = this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(SOUND_BURNER_SOUND);
+        }
+        
         this.spawnItem(flameModelPromise, new THREE.Vector3(0, 0.41, 0), this.flameEntity, true);
         this.flameEntity.components["simple-animation"].printAnimations();
         
@@ -307,7 +320,10 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onReplaceLighter() {
-        this.ctrlBtn00.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.ctrlBtn00.object3D.visible = true;
+        }
 
          // Mannequin
          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
@@ -377,7 +393,11 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
     },
 
     onPlaceGlassstick() {
-        this.stiringBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.stiringBtn.object3D.visible = true;
+        }
+
         this.glassStickPosition = this.glassstickEntity.object3D.position.clone();
         this.glassstickSocket.components["entity-socket"].unsubscribe("onSnap", this.onPlaceGlassstick);
     },

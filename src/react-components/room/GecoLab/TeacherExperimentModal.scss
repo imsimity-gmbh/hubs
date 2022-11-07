@@ -1,5 +1,37 @@
+@use "../../styles/theme";
+
+
 :local(.hidden) {
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+:local(.label) {
+  margin-bottom: 8px;
+  color: theme.$text3-color;
+  align-self: flex-start;
+}
+
+:local(.members-field) {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  white-space: break-spaces;
+}
+
+:local(.users-array) {
+  display: flex;
+  flex-direction: "row";
+  flex-wrap: wrap;
+  justify-content: 'space-evenly';
+}
+
+:local(.user-button) {
+  margin: 0.2em;
+}
+
+:local(.fullWidth) {
+  max-width: 100%;
 }
