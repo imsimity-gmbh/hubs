@@ -77,6 +77,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 this.crucibleEntity = this.firstExpPart02.querySelector(".crucible-entity");
                 this.tongEntity = this.firstExpPart02.querySelector(".tong-entity");
                 this.attachedTongEntity = this.crucibleEntity.querySelector(".attached-tong-entity");
+                this.tongSocketGeneral = this.firstExpPart01.querySelector(".tong-socket");
 
                 this.stopwatchEntity = this.expSystem.getTaskById('stopwatch', this.experimentData.groupCode);
                 this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
@@ -199,6 +200,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         this.mannequin.components["mannequin"].displayMessage(13);
+        
+        this.tongEntity.object3D.visible = true;
+        this.attachedTongEntity.object3D.visible = false;
+        
+        this.tongSocketGeneral.components["entity-socket"].attachedEntity = this.tongEntity;
+        this.tongSocketGeneral.components["entity-socket"].placeAttachedEntityLocal();
     },
 
     chooseFormula() {
