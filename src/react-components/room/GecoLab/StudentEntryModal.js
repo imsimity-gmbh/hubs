@@ -246,12 +246,16 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
                 /*beforeTitle={<CloseButton onClick={onClose} />}*/
             >
                 <div className="scrollableContent">
-                    In unserem virtuellen Lehr-Lern-Labor gibt es keine Gefahrenquellen für dich.<br/>
-                    Für das Arbeiten im Labor gibt es trotzdem ein paar Dinge, die du beachten solltest.<br/>
-                    Während des Aufenthalts im Labor musst du immer einen Kittel und eine Schutzbrille
-                    tragen, auch wenn du selbst nicht experimentierst!<br/>
-                    Denk daran sauber und sorgfältig zu arbeiten, weil es sonst zu Fehlern beim Experiment
-                    kommen kann!<br/>
+                    In unserem virtuellen Lehr-Lern-Labor gibt es keine Gefahrenquellen für dich.<br/><br/>
+                    Für das Arbeiten im Labor gibt es trotzdem ein paar Dinge, die du beachten solltest.<br/><br/>
+                    <ul className="indentText">
+                    <i>
+                        <li>Während des Aufenthalts im Labor musst du immer einen Kittel und eine Schutzbrille
+                        tragen, auch wenn du selbst nicht experimentierst!</li><br/><br/>
+                        <li>Denk daran sauber und sorgfältig zu arbeiten, weil es sonst zu Fehlern beim Experiment
+                        kommen kann!</li><br/>
+                    </i>
+                    </ul>
                 </div>
                 <Button className={acceptBtnClassName} onClick={() => backToStudentEntry(showNonHistoriedDialog, scene)}>
                     <FormattedMessage id="security-reading.close" defaultMessage="Bestätigen"/>
