@@ -188,7 +188,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
         if (this.data.triggerOnSnap == true)
         {
-          console.log('Snap');
+          console.log('network Snap');
 
           this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
           this.playSound(SOUND_SNAP_ENTITY);
@@ -201,7 +201,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
           this.placeAttachedEntityLocal();
 
           this.onSnapCallbacks.forEach(cb => {
-            cb();
+            cb(this.el);
           });
         }
       }
