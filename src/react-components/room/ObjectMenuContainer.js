@@ -91,17 +91,10 @@ function ObjectMenuItems({ hubChannel, scene, activeObject, deselectObject, onGo
           <FormattedMessage id="object-menu.view-object-button" defaultMessage="View" />
         </span>
       </ObjectMenuButton>
-      <ObjectMenuButton
-        disabled={!canRemoveObject}
-        onClick={() => {
-          removeObject();
-          deselectObject();
-        }}
-      >
-        <DeleteIcon />
-        <span>
-          <FormattedMessage id="object-menu.delete-object-button" defaultMessage="Delete" />
-        </span>
+      <ObjectMenuButton>
+      <span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
       </ObjectMenuButton>
     </>
   );
