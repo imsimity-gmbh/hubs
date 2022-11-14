@@ -15,11 +15,14 @@ import { Vector3 } from "three";
 const blueRGB = new Vector3(0.165, 0.38, 0.749);
 const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
+const SNAP = 0;
+const PICKUP = 1;
+const RELEASE = 2;
+const HELD = 3;
+
  AFRAME.registerComponent("entity-socket", {
     schema: {
-      triggerOnSnap: {default: false},
-      triggerOnPickedUp: {default: false},
-      triggerOnRelease: {default: false},
+      triggerValue: {default: -1},
       acceptedEntities: {default: []},
       radius: {default: 0},
       enabled: {default: true},
@@ -47,9 +50,7 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.objectReleased = true;
 
-      this.localTriggerOnSnap = false;
-      this.localTriggerOnPickedUp = false;
-      this.localTriggerOnRelease = false;
+      this.localTriggerValue = -1;
 
       //Observer-Arrays:
       this.onPickedUpCallbacks = [];
@@ -184,11 +185,15 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
     updateUI: function() {
 
-      if(this.localTriggerOnSnap != this.data.triggerOnSnap) {
+      if(this.localTriggerValue != this.data.triggerValue) {
 
-        if (this.data.triggerOnSnap == true)
+        if (this.data.triggerValue == SNAP)
         {
-          console.log('network Snap');
+          console.log('Snap');
+
+          this.objectReleased = true;
+          this.heldEntity = null;
+          this.inRadiusEntity = null;
 
           this.hoverMeshes.children[this.meshIndex].object3D.visible = false;
           this.playSound(SOUND_SNAP_ENTITY);
@@ -204,35 +209,46 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
             cb(this.el);
           });
         }
-      }
-
-      if(this.localTriggerOnPickedUp != this.data.triggerOnPickedUp) {
-
-        if (this.data.triggerOnPickedUp == true)
+        else if (this.data.triggerValue == PICKUP)
         {
           console.log('PickUp');
 
-          this.disableSocket();
+          if (this.attachedEntity != null)
+          {
+            this.disableSocket();
 
-          this.attachedEntity = null;
-          this.heldEntity = null;
-          this.objectReleased = true;
+            this.attachedEntity = null;
+            this.heldEntity = null;
+            this.objectReleased = true;
 
-          this.onPickedUpCallbacks.forEach(cb => {
-            cb();
-          });
+            this.onPickedUpCallbacks.forEach(cb => {
+              cb();
+            });
+          }
           
         }
-        
-      }
-
-      if(this.localTriggerOnRelease != this.data.triggerOnRelease) {
-
-        if (this.data.triggerOnRelease == true)
+        else if (this.data.triggerValue == RELEASE && this.socketEnabled)
         {
           console.log('Release');
 
-          this.acceptedEntities[0].object3D.position.set(this.initialPos.x, this.initialPos.y, this.initialPos.z);
+          var entity = this.acceptedEntities[0];
+          entity.object3D.position.set(this.initialPos.x, this.initialPos.y, this.initialPos.z);
+
+          this.heldEntity = null;
+          this.wasHeldEntity = entity;
+          this.objectReleased = true;
+
+          setInteractable(entity, this.isMember);
+
+          this.onReleasedCallbacks.forEach(cb => {
+            cb();
+          });
+        }
+        else if (this.data.triggerValue == HELD && this.socketEnabled)
+        {
+          console.log('Held');
+          
+          setInteractable(this.acceptedEntities[0], (this.heldEntity != null) ? this.isMember : false);
 
           this.onReleasedCallbacks.forEach(cb => {
             cb();
@@ -240,23 +256,21 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         }
       }
 
-      this.localTriggerOnSnap = this.data.localTriggerOnSnap;
-      this.localTriggerOnPickedUp = this.data.triggerOnPickedUp;
-      this.localTriggerOnRelease = this.data.triggerOnRelease;
-
-      console.log(this.localTriggerOnRelease);
+      console.log(this.data.triggerValue);
+      this.localTriggerValue = this.data.triggerValue;
     },
   
     tick: function() {
       
+
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
-          if(this.heldEntity == null)
+          if(this.heldEntity == null && this.attachedEntity == null)
           {
             console.log("Holding a new object")
-            this.onHeld();
+            this.onHeld(this.acceptedEntities[i]);
           }
-
+          
           if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
             this.onPickedUp(this.acceptedEntities[i]);
             this.meshIndex = i;
@@ -265,7 +279,11 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
         }
       }
 
-      if(this.heldEntity != null) {
+      if(!this.socketEnabled)
+        return;
+
+
+      if(this.heldEntity != null && this.inRadiusEntity == null) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.heldEntity)) {
           let worldHeldPos = new Vector3();
           this.heldEntity.object3D.getWorldPosition(worldHeldPos);
@@ -296,39 +314,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       
     },
 
-    onPickedUp(entity)
-    {
-      console.log('onPickedUp');
-      console.log(this);
-
-      if(entity == this.attachedEntity) {
-        // this.attachedEntity.object3D.removeFromParent();
-        this.attachedEntity = null;
-        this.heldEntity = null;
-        this.objectReleased = true;
-        console.log("about to hide socket");
-        
-
-        // Network
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-      
-          NAF.utils.takeOwnership(networkedEl);
-          
-          this.el.setAttribute("entity-socket", "triggerOnSnap", false); 
-          this.el.setAttribute("entity-socket", "triggerOnPickedUp", true); 
-        });
-
-        return;
-      }
-      
-      entity.setAttribute("floaty-object", {autoLockOnRelease: true});
-      this.heldEntity = entity;
-
-      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
-        NAF.utils.takeOwnership(networkedHeldEl);
-      });
-    },
-
     onHoverEnter(entity)
     {
       if(this.attachedEntity != null) 
@@ -339,7 +324,6 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       this.playSound(SOUND_HOVER_ENTER);
 
-      this.heldEntity = null;
       this.inRadiusEntity = entity;
 
       this.onHoverEnterCallbacks.forEach(cb => {
@@ -355,26 +339,63 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.applyMaterial(this.hoverMeshes.children[this.meshIndex], this.hoverMeshes.children[this.meshIndex], blueRGB);
 
       this.inRadiusEntity = null;
-      this.heldEntity = entity;
 
       this.onHoverExitCallbacks.forEach(cb => {
         cb(entity);
       });
     },
 
+
+    onPickedUp(entity)
+    {
+      console.log('onPickedUp');
+      console.log(this);
+
+      if(entity == this.attachedEntity) {
+        // this.attachedEntity.object3D.removeFromParent();
+        
+        /*
+
+        this.attachedEntity = null;
+        this.heldEntity = null;
+        this.objectReleased = true;
+        console.log("about to hide socket");
+        
+        */
+
+        // Network
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+          NAF.utils.takeOwnership(networkedEl);
+          
+          this.el.setAttribute("entity-socket", "triggerValue", PICKUP); 
+        });
+      
+      }
+      
+      entity.setAttribute("floaty-object", {autoLockOnRelease: true});
+      this.heldEntity = entity;
+
+      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
+        NAF.utils.takeOwnership(networkedHeldEl);
+      });
+    },
+
+   
     onReleased(entity)
     {
+      /*
       console.log("releasing");
-
       this.heldEntity = null;
       this.wasHeldEntity = entity;
       this.objectReleased = true;
-      
+      */
+
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
       
         NAF.utils.takeOwnership(networkedEl);
         
-        this.el.setAttribute("entity-socket", "triggerOnRelease", true); 
+        this.el.setAttribute("entity-socket", "triggerValue", RELEASE); 
       });
 
     },
@@ -385,31 +406,40 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
 
       if(this.attachedEntity != null)
         return;
-
+      
+      /*
       this.attachedEntity = entity;
       
       this.objectReleased = true;
 
+      this.heldEntity = null;
       this.inRadiusEntity = null;
-
+      */
+     
       // Network
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
   
-        this.el.setAttribute("entity-socket", "triggerOnSnap", true); 
-        this.el.setAttribute("entity-socket", "triggerOnPickedUp", false); 
-      });
+        this.el.setAttribute("entity-socket", "triggerValue", SNAP); 
+      });       
       
     },
 
-    onHeld()
+    onHeld(entity)
     {
+      this.heldEntity = entity;
+
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
 
-        this.el.setAttribute("entity-socket", "triggerOnRelease", false);
+        this.el.setAttribute("entity-socket", "triggerValue", HELD); 
+        
+      });
+
+      NAF.utils.getNetworkedEntity(entity).then(networkedHeldEl => {
+        NAF.utils.takeOwnership(networkedHeldEl);
       });
     },
 
@@ -453,15 +483,11 @@ const greenRGB = new Vector3(0.36, 0.91, 0.47);
       this.socketEnabled = true;
       this.objectReleased = true;
       
-      this.localTriggerOnSnap = false;
-      this.localTriggerOnRelease = false;
-      this.localTriggerOnPickedUp = false;
+      this.localTriggerValue = -1;
 
       // Reseting values
       setTimeout(() => {
-        this.data.triggerOnSnap = false; 
-        this.data.triggerOnPickedUp = false;
-        this.data.triggerOnRelease = false;        
+        this.data.triggerValue = -1;        
       }, IMSIMITY_INIT_DELAY);
       
       if (this.initialPos)

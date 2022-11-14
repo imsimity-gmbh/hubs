@@ -462,152 +462,52 @@ function registerNetworkSchemas() {
       {
         selector: ".bunsen-burner-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".bunsen-burner-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".bunsen-burner-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".tripod-1-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".tripod-1-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".tripod-1-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".tripod-2-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".tripod-2-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".tripod-2-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".firelighter-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".firelighter-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".firelighter-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".thermo-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".thermo-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".thermo-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".glass-stick-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".glass-stick-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".glass-stick-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".spoon-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".spoon-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".spoon-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".ground-sample-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".ground-sample-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".ground-sample-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".mortar-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".mortar-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".mortar-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".tong-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".tong-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".tong-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
     ]
   });
@@ -866,107 +766,37 @@ function registerNetworkSchemas() {
       {
         selector: ".mortar-socket-03",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".mortar-socket-03",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".mortar-socket-03",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".ground-sample-socket-03",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".ground-sample-socket-03",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".ground-sample-socket-03",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".grind-sample-entity",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".grind-sample-entity",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".grind-sample-entity",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".crucible-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".crucible-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".crucible-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".spoon-socket-03",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".spoon-socket-03",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".spoon-socket-03",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".spoon-socket-scale",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".spoon-socket-scale",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".spoon-socket-scale",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".scale-socket",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".scale-socket",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".scale-socket",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       }
     ]
   });
@@ -1003,48 +833,18 @@ function registerNetworkSchemas() {
       {
         selector: ".crucible-socket-04",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".crucible-socket-04",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".crucible-socket-04",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".firelighter-socket-04",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".firelighter-socket-04",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".firelighter-socket-04",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".glass-stick-socket-04",
         component: "entity-socket",
-        property: "triggerOnSnap"
+        property: "triggerValue"
       },
-      {
-        selector: ".glass-stick-socket-04",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".glass-stick-socket-04",
-        component: "entity-socket",
-        property: "triggerOnRelease"
-      }
     ]
   });
 
@@ -1092,47 +892,17 @@ function registerNetworkSchemas() {
       {
         selector: ".thermo-socket-05",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".thermo-socket-05",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".thermo-socket-05",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".crucible-socket-05",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".crucible-socket-05",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".crucible-socket-05",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
       {
         selector: ".tong-socket-crucible",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".tong-socket-crucible",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".tong-socket-crucible",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
     ]
   });
@@ -1161,17 +931,7 @@ function registerNetworkSchemas() {
       {
         selector: ".tong-socket-crucible-06",
         component: "entity-socket",
-        property: "triggerOnSnap"
-      },
-      {
-        selector: ".tong-socket-crucible-06",
-        component: "entity-socket",
-        property: "triggerOnPickedUp"
-      },
-      {
-        selector: ".tong-socket-crucible-06",
-        component: "entity-socket",
-        property: "triggerOnRelease"
+        property: "triggerValue"
       },
     ]
   });
