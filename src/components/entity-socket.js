@@ -213,18 +213,16 @@ const HELD = 3;
         {
           console.log('PickUp');
 
-          if (this.attachedEntity != null)
-          {
-            this.disableSocket();
+          this.disableSocket();
 
-            this.attachedEntity = null;
-            this.heldEntity = null;
-            this.objectReleased = true;
+          this.heldEntity = null;
+          this.attachedEntity = null;
+          this.objectReleased = true;
 
-            this.onPickedUpCallbacks.forEach(cb => {
-              cb();
-            });
-          }
+          this.onPickedUpCallbacks.forEach(cb => {
+            cb();
+          });
+        
           
         }
         else if (this.data.triggerValue == RELEASE && this.socketEnabled)
@@ -256,31 +254,35 @@ const HELD = 3;
         }
       }
 
+      console.log(this.el.className);
+      console.log(this.data.acceptedEntities[0]);
       console.log(this.data.triggerValue);
+      console.log(this.heldEntity === null);
+      
       this.localTriggerValue = this.data.triggerValue;
     },
   
     tick: function() {
       
 
+      if(!this.socketEnabled)
+        return;
+
       for(let i = 0; i < this.acceptedEntities.length; i++) {
         if(this.el.sceneEl.systems.interaction.isHeld(this.acceptedEntities[i])) {
-          if(this.heldEntity == null && this.attachedEntity == null)
-          {
-            console.log("Holding a new object")
-            this.onHeld(this.acceptedEntities[i]);
-          }
           
-          if(this.heldEntity == null && this.objectReleased && this.socketEnabled) {
+          if(this.heldEntity == null && this.objectReleased && this.attachedEntity != null) {
             this.onPickedUp(this.acceptedEntities[i]);
             this.meshIndex = i;
             this.objectReleased = false;
-          }
+          } 
+          else if(this.heldEntity == null && this.attachedEntity == null)
+          {
+            console.log("Holding a new object")
+            this.onHeld(this.acceptedEntities[i]);
+          }          
         }
       }
-
-      if(!this.socketEnabled)
-        return;
 
 
       if(this.heldEntity != null && this.inRadiusEntity == null) {
@@ -349,19 +351,16 @@ const HELD = 3;
     onPickedUp(entity)
     {
       console.log('onPickedUp');
-      console.log(this);
 
       if(entity == this.attachedEntity) {
         // this.attachedEntity.object3D.removeFromParent();
         
-        /*
-
+        
         this.attachedEntity = null;
         this.heldEntity = null;
         this.objectReleased = true;
         console.log("about to hide socket");
         
-        */
 
         // Network
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
@@ -370,26 +369,25 @@ const HELD = 3;
           
           this.el.setAttribute("entity-socket", "triggerValue", PICKUP); 
         });
-      
-      }
-      
-      entity.setAttribute("floaty-object", {autoLockOnRelease: true});
-      this.heldEntity = entity;
 
-      NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
-        NAF.utils.takeOwnership(networkedHeldEl);
-      });
+        entity.setAttribute("floaty-object", {autoLockOnRelease: true});
+        this.heldEntity = entity;
+  
+        NAF.utils.getNetworkedEntity(this.heldEntity).then(networkedHeldEl => {
+          NAF.utils.takeOwnership(networkedHeldEl);
+        });
+      }
     },
 
    
     onReleased(entity)
     {
-      /*
+      
       console.log("releasing");
       this.heldEntity = null;
       this.wasHeldEntity = entity;
       this.objectReleased = true;
-      */
+      
 
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
       
@@ -407,14 +405,14 @@ const HELD = 3;
       if(this.attachedEntity != null)
         return;
       
-      /*
+      
       this.attachedEntity = entity;
       
       this.objectReleased = true;
 
       this.heldEntity = null;
       this.inRadiusEntity = null;
-      */
+      
      
       // Network
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
@@ -484,11 +482,6 @@ const HELD = 3;
       this.objectReleased = true;
       
       this.localTriggerValue = -1;
-
-      // Reseting values
-      setTimeout(() => {
-        this.data.triggerValue = -1;        
-      }, IMSIMITY_INIT_DELAY);
       
       if (this.initialPos)
       {
