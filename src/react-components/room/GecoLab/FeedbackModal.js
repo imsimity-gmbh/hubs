@@ -18,6 +18,7 @@ let onCloseNow = false;
 let rating = 0;
 let feedbackText = "";
 let starClass = "idle starImage";
+const defaultText = "Hier können Sie zusätzlich Feedback geben";
 
 function onClickStar(scene, showNonHistoriedDialog, id, groupCode) {
     rating = id;
@@ -31,7 +32,16 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
 
     const handleSubmit = async ()  => {
 
-        var uri = `https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_FEEDBACK_URI}?rating=${rating}&message=${feedbackText}`;
+        console.log(feedbackText);
+
+        if (feedbackText == defaultText || !feedbackText?.trim())
+        {
+            feedbackText = "kein Text";
+        }
+
+        var uri = `https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_FEEDBACK_URI}?rating=${rating}&message=${encodeURIComponent(feedbackText)}`;
+
+        console.log(uri);
 
         const res = await fetch(uri);
 
@@ -82,9 +92,9 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
                     </div>
                     <TextAreaInputField 
                         style = {styles} 
-                        defaultValue = {"Hier können Sie zusätzlich Feedback geben"}
+                        defaultValue = {defaultText}
                         onChange={handleOnChange} />
-                    <Button id="close-modal" onClick={handleSubmit} preset="accept" >
+                    <Button id="close-modal" onClick={handleSubmit} preset="accept" disabled={rating === 0}>
                         Absenden
                     </Button>
                     <br/>
