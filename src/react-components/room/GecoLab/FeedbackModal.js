@@ -10,6 +10,9 @@ import { TextAreaInputField } from "../../input/TextAreaInputField";
 import starEmpty from "../../../assets/images/icons/Star_empty.png";
 import starFilled from "../../../assets/images/icons/Star_filled.png";
 
+import configs from "../../../utils/configs";
+import { HEROKU_POST_FEEDBACK_URI } from "../../../utils/imsimity";
+
 let onCloseNow = false;
 
 let rating = 0;
@@ -26,14 +29,17 @@ function onClickStar(scene, showNonHistoriedDialog, id, groupCode) {
 
 export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCode }) {
 
-    function handleSubmit() {
-        /* Hier Feedback-Speichern
-        *
-        *
-        */
+    const handleSubmit = async ()  => {
 
-        console.log(rating);
-            
+        var uri = `https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_FEEDBACK_URI}?rating=${rating}&message=${feedbackText}`;
+
+        const res = await fetch(uri);
+
+        const payload = await res.json();
+
+        console.log("Uploaded done");
+        console.log(payload);
+
         onCloseNow = false;
     
         rating = 0;
