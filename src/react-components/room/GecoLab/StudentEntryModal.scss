@@ -55,6 +55,7 @@
 
 .scrollableContent {
     height: 450px;
+    width: 100%;
     margin-bottom: 30px;
     padding: 30px;
     line-height: 130%;
@@ -67,6 +68,11 @@
 
 .scrollableContent::-webkit-scrollbar {
     display: none;
+}
+
+.indentText {
+    margin-left: 30px;
+    list-style-type: disc;
 }
 
 .acceptBtn {
@@ -101,4 +107,8 @@
 
 .clickable:hover {
     cursor: pointer;
+}
+
+#student-icon-glasses {
+    margin: 12px;
 }

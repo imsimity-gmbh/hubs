@@ -19,7 +19,7 @@ export var MANNEQUIN_TEXTS = [
   "Setze deine notierten Werte in die Formel ein.",
   "Schau dir die Steckbriefe zu deinem gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu finden!",
   "Das hast du wirklich super gemacht! Das Experiment Humusglühen ist jetzt beendet. Begib dich nun wieder in den Eingangsbereich. Schau dir die Steckbriefe zu deinem gewählten Ort an und versuche Erklärungen für deinen berechneten Humusgehalt zu finden!",
-  "Wenn man den Humusgehalt eines Bodens im Gelände bestimmen will, kann man ihn mit Hilfe einer Farbskala bewerten. Im Labor ist noch eine genauere Methode möglich.",
+  "Wenn man den Humusgehalt eines Bodens im Gelände bestimmen will, kann man ihn mit Hilfe einer Farbskala bewerten. Im Labor ist noch eine genauere Methode möglich. (...)",
   "Jetzt kannst du dich noch entscheiden, welchen Standort du näher untersuchen möchtest.",
   "Dies ist die falsche Antwort",
   "Hi! Schön, dass du den Weg in unser virtuelles Lehr-Lern-Labor gefunden hast. Ich bin die Laborleitung und werde dir durch meine Anleitung helfen das Experiment Humusglühen durchzuführen. An einigen Stellen wirst du den Button „Tipp“ sehen, der dir weitere Hilfestellungen geben wird.",

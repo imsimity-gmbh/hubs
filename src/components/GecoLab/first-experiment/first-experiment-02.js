@@ -186,7 +186,7 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             s.object3D.visible = false; //hide holograms until needed
         });
 
-        this.itemsPlaced = 0;
+        this.objectsPlacedSockets = [...this.sockets];
 
         this.spawnItem(tripodModelPromise, new THREE.Vector3(-1.3, 0.8, 0), this.tripod2Entity, false);
         this.spawnItem(tripodTriangleModelPromise, new THREE.Vector3(0, 0.5, 0), this.tripodTriangleEntity, false, new THREE.Vector3(0.85,0.85,0.85));
@@ -328,6 +328,14 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
             s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
         });
         
+        if (this.isMember)
+        {
+            this.movableEntities.forEach(e => {
+                let name = e.className;
+                e.className = "interactable " + name;
+            });
+        }
+        
         
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
@@ -351,28 +359,33 @@ const tongModelPromise = waitForDOMContentLoaded().then(() => loadModel(tongSrc)
         this.skipBtn.object3D.visible = false;
     },
 
-    onPlacedExperimentItem() {
-        this.itemsPlaced++;
-        if(this.itemsPlaced >= this.sockets.length) {
+    onPlacedExperimentItem(socket) {
 
-            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-            this.mannequin.components["mannequin"].displayMessage(1);
+        if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
+        {
+            this.objectsPlacedSockets.splice(this.objectsPlacedSockets.indexOf(socket), 1);
+            
+            if(this.objectsPlacedSockets.length == 0) {
 
-            //default for place 1 to 3 would be 1.2, they are not overwritten because they are not used another time
-            this.sockets[0].components["entity-socket"].radius = this.data.smallerRadius; 
-            this.sockets[4].components["entity-socket"].radius = this.data.lighterRadius;
-            this.sockets[5].components["entity-socket"].radius = this.data.defaultRadius;
-            this.sockets[6].components["entity-socket"].radius = this.data.defaultRadius;
-            this.sockets[7].components["entity-socket"].radius = this.data.defaultRadius;
-            this.sockets[8].components["entity-socket"].radius = this.data.smallerRadius;
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(1);
 
-            this.sockets.forEach(s => {
-                s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
-            });
-            this.onFinishPart02Callbacks.forEach(cb => {
-                cb();
-            });
-        }   
+                //default for place 1 to 3 would be 1.2, they are not overwritten because they are not used another time
+                this.sockets[0].components["entity-socket"].radius = this.data.smallerRadius; 
+                this.sockets[4].components["entity-socket"].radius = this.data.lighterRadius;
+                this.sockets[5].components["entity-socket"].radius = this.data.defaultRadius;
+                this.sockets[6].components["entity-socket"].radius = this.data.defaultRadius;
+                this.sockets[7].components["entity-socket"].radius = this.data.defaultRadius;
+                this.sockets[8].components["entity-socket"].radius = this.data.smallerRadius;
+
+                this.sockets.forEach(s => {
+                    s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
+                });
+                this.onFinishPart02Callbacks.forEach(cb => {
+                    cb();
+                });
+            }   
+        }
     },
 
     onPlacedMortar() {

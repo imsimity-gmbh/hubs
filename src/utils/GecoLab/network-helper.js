@@ -1,3 +1,4 @@
+import { setTag } from "../../components/tags";
 
 function createId(length) {
     var result           = '';
@@ -44,7 +45,8 @@ function createId(length) {
 
   export function setInteractable(entity, value = true)
   {
-    entity.setAttribute("tags", {isHandCollisionTarget: value, isHoldable: value});
+    setTag(entity,"isHandCollisionTarget", value);
+    setTag(entity,"isHoldable", value);
   }
   
   export function generateGroupCode()

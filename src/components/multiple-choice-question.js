@@ -28,9 +28,9 @@ import { getExperimentDataFromParent } from "../utils/GecoLab/network-helper";
       this.questionText = this.el.querySelector(".question-text");
 
       //Colors for buttons:
-      this.initialColor = "#761614";
-      this.selectColor = "#5e656d";
-      this.wrongColor = "#23AED9";
+      this.initialColor = "#D4ECFA";
+      this.selectColor = "#B5B5B5";
+      this.wrongColor = "#761614";
       this.rightColor = "#18FF03";
 
 

@@ -158,7 +158,7 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.updatePos = false;
             this.stiringBtn.object3D.visible = false;
             console.log("ADJUSTING SPEED");
-            this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(100);
+            this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(50);
             // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
             this.mannequin.components["mannequin"].displayMessage(-1);
