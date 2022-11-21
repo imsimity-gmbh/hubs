@@ -29,10 +29,11 @@ AFRAME.registerSystem("first-experiments", {
   deregister(el, data) {
     console.log("deregistering first-experiment");
 
-    this.experimentsBaseEls.splice(this.experimentsBaseEls.indexOf({groupCode: data.groupCode, position: data.position, value: el}), 1);
-  
+    this.experimentsBaseEls.splice(this.experimentsBaseEls.findIndex(item => item.groupCode === data.groupCode), 1);
+
     // remove
     this.experimentsIsMember.splice(this.experimentsIsMember.findIndex(item => item.groupCode === data.groupCode), 1);
+
   },
   
   registerTask(id, el, data) {

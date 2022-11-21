@@ -97,7 +97,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     remove() {
-      this.expSystem.deregister(this.el, this.experimentData.groupCode);
+      this.expSystem.deregister(this.el, this.experimentData);
     }
   });
   
