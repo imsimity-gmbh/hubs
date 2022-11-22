@@ -18,7 +18,6 @@ let onCloseNow = false;
 let rating = 0;
 let feedbackText = "";
 let starClass = "idle starImage";
-const defaultText = "Hier können Sie zusätzlich Feedback geben";
 
 function onClickStar(scene, showNonHistoriedDialog, id, groupCode) {
     rating = id;
@@ -34,7 +33,7 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
 
         console.log(feedbackText);
 
-        if (feedbackText == defaultText || !feedbackText?.trim())
+        if (!feedbackText?.trim())
         {
             feedbackText = "kein Text";
         }
@@ -65,13 +64,14 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
 
     return (
         <Modal  
-            title={<FormattedMessage id="temperatureInfo-modal.title" defaultMessage="Feedback" />}
+            title={<FormattedMessage id="gecolab.feedback.title" defaultMessage="Feedback" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <div class="modal-wrapper">
                 <Column as="form" center>
                     <div className="feedback-text">
-                        <br/>Wie gut war Ihre Erfahrung?
+                        <br/>
+                        <FormattedMessage id="gecolab.feedback.subtitle" defaultMessage="How good was your experience?" />
                     </div>
                     <div className="stars">
                         <div>
@@ -92,11 +92,11 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
                     </div>
                     <TextAreaInputField 
                         style = {styles} 
-                        defaultValue = {defaultText}
+                        defaultValue = {<FormattedMessage id="gecolab.feedback.default-text" defaultMessage="You can give additional feedback here" />}
                         onChange={handleOnChange} />
-                    <Button id="close-modal" onClick={handleSubmit} preset="accept" disabled={rating === 0}>
-                        Absenden
-                    </Button>
+                        <Button id="close-modal" onClick={handleSubmit} preset="accept" disabled={rating === 0}>
+                            <FormattedMessage id="gecolab.default.send" defaultMessage="Send" />
+                        </Button>
                     <br/>
                 </Column>
             </div>

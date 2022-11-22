@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Column } from "../../layout/Column";
+import { FormattedMessage } from "react-intl";
 import styles from "./InventoryListContent.scss";
 import { showHoverEffect } from "../../../utils/permissions-utils";
 import inv_bunsen_burner from "../../../assets/models/GecoLab/preview/inv_bunsen_burner.png";
@@ -25,18 +26,18 @@ export function InventoryListContent() {
       <img id="inventory-preview-picture" style={{width: "200px", marginLeft:auto, marginRight:auto}} src={inv_bunsen_burner}></img>
         <div id="inventory-content" style={{width: "100%"}}>
             <ul>
-              <li onMouseEnter={event=>changeImagePreview(1)} onClick={event=>changeImagePreview(1)} style={{fontWeight: bold==1 ? 'bold' : 'normal', cursor:'pointer'}}>Bunsenbrenner</li>
-              <li onMouseEnter={event=>changeImagePreview(2)} onClick={event=>changeImagePreview(2)} style={{fontWeight: bold==2 ? 'bold' : 'normal', cursor:'pointer'}}>Mörser und Stößel</li>
-              <li onMouseEnter={event=>changeImagePreview(3)} onClick={event=>changeImagePreview(3)} style={{fontWeight: bold==3 ? 'bold' : 'normal', cursor:'pointer'}}>Dreifuß mit aufgelegter Ceran-Schutzplatte</li>
-              <li onMouseEnter={event=>changeImagePreview(4)} onClick={event=>changeImagePreview(4)} style={{fontWeight: bold==4 ? 'bold' : 'normal', cursor:'pointer'}}>Dreifuß mit aufgelegtem Tondreieck</li>
-              <li onMouseEnter={event=>changeImagePreview(5)} onClick={event=>changeImagePreview(5)} style={{fontWeight: bold==5 ? 'bold' : 'normal', cursor:'pointer'}}>Feuerzeug</li>
-              <li onMouseEnter={event=>changeImagePreview(6)} onClick={event=>changeImagePreview(6)} style={{fontWeight: bold==6 ? 'bold' : 'normal', cursor:'pointer'}}>Thermometer</li>
-              <li onMouseEnter={event=>changeImagePreview(7)} onClick={event=>changeImagePreview(7)} style={{fontWeight: bold==7 ? 'bold' : 'normal', cursor:'pointer'}}>Glasstab zum Rühren</li>
-              <li onMouseEnter={event=>changeImagePreview(8)} onClick={event=>changeImagePreview(8)} style={{fontWeight: bold==8 ? 'bold' : 'normal', cursor:'pointer'}}>Ausgewählte Bodenprobe</li>
-              <li onMouseEnter={event=>changeImagePreview(9)} onClick={event=>changeImagePreview(9)} style={{fontWeight: bold==9 ? 'bold' : 'normal', cursor:'pointer'}}>Tiegelzange</li>
-              <li onMouseEnter={event=>changeImagePreview(10)} onClick={event=>changeImagePreview(10)} style={{fontWeight: bold==10 ? 'bold' : 'normal', cursor:'pointer'}}>Löffel für Probe</li>
-              <li onMouseEnter={event=>changeImagePreview(11)} onClick={event=>changeImagePreview(11)} style={{fontWeight: bold==11 ? 'bold' : 'normal', cursor:'pointer'}}>Waage (erscheint im Laufe des Experiments)</li>
-              <li onMouseEnter={event=>changeImagePreview(12)} onClick={event=>changeImagePreview(12)} style={{fontWeight: bold==12 ? 'bold' : 'normal', cursor:'pointer'}}>Tiegel (erscheint im Laufe des Experiments)</li>
+              <li onMouseEnter={event=>changeImagePreview(1)} onClick={event=>changeImagePreview(1)} style={{fontWeight: bold==1 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.bunsen-burner" defaultMessage="Bunsen burner" /></li>
+              <li onMouseEnter={event=>changeImagePreview(2)} onClick={event=>changeImagePreview(2)} style={{fontWeight: bold==2 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.mortar" defaultMessage="Mortar and Pestle" /></li>
+              <li onMouseEnter={event=>changeImagePreview(3)} onClick={event=>changeImagePreview(3)} style={{fontWeight: bold==3 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.tripod-1" defaultMessage="Tripod with applied Ceran protective plate" /></li>
+              <li onMouseEnter={event=>changeImagePreview(4)} onClick={event=>changeImagePreview(4)} style={{fontWeight: bold==4 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.tripod-2" defaultMessage="Tripod with applied clay triangle" /></li>
+              <li onMouseEnter={event=>changeImagePreview(5)} onClick={event=>changeImagePreview(5)} style={{fontWeight: bold==5 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.lighter" defaultMessage="Lighter" /></li>
+              <li onMouseEnter={event=>changeImagePreview(6)} onClick={event=>changeImagePreview(6)} style={{fontWeight: bold==6 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.thermometer" defaultMessage="Thermometer" /></li>
+              <li onMouseEnter={event=>changeImagePreview(7)} onClick={event=>changeImagePreview(7)} style={{fontWeight: bold==7 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.glass-rod" defaultMessage="Glass rod for stirring" /></li>
+              <li onMouseEnter={event=>changeImagePreview(8)} onClick={event=>changeImagePreview(8)} style={{fontWeight: bold==8 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.soil-sample" defaultMessage="Selected soil sample" /></li>
+              <li onMouseEnter={event=>changeImagePreview(9)} onClick={event=>changeImagePreview(9)} style={{fontWeight: bold==9 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.tongs" defaultMessage="Crucible tongs" /></li>
+              <li onMouseEnter={event=>changeImagePreview(10)} onClick={event=>changeImagePreview(10)} style={{fontWeight: bold==10 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.spoon" defaultMessage="Spoon for sample" /></li>
+              <li onMouseEnter={event=>changeImagePreview(11)} onClick={event=>changeImagePreview(11)} style={{fontWeight: bold==11 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.scales" defaultMessage="Scales (appears during the experiment)" /></li>
+              <li onMouseEnter={event=>changeImagePreview(12)} onClick={event=>changeImagePreview(12)} style={{fontWeight: bold==12 ? 'bold' : 'normal', cursor:'pointer'}}><FormattedMessage id="gecolab.inventory.crucible" defaultMessage="Crucible (appears during the experiment)" /></li>
             </ul>
         </div>
     </Column>

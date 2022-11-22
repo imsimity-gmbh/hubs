@@ -30,18 +30,19 @@ export function TemperatureInfoModal ({ scene, showNonHistoriedDialog, onClose, 
 
     return (
         <Modal  
-            title={<FormattedMessage id="temperatureInfo-modal.title" defaultMessage="Warum ist die Temperatur wichtig?" />}
+            title={<FormattedMessage id="gecolab.temperature-info.title" defaultMessage="Why is the temperature important?" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <div class="modal-wrapper">
                 <Column as="form" center>
                     <div class="tempInfo-text">
-                        <br/>Beim Erhitzen des Bodens auf 400-500 °C verglüht der Humus, die anderen Bodenbestandteile bleiben größtenteils erhalten. Wenn die Temperatur zu hoch ist, kann der Humusgehalt demnach nicht eindeutig bestimmt werden, weil auch andere Bodenbestandteile verglüht sein können.
+                        <br/>
+                        <FormattedMessage id="gecolab.temperature-info.message" defaultMessage="When the soil is heated to 400-500 °C, the humus burns up, while most of the other soil components remain. If the temperature is too high, the humus content cannot be determined unequivocally because other soil components can also be burned up." />
                     </div>
                     <Button
                     preset="accept"
                     onClick={() => onButtonPush(scene, showNonHistoriedDialog, groupCode)}>
-                        Schließen
+                        <FormattedMessage id="gecolab.default.finish" defaultMessage="Close" />
                     </Button>
                 </Column>
             </div>

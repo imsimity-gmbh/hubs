@@ -35,7 +35,7 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
 
     return (
         <Modal  
-            title={<FormattedMessage id="enter-values.title" defaultMessage="Werte einsetzen" />}
+            title={<FormattedMessage id="gecolab.enter-values.title" defaultMessage="Insert Values" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <Column as="form" center>
@@ -46,18 +46,20 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
                 <form class="enter-formula-form" onSubmit={handleSubmit}>
                     <div
                     >
-                        <label for="input-a">a = Tiegel (Leergewicht)<br/></label>
+                        <label for="input-a"><FormattedMessage id="gecolab.enter-values.a" defaultMessage="a = Crucible (empty weight)" /><br/></label>
                         <input id="input-a" name="a" type="number" min="0" step="0.01" required></input>
                     </div>
                     <div>
-                        <label for="input-b">b = Probengewicht vor dem Glühen<br/></label>
+                        <label for="input-b"><FormattedMessage id="gecolab.enter-values.b" defaultMessage="b = sample weight before annealing" /><br/></label>
                         <input id="input-b" name="b" type="number" min="0" step="0.01" required></input>
                     </div>
                     <div>
-                        <label for="input-c">c = Probengewicht nach dem Glühen<br/></label>
+                        <label for="input-c"><FormattedMessage id="gecolab.enter-values.c" defaultMessage="c = sample weight after annealing" /><br/></label>
                         <input id="input-c" name="c" type="number" min="0" step="0.01" required></input>
                     </div>
-                    <input id="submit-btn" type="submit" value="Berechnen"></input>
+                    <button id="submit-btn" type="submit">
+                        <FormattedMessage id="gecolab.default.calculate" defaultMessage="Calculate" />
+                    </button>
                 </form>
             </div>
             </Column>

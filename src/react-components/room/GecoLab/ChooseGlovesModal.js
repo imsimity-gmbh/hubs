@@ -42,27 +42,25 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, gro
 
     return (
         <Modal  
-            title={<FormattedMessage id="glove-modal.title" defaultMessage="Feuerschutz" />}
+            title={<FormattedMessage id="gecolab.glove-modal.title" defaultMessage="Fire protection" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <div className="safety-text">
-                Sicherheit ist wichtig! <br></br>
-                Wähle die richtigen Handschuhe aus. Du solltest sie tragen, damit du dich nicht verbrennst!
+                <FormattedMessage id="gecolab.glove-modal.subtitle-1" defaultMessage="Fire protection" /><br></br>
+                <FormattedMessage id="gecolab.glove-modal.subtitle-" defaultMessage="Choose the right gloves. You should wear them so you don't burn yourself!" /><br></br>
             </div>
             <div className="gloves">
                 <div>
                     <img className={gloves1Class} src={gloves1} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 1, groupCode)}></img>
                     <div className="gloves-text">
-                        <p>feuerfeste</p>
-                        <p>Handschuhe</p>
+                        <FormattedMessage id="gecolab.glove-modal.gloves-1" defaultMessage="Fireproof Gloves" />
                     </div>
                 </div>
                     
                 <div>
                     <img className={gloves2Class} src={gloves3} onClick={() => onClickGlove(scene, showNonHistoriedDialog, 2, groupCode)}></img>
                     <div className="gloves-text">
-                        <p>Einweghandschuhe</p>
-                        <p> </p>
+                        <FormattedMessage id="gecolab.glove-modal.gloves-2" defaultMessage="Disposable Gloves" />
                     </div>   
                 </div>
             </div>

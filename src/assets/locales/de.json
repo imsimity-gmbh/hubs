@@ -425,5 +425,60 @@
   "verify-modal.verification-complete": "Verifizierung abgeschlossen",
   "verify-modal.verifying-email": "E-Mail verifizieren",
   "video-message.body": "{name} hat ein <a>Video</a> aufgenommen.",
-  "voice-button-container.label": "Ton"
+  "voice-button-container.label": "Ton",
+
+
+
+  "gecolab.default.finish": "Schließen",
+  "gecolab.default.send": "Absenden",
+  "gecolab.default.calculate": "Berechnen",
+
+  "gecolab.show-result.title": "Ergebnis",
+  "gecolab.security-reading.title": "Sicherheitseinweisung",
+  "gecolab.security-reading.close": "Bestätigen",
+  "gecolab.teacher-experiment-modal.title_01": "Experiment 1 - Arbeitsbereich 1",
+  "gecolab.teacher-experiment-modal.title_02": "Experiment 1 - Arbeitsbereich 2",
+  "gecolab.teacher-experiment-modal.message": "Wählen Sie einen Gruppenleiter und Gruppenmitglieder. Andere können nicht mit diesem Experiment interagieren.",
+  "gecolab.teacher-experiment-modal.group-moderator": "Gruppenleiter",
+  "gecolab.teacher-experiment-modal.group-members": "Gruppenmitglieder",
+  "gecolab.teacher-experiment-modal.others" : "Andere",
+  "gecolab.teacher-experiment-modal.create-object-button": "Experiment platzieren",
+  "gecolab.teacher-url-modal.title": "Lehrer-Upload",
+  "gecolab.teacher-url-modal.message": "Laden Sie eine URL hoch oder fügen Sie sie in ein Bild, Video, Modell oder eine PDF-Datei ein",
+  "gecolab.object-url-modal.url-field-label" : "Objekt-URL oder Datei",
+  "gecolab.object-url-modal.url-field-description": "Akzeptiert glb-, png-, jpg-, gif-, pdf-, mp4- und mp3-Dateien",
+  "gecolab.object-url-modal.create-object-button": "Hochladen",
+  "gecolab.temperature-info.title": "Warum ist die Temperatur wichtig?",
+  "gecolab.temperature-info.message": "When the soil is heated to 400-500 °C, the humus burns up, while most of the other soil components remain. If the temperature is too high, the humus content cannot be determined unequivocally because other soil components can also be burned up.",
+  
+  "gecolab.inventory.bunsen-burner": "Bunsenbrenner",
+  "gecolab.inventory.mortar": "Mörser und Stößel",
+  "gecolab.inventory.tripod-1": "Dreifuß mit aufgelegter Ceran-Schutzplatte",
+  "gecolab.inventory.tripod-2": "Dreifuß mit aufgelegtem Tondreieck",
+  "gecolab.inventory.lighter": "Feuerzeug",
+  "gecolab.inventory.thermometer": "Thermometer",
+  "gecolab.inventory.glass-rod": "Glasstab zum Rühren",
+  "gecolab.inventory.soil-sample": "Ausgewählte Bodenprobe",
+  "gecolab.inventory.tongs": "Tiegelzange",
+  "gecolab.inventory.spoon": "Löffel für Probe",
+  "gecolab.inventory.scales": "Waage (erscheint im Laufe des Experiments)",
+  "gecolab.inventory.crucible": "Tiegel (erscheint im Laufe des Experiments)",
+
+  "gecolab.feedback.title": "Feedback",
+  "gecolab.feedback.subtitle": "Wie gut war Ihre Erfahrung?",
+  "gecolab.feedback.default-text": "Hier können Sie zusätzlich Feedback geben",
+
+  "gecolab.enter-values.title": "Werte einsetzen",
+  "gecolab.enter-values.a": "a = Tiegel (Leergewicht)",
+  "gecolab.enter-values.b": "b = Probengewicht vor dem Glühen",
+  "gecolab.enter-values.c": "c = Probengewicht nach dem Glühen",
+
+  "gecolab.media-browser.digital_library": "Digital Library",
+
+  "gecolab.glove-modal.title": "Feuerschutz",
+  "gecolab.glove-modal.subtitle-1": "Sicherheit ist wichtig! ",
+  "gecolab.glove-modal.subtitle-2": "Wähle die richtigen Handschuhe aus. Du solltest sie tragen, damit du dich nicht verbrennst!",
+  "gecolab.glove-modal.gloves-1": "feuerfeste Handschuhe",
+  "gecolab.glove-modal.gloves-2": "Einweghandschuhe"
+  
 }

@@ -132,28 +132,28 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   return (
     <Modal
       title={ (location==="position_01") ? 
-        <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> : 
-        <FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" /> }
+        <FormattedMessage id="gecolab.teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Workspace 1" /> : 
+        <FormattedMessage id="gecolab.teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Workspace 2" /> }
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
         <p>
           {(
             <FormattedMessage
-              id="teacher-experiment-modal.message"
-              defaultMessage="Wählen Sie einen Gruppenleiter und Gruppenmitglieder. Andere können nicht mit diesem Experiment interagieren."
+              id="gecolab.teacher-experiment-modal.message"
+              defaultMessage="Choose a group leader and group members. Others cannot interact with this experiment."
             />
           )}
         </p>
         <SelectInputField 
-          label={<FormattedMessage id="teacher-experiment-modal.group-moderator" defaultMessage="Gruppenleiter" />}
+          label={<FormattedMessage id="gecolab.teacher-experiment-modal.group-moderator" defaultMessage="Group leader" />}
           value={moderator}
           options={users} 
           onChange={onChangeModerator} 
         />
         <div className={classNames(styles.membersField)}>
           <label className={styles.label}>
-            <FormattedMessage id="teacher-experiment-modal.group-members" defaultMessage="Gruppenmitglieder" />
+            <FormattedMessage id="gecolab.teacher-experiment-modal.group-members" defaultMessage="Group members" />
             <span> ({groupMemberArray.length})</span>
           </label>
           <div className={classNames(styles.usersArray)}>
@@ -162,7 +162,7 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
         </div>
         <div className={classNames(styles.membersField)}>
           <label className={styles.label}>
-            <FormattedMessage id="teacher-experiment-modal.others" defaultMessage="Andere" />
+            <FormattedMessage id="gecolab.teacher-experiment-modal.others" defaultMessage="Others" />
             <span> ({othersArray.length})</span>
           </label>
           <div className={classNames(styles.usersArray)}>
@@ -170,7 +170,7 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
           </div>
         </div>
         <Button type="submit" preset="accept" disabled={disableSubmit}>
-          <FormattedMessage id="teacher-experiment-modal.create-object-button" defaultMessage="Experiment platzieren" />
+          <FormattedMessage id="gecolab.teacher-experiment-modal.create-object-button" defaultMessage="Place Experiment" />
         </Button>
       </Column>
     </Modal>

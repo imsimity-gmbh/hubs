@@ -15,7 +15,7 @@ export function ShowFormulaResultModal ({ scene, onClose, result, groupCode }) {
 
     return (
         <Modal  
-            title={<FormattedMessage id="show-result.title" defaultMessage="Ergebnis" />}
+            title={<FormattedMessage id="gecolab.show-result.title" defaultMessage="Result" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <div class="result-modal-wrapper">
@@ -24,7 +24,7 @@ export function ShowFormulaResultModal ({ scene, onClose, result, groupCode }) {
                     <h2>{result}%</h2>
                 </div>
                 <Button id="close-modal" onClick={handleSubmit} preset="accept">
-                    <FormattedMessage id="show-result.finish" defaultMessage="Schließen"/>
+                    <FormattedMessage id="gecolab.default.finish" defaultMessage="Close"/>
                 </Button>
             </div>
         </Modal>

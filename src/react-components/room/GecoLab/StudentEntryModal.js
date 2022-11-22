@@ -244,7 +244,7 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
     if(showSecurity) {
         return (
             <Modal  
-                title={<FormattedMessage id="security-reading.title" defaultMessage="Sicherheitseinweisung" />}
+                title={<FormattedMessage id="gecolab.security-reading.title" defaultMessage="Safety Briefeing" />}
                 /*beforeTitle={<CloseButton onClick={onClose} />}*/
             >
                 <div className="scrollableContent">
@@ -260,7 +260,7 @@ export function StudentEntryModal ({ scene, showNonHistoriedDialog, onClose, sec
                     </ul>
                 </div>
                 <Button className={acceptBtnClassName} onClick={() => backToStudentEntry(showNonHistoriedDialog, scene)}>
-                    <FormattedMessage id="security-reading.close" defaultMessage="Bestätigen"/>
+                    <FormattedMessage id="gecolab.security-reading.close" defaultMessage="Confirm"/>
                 </Button>
             </Modal>
         );

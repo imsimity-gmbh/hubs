@@ -54,21 +54,21 @@ export function TeacherUrlModal({ onSubmit, onClose }) {
 
   return (
     <Modal
-      title={<FormattedMessage id="teacher-url-modal.title" defaultMessage="Teacher Upload" />}
+      title={<FormattedMessage id="gecolab.teacher-url-modal.title" defaultMessage="Teacher Upload" />}
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>
         <p>
           {(
             <FormattedMessage
-              id="teacher-url-modal.message"
-              defaultMessage="Upload or paste a URL to an image, video, model, or scene."
+              id="gecolab.teacher-url-modal.message"
+              defaultMessage="Upload or paste a URL to an image, video, model, or PDF"
             />
           )}
         </p>
         <TextInputField
           name="url"
-          label={<FormattedMessage id="object-url-modal.url-field-label" defaultMessage="Object URL or File" />}
+          label={<FormattedMessage id="gecolab.object-url-modal.url-field-label" defaultMessage="Object URL or File" />}
           placeholder="https://example.com/avatar.glb"
           type={hasFile ? "text" : "url"}
           value={fileName || url || ""}
@@ -84,13 +84,13 @@ export function TeacherUrlModal({ onSubmit, onClose }) {
           }
           description={
             <FormattedMessage
-              id="object-url-modal.url-field-description"
+              id="gecolab.object-url-modal.url-field-description"
               defaultMessage="Accepts glb, png, jpg, gif, mp4, and mp3 files"
             />
           }
         />
         <Button type="submit" preset="accept">
-          <FormattedMessage id="object-url-modal.create-object-button" defaultMessage="Create Object" />
+          <FormattedMessage id="gecolab.object-url-modal.create-object-button" defaultMessage="Upload" />
         </Button>
       </Column>
     </Modal>

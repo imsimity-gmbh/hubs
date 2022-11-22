@@ -9,7 +9,7 @@ export function DigitalLibraryButton(props) {
         {...props}
         icon={<LibraryIcon />}
         preset="accent4"
-        label={<FormattedMessage id="media-browser.nav_title.digital_library" defaultMessage="Digi Library" />}
+        label={<FormattedMessage id="gecolab.media-browser.digital_library" defaultMessage="Digital Library" />}
       />
     );
   }
