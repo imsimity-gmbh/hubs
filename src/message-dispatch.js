@@ -106,6 +106,31 @@ export default class MessageDispatch extends EventTarget {
       const url = commandParts[0];
 
       this.dispatchTeleport(url);
+    } else if (message.startsWith("@prof ")) {
+
+      var question = {};
+
+      var gecolabManager = this.scene.systems["gecolab-manager"];
+
+      if (!gecolabManager.isInit())
+      {
+        console.log("Can not send prof question, Gecolab Manager is not initialized");
+        return;
+      }
+
+      question.text = message.substring(6);
+      question.sender = "unknown";
+
+      if (gecolabManager.isStudent())
+      {
+        question.sender = gecolabManager.getStudent().firstname + " " +  gecolabManager.getStudent().lastname;
+      }
+      else if (gecolabManager.isTeacher())
+      {
+        question.sender = gecolabManager.getTeacher().firstname + " " +  gecolabManager.getTeacher().lastname;
+      }
+
+      this.dispatchProfQuestion(question);
     }
     else {
       this.hubChannel.sendMessage(message);
@@ -303,6 +328,13 @@ export default class MessageDispatch extends EventTarget {
     console.log("Teleporting to " + url);
 
     this.hubChannel.sendMessage(url, "teleport");
+  }
+
+  dispatchProfQuestion = async (question) => {
+
+    console.log(question);
+
+    
   }
 
 
