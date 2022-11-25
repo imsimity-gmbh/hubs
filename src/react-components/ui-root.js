@@ -1658,7 +1658,7 @@ class UIRoot extends Component {
                         />
 
                         <InventoryListPopoverContainer />
-                        <NotebookPopoverContainer scene={this.props.scene} showNonHistoriedDialog={this.showNonHistoriedDialog} />
+                        <NotebookPopoverContainer />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         <PlacePopoverContainer
                           scene={this.props.scene}

@@ -15,7 +15,8 @@ const notebookPopoverTitle = defineMessage({
   defaultMessage: "Notebook"
 });
 
-export function NotebookPopoverButton({ items, onClose }) {
+
+export function NotebookPopoverButton() {
   const intl = useIntl();
   const title = intl.formatMessage(notebookPopoverTitle);
   const {} = useForm();
@@ -28,17 +29,19 @@ export function NotebookPopoverButton({ items, onClose }) {
       //console.log("Speicher " + event.target.value + " in " + jsonNotes);
       }
   }
-  
-  let styles = {
-    backgroundColor: 'black',
-    height: '200px',
-    width: '200px',
-  };
 
+  let styles = {
+    height: '250px',
+    width: '250px',
+  };
+  
   return (
     <Popover
-      title={title}
-      content={props =>
+    title={title}
+    placement="top"
+    offsetDistance={28}
+    disableFullscreen
+    content={props => (
           <Column as="form" center>
             <TextAreaInputField 
               style = {styles} 
@@ -46,30 +49,26 @@ export function NotebookPopoverButton({ items, onClose }) {
               onChange={handleOnChange} />
             <Button
               preset="accept"
-              onClick={onClose}>
+              onClick={() => props.closePopover()}>
                 Save
             </Button>
           </Column>
-        }
-      placement="top"
-      offsetDistance={28}
-      disableFullscreen
-    >
-      {({ togglePopover, popoverVisible, triggerRef }) => (
-        <ToolbarButton
-          ref={triggerRef}
-          icon={<NotebookIcon />}
-          selected={popoverVisible}
-          onClick={togglePopover}
-          label={title}
-          preset="accent2"
-        />
-      )}
-    </Popover>
+    )}
+  >
+    {({ togglePopover, popoverVisible, triggerRef }) => (
+      <ToolbarButton
+        ref={triggerRef}
+        icon={<NotebookIcon />}
+        selected={popoverVisible}
+        onClick={togglePopover}
+        label={title}
+        preset="accent2"
+      />
+    )}
+  </Popover>
+
   );
 }
 
 NotebookPopoverButton.propTypes = {
-  items: PropTypes.array.isRequired,
-  onClose: PropTypes.func
 };

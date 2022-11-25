@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { InventoryListPopover } from "./InventoryListPopover";
 
 
-export function InventoryListPopoverContainer({onClose}) {
+export function InventoryListPopoverContainer() {
 
-  return <InventoryListPopover onClose={onClose}/>;
+  return <InventoryListPopover/>;
 }
 
 InventoryListPopoverContainer.propTypes = {
-    onClose: PropTypes.func
 };
