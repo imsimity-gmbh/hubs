@@ -14,7 +14,7 @@ const inventoryPopoverTitle = defineMessage({
   defaultMessage: "Inventar"
 }); 
 
-export function InventoryListPopover({ onClose }) {
+export function InventoryListPopover() {
 
   const intl = useIntl();
   const title = intl.formatMessage(inventoryPopoverTitle);
@@ -43,5 +43,4 @@ export function InventoryListPopover({ onClose }) {
 }
 
 InventoryListPopover.propTypes = {
-  onClose: PropTypes.func
 };
