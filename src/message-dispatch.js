@@ -12,10 +12,12 @@ import configs from "./utils/configs";
 import { THREE } from "aframe";
 import robotSystem from "./systems/robot-tools";
 
+import { HEROKU_POST_TEACHER_MESSAGE_URI, HEROKU_GET_TEACHER_COUNT_URI } from "./utils/imsimity";
 
 const DIALOGFLOW_SERVER_URL = "https://cybercinity-bot.herokuapp.com/";
 const DIALOGFLOW_REQUEST_URL = DIALOGFLOW_SERVER_URL + "api/v1/bot";
 const DIALOGFLOW_REQUEST_AUDIO_URL = DIALOGFLOW_SERVER_URL + "api/v1/audio";
+
 
 var MIME_TYPE_AUDIO  =  "";
 const CHUNK_LENGTH = 1800;
@@ -120,6 +122,7 @@ export default class MessageDispatch extends EventTarget {
 
       question.text = message.substring(6);
       question.sender = "unknown";
+      question.origin = window.location.pathname;
 
       if (gecolabManager.isStudent())
       {
@@ -330,11 +333,17 @@ export default class MessageDispatch extends EventTarget {
     this.hubChannel.sendMessage(url, "teleport");
   }
 
-  dispatchProfQuestion = async (question) => {
+  dispatchProfQuestion = async (message) => {
 
-    console.log(question);
+    console.log(message);
 
+    var url = `https://${configs.CORS_PROXY_SERVER}/${HEROKU_POST_TEACHER_MESSAGE_URI}?sender=${encodeURI(message.sender)}&text=${encodeURI(message.text)}&origin=${encodeURI(message.origin)}`;
+  
+    const response = await (await fetch(url)).json();
     
+    console.log(response);
+
+    this.receive({name: "You to Teachers ("+ response.teacherCount +" connected)", type: "chat", body:message.text, sent: true ,sessionId :"prof_question" });
   }
 
 

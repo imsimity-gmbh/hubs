@@ -20,4 +20,8 @@ export var HEROKU_DELETE_UPLOAD_URI = "https://gecolab-dashboard.herokuapp.com/a
 
 export var HEROKU_POST_FEEDBACK_URI = "https://gecolab-dashboard.herokuapp.com/api/v1/post/feedback";
 
+export var HEROKU_POST_TEACHER_MESSAGE_URI = "https://gecolab-dashboard.herokuapp.com/io/v1/message";
+
+export var HEROKU_GET_TEACHER_COUNT_URI = "https://gecolab-dashboard.herokuapp.com/io/v1/teachers";
+
 export var IMSIMITY_INIT_DELAY = 500;
