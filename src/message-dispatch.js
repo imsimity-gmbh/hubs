@@ -343,7 +343,7 @@ export default class MessageDispatch extends EventTarget {
     
     console.log(response);
 
-    this.receive({name: "You to Teachers ("+ response.teacherCount +" connected)", type: "chat", body:message.text, sent: true ,sessionId :"prof_question" });
+    this.receive({name: "Sie zu den Lehrern ("+ response.teacherCount +" online)", type: "chat", body:message.text, sent: true ,sessionId :"prof_question" });
   }
 
 
