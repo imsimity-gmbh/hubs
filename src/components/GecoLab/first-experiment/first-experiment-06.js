@@ -147,11 +147,6 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             this.discussResult();
             this.localOnClickDiscussResult = this.data.onClickDiscussResult;
         }
-
-        if(this.localOnClickTidyUp != this.data.onClickTidyUp) {
-            this.tidyUp();
-            this.localOnClickTidyUp = this.data.onClickTidyUp;
-        }
     },
   
     tick: function() {
@@ -290,12 +285,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     onTidyUpClicked() {
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-    
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("first-experiment-06", "onClickTidyUp", true);      
-        });
+        this.tidyUp();
     },
 
     tidyUp() {
@@ -303,7 +293,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         
         if (this.isMember)
         {
-            this.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+            this.el.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
         }
     },
 
