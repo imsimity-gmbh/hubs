@@ -210,7 +210,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         case 3:
           return "Voralpines Hügel-\nund Moorland";
         case 4:
-          return "Odenwald,\nSpessart und Südröhn";
+          return "Nördliches,\nOberrhein-Tiefland";
       }
 
       return "Error";
@@ -311,7 +311,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           });
         }
         else if(this.localGroundSampleIndex == 4) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.09); // Odenwald, Spessart und Südröhn 
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.09); // Nördliches, Oberrhein-Tiefland
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });

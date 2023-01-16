@@ -29,7 +29,7 @@ export var MANNEQUIN_TEXTS = [
 export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "Stelle den Mörser und Stößel auf das Hologramm. Du kannst erst mit der Probe weitermachen, wenn die Probe ganz fein ist und sich keine groben Partikel mehr darin befinden! Diese würden das Ergebnis verfälschen.",
-  "Platziere die Waage auf der angezeigten Stelle auf deinem Tisch. Notiere das Gewicht vom Mörser in deinem Notizbuch.",
+  "Platziere die Waage auf der angezeigten Stelle auf deinem Tisch. Notiere das Gewicht vom Tiegel in deinem Notizbuch.",
   "Dafür musst du die Taste „TARA“ drücken.",
   "Notiere das Leergewicht vom Tiegel in deinem Notizbuch! Das ist wichtig, um am Ende den Humusgehalt berechnen zu können.",
   "",
