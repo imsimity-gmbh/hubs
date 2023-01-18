@@ -267,8 +267,6 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         this.btnWrapper.object3D.visible = true;  
       }
      
-      // Mannequin
-      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
       this.mannequin.components["mannequin"].displayMessage(17);
     },
 

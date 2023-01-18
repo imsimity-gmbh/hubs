@@ -161,7 +161,8 @@ const flameModelPromise = waitForDOMContentLoaded().then(() => loadModel(flameMo
             this.stopwatchEntity.components["stopwatch-tool"].adjustSpeed(50);
             // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-            this.mannequin.components["mannequin"].displayMessage(-1);
+
+            this.mannequin.components["mannequin"].displayMessage(20);
 
             this.localStirBtnDone = this.data.stirBtnDone;
         }

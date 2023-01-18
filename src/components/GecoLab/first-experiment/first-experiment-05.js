@@ -229,7 +229,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             if(this.data.stirBtnDone === 1 && this.localStirBtnDone === 0)
             { 
                 this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-                this.mannequin.components["mannequin"].displayMessage(-1);
+                this.mannequin.components["mannequin"].displayMessage(20);
                 
                 this.stopStir = true;
                 this.updatePos = false;
@@ -245,7 +245,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             else if (this.data.stirBtnDone === 2 && this.localStirBtnDone === 1)
             {
                 this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-                this.mannequin.components["mannequin"].displayMessage(-1);
+                this.mannequin.components["mannequin"].displayMessage(20);
 
                 this.stopStir = true;
                 this.updatePos = false;
