@@ -108,7 +108,7 @@ export default class MessageDispatch extends EventTarget {
       const url = commandParts[0];
 
       this.dispatchTeleport(url);
-    } else if (message.startsWith("@prof ")) {
+    } else if (message.startsWith("@hilfe ")) {
 
       var question = {};
 
@@ -120,7 +120,7 @@ export default class MessageDispatch extends EventTarget {
         return;
       }
 
-      question.text = message.substring(6);
+      question.text = message.substring(7);
       question.sender = "unknown";
       question.origin = window.location.pathname;
 

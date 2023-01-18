@@ -319,6 +319,13 @@ export function ChatSidebarContainer({ scene, canSpawnMessages, presences, occup
             )}
           </>
         }
+        beforeInput={
+          <>
+            {message.length > 0 && canSpawnMessages && (
+              <SendMessageButton onClick={onSendMessage} disabled={message.length === 0 || isOverMaxLength} />
+            )}
+          </>
+        }
         afterInput={
           <>
             {/* 
@@ -328,11 +335,11 @@ export function ChatSidebarContainer({ scene, canSpawnMessages, presences, occup
               {message.length > 0 && canSpawnMessages && (
                 <SendMessageButton onClick={onSendMessage} disabled={message.length === 0 || isOverMaxLength} />
               )}
+            
+              {message.length > 0 && canSpawnMessages && (
+                <SendMessageButton onClick={onSendMessage} disabled={message.length === 0 || isOverMaxLength} />
+              )}
             */}
-
-            {message.length > 0 && canSpawnMessages && (
-              <SendMessageButton onClick={onSendMessage} disabled={message.length === 0 || isOverMaxLength} />
-            )}
             {canSpawnMessages && (
               <SpawnMessageButton disabled={message.length === 0 || isOverMaxLength} onClick={onSpawnMessage} />
             )}
