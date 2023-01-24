@@ -20,8 +20,8 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
         let a = e.target.a.value;
         let b = e.target.b.value;
         let c = e.target.c.value;
-    
-        let result = ((b-c) / (b-a)) * 100;
+
+        let result = ((c-b) / (a-b)) * 100;
         
         let resultTxt = (result).toFixed(2);
         showNonHistoriedDialog(

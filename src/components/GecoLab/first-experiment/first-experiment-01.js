@@ -291,13 +291,13 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
         this.mannequin.components["mannequin"].displayMessage(-1);
 
         if(this.localGroundSampleIndex == 1) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(112.17); // Schwarzwald Nördlicher
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.15); // Schwarzwald
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
         }
         else if(this.localGroundSampleIndex == 2) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.79); //  Schwäbische Alb
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.4); //  Schwäbische Alb
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
@@ -309,7 +309,7 @@ const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel
           });
         }
         else if(this.localGroundSampleIndex == 4) {
-          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.09); // Nördliches, Oberrhein-Tiefland
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.225); // Nördliches, Oberrhein-Tiefland
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
