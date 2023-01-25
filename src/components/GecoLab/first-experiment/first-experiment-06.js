@@ -211,7 +211,6 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     onPopUpClosed() {
-        console.log("boop"); // works all right
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
             NAF.utils.takeOwnership(networkedEl);

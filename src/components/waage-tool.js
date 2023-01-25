@@ -11,6 +11,8 @@ AFRAME.registerComponent("waage-tool", {
   
     init: function() {
         this.lastUpdate = performance.now();
+
+        console.log("Waage Init");
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
@@ -56,12 +58,12 @@ AFRAME.registerComponent("waage-tool", {
 
                 this.displayText = this.el.querySelector(".display-text");
                 this.displayText.setAttribute("text", { value: this.displayWeight });
+                this.displayText.object3D.visible = false;
 
                 this.taraBtn = this.el.querySelector(".tara-btn");
                 this.taraBtn.object3D.addEventListener("interact", () => this.tara());
-
                 this.taraBtn.object3D.visible = false;
-                this.displayText.object3D.visible = false;
+                
 
                 this.glowLossBtn = this.el.querySelector(".glow-loss-btn");
                 this.glowLossBtn.object3D.addEventListener("interact", () => this.onClickGlowLossBtn());
@@ -125,10 +127,11 @@ AFRAME.registerComponent("waage-tool", {
     updateUI: function() {
 
         if(this.localTaraPressed != this.data.taraPressed && this.data.taraPressed == true) {
+            console.log("Tara Pressed");
             this.weight = 0;
             this.displayWeight = this.weight + " g";
             this.displayText.setAttribute("text", { value: this.displayWeight });
-            this.taraPressed = true;
+            this.localTaraPressed = true;
             
             this.taraBtn.object3D.visible = false;
     
@@ -167,6 +170,7 @@ AFRAME.registerComponent("waage-tool", {
     },
 
     onPickUpContainer() {
+        console.log("Waage Picked Up Container")
         this.weight = 0;
         this.displayWeight = this.weight + " g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
@@ -181,7 +185,7 @@ AFRAME.registerComponent("waage-tool", {
         this.displayWeight = this.weight + " g";
         this.displayText.setAttribute("text", { value: this.displayWeight });
 
-        if(this.taraPressed && this.weight > this.data.rightAmount || this.taraPressed == false && this.weight > (this.data.rightAmount + this.containerWeight))
+        if(this.localTaraPressed && this.weight > this.data.rightAmount || this.localTaraPressed == false && this.weight > (this.data.rightAmount + this.containerWeight))
             this.tooMuch = true;
 
         if(this.weight == this.data.rightAmount || this.weight == (this.data.rightAmount + this.containerWeight)) {
@@ -196,7 +200,7 @@ AFRAME.registerComponent("waage-tool", {
         if(this.ready == false || this.tooMuch == false)
             return;
 
-        if(this.taraPressed)
+        if(this.localTaraPressed)
             this.weight = this.data.rightAmount;
         else    
             this.weight = this.containerWeight + this.data.rightAmount;
