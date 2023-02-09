@@ -31,6 +31,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
         
         const isTeacher = !!scene.systems["gecolab-manager"].isTeacher();
         const isStudent = !!scene.systems["gecolab-manager"].isStudent();
+        const isInLobby = !!scene.systems["gecolab-manager"].isInLobby();
 
         console.log("is teacher ? " + isTeacher);
 
@@ -75,7 +76,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             onSelect: () => scene.emit("action_toggle_robot"),
             selected: hasActiveRobot
           },
-          isTeacher && hubChannel.can("spawn_camera") && {
+          isTeacher && !isInLobby && hubChannel.can("spawn_camera") && {
             id: "experiments",
             icon: ExperimentIcon,
             color: "accent5",
