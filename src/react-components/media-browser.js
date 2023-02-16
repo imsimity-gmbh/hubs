@@ -307,7 +307,9 @@ class MediaBrowserContainer extends Component {
 
     if (entry.type == "library_item")
     {
-      if (!!this.props.scene.systems["gecolab-manager"].isStudent())
+      var isTeacher = this.props.scene.systems["gecolab-manager"].isTeacher();
+
+      if (!isTeacher)
       {
         // if you are a student, just open in a new tab
         var url = entry.url;

@@ -860,9 +860,11 @@ class UIRoot extends Component {
     let gecolabManager = this.props.scene.systems["gecolab-manager"];
     
     const isStudentFromGecolab = (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent());
+    const isTeacherFromGecolab = (gecolabManager && gecolabManager.isInit() && gecolabManager.isTeacher());
 
     promptForNameAndAvatarBeforeEntry = (isStudentFromGecolab) ? false : promptForNameAndAvatarBeforeEntry;
 
+    console.log('Teacher from Gecolab ? ' + isTeacherFromGecolab);
     console.log('Student from Gecolab ? ' + isStudentFromGecolab);
 
     // TODO: What does onEnteringCanceled do?

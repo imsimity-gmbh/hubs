@@ -57,6 +57,7 @@ function ObjectMenuItems({ hubChannel, scene, activeObject, deselectObject, onGo
   const { canRemoveObject, removeObject } = useRemoveObject(hubChannel, scene, activeObject);
   const { canGoTo, goToSelectedObject } = useGoToSelectedObject(scene, activeObject);
   const url = getObjectUrl(activeObject);
+  const isTeacher = scene.systems["gecolab-manager"].isTeacher();
 
   return (
     <>
@@ -91,14 +92,22 @@ function ObjectMenuItems({ hubChannel, scene, activeObject, deselectObject, onGo
           <FormattedMessage id="object-menu.view-object-button" defaultMessage="View" />
         </span>
       </ObjectMenuButton>
-      <ObjectMenuButton>
-      <span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </span>
+      <ObjectMenuButton
+        disabled={!(canRemoveObject && isTeacher)}
+        onClick={() => {
+          removeObject();
+          deselectObject();
+        }}
+      >
+        <DeleteIcon />
+        <span>
+          <FormattedMessage id="object-menu.delete-object-button" defaultMessage="Delete" />
+        </span>
       </ObjectMenuButton>
     </>
   );
 }
+
 
 ObjectMenuItems.propTypes = {
   hubChannel: PropTypes.object.isRequired,
