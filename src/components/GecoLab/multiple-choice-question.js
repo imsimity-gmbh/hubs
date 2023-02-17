@@ -3,9 +3,9 @@
  * @component multiple-choice-question
  */
 
-import { waitForDOMContentLoaded } from "../utils/async-utils";
-import { IMSIMITY_INIT_DELAY } from "../utils/imsimity";
-import { getExperimentDataFromParent } from "../utils/GecoLab/network-helper";
+import { waitForDOMContentLoaded } from "../../utils/async-utils";
+import { IMSIMITY_INIT_DELAY } from "../../utils/imsimity";
+import { getExperimentDataFromParent } from "../../utils/GecoLab/network-helper";
 
  AFRAME.registerComponent("multiple-choice-question", {
     schema: {

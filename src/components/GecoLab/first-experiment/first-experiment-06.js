@@ -82,11 +82,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 this.stopwatchEntity = this.expSystem.getTaskById('stopwatch', this.experimentData.groupCode);
                 this.scaleEntity = this.firstExpPart02.querySelector(".scale-entity");
 
-                this.discussResultBtn = document.querySelector(".discuss-result-btn");
+                
+                this.discussResultBtn = this.el.querySelector(".discuss-result-btn");
                 this.discussResultBtn.object3D.addEventListener("interact", this.onDiscussResultClicked);
                 this.discussResultBtn.object3D.visible = false;
 
-                this.multipleChoice06 = document.querySelector(".multiple-choice-wrapper-06");
+                this.multipleChoice06 = this.el.querySelector(".multiple-choice-wrapper-06");
                 this.multipleChoice06.object3D.visible = false;
                 this.answerOption2Txt = this.el.querySelector(".answer-option-2-txt");
 

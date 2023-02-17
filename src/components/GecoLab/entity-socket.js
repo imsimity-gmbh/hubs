@@ -2,13 +2,13 @@
  * Entity Socket for snapping objects into places
  * @component entity-socket
  */
-import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../systems/sound-effects-system";
+import { SOUND_HOVER_ENTER, SOUND_SNAP_ENTITY } from "../../systems/sound-effects-system";
 
-import { waitForDOMContentLoaded } from "../utils/async-utils";
+import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
-import { IMSIMITY_INIT_DELAY } from '../utils/imsimity';
+import { IMSIMITY_INIT_DELAY } from '../../utils/imsimity';
 
-import { getGroupCodeFromParent, setInteractable } from '../utils/GecoLab/network-helper';
+import { getGroupCodeFromParent, setInteractable } from '../../utils/GecoLab/network-helper';
 
 import { Vector3 } from "three";
 

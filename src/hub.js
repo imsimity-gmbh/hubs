@@ -150,11 +150,11 @@ import "./components/optional-alternative-to-not-hide";
 import "./components/avatar-audio-source";
 import "./components/avatar-inspect-collider";
 import "./components/video-texture-target";
-import "./components/entity-socket";
-import "./components/multiple-choice-question";
-import "./components/collectible";
-import "./components/waage-tool";
 
+import "./components/GecoLab/entity-socket";
+import "./components/GecoLab/collectible";
+import "./components/GecoLab/waage-tool";
+import "./components/GecoLab/multiple-choice-question";
 import "./components/GecoLab/first-experiment/first-experiment";
 import "./components/GecoLab/first-experiment/first-experiment-01";
 import "./components/GecoLab/first-experiment/first-experiment-02";
