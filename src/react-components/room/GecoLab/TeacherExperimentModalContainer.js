@@ -31,7 +31,7 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
         return;
       }
 
-      var data = { position: location, groupCode: groupCode, moderatorId: moderator.id, members: memberIds };
+      var data = { position: location, groupCode: groupCode, moderatorId: moderator.id, members: memberIds, experiment: experiment };
 
       // We are not the Moderator, we broadcast an event !
       console.log("We broadcasted a Spawn Request to " + moderator.label);

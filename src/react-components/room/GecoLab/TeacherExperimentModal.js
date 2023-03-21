@@ -15,7 +15,7 @@ import { ReactComponent as ModeratorIcon } from "../../icons/StarOutline.svg";
 import { ReactComponent as RemoveIcon } from "../../icons/Close.svg";
 
 
-export function TeacherExperimentModal({ onSubmit, location ,onClose, presences, sessionId }) {
+export function TeacherExperimentModal({ onSubmit, location ,onClose, presences, sessionId, experiment }) {
   const { handleSubmit, register, watch, setValue } = useForm();
 
   useEffect(
@@ -132,8 +132,12 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
   return (
     <Modal
       title={ (location==="position_01") ? 
-        <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> : 
-        <FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" /> }
+                (experiment==="first-experiment") ?
+          <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> : 
+          <FormattedMessage id="teacher-experiment-modal.title_03" defaultMessage="Experiment 2 - Arbeitsbereich 1" /> :
+                (experiment==="first-experiment") ?
+          <FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" /> :
+          <FormattedMessage id="teacher-experiment-modal.title_04" defaultMessage="Experiment 2 - Arbeitsbereich 2" />}
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>

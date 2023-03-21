@@ -524,6 +524,7 @@ class MediaBrowserContainer extends Component {
     const { hubChannel } = this.props;
 
     console.log(sessionId);
+    console.log("boop");
     
     this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId, hubChannel: hubChannel, experiment: experiment });
 
@@ -659,7 +660,7 @@ class MediaBrowserContainer extends Component {
       createFirstExperimentPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "first-experiment") : null;
       createFirstExperimentPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "first-experiment") : null;
     }
-    else if (secondExperimentSystem)
+    if (secondExperimentSystem)
     {
       var groupCode01 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_01");
       var groupCode02 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_02");

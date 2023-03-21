@@ -94,8 +94,10 @@ export default class SceneEntryManager {
     this._startFirstExperimentPos01();
     this._setupFirstExperimentPos02();
     this._startFirstExperimentPos02();
-    this._setupFirstExperimentPos03();
-    this._startFirstExperimentPos03();
+    this._setupSecondExperimentPos01();
+    this._startSecondExperimentPos01();
+    this._setupSecondExperimentPos02();
+    this._startSecondExperimentPos02();
 
     if (qsTruthy("offline")) return;
 
@@ -654,47 +656,81 @@ export default class SceneEntryManager {
     });
   };
 
-  _setupFirstExperimentPos03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03", (groupCode) => {
+  _setupSecondExperimentPos01 = () => {
+    this.scene.addEventListener("action_toggle_second_experiment_01", (event) => {
 
       console.log("Placing");
 
+      var groupCode = event.detail;
+
       if (!this.hubChannel.can("spawn_camera")) return;
       
-      const myExperiment = this.scene.systems["first-experiments"].getExperimentByGroupCode(groupCode);
+      const myExperiment = this.scene.systems["second-experiments"].getExperimentByGroupCode(groupCode);
 
       if (myExperiment) {
         myExperiment.parentNode.removeChild(myExperiment);
       } else {
         const entity = document.createElement("a-entity");
 
-        const anchor = this.scene.querySelector(".table_main_03");
+        const anchor = this.scene.querySelector(".table_main_01");
         const anchorPos = anchor.getAttribute("position");
         const anchorRot = anchor.getAttribute("rotation");
 
-        var networkId = encodeNetworkId("base", groupCode, "position_03");
+        var networkId = encodeNetworkId("base", groupCode, "position_01");
 
-        entity.setAttribute("networked", { template: "#interactable-first-experiment-camera", networkId:networkId });
+        entity.setAttribute("networked", { template: "#interactable-second-experiment-camera", networkId: networkId });
         entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
         entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+
         this.scene.appendChild(entity);
- 
       }
     });
   };
 
-  _startFirstExperimentPos03 = () => {
-    this.scene.addEventListener("action_toggle_first_experiment_03_start", (event) => {
-      
+  _startSecondExperimentPos01 = () => {
+    this.scene.addEventListener("action_toggle_second_experiment_01_start", (event) => {
+
       var groupCode = event.detail;
 
-      this._spawnStopwatch(".table_main_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart03(".table_main_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart01(".table_main_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart02(".table_side_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart04(".table_main_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart05(".table_main_03", groupCode, "position_03");
-      this._spawnFirstExperimentPart06(".table_main_03", groupCode, "position_03");
+    });
+  };
+
+  _setupSecondExperimentPos02 = () => {
+    this.scene.addEventListener("action_toggle_second_experiment_02", (event) => {
+
+      console.log("Placing");
+
+      var groupCode = event.detail;
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["second-experiments"].getExperimentByGroupCode(groupCode);
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_02");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
+        var networkId = encodeNetworkId("base", groupCode, "position_02");
+
+        entity.setAttribute("networked", { template: "#interactable-second-experiment-camera", networkId: networkId });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+
+        this.scene.appendChild(entity);
+      }
+    });
+  };
+
+  _startSecondExperimentPos02 = () => {
+    this.scene.addEventListener("action_toggle_second_experiment_02_start", (event) => {
+
+      var groupCode = event.detail;
+
     });
   };
 

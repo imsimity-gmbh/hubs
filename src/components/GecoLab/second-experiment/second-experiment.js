@@ -33,6 +33,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
+        console.log("Second Experiment");
         console.log(this.experimentData);
 
         this.expSystem.register(this.el, this.experimentData);

@@ -1406,6 +1406,47 @@
                 </a-entity>
             </template>
 
+            <template id="interactable-second-experiment-camera">
+                <a-entity class="interactable" second-experiment id="second-second-wrapper"> <!--static-->
+                    <a-entity class="ui interactable-ui start-btn-wrapper" position="0.3 -0.1 0.2"> <!--static-->
+                        <a-entity class="second-experiment-start-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0" scale="2.0 2.0 2.0">
+                            <a-entity text=" value: Start; width: 2.8; align:center;"  text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
+                    </a-entity>
+                    <a-entity 
+                        class="mannequin" 
+                        position="0 0.7 0" 
+                        mannequin
+                        >
+                        <a-entity
+                            class="mannequin-model"
+                            position="-1.7 0 -0.2" 
+                            scale="1.0 1.0 1.0"
+                            rotation="0 30 0"
+                            animation-mixer
+                            simple-animation
+                        >
+                        </a-entity>
+                        <a-entity
+                            class="mannequin-textbox" 
+                            mixin="rounded-mannequin-action-button" 
+                            is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-1 1.3 0.15" 
+                            scale="4.5 4.5 4.5">
+                            <a-entity class="mannequin-text"  text=" value: This is a piece of text\n said by the robot !; width: 0.4; align:left;"  text-raycast-hack position="0 0.0075 0.001" scale="1 1 1"></a-entity>
+                            <a-entity
+                                class="mannequin-moreinfo" 
+                                mixin="rounded-mannequin-help-action-button" 
+                                is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-0.18 -0.08 0.01" 
+                                scale="0.25 0.25 0.25">
+                                    <a-entity class="mannequin-moreinfo-text"  text=" value: Mehr; width: 1.25; align:center;"  text-raycast-hack position="0 0 0.001" scale="1 1 1"></a-entity>
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
+
 
             <template id="interactable-camera">
                 <a-entity
