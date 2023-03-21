@@ -1,4 +1,4 @@
-import { waitForDOMContentLoaded } from "../utils/async-utils";
+import { waitForDOMContentLoaded } from "../../utils/async-utils";
 
 
 // Used for tracking and managing camera tools in the scene

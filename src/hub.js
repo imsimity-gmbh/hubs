@@ -211,9 +211,10 @@ import "./systems/linked-media";
 import "./systems/audio-debug-system";
 import "./systems/audio-gain-system";
 
-import "./systems/first-experiments";
-import "./systems/gecolab-manager";
-import "./systems/mannequin-manager";
+import "./systems/GecoLab/first-experiments";
+import "./systems/GecoLab/gecolab-manager";
+import "./systems/GecoLab/mannequin-manager";
+import "./systems/GecoLab/second-experiments";
 
 import "./gltf-component-mappings";
 

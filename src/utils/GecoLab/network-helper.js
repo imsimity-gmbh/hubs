@@ -97,16 +97,24 @@ function createId(length) {
     return data.groupCode;
   }
   
-  export function spawnOrDeleteExperiment(position, groupCode, scene)
+  export function spawnOrDeleteExperiment(position, groupCode, scene, experiment)
   {
     console.log("Spawning or Deleting Experiment for positon " + position);
-    if (position === "position_01") {
+    if (position === "position_01" && experiment == "first-experiment") {
       scene.emit("action_toggle_first_experiment_01", groupCode);
       scene.emit("action_toggle_first_experiment_01_start", groupCode);
     }
-    else if (position === "position_02") {
+    else if (position === "position_02" && experiment == "first-experiment") {
       scene.emit("action_toggle_first_experiment_02", groupCode);
       scene.emit("action_toggle_first_experiment_02_start", groupCode);
+    }
+    else if (position === "position_01" && experiment == "second-experiment") {
+      scene.emit("action_toggle_second_experiment_01", groupCode);
+      scene.emit("action_toggle_second_experiment_01_start", groupCode);
+    }
+    else if (position === "position_02" && experiment == "second-experiment") {
+      scene.emit("action_toggle_second_experiment_02", groupCode);
+      scene.emit("action_toggle_second_experiment_02_start", groupCode);
     }
   }
   

@@ -517,7 +517,7 @@ class MediaBrowserContainer extends Component {
     window.dispatchEvent(new CustomEvent("action_create_avatar_rpm"));
   }
 
-  onPlaceExperiment = (e, position_id) => {
+  onPlaceExperiment = (e, position_id, experiment) => {
     const { scene } = this.props;
     const { presences } = this.props;
     const { sessionId } = this.props;
@@ -525,12 +525,12 @@ class MediaBrowserContainer extends Component {
 
     console.log(sessionId);
     
-    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId, hubChannel: hubChannel });
+    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId, hubChannel: hubChannel, experiment: experiment });
 
     this.close();
   }
 
-  onRemoveExperiment = (e, position_id) => {
+  onRemoveExperiment = (e, position_id, experiment) => {
     const { scene } = this.props;
     const { hubChannel } = this.props;
 
@@ -542,7 +542,7 @@ class MediaBrowserContainer extends Component {
 
     console.log("Deleting " + groupCode);
 
-    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true };
+    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: experiment };
 
     // We are not the Moderator, we broadcast an event !
     console.log("We broadcast a Despawn Request to all");
@@ -634,24 +634,41 @@ class MediaBrowserContainer extends Component {
 
     let searchDescription;
 
-    var firstExperimentSystem = this.props.scene.systems["first-experiments"]
+    var firstExperimentSystem = this.props.scene.systems["first-experiments"];
+    var secondExperimentSystem = this.props.scene.systems["second-experiments"];
 
-    var deletePosition01 = null;
-    var deletePosition02 = null;
     
-    var createPosition01 = null;
-    var createPosition02 = null;
+    var createFirstExperimentPosition01 = null;
+    var createFirstExperimentPosition02 = null;
+    var createSecondExperimentPosition01 = null;
+    var createSecondExperimentPosition02 = null;
+
+    var deleteFirstExperimentPostion01 = null;
+    var deleteFirstExperimentPosition02 = null;
+    var deleteSecondExperimentPosition01 = null;
+    var deleteSecondExperimentPosition02 = null;
 
     if (firstExperimentSystem)
     {
       var groupCode01 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_01");
       var groupCode02 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_02");
 
-      deletePosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01") : null;
-      deletePosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02") : null;
+      deleteFirstExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01", "first-experiment") : null;
+      deleteFirstExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02", "first-experiment") : null;
 
-      createPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01") : null;
-      createPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02") : null;
+      createFirstExperimentPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "first-experiment") : null;
+      createFirstExperimentPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "first-experiment") : null;
+    }
+    else if (secondExperimentSystem)
+    {
+      var groupCode01 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_01");
+      var groupCode02 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_02");
+
+      deleteSecondExperimentPosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01", "second-experiment") : null;
+      deleteSecondExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02", "second-experiment") : null;
+
+      createSecondExperimentPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "second-experiment") : null;
+      createSecondExperimentPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "second-experiment") : null;
     }
 
     let experiments = [
@@ -660,7 +677,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deletePosition01 == null) ? "Experiment 1 - Arbeitsbereich 1" : "Experiment 1 - Arbeitsbereich 1 - Schon Platziert",
+        name: (deleteFirstExperimentPostion01 == null) ? "Experiment 1 - Arbeitsbereich 1" : "Experiment 1 - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -670,7 +687,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deletePosition02 == null) ? "Experiment 1 - Arbeitsbereich 2" : "Experiment 1 - Arbeitsbereich 2 - Schon Platziert",
+        name: (deleteFirstExperimentPosition02 == null) ? "Experiment 1 - Arbeitsbereich 2" : "Experiment 1 - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -679,12 +696,23 @@ class MediaBrowserContainer extends Component {
         id: "003",
         attributions: null,
         description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_03.png" } },
-        name: "Experiment 1 - Arbeitsbereich 3",
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
+        name: (deleteSecondExperimentPosition01 == null) ? "Experiment 2 - Arbeitsbereich 1" : "Experiment 2 - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
-      }
+      },
+      {
+        id: "004",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
+        name: (deleteSecondExperimentPosition02 == null) ? "Experiment 2 - Arbeitsbereich 2" : "Experiment 2 - Arbeitsbereich 2 - Schon Platziert",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      },
+     
     ] 
 
 
@@ -787,8 +815,8 @@ class MediaBrowserContainer extends Component {
             key={`001`}
             entry={experiments[0]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createPosition01}
-            onEdit={deletePosition01}
+            onClick={createFirstExperimentPosition01}
+            onEdit={deleteFirstExperimentPostion01}
           />
         }
         {urlSource === "experiments" &&
@@ -796,17 +824,26 @@ class MediaBrowserContainer extends Component {
             key={`002`}
             entry={experiments[1]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createPosition02}
-            onEdit={deletePosition02}
+            onClick={createFirstExperimentPosition02}
+            onEdit={deleteFirstExperimentPosition02}
           />
         }
-        {false && urlSource === "experiments" &&
+        {urlSource === "experiments" &&
           <MediaTile
             key={`003`}
             entry={experiments[2]}
             processThumbnailUrl={this.processThumbnailUrl}
-            onClick={e => this.onPlaceExperiment(e, "position_03")}
-            onEdit={e => this.onRemoveExperiment(e, "position_03")}
+            onClick={createSecondExperimentPosition01}
+            onEdit={deleteSecondExperimentPosition01}
+          />
+        }
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`004`}
+            entry={experiments[3]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={createSecondExperimentPosition02}
+            onEdit={deleteSecondExperimentPosition02}
           />
         }
           

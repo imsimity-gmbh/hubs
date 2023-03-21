@@ -9,7 +9,7 @@ const isMobile = AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileV
 
 
 
-export function TeacherExperimentModalContainer({ scene, location, onClose, presences, sessionId, hubChannel }) {
+export function TeacherExperimentModalContainer({ scene, location, onClose, presences, sessionId, hubChannel, experiment }) {
   
   const onSubmit = useCallback(
     ({ moderator, members })  =>  {
@@ -51,6 +51,7 @@ export function TeacherExperimentModalContainer({ scene, location, onClose, pres
       location={location}
       presences={presences}
       sessionId={sessionId}
+      experiment={experiment}
     />
   );
 }
@@ -61,5 +62,6 @@ TeacherExperimentModalContainer.propTypes = {
   onClose: PropTypes.func,
   presences:  PropTypes.object.isRequired,
   sessionId: PropTypes.string.isRequired,
-  hubChannel: PropTypes.object.isRequired
+  hubChannel: PropTypes.object.isRequired,
+  experiment: PropTypes.string.isRequired
 };

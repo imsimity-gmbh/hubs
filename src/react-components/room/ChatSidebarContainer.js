@@ -146,13 +146,20 @@ export function ChatContextProvider({ messageDispatch, children }) {
             var isMember =  data.members.includes(ownId);
             console.log("Is a Member ? " + isMember);
             // We are a member of that experiment
-            scene.systems['first-experiments'].setIsMemberForGroupCode(data.groupCode,isMember);
+            if (data.experiment == "first-experiment")
+            {
+              scene.systems['first-experiments'].setIsMemberForGroupCode(data.groupCode, isMember);
+            }
+            else if (data.experiment == "second-experiment")
+            {
+              scene.systems['second-experiments'].setIsMemberForGroupCode(data.groupCode, isMember);
+            }
           }
 
           // We are the Moderator
           if (ownId === data.moderatorId || data.broadcastToAll == true)
           {
-            spawnOrDeleteExperiment(data.position, data.groupCode, scene);
+            spawnOrDeleteExperiment(data.position, data.groupCode, scene, data.experiment);
           }
         }
       }

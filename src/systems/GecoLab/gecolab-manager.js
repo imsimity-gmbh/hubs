@@ -1,6 +1,6 @@
-import configs from "../utils/configs";
+import configs from "../../utils/configs";
 import Cookies from "js-cookie";
-import { isNullUndefinedOrEmpty } from "../utils/imsimity";
+import { isNullUndefinedOrEmpty } from "../../utils/imsimity";
 
 const GECOLAB_DASHBOARD_API = "https://gecolab-dashboard.herokuapp.com"
 const GECOLAB_LOBBY_ID = "BEZcBg3";
