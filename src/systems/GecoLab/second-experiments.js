@@ -151,5 +151,12 @@ AFRAME.registerSystem("second-experiments", {
     }
 
     return foundObject.isMember;
+  },
+
+  isGroupCodeActive(groupCode)
+  {
+    var foundObject = this.experimentsIsMember.find(obj => { return obj.groupCode === groupCode });
+
+    return (foundObject != null);
   }
 });

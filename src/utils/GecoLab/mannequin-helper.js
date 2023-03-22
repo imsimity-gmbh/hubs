@@ -23,7 +23,12 @@ export var MANNEQUIN_TEXTS = [
   "Als erstes kannst du dich entscheiden, welchen Standort du näher untersuchen möchtest.",
   "Dies ist die falsche Antwort",
   "Hi! Schön, dass du den Weg in unser virtuelles Lehr-Lern-Labor gefunden hast. Ich bin die Laborleitung und werde dir durch meine Anleitung helfen das Experiment Humusglühen durchzuführen. An einigen Stellen wirst du den Button „Tipp“ sehen, der dir weitere Hilfestellungen geben wird.",
-  "Leg den Glasstab wieder auf die Arbeitsfläche"
+  "Leg den Glasstab wieder auf die Arbeitsfläche",
+  "",
+  "",
+  "",
+  "",
+  "Hallo ! Willkommen bei Experiment 2 beta !",
 ]
 
 
@@ -45,6 +50,11 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "",
   "Mithilfe eines Bunsenbrenners wird die Bodenprobe für 25 Minuten erhitzt. Humus besteht aus abgestorbenen pflanzlichen und tierischen Stoffen und ist brennbar. Durch das Ausglühen kann über den Gewichtsverlust der prozentualen Humusgehalt der Probe berechnet werden. Und genau das werden wir jetzt im Labor machen!\n      ",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",
@@ -72,6 +82,11 @@ export var MANNEQUIN_TEXTS_BUBBLES = [
   MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_LOW,
   MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_LOW,
+  MANNEQUIN_BUBBLE_LOW,
+  MANNEQUIN_BUBBLE_LOW,
+  MANNEQUIN_BUBBLE_LOW,
   MANNEQUIN_BUBBLE_HIGH,
 ]
 

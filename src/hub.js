@@ -163,6 +163,9 @@ import "./components/GecoLab/first-experiment/first-experiment-04";
 import "./components/GecoLab/first-experiment/first-experiment-05";
 import "./components/GecoLab/first-experiment/first-experiment-06";
 
+
+import "./components/GecoLab/second-experiment/second-experiment";
+
 import "./components/GecoLab/mannequin";
 
 import ReactDOM from "react-dom";

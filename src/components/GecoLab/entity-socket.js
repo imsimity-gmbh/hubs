@@ -62,7 +62,7 @@ const HELD = 3;
       //Disabled on Start?:
       this.socketEnabled = this.data.enabled;
 
-      this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+      this.delayedInit = AFRAME.utils.bind(this.delayedInitFirstExperiment, this);
       this.placeAttachedEntityLocal = AFRAME.utils.bind(this.placeAttachedEntityLocal, this);
 
       setTimeout(() => {
@@ -71,10 +71,24 @@ const HELD = 3;
   
           if (this.groupCode != null)
           {
-            this.experiment02 = this.el.sceneEl.systems["first-experiments"].getTaskById("02", this.groupCode);
-            this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.groupCode)
-            // TODO: unsubscribe on delete
-            this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+            this.isMember = false;
+            
+            var firstExpSystem = this.el.sceneEl.systems["first-experiments"];
+            var secondExpSystem = this.el.sceneEl.systems["second-experiments"];
+
+            if (firstExpSystem.isGroupCodeActive(this.groupCode))
+            {
+              this.experiment02 = firstExpSystem.getTaskById("02", this.groupCode);
+              this.isMember = firstExpSystem.getIsMemberForGroupCode(this.groupCode)
+              // TODO: unsubscribe on delete
+              this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitFirstExperiment);
+            }
+            else if (secondExpSystem.isGroupCodeActive(this.groupCode))
+            {
+              this.isMember = secondExpSystem.getIsMemberForGroupCode(this.groupCode);
+            }
+
+         
           }
           else
           {
@@ -87,7 +101,7 @@ const HELD = 3;
     
     },
 
-    delayedInit()
+    delayedInitFirstExperiment()
     {
       console.log('Delayed init');
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {

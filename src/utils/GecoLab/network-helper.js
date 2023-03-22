@@ -183,6 +183,14 @@ function createId(length) {
     {
       return parent.components['first-experiment-06'].experimentData;
     }
+
+
+    parent = entity.closest('#second-experiment-wrapper');
+  
+    if (parent != null)
+    {
+      return parent.components['second-experiment'].experimentData;
+    }
   
   
     return null;

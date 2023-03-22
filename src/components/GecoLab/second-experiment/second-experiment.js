@@ -39,20 +39,20 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.expSystem.register(this.el, this.experimentData);
 
 
-        this.firstExpStartBtn = this.el.querySelector(".first-experiment-start-button");
-        this.firstExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
-        this.firstExpStartBtn.object3D.visible = false;
+        this.secondExpStartBtn = this.el.querySelector(".second-experiment-start-button");
+        this.secondExpStartBtn.object3D.addEventListener("interact", () => this.onClickStart());
+        this.secondExpStartBtn.object3D.visible = false;
 
         setTimeout(() => {
 
           if (this.isMember)
           {
-            this.firstExpStartBtn.object3D.visible = true;
+            this.secondExpStartBtn.object3D.visible = true;
           }
 
            // Mannequin
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          //this.mannequin.components["mannequin"].displayMessage(19);
+          this.mannequin.components["mannequin"].displayMessage(25);
         }, IMSIMITY_INIT_DELAY * 6);
                  
       });  
@@ -81,15 +81,15 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     
         NAF.utils.takeOwnership(networkedEl);
   
-        this.el.setAttribute("first-experiment", "startClicked", true);      
+        this.el.setAttribute("second-experiment", "startClicked", true);      
   
         this.updateUI();
       });
     },
 
     startExperiment() { 
-      this.firstExpStartBtn.object3D.visible = false;
-      this.firstExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      this.secondExpStartBtn.object3D.visible = false;
+      this.secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
       
     
       console.log("show stuff");

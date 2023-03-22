@@ -62,9 +62,25 @@ AFRAME.registerComponent("mannequin", {
         });
 
         setTimeout(() => {
-
+            
             this.experimentData = getExperimentDataFromParent(this.el);
-            this.isMember = this.el.sceneEl.systems["first-experiments"].getIsMemberForGroupCode(this.experimentData.groupCode);
+
+            console.log(this.experimentData);
+
+            this.isMember = false;
+            
+            var firstExpSystem = this.el.sceneEl.systems["first-experiments"];
+            var secondExpSystem = this.el.sceneEl.systems["second-experiments"];
+
+            if (firstExpSystem.isGroupCodeActive(this.experimentData.groupCode))
+            {
+                this.isMember = firstExpSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            }
+            else if (secondExpSystem.isGroupCodeActive(this.experimentData.groupCode))
+            {
+                this.isMember = secondExpSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            }
+
             console.log(this.experimentData);
 
             this.mannequinManager.register(this.el, this.experimentData);
