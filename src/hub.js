@@ -165,6 +165,8 @@ import "./components/GecoLab/first-experiment/first-experiment-06";
 
 
 import "./components/GecoLab/second-experiment/second-experiment";
+import "./components/GecoLab/second-experiment/second-experiment-01";
+
 
 import "./components/GecoLab/mannequin";
 

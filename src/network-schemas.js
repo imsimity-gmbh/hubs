@@ -937,6 +937,37 @@ function registerNetworkSchemas() {
   });
 
 
+
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "second-experiment",
+        property: "startClicked"
+      }
+    ]
+  });
+
+
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-01-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "second-experiment-01",
+        property: "groundSampleChosen"
+      },
+      {
+        component: "second-experiment-01",
+        property: "groundSampleIndex"
+      }
+    ]
+  });
+
+
   NAF.schemas.add({
     template: "#template-waypoint-avatar",
     components: [

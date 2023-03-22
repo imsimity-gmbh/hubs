@@ -91,7 +91,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.secondExpStartBtn.object3D.visible = false;
       this.secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
       
-    
+      this.secondExpPart01.components["second-experiment-01"].startPart01(); //for some reason this.firstExpPart01 is undefined for second user (observer)
+
       console.log("show stuff");
     },
 
