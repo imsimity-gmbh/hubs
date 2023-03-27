@@ -967,6 +967,73 @@ function registerNetworkSchemas() {
     ]
   });
 
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-02-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        selector: ".cupboard-wrapper",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".cupboard-wrapper",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".mortar-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".mortar-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".mortar-stick-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".mortar-stick-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".scale-entity",
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".scale-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".crucible-entity",
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: "crucible-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      }
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-03-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "second-experiment-03",
+        property: "grindBtnClicked"
+      }
+    ]
+  });
+
 
   NAF.schemas.add({
     template: "#template-waypoint-avatar",

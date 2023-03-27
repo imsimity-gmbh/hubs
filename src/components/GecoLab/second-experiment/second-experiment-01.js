@@ -22,7 +22,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
       this.localGroundSampleClicked = false;
       this.localGroundSampleIndex = 0;
 
-      this.startPart02Callbacks = [];
+      this.onFinishPart01Callbacks = [];
       this.groundSampleCallbacks = [];
 
       this.expSystem = this.el.sceneEl.systems["second-experiments"];
@@ -101,8 +101,8 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
     subscribe(eventName, fn)
     {
       switch(eventName) {
-        case "startPart02":
-          this.startPart02Callbacks.push(fn);
+        case "onFinishPart01":
+          this.onFinishPart01Callbacks.push(fn);
           break;
         case "groundSampleSelected":
           this.groundSampleCallbacks.push(fn);
@@ -113,9 +113,9 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
     unsubscribe(eventName, fn)
     {
       switch(eventName) {
-        case "startPart02":
-          let index2 = this.startPart02Callbacks.indexOf(fn);
-          this.startPart02Callbacks.splice(index2, 1);
+        case "onFinishPart01":
+          let index2 = this.onFinishPart01Callbacks.indexOf(fn);
+          this.onFinishPart01Callbacks.splice(index2, 1);
           break;
       }
     },
@@ -194,6 +194,8 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
       //this.mannequin.components["mannequin"].displayMessage(17);
     },
 
+
+
     onClickGroundSample(index) {
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
@@ -238,22 +240,19 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
             cb(this.localGroundSampleIndex);
           });
         }  
-        
-
-        if (this.isMember)
-        {
-
-        }
-
-        console.log("To Step 2");
+         
+        setTimeout(() => {
+          this.callOnFinishPart1();
+        }, 500);
        
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         //this.mannequin.components["mannequin"].displayMessage(16);
     },
 
-    notifyPart02() {
-      this.startPart02Callbacks.forEach(cb => {
+    callOnFinishPart1() {
+      console.log("calling all callbacks (" + this.onFinishPart01Callbacks.length + ")");
+      this.onFinishPart01Callbacks.forEach(cb => {
         cb(this.localGroundSampleIndex);
       });
     },

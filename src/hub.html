@@ -1485,6 +1485,123 @@
             </template>
 
 
+            <template id="interactable-second-experiment-02-camera">
+                <a-entity 
+                second-experiment-02 
+                matrix-auto-update
+                set-yxz-order
+                class="part02-wrapper"
+                id="second-experiment-02-wrapper"> 
+                    <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
+                        <a-entity class="sieve-base-entity" position="0 1 0" rotation="0 -45 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                       </a-entity>
+                       <a-entity class="sieve-1-entity" position="0 1 0" rotation="0 -45 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                       </a-entity>
+                       <a-entity class="sieve-2-entity" position="0 1 0" rotation="0 -45 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                       </a-entity>
+                       <a-entity class="sieve-machine-empty-entity" position="0 1 0" rotation="0 -90 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="sieve-machine-anims-entity" position="0 0 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="sieve-machine-sockets-wrapper" position="0 0 0">
+                                <a-entity id="sieve-base-socket" class="sieve-base-socket" position="0 0 0" rotation="0 0 0" entity-socket="acceptedEntities: .sieve-base-entity; radius: 2; enabled: true;">
+                                    <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                                    <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                                </a-entity> <!--static-->
+                                <a-entity id="sieve-1-socket" class="sieve-base-socket" position="0 0 0" rotation="0 0 0" entity-socket="acceptedEntities: .sieve-1-entity; radius: 2; enabled: true;">
+                                    <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                                    <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                                </a-entity> <!--static-->
+                                <a-entity id="sieve-2-socket" class="sieve-base-socket" position="0 0 0" rotation="0 0 0" entity-socket="acceptedEntities: .sieve-2-entity; radius: 2; enabled: true;">
+                                    <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                                    <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                                </a-entity> <!--static-->
+                            </a-entity>
+                        </a-entity>
+                        <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="mortar-stick-entity" position="0 0 0" rotation="-20 0 0"></a-entity>
+                        </a-entity>
+                        
+                        <a-entity class="scale-entity" position="0 1 0" rotation="0 90 0"
+                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            is-remote-hover-target
+                            matrix-auto-update
+                            set-yxz-order       
+                            set-unowned-body-kinematic
+                            scalable-when-grabbed
+                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                        >
+                            <a-entity class="display-text" visible = false text=" value: 0.00g; width:2; align:center; color: black;" text-raycast-hack position="-0.2 0.35 0" rotation="0 -90 0" scale="0.8 0.8 0.8"></a-entity>
+                            <a-entity class="interactable" second-experiment-02-tara>
+                                <a-entity class="tara-btn" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.4 0.4 0.4">
+                                    <a-entity text=" value: Tara; width: 3.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity>
+                            </a-entity>
+                            <a-entity class="interactable" second-experiment-02-loss>
+                                <a-entity class="glow-loss-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.2 0.25 0" rotation="0 -90 0" scale="0.5 0.5 0.5">
+                                    <a-entity text=" value: Glühverlust berechnen; width: 3; align:center;" text-raycast-hack position="0 0 0.001" scale="0.3 0.3 0.3"></a-entity>
+                                </a-entity>
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
+
+            <template id="interactable-second-experiment-03-camera">
+                <a-entity
+                    matrix-auto-update
+                    set-yxz-order 
+                    second-experiment-03 
+                    class="ui interactable-ui part03-wrapper"
+                    id="second-experiment-03-wrapper">
+                    
+                    <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1 0" rotation="0 0 0" scale="0.5 0.5 0.5">
+                        <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity> <!--static-->
+                    
+                    <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
+                </a-entity>
+            </template>
+
+
             <template id="interactable-camera">
                 <a-entity
                     class="interactable"

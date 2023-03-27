@@ -68,3 +68,4 @@ results/
 src/assets/locales/en.json
 src/assets/locales/extracted-messages.json
 .vscode
+node_modules.zip
