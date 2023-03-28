@@ -52,6 +52,8 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
         this.movableEntities = [];
         this.hiddenOnSpawn = [];
+
+        this.sockets = [];
         
         this.onFinishPart02Callbacks = [];
         this.onObjectSpawnedPart02Callbacks = [];
@@ -65,7 +67,6 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.tryTriggeringCallbacks = AFRAME.utils.bind(this.tryTriggeringCallbacks, this);
         this.startPart02 = AFRAME.utils.bind(this.startPart02, this);
         this.enableInteractables = AFRAME.utils.bind(this.enableInteractables, this);
-        this.disableInteractables = AFRAME.utils.bind(this.disableInteractables, this);
 
         waitForDOMContentLoaded().then(() => { 
             var networkId = getNetworkIdFromEl(this.el);
@@ -86,18 +87,20 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
     delayedInit()
     {
-        //Get spawnEntity of Models
-        
-        this.mortarEntity = this.el.querySelector(".mortar-entity");
-        this.hiddenOnSpawn.push(this.mortarEntity);
-        
-        this.mortarStickEntity = this.el.querySelector(".mortar-stick-entity");
-        this.hiddenOnSpawn.push(this.mortarStickEntity);
-        
-        this.scaleEntity = this.el.querySelector(".scale-entity");
-        this.movableEntities.push(this.scaleEntity);
-        this.hiddenOnSpawn.push(this.scaleEntity);
+        //Sockets
+        this.sieveBaseSocket = this.el.querySelector(".sieve-base-socket");
+        this.sockets.push(this.sieveBaseSocket);
+        this.sieve1Socket = this.el.querySelector(".sieve-1-socket");
+        this.sockets.push(this.sieve1Socket);
+        this.sieve2Socket = this.el.querySelector(".sieve-2-socket");
+        this.sockets.push(this.sieve2Socket);
 
+        this.sockets.forEach(s => {
+            s.object3D.visible = false; //hide holograms until needed
+        });
+
+
+        //Get spawnEntity of Models
         this.sieveBaseEntity = this.el.querySelector(".sieve-base-entity");
         this.movableEntities.push(this.sieveBaseEntity);
         this.hiddenOnSpawn.push(this.sieveBaseEntity);
@@ -111,13 +114,22 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.hiddenOnSpawn.push(this.sieve2Entity);
 
 
+
+        this.mortarEntity = this.el.querySelector(".mortar-entity");
+        this.hiddenOnSpawn.push(this.mortarEntity);
+
+        this.mortarStickEntity = this.el.querySelector(".mortar-stick-entity");
+        this.hiddenOnSpawn.push(this.mortarStickEntity);
+        
+        this.scaleEntity = this.el.querySelector(".scale-entity");
+        this.hiddenOnSpawn.push(this.scaleEntity);
+
         this.sieveMachineEmptyEntity = this.el.querySelector(".sieve-machine-empty-entity");
         this.hiddenOnSpawn.push(this.sieveMachineEmptyEntity);
 
         this.sieveMachineAnimsEntity = this.el.querySelector(".sieve-machine-anims-entity");
         
 
-        this.spawnItem(scaleModelPromise, new THREE.Vector3(0.9, 0.8, 0), this.scaleEntity, false);
 
         this.spawnItem(sieveBasePromise, new THREE.Vector3(-0.15, 0.75, 0), this.sieveBaseEntity, false, secondExpModelsScale);
         this.spawnItem(sieve1Promise, new THREE.Vector3(-0.65, 0.7, -0.1), this.sieve1Entity, false, secondExpModelsScale);
@@ -143,6 +155,11 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         // This one is a child of the mortarEntity
         this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, false);
 
+
+        sideTableAnchor.remove(this.scaleEntity.object3D);
+        mainTableAnchor.add(this.scaleEntity.object3D);
+
+        this.spawnItem(scaleModelPromise, new THREE.Vector3(1, 0.7, 0.1), this.scaleEntity, false);
 
         this.secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
         this.secondExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
@@ -265,6 +282,11 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
     startPart02() {
         
+        this.sockets.forEach(s => {
+            s.object3D.visible = true;
+            s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
+        });
+
         this.showExpItems();
         
         // Mannequin

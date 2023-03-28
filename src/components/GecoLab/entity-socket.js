@@ -62,7 +62,7 @@ const HELD = 3;
       //Disabled on Start?:
       this.socketEnabled = this.data.enabled;
 
-      this.delayedInit = AFRAME.utils.bind(this.delayedInitFirstExperiment, this);
+      this.delayedInitSocket = AFRAME.utils.bind(this.delayedInitSocket, this);
       this.placeAttachedEntityLocal = AFRAME.utils.bind(this.placeAttachedEntityLocal, this);
 
       setTimeout(() => {
@@ -73,19 +73,22 @@ const HELD = 3;
           {
             this.isMember = false;
             
-            var firstExpSystem = this.el.sceneEl.systems["first-experiments"];
-            var secondExpSystem = this.el.sceneEl.systems["second-experiments"];
+            this.firstExpSystem = this.el.sceneEl.systems["first-experiments"];
+            this.secondExpSystem = this.el.sceneEl.systems["second-experiments"];
 
-            if (firstExpSystem.isGroupCodeActive(this.groupCode))
+            if (this.firstExpSystem.isGroupCodeActive(this.groupCode))
             {
-              this.experiment02 = firstExpSystem.getTaskById("02", this.groupCode);
-              this.isMember = firstExpSystem.getIsMemberForGroupCode(this.groupCode)
+              this.experiment02 = this.firstExpSystem.getTaskById("02", this.groupCode);
+              this.isMember = this.firstExpSystem.getIsMemberForGroupCode(this.groupCode)
               // TODO: unsubscribe on delete
-              this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitFirstExperiment);
+              this.experiment02.components["first-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
             }
-            else if (secondExpSystem.isGroupCodeActive(this.groupCode))
+            else if (this.secondExpSystem.isGroupCodeActive(this.groupCode))
             {
-              this.isMember = secondExpSystem.getIsMemberForGroupCode(this.groupCode);
+              this.experiment02 = this.secondExpSystem.getTaskById("02", this.groupCode);
+              this.isMember = this.secondExpSystem.getIsMemberForGroupCode(this.groupCode)
+              // TODO: unsubscribe on delete
+              this.experiment02.components["second-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
             }
 
          
@@ -101,12 +104,12 @@ const HELD = 3;
     
     },
 
-    delayedInitFirstExperiment()
+    delayedInitSocket()
     {
       console.log('Delayed init');
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {
 
-        let component = this.el.sceneEl.systems["first-experiments"].findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode);
+        let component = this.firstExpSystem.isGroupCodeActive(this.groupCode) ?  this.firstExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : this.secondExpSystem.isGroupCodeActive(this.groupCode) ?  this.secondExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : null;
         
         if(component == null) {
           console.log("entity -" + this.data.acceptedEntities[i] + "- not found, this entity will not be considered by the socket");
@@ -500,7 +503,20 @@ const HELD = 3;
       if (this.initialPos)
       {
         // if the acceptedEntities array is initialized, we find it with the finder function
-        let acceptedEntity = (this.acceptedEntities.length > 0) ? this.acceptedEntities[0] : this.el.sceneEl.systems["first-experiments"].findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
+        let acceptedEntity = (this.acceptedEntities.length > 0) ? this.acceptedEntities[0] :  null;
+        
+        if (acceptedEntity == null)
+        {
+          if (this.firstExpSystem.isGroupCodeActive(this.groupCode))
+          {
+            acceptedEntity = this.firstExpSystem.findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
+          }
+          else if (this.secondExpSystem.isGroupCodeActive(this.groupCode))
+          {
+            acceptedEntity = this.secondExpSystem.findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
+          }
+        }
+        
         this.initialPos = new Vector3().copy(acceptedEntity.object3D.position);  
       }
       

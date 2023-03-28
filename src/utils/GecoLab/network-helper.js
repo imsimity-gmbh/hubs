@@ -192,7 +192,27 @@ function createId(length) {
       return parent.components['second-experiment'].experimentData;
     }
   
+    parent = entity.closest('#second-experiment-01-wrapper');
   
+    if (parent != null)
+    {
+      return parent.components['second-experiment-01'].experimentData;
+    }
+
+    parent = entity.closest('#second-experiment-02-wrapper');
+  
+    if (parent != null)
+    {
+      return parent.components['second-experiment-02'].experimentData;
+    }
+
+    parent = entity.closest('#second-experiment-03-wrapper');
+  
+    if (parent != null)
+    {
+      return parent.components['second-experiment-03'].experimentData;
+    }
+    
     return null;
   }
   
