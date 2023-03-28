@@ -104,6 +104,7 @@ import { ChooseGlovesModalContainer } from "./room/GecoLab/ChooseGlovesModalCont
 import { TemperatureInfoModalContainer } from "./room/GecoLab/TemperatureInfoModalContainer";
 import { FeedbackModalContainer } from "./room/GecoLab/FeedbackModalContainer";
 import { EnterFormulaValuesModalContainer } from "./room/GecoLab/EnterFormulaValuesModalContainer";
+import { EnterFormulaClayModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaClayModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -360,6 +361,13 @@ class UIRoot extends Component {
       
       this.showNonHistoriedDialog(
         EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
+      );
+    });
+    this.props.scene.addEventListener("action_toggle_modal_1", (event) => {
+      var groupCode = event.detail;
+     
+    this.showNonHistoriedDialog(
+      EnterFormulaClayModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
       );
     });
 

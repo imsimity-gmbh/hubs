@@ -1,0 +1,43 @@
+.enter-formula-img {
+    margin-bottom: 3px;
+    margin-top: 3px;
+    width: 90%;
+}
+
+.enter-formula-img:hover {
+    width: 90%;
+    border: none;
+    cursor: default;
+}
+
+.enter-formula-form {
+    display: inline;
+}
+
+.enter-formula-form > div {
+    margin-bottom: 10px;
+}
+
+.enter-formula-form > div > label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.enter-formula-form > div > input {
+    margin-bottom: 10px;
+    color: black;
+    margin-top: 5px;
+}
+
+#submit-btn {
+    margin-bottom: 10px;
+    width: 100px;
+    height: 25px;
+    font-weight: 110%;
+    color: black;
+    border: 1px solid black;
+}
+#submit-btn:hover {
+    cursor: pointer;
+    font-style: italic;
+}
