@@ -41,7 +41,9 @@ AFRAME.registerComponent("simple-animation", {
 
     // if the animations arent loaded yet
 
-    var loopState = (loop == null) ? THREE.LoopOnce : loop;
+    console.log("loop ? " + loop);
+
+    var loopState = (loop == null || loop == undefined || loop == false) ? THREE.LoopOnce : THREE.LoopRepeat;
     var clampState = (clamp == null) ? true : clamp;
 
     if (!animations)
@@ -138,7 +140,7 @@ AFRAME.registerComponent("simple-animation", {
 
   printAnimations()
   {
-    const { animations } = this.mixerEl.components["animation-mixer"];
+    const { mixer, animations } = this.mixerEl.components["animation-mixer"];
 
     console.log(animations);
   },

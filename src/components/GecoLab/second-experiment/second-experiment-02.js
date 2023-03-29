@@ -132,7 +132,6 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.hiddenOnSpawn.push(this.sieveMachineEmptyEntity);
 
         this.sieveMachineAnimsEntity = this.el.querySelector(".sieve-machine-anims-entity");
-        
 
 
         this.spawnItem(sieveBasePromise, new THREE.Vector3(-0.15, 0.75, 0), this.sieveBaseEntity, false, secondExpModelsScale);
@@ -147,9 +146,12 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         sideTableAnchor.remove(this.sieveMachineEmptyEntity.object3D);
         mainTableAnchor.add(this.sieveMachineEmptyEntity.object3D);
 
-        this.spawnItem(sieveMachineEmptyPromise, new THREE.Vector3(-0.5, 0.9, -0.1), this.sieveMachineEmptyEntity, false, secondExpModelsScale);
-        // This one is a child of the sieveMachineEmptyEntity
-        this.spawnItem(sieveMachineAnimsPromise, new THREE.Vector3(0, 0, 0), this.sieveMachineAnimsEntity, false);
+        this.spawnItem(sieveMachineEmptyPromise, new THREE.Vector3(-0.5, 0.9, -0.1), this.sieveMachineEmptyEntity, false, secondExpModelsScale, true);
+        
+        sideTableAnchor.remove(this.sieveMachineAnimsEntity.object3D);
+        mainTableAnchor.add(this.sieveMachineAnimsEntity.object3D);
+
+        this.spawnItem(sieveMachineAnimsPromise, new THREE.Vector3(-0.5, 0.9, -0.1), this.sieveMachineAnimsEntity, false, secondExpModelsScale, true);
 
 
         sideTableAnchor.remove(this.mortarEntity.object3D);
@@ -232,7 +234,7 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
     },
 
-    spawnItem(promise, position, entity, show, scale = new THREE.Vector3(1,1,1)) {
+    spawnItem(promise, position, entity, show, scale = new THREE.Vector3(1,1,1), animated = false) {
         promise.then(model => {
             entity.object3D.visible = false;
             const mesh = cloneObject3D(model.scene);
@@ -246,6 +248,12 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
             entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
             entity.object3D.matrixNeedsUpdate = true;
             
+            if (animated)
+            {
+                console.log(mesh.animations);
+                entity.setAttribute("animation-mixer", {});
+                entity.components["animation-mixer"].initMixer(mesh.animations);
+            }
 
             this.checkModelSpawned();
         });
@@ -264,8 +272,8 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
     tryTriggeringCallbacks()
     {
-        // Failsafe to make sure that second-experiment-01 has subscribed to this callback
-        if (this.onObjectSpawnedPart02Callbacks.length == 1)
+        // Failsafe to make sure that second-experiment-01 & 04 have subscribed to this callback
+        if (this.onObjectSpawnedPart02Callbacks.length == 2)
         {
             console.log("all callback subscribed (" + this.onObjectSpawnedPart02Callbacks.length + ") callbacks");
 

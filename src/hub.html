@@ -1524,15 +1524,11 @@
                         >
                        </a-entity>
                        <a-entity class="sieve-machine-empty-entity" position="0 1 0" rotation="0 -90 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
                             matrix-auto-update
-                            set-yxz-order
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
+                            set-yxz-order 
+                            animation-mixer
+                            simple-animation
                         >
-                            <a-entity class="sieve-machine-anims-entity" position="0 0 0" rotation="0 0 0"></a-entity>
                             <a-entity class="sieve-machine-sockets-wrapper" position="0 0 0">
                                 <a-entity id="sieve-base-socket" class="sieve-base-socket" position="0 0 0" rotation="0 0 0" entity-socket="acceptedEntities: .sieve-base-entity; radius: 2; enabled: true;">
                                     <a-entity class="root" position="0 0 0" rotation="0 0 0"></a-entity>
@@ -1547,6 +1543,14 @@
                                     <a-entity class="hover-meshes" position="0 0 0"></a-entity>
                                 </a-entity> <!--static-->
                             </a-entity>
+                        </a-entity>
+                        <a-entity 
+                            class="sieve-machine-anims-entity" 
+                            position="0 1 0" 
+                            rotation="0 -90 0"
+                            animation-mixer
+                            simple-animation
+                            >
                         </a-entity>
                         <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
                             tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"

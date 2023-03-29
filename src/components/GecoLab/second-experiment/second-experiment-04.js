@@ -29,6 +29,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         //bind Callback funtion:
         this.startPart04 = AFRAME.utils.bind(this.startPart04, this);
+        this.initMachines =  AFRAME.utils.bind(this.initMachines, this);
+        this.onAnimFinished = AFRAME.utils.bind(this.onAnimFinished, this);
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
@@ -54,11 +56,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 }
  
                 
+                this.secondExpPart02.components["second-experiment-02"].subscribe("onObjectSpawnedPart02", this.initMachines);
                 this.secondExpPart02.components["second-experiment-02"].subscribe("onFinishPart02", this.startPart04);
-                console.log("03 callback subscribed");
+
+                console.log("04 callback subscribed");
 
                 this.lockMachineBtn = this.el.querySelector(".lock-machine-btn");
-                //this.lockMachineBtn.object3D.visible = false;
+                this.lockMachineBtn.object3D.visible = false;
                 this.lockMachineBtn.object3D.addEventListener("interact", () => this.onLockBtnClicked());
 
                 this.startMachineBtn = this.el.querySelector(".start-machine-btn");
@@ -68,12 +72,29 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 this.unlockMachineBtn = this.el.querySelector(".unlock-machine-btn");
                 this.unlockMachineBtn.object3D.visible = false;
                 this.unlockMachineBtn.object3D.addEventListener("interact", () => this.onUnlockBtnClicked());
+                
 
 
             }, IMSIMITY_INIT_DELAY);
                 
         });
         
+    },
+
+    initMachines()
+    {
+        this.machineEmpty = this.secondExpPart02.querySelector(".sieve-machine-empty-entity");
+        this.machineEmpty.components["simple-animation"].playClip("idle", false, true);
+
+        this.sieveBase = this.secondExpPart02.querySelector(".sieve-base-entity");
+        this.sieve1 = this.secondExpPart02.querySelector(".sieve-1-entity");
+        this.sieve2 = this.secondExpPart02.querySelector(".sieve-2-entity");
+
+        this.machineAnims = this.secondExpPart02.querySelector(".sieve-machine-anims-entity");
+        
+        this.simpleAnim = this.machineAnims.components["simple-animation"];
+        this.simpleAnim.playClip("idle", true, false);
+        this.simpleAnim.printAnimations();
     },
 
     subscribe(eventName, fn)
@@ -158,18 +179,72 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         });
     },
 
+    showAnimatedMachine(toggle)
+    {
+        // hide the machine and its sieves
+        this.machineEmpty.object3D.visible = !toggle;
+        this.sieveBase.object3D.visible = !toggle;
+        this.sieve1.object3D.visible = !toggle;
+        this.sieve2.object3D.visible = !toggle;
+        
+        // shows the animated version
+        this.machineAnims.object3D.visible = toggle;
+    },
+
     lockMachine()
     {
+        this.lockMachineBtn.object3D.visible = true;
+        
+        this.showAnimatedMachine(true);
+        
+        this.simpleAnim.printAnimations();
 
+        this.simpleAnim.stopClip("idle");
+        this.simpleAnim.playClip("anim_01");
+        
+        this.simpleAnim.initFinishedCallback(this.onAnimFinished);
     },
 
     startMachine()
     {
+        this.startMachineBtn.object3D.visible = false;
 
+        this.simpleAnim.playClip("anim_02");
     },
 
     unlockMachine()
     {
+        this.unlockMachineBtn.object3D.visible = false;
+
+        this.simpleAnim.playClip("anim_03");
+    },
+
+    onAnimFinished()
+    {
+        console.log("anim done");
+
+        if (this.data.unlockBtnClicked == true)
+        {
+            //this.simpleAnim.stopClip("anim_03");
+            this.showAnimatedMachine(false);
+
+            this.onFinishPart04Callbacks.forEach(cb => {
+                cb();
+            });
+        }
+        else if (this.data.startBtnClicked == true)
+        {
+            //this.simpleAnim.stopClip("anim_02");
+            
+            this.unlockMachineBtn.object3D.visible = true;
+        }
+        else if (this.data.lockBtnClicked == true)
+        {
+            //this.simpleAnim.stopClip("anim_01");
+            
+            this.startMachineBtn.object3D.visible = true;
+        }
+
 
     },
 
