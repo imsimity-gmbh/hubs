@@ -85,10 +85,10 @@ const HELD = 3;
             }
             else if (this.secondExpSystem.isGroupCodeActive(this.groupCode))
             {
-              console.log("subscribing socket");
               this.experiment02 = this.secondExpSystem.getTaskById("02", this.groupCode);
               this.isMember = this.secondExpSystem.getIsMemberForGroupCode(this.groupCode)
               // TODO: unsubscribe on delete
+              // this.delayedInitSocket called from second-experiment-02 directly...
               // this.experiment02.components["second-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
             }
 

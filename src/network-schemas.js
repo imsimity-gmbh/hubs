@@ -1018,7 +1018,22 @@ function registerNetworkSchemas() {
         selector: "crucible-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
-      }
+      },
+      {
+        selector: ".sieve-base-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sieve-1-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sieve-2-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
     ]
   });
 
@@ -1030,6 +1045,26 @@ function registerNetworkSchemas() {
       {
         component: "second-experiment-03",
         property: "grindBtnClicked"
+      }
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-04-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "second-experiment-04",
+        property: "lockBtnClicked"
+      },
+      {
+        component: "second-experiment-04",
+        property: "startBtnClicked"
+      },
+      {
+        component: "second-experiment-04",
+        property: "unlockBtnClicked"
       }
     ]
   });

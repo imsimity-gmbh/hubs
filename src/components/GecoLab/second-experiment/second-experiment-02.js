@@ -55,8 +55,9 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
         this.sockets = [];
         
-        this.onFinishPart02Callbacks = [];
+        this.onInitPart02Callbacks = [];
         this.onObjectSpawnedPart02Callbacks = [];
+        this.onFinishPart02Callbacks = [];
 
         this.modelsSpawned = 0;
         this.totalModels = 8;
@@ -192,11 +193,14 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
     subscribe(eventName, fn)
     {
         switch(eventName) {
-            case "onFinishPart02":
-              this.onFinishPart02Callbacks.push(fn);
+            case "onInitPart02":
+              this.onInitPart02Callbacks.push(fn);
               break;
             case "onObjectSpawnedPart02":
                 this.onObjectSpawnedPart02Callbacks.push(fn);
+                break;
+            case "onFinishPart02":
+                this.onFinishPart02Callbacks.push(fn);
                 break;
           }
     },
@@ -205,13 +209,17 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
     {
         var index = 0;
         switch(eventName) {
-            case "onFinishPart02":
-              index = this.onFinishPart02Callback.indexOf(fn);
-              this.onFinishPart02Callback.splice(index, 1);
+            case "onInitPart02":
+              index = this.onInitPart02Callbacks.indexOf(fn);
+              this.onInitPart02Callbacks.splice(index, 1);
               break;
             case "onObjectSpawnedPart02":
               index = this.onObjectSpawnedPart02Callbacks.indexOf(fn);
               this.onObjectSpawnedPart02Callbacks.splice(index, 1);
+              break;
+            case "onFinishPart02":
+              index = this.onFinishPart02Callbacks.indexOf(fn);
+              this.onFinishPart02Callbacks.splice(index, 1);
               break;
           }
     },
@@ -292,7 +300,7 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         //this.mannequin.components["mannequin"].displayMessage(0);
 
         
-        this.onFinishPart02Callbacks.forEach(cb => {
+        this.onInitPart02Callbacks.forEach(cb => {
             cb();
         });
     },
@@ -328,13 +336,17 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
             if(this.objectsPlacedSockets.length == 0) {
 
                 this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-                this.mannequin.components["mannequin"].displayMessage(1);
+                //this.mannequin.components["mannequin"].displayMessage(1);
 
                 this.sockets.forEach(s => {
                     s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
                 });
 
                 console.log("Sieves placed");
+
+                this.onFinishPart02Callbacks.forEach(cb => {
+                    cb();
+                });
             }   
         }
     },
