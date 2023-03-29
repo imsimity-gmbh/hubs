@@ -85,10 +85,11 @@ const HELD = 3;
             }
             else if (this.secondExpSystem.isGroupCodeActive(this.groupCode))
             {
+              console.log("subscribing socket");
               this.experiment02 = this.secondExpSystem.getTaskById("02", this.groupCode);
               this.isMember = this.secondExpSystem.getIsMemberForGroupCode(this.groupCode)
               // TODO: unsubscribe on delete
-              this.experiment02.components["second-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
+              // this.experiment02.components["second-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
             }
 
          
@@ -115,6 +116,8 @@ const HELD = 3;
           console.log("entity -" + this.data.acceptedEntities[i] + "- not found, this entity will not be considered by the socket");
           continue;
         }
+        console.log("entity -" + this.data.acceptedEntities[i] + "- found");
+
         this.acceptedEntities.push(component);
         
         // Deactivate interractions for non members

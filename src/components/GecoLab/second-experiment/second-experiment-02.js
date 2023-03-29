@@ -67,6 +67,7 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.tryTriggeringCallbacks = AFRAME.utils.bind(this.tryTriggeringCallbacks, this);
         this.startPart02 = AFRAME.utils.bind(this.startPart02, this);
         this.enableInteractables = AFRAME.utils.bind(this.enableInteractables, this);
+        this.onPlacedExperimentItem = AFRAME.utils.bind(this.onPlacedExperimentItem, this);
 
         waitForDOMContentLoaded().then(() => { 
             var networkId = getNetworkIdFromEl(this.el);
@@ -94,6 +95,8 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.sockets.push(this.sieve1Socket);
         this.sieve2Socket = this.el.querySelector(".sieve-2-socket");
         this.sockets.push(this.sieve2Socket);
+
+        this.objectsPlacedSockets = [...this.sockets];
 
         this.sockets.forEach(s => {
             s.object3D.visible = false; //hide holograms until needed
@@ -282,11 +285,6 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
     startPart02() {
         
-        this.sockets.forEach(s => {
-            s.object3D.visible = true;
-            s.components["entity-socket"].subscribe("onSnap", this.onPlacedExperimentItem);
-        });
-
         this.showExpItems();
         
         // Mannequin
@@ -304,6 +302,13 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
         console.log("enabling interaction on movableEntities");
 
+        this.sockets.forEach(s => {
+            s.object3D.visible = true;
+            var socket = s.components["entity-socket"];
+            socket.subscribe("onSnap", this.onPlacedExperimentItem);
+            socket.delayedInitSocket();
+        });
+        
         if (this.isMember)
         {
             this.movableEntities.forEach(e => {
@@ -312,6 +317,26 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
             });
         }
         
+    },
+
+    onPlacedExperimentItem(socket) {
+
+        if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
+        {
+            this.objectsPlacedSockets.splice(this.objectsPlacedSockets.indexOf(socket), 1);
+            
+            if(this.objectsPlacedSockets.length == 0) {
+
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(1);
+
+                this.sockets.forEach(s => {
+                    s.components["entity-socket"].unsubscribe("onSnap", this.onPlacedExperimentItem);
+                });
+
+                console.log("Sieves placed");
+            }   
+        }
     },
 
 
