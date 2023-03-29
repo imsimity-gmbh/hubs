@@ -5,7 +5,7 @@ export var MANNEQUIN_BUBBLE_HIGH = 1;
 export var MANNEQUIN_TEXTS = [
   "Um mit dem Experiment zu starten, musst du alle Materialien an der richtigen Stelle positionieren. Dafür musst du die Gegenstände greifen und zu dem blauen Hologramm ziehen. Wenn das Hologramm grün ist, kannst du deinen Gegenstand loslassen und den nächsten Gegenstand greifen.",
   "Als erstes musst du die Probe kräftig zerkleinern.",
-  "Als nächstes musst du deine gemörserte Probe in den Tiegel einwiegen. Dafür musst du deinen Löffel zunächst im Mörser positionieren. Platziere die Waage auf der angezeigten Stelle auf deinem Tisch.",
+  "Als nächstes musst du deine gemörserte Probe in den Tiegel einwiegen. Dafür musst du deinen Löffel zunächst im Mörser positionieren.",
   "Denk daran deine Waage immer erst auf null zu setzen.",
   "Füll nun genau 50g deiner Bodenprobe in den Tiegel auf der Waage.",
   "Super! Wenn du den Tiegel positioniert hast, zündest du den Bunsenbrenner mit dem Feuerzeug an und legst das Feuerzeug wieder zurück. Wenn du mit Feuer arbeitest, musst du die richtigen Handschuhe anziehen.",
@@ -57,7 +57,7 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "Wenn du den Button „Rühren“ mehrfach  anklickst, läuft die Stoppuhr schneller.",
   "",
   "",
-  "Nimm den Tiegel mit der Tiegelzange und stell sie auf die Waage. Lies das Gewicht ab und notiere es in deinem Notizbuch.",
+  "Nimm den Tiegel mit der Tiegelzange und stell sie auf die Waage. Lies das Gewicht ab und notier es in deinem Notizbuch.",
   "",
   "",
   "",
