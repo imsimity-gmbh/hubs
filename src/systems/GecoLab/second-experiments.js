@@ -12,6 +12,8 @@ AFRAME.registerSystem("second-experiments", {
     this.experiments01Els = [];
     this.experiments02Els = [];
     this.experiments03Els = [];
+    this.experiments04Els = [];
+    this.experiments05Els = [];
 
     // 2D array of all experiment parts
     this.experimentsAllParts = [this.experiments01Els, this.experiments02Els, this.experiments03Els];
@@ -45,6 +47,12 @@ AFRAME.registerSystem("second-experiments", {
       case "03":
         this.experiments03Els.push({groupCode: data.groupCode, position: data.position, value:el});
         break;
+      case "04":
+        this.experiments04Els.push({groupCode: data.groupCode, position: data.position, value:el});
+        break;
+      case "05":
+        this.experiments05Els.push({groupCode: data.groupCode, position: data.position, value:el});
+          break;
     }
   },
 
@@ -58,6 +66,12 @@ AFRAME.registerSystem("second-experiments", {
         break;
       case "03":
         this.experiments03Els.splice(this.experiments03Els.indexOf({groupCode: data.groupCode, position: data.position, value:el}), 1);
+        break;
+      case "04":
+        this.experiments03Els.splice(this.experiments04Els.indexOf({groupCode: data.groupCode, position: data.position, value:el}), 1);
+        break;
+      case "05":
+        this.experiments03Els.splice(this.experiments05Els.indexOf({groupCode: data.groupCode, position: data.position, value:el}), 1);
         break;
     }
   },
@@ -74,6 +88,10 @@ AFRAME.registerSystem("second-experiments", {
         return this.findByGroupCode(this.experiments02Els, groupCode);
       case "03":
         return this.findByGroupCode(this.experiments03Els, groupCode);
+      case "04":
+        return this.findByGroupCode(this.experiments04Els, groupCode);
+      case "05":
+        return this.findByGroupCode(this.experiments05Els, groupCode);
     }
   },
 
@@ -98,6 +116,8 @@ AFRAME.registerSystem("second-experiments", {
     arr.push(this.getTaskById("01", groupCode));
     arr.push(this.getTaskById("02", groupCode));
     arr.push(this.getTaskById("03", groupCode));
+    arr.push(this.getTaskById("04", groupCode));
+    arr.push(this.getTaskById("05", groupCode));
 
     return arr;
   },

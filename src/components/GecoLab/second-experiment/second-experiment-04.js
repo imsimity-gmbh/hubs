@@ -1,4 +1,4 @@
-import { SOUND_POURING_SOIL, SOUND_SCREWING_MACHINE } from "../../../systems/sound-effects-system";
+import { SOUND_POURING_SOIL, SOUND_SCREWING_MACHINE, SOUND_VIBRATING_MACHINE } from "../../../systems/sound-effects-system";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
 //Initial Models:
@@ -47,6 +47,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
             this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
 
+            console.log("SE-04 registered");
             this.expSystem.registerTask("04", this.el, this.experimentData);
             
             setTimeout(() => {
@@ -254,6 +255,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.simpleAnim.playClip("anim_02", true, true);
 
+        this.playLoopingSound(SOUND_VIBRATING_MACHINE);
+
+
         setTimeout(() => {
 
             this.onAnimFinished();
@@ -276,7 +280,6 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         if (this.data.unlockBtnClicked == true)
         {
-            //this.simpleAnim.stopClip("anim_03");
             this.showAnimatedMachine(false);
 
             this.onFinishPart04Callbacks.forEach(cb => {
@@ -285,14 +288,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         }
         else if (this.data.startBtnClicked == true)
         {
+            this.stopLoopingSound();
             this.simpleAnim.stopClip("anim_02");
             
             this.unlockMachineBtn.object3D.visible = true;
         }
         else if (this.data.lockBtnClicked == true)
-        {
-            //this.simpleAnim.stopClip("anim_01");
-            
+        {            
             this.startMachineBtn.object3D.visible = true;
         }
 
@@ -306,9 +308,23 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         }
     },
 
+    playLoopingSound(soundID) {
+        if (this.isMember)
+        {
+            this.loopingNode = this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundLooped(soundID);
+        }
+    },
+
+    stopLoopingSound() {
+        if (this.isMember)
+        {
+            this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.stopSoundNode(this.loopingNode);
+        }
+    },
+
     remove() {
-        console.log("removing second-experiment 03");
-        this.expSystem.deregisterTask("03", this.el, this.experimentData);
+        console.log("removing second-experiment 04");
+        this.expSystem.deregisterTask("04", this.el, this.experimentData);
     }
 
   });

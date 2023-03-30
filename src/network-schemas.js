@@ -1065,6 +1065,25 @@ function registerNetworkSchemas() {
     ]
   });
 
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-05-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        selector: ".sieve-1-final-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sieve-2-final-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+    ]
+  });
+
+
 
   NAF.schemas.add({
     template: "#template-waypoint-avatar",

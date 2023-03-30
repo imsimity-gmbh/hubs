@@ -1629,6 +1629,30 @@
             </template>
 
 
+            <template id="interactable-second-experiment-05-camera">
+                <a-entity
+                    matrix-auto-update
+                    set-yxz-order 
+                    second-experiment-05 
+                    class="ui interactable-ui part05-wrapper"
+                    id="second-experiment-05-wrapper">
+                        
+
+                    <a-entity id="sieve-1-final-socket" class="sieve-1-final-socket" position="0.3 0.68 0.2" rotation="0 -90 0" entity-socket="acceptedEntities: .sieve-1-entity; radius: 2; enabled: true;">
+                        <a-entity class="root" position="0 0 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" scale="0.3 0.3 0.3"  position="0 0 0"></a-entity>
+                    </a-entity> <!--static-->
+
+                    <a-entity id="sieve-2-final-socket" class="sieve-2-final-socket" position="-1 0.58 0" rotation="0 -90 0" entity-socket="acceptedEntities: .sieve-2-entity; radius: 2; enabled: true;">
+                        <a-entity class="root" position="0 0 0" rotation="0 0 0"></a-entity>
+                        <a-entity class="hover-meshes" scale="0.3 0.3 0.3"  position="0 0 0"></a-entity>
+                    </a-entity> <!--static-->
+
+                    
+                </a-entity>
+            </template>
+
+
             <template id="interactable-camera">
                 <a-entity
                     class="interactable"

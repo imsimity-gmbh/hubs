@@ -25,6 +25,7 @@ import URL_BURNER_SOUND from "../assets/sfx/GecoLab/bunsen-burner-sound.mp3";
 import URL_ADD_SAMPLE from "../assets/sfx/GecoLab/add-sample.wav";
 import URL_POURING_SOIL from "../assets/sfx/GecoLab/pouring_soil.mp3";
 import URL_SCREWING_MACHINE from "../assets/sfx/GecoLab/screwing_machine.mp3";
+import URL_VIBRATING_MACHINE from "../assets/sfx/GecoLab/machine_vibrating.wav";
 
 //TODO_LAURA_SOUND: if you want to add new sounds, add their URL down there, and the files inside /assets/sfx/
 
@@ -67,6 +68,7 @@ export const SOUND_BURNER_SOUND = soundEnum++;
 export const SOUND_ADD_SAMPLE = soundEnum++;
 export const SOUND_POURING_SOIL = soundEnum++;
 export const SOUND_SCREWING_MACHINE = soundEnum++;
+export const SOUND_VIBRATING_MACHINE = soundEnum++;
 //TODO_LAURA_SOUND: then, in order, you need to add a new line like so:
 //export const SOUND_MY_SOUND = soundEnum++;
 
@@ -125,7 +127,8 @@ export class SoundEffectsSystem {
       [SOUND_BURNER_SOUND, URL_BURNER_SOUND],
       [SOUND_ADD_SAMPLE, URL_ADD_SAMPLE],
       [SOUND_POURING_SOIL, URL_POURING_SOIL],
-      [SOUND_SCREWING_MACHINE, URL_SCREWING_MACHINE]
+      [SOUND_SCREWING_MACHINE, URL_SCREWING_MACHINE],
+      [SOUND_VIBRATING_MACHINE, URL_VIBRATING_MACHINE]
     ];
     const loading = new Map();
     const load = url => {
