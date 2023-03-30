@@ -716,6 +716,7 @@ class MediaBrowserContainer extends Component {
      
     ] 
 
+    console.log(experiments);
 
     if (!hideSearch && urlSource !== "scenes" && urlSource !== "avatars" && urlSource !== "favorites") {
       searchDescription = (
