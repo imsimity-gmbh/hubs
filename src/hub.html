@@ -1552,15 +1552,10 @@
                             simple-animation
                             >
                         </a-entity>
-                        <a-entity class="mortar-entity" position="0 1 0" rotation="0 180 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
-                            is-remote-hover-target
-                            matrix-auto-update
-                            set-yxz-order
-                            set-unowned-body-kinematic
-                            scalable-when-grabbed
-                            floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
-                        >
+                        <a-entity class="mortar-empty-entity" position="0 1 0" rotation="0 180 0"></a-entity>
+
+                        
+                        <a-entity class="mortar-with-soil-entity" position="0 1 0" rotation="0 180 0">
                             <a-entity class="mortar-stick-entity" position="0 0 0" rotation="-20 0 0"></a-entity>
                         </a-entity>
                         
@@ -1613,6 +1608,10 @@
                     class="ui interactable-ui part04-wrapper"
                     id="second-experiment-04-wrapper">
                     
+                    <a-entity class="fill-soil-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.1 1.2 0" rotation="-15 0 0" scale="0.5 0.5 0.5">
+                        <a-entity text=" value: Fill; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity> <!--static-->
+
                     <a-entity class="lock-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.88 0.3" rotation="-15 0 0" scale="0.5 0.5 0.5">
                         <a-entity text=" value: Lock; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                     </a-entity> <!--static-->

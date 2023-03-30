@@ -6,7 +6,8 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 //Models shared with first-experiment
 import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
-import groundSampleInMortar from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
+import mortarSrc from "../../../assets/models/GecoLab/mortar.glb";
+import groundSampleInMortarSrc from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
 //Models made for second-experiment
@@ -21,7 +22,8 @@ import sieveMachineAnimsSrc from "../../../assets/models/GecoLab/second-experime
 import { THREE } from "aframe";
 
 const mortarStickModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarStickSrc));
-const groundSampleInMortarPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleInMortar));
+const mortarModelPromise = waitForDOMContentLoaded().then(() => loadModel(mortarSrc));
+const groundSampleInMortarPromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleInMortarSrc));
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
 
 const sieveBasePromise = waitForDOMContentLoaded().then(() => loadModel(sieveBaseSrc));
@@ -60,7 +62,7 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.onFinishPart02Callbacks = [];
 
         this.modelsSpawned = 0;
-        this.totalModels = 8;
+        this.totalModels = 9;
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
@@ -117,13 +119,16 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.movableEntities.push(this.sieve2Entity);
         this.hiddenOnSpawn.push(this.sieve2Entity);
 
-
-
-        this.mortarEntity = this.el.querySelector(".mortar-entity");
-        this.hiddenOnSpawn.push(this.mortarEntity);
+        
+        this.mortarWithSoilEntity = this.el.querySelector(".mortar-with-soil-entity");
+        this.hiddenOnSpawn.push(this.mortarWithSoilEntity);
 
         this.mortarStickEntity = this.el.querySelector(".mortar-stick-entity");
         this.hiddenOnSpawn.push(this.mortarStickEntity);
+
+        this.mortarEmptyEntity = this.el.querySelector(".mortar-empty-entity");
+
+
         
         this.scaleEntity = this.el.querySelector(".scale-entity");
         this.hiddenOnSpawn.push(this.scaleEntity);
@@ -154,11 +159,16 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         this.spawnItem(sieveMachineAnimsPromise, new THREE.Vector3(-0.5, 0.9, -0.1), this.sieveMachineAnimsEntity, false, secondExpModelsScale, true);
 
 
-        sideTableAnchor.remove(this.mortarEntity.object3D);
-        mainTableAnchor.add(this.mortarEntity.object3D);
+        sideTableAnchor.remove(this.mortarEmptyEntity.object3D);
+        mainTableAnchor.add(this.mortarEmptyEntity.object3D);
         
-        this.spawnItem(groundSampleInMortarPromise, new THREE.Vector3(0.3, 0.7, 0), this.mortarEntity, false);
-        // This one is a child of the mortarEntity
+        this.spawnItem(mortarModelPromise, new THREE.Vector3(0.3, 0.7, -0.5), this.mortarEmptyEntity, false);
+        
+        sideTableAnchor.remove(this.mortarWithSoilEntity.object3D);
+        mainTableAnchor.add(this.mortarWithSoilEntity.object3D);
+
+        this.spawnItem(groundSampleInMortarPromise, new THREE.Vector3(0.3, 0.7, 0), this.mortarWithSoilEntity, false);
+        // This one is a child of the mortarWithSoilEntity
         this.spawnItem(mortarStickModelPromise, new THREE.Vector3(0, 0.1, 0.05), this.mortarStickEntity, false);
 
 

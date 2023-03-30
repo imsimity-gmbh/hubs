@@ -982,40 +982,32 @@ function registerNetworkSchemas() {
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
-        selector: ".mortar-entity",
-        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
-      },
-      {
-        selector: ".mortar-entity",
-        component: "rotation",
-        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
-      },
-      {
-        selector: ".mortar-stick-entity",
-        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
-      },
-      {
-        selector: ".mortar-stick-entity",
-        component: "rotation",
-        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
-      },
-      {
-        selector: ".scale-entity",
+        selector: ".sieve-base-entity",
         component: "position",
         requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
-        selector: ".scale-entity",
+        selector: "sieve-base-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
-        selector: ".crucible-entity",
+        selector: ".sieve-1-entity",
         component: "position",
         requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
-        selector: "crucible-entity",
+        selector: "sieve-1-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".sieve-2-entity",
+        component: "position",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: "sieve-2-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
@@ -1054,6 +1046,10 @@ function registerNetworkSchemas() {
     components: [
       "position",
       "rotation",
+      {
+        component: "second-experiment-04",
+        property: "soilBtnClicked"
+      },
       {
         component: "second-experiment-04",
         property: "lockBtnClicked"

@@ -1,4 +1,6 @@
+import { SOUND_POURING_SOIL, SOUND_SCREWING_MACHINE } from "../../../systems/sound-effects-system";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
+
 //Initial Models:
 import { THREE } from "aframe";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
@@ -10,6 +12,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
   AFRAME.registerComponent("second-experiment-04", {
     schema: {
+        soilBtnClicked: {default: false},
         lockBtnClicked: {default: false},
         startBtnClicked: {default: false},
         unlockBtnClicked: {default: false},
@@ -20,7 +23,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         
         this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
         this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
-    
+        
+        this.localSoilButtonClick = false;
         this.localLockButtonClick = false;
         this.localStartButtonClick = false;
         this.localUnlockButtonClick = false;
@@ -61,6 +65,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
                 console.log("04 callback subscribed");
 
+                this.fillSoilBtn = this.el.querySelector(".fill-soil-btn");
+                this.fillSoilBtn.object3D.visible = false;
+                this.fillSoilBtn.object3D.addEventListener("interact", () => this.onSoilBtnClicked());
+
                 this.lockMachineBtn = this.el.querySelector(".lock-machine-btn");
                 this.lockMachineBtn.object3D.visible = false;
                 this.lockMachineBtn.object3D.addEventListener("interact", () => this.onLockBtnClicked());
@@ -85,6 +93,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         this.machineEmpty = this.secondExpPart02.querySelector(".sieve-machine-empty-entity");
         this.machineEmpty.components["simple-animation"].playClip("idle", false, true);
+
+        this.mortarEmpty = this.secondExpPart02.querySelector(".mortar-empty-entity");
+        this.mortarWithSoil = this.secondExpPart02.querySelector(".mortar-with-soil-entity");
 
         this.sieveBase = this.secondExpPart02.querySelector(".sieve-base-entity");
         this.sieve1 = this.secondExpPart02.querySelector(".sieve-1-entity");
@@ -123,6 +134,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     },
 
     updateUI: function() {
+        if(this.localSoilButtonClick != this.data.soilBtnClicked) {
+            this.fillMachine();
+            this.localSoilButtonClick = this.data.soilBtnClicked;
+        }
         if(this.localLockButtonClick != this.data.lockBtnClicked) {
             this.lockMachine();
             this.localLockButtonClick = this.data.lockBtnClicked;
@@ -143,7 +158,18 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
    
     startPart04() {
-        this.lockMachineBtn.object3D.visible = true;
+        this.fillSoilBtn.object3D.visible = true;
+    },
+
+    onSoilBtnClicked() {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+            NAF.utils.takeOwnership(networkedEl);
+      
+            this.el.setAttribute("second-experiment-04", "soilBtnClicked", true);      
+      
+            this.updateUI();
+        });
     },
 
     onLockBtnClicked() {
@@ -186,17 +212,34 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.sieveBase.object3D.visible = !toggle;
         this.sieve1.object3D.visible = !toggle;
         this.sieve2.object3D.visible = !toggle;
-        
+
         // shows the animated version
         this.machineAnims.object3D.visible = toggle;
     },
 
+    fillMachine()
+    {
+        this.fillSoilBtn.object3D.visible = false;
+        
+        this.mortarWithSoil.object3D.visible = false;
+        this.mortarEmpty.object3D.visible = true;
+        
+        
+        this.playSound(SOUND_POURING_SOIL);
+
+        this.lockMachineBtn.object3D.visible = true;
+    },
+
+
     lockMachine()
     {
-        this.lockMachineBtn.object3D.visible = true;
+        this.lockMachineBtn.object3D.visible = false;
         
         this.showAnimatedMachine(true);
         
+
+        this.playSound(SOUND_SCREWING_MACHINE);
+
         this.simpleAnim.printAnimations();
 
         this.simpleAnim.stopClip("idle");
@@ -209,12 +252,20 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         this.startMachineBtn.object3D.visible = false;
 
-        this.simpleAnim.playClip("anim_02");
+        this.simpleAnim.playClip("anim_02", true, true);
+
+        setTimeout(() => {
+
+            this.onAnimFinished();
+
+        }, 10 * 1000);
     },
 
     unlockMachine()
     {
         this.unlockMachineBtn.object3D.visible = false;
+
+        this.playSound(SOUND_SCREWING_MACHINE);
 
         this.simpleAnim.playClip("anim_03");
     },
@@ -234,7 +285,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         }
         else if (this.data.startBtnClicked == true)
         {
-            //this.simpleAnim.stopClip("anim_02");
+            this.simpleAnim.stopClip("anim_02");
             
             this.unlockMachineBtn.object3D.visible = true;
         }
