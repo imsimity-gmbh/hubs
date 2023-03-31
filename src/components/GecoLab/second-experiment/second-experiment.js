@@ -51,8 +51,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
           }
 
            // Mannequin
-          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          this.mannequin.components["mannequin"].displayMessage(25);
+          //this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          //this.mannequin.components["mannequin"].displayMessage(25);
         }, IMSIMITY_INIT_DELAY * 6);
                  
       });  
@@ -90,6 +90,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     startExperiment() { 
       this.secondExpStartBtn.object3D.visible = false;
       this.secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+
+      // Mannequin
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+      this.mannequin.components["mannequin"].displayMessage(26);
       
       this.secondExpPart01.components["second-experiment-01"].startPart01(); //for some reason this.firstExpPart01 is undefined for second user (observer)
 

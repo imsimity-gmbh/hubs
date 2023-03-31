@@ -214,7 +214,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
 
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-        //this.mannequin.components["mannequin"].displayMessage(-1);
+        this.mannequin.components["mannequin"].displayMessage(29);
 
         if(this.localGroundSampleIndex == 1) {
           //this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.15); // Schwarzwald

@@ -128,6 +128,10 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
         this.mortarStick = this.secondExpPart02.querySelector(".mortar-stick-entity");
         this.mortarStick.setAttribute("position", {x: 0, y: 0.15, z: 0.04});
         this.mortarStick.setAttribute("rotation", {x: -70, y: 0, z: 0});
+
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(30);
     },
 
     onGrindBtnClicked() {
