@@ -958,6 +958,10 @@ function registerNetworkSchemas() {
       "rotation",
       {
         component: "second-experiment-01",
+        property: "nextBtnClickCount"
+      },
+      {
+        component: "second-experiment-01",
         property: "groundSampleChosen"
       },
       {

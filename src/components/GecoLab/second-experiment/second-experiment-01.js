@@ -9,6 +9,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
 
  AFRAME.registerComponent("second-experiment-01", {
     schema: {
+      nextBtnClickCount: {default: 0},
       groundSampleChosen: {default: false},
       groundSampleIndex: {default: 0},
     },
@@ -19,6 +20,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
+      this.localNextButtonClickCount = 0;
       this.localGroundSampleClicked = false;
       this.localGroundSampleIndex = 0;
 
@@ -56,17 +58,16 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
               this.delayedInit();
             }
 
-            
+            this.nextBtn = this.el.querySelector(".next-btn");
+            this.nextBtn.object3D.visible = false;
+            this.nextBtn.object3D.addEventListener("interact", () => this.onNextButtonClick());
            
           });  
         }, IMSIMITY_INIT_DELAY * 0.9);
 
       });
-
-      
-      
-      
     },
+
 
     delayedInit()
     {
@@ -96,6 +97,18 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
       
       this.updateUI();
 
+    },
+
+    onNextButtonClick()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("second-experiment-01", "nextBtnClickCount", this.localNextButtonClickCount + 1); 
+        
+        this.updateUI();
+      });
     },
 
     subscribe(eventName, fn)
@@ -134,6 +147,47 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
         this.localGroundSampleClicked = this.data.groundSampleChosen;
       }
 
+      if (this.localNextButtonClickCount != this.data.nextBtnClickCount)
+      {
+        this.localNextButtonClickCount = this.data.nextBtnClickCount;
+
+        if (this.localNextButtonClickCount == 1)
+        {
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          // TODO_Arne: put 2nd text
+
+          this.nextBtn.object3D.visible = false;
+
+          if (this.isMember)
+          {
+            //little delay to make things nicer
+            setTimeout(() => {
+              this.nextBtn.object3D.visible = true;
+            }, IMSIMITY_INIT_DELAY);
+          }
+        }
+        else
+        {
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          // TODO_Arne: put 3nd text
+          //this.mannequin.components["mannequin"].displayMessage(17);
+
+          this.nextBtn.object3D.visible = false;
+
+          if (this.isMember)
+          {
+            //little delay to make things nicer
+            setTimeout(() => {
+                
+              this.gecoMap.object3D.visible = true;
+      
+              this.btnWrapper.object3D.visible = true;  
+              
+            }, IMSIMITY_INIT_DELAY);
+          }
+
+        }
+      }
     },
   
     tick: function() {
@@ -179,16 +233,12 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
 
     startPart01() {
 
-      console.log('Show Ground Sample');
+      console.log('Show next button');
 
       
-      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-
       if (this.isMember)
       {
-        this.gecoMap.object3D.visible = true;
-
-        this.btnWrapper.object3D.visible = true;  
+        this.nextBtn.object3D.visible = true;
       }
      
       //this.mannequin.components["mannequin"].displayMessage(17);
@@ -217,25 +267,21 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
         this.mannequin.components["mannequin"].displayMessage(29);
 
         if(this.localGroundSampleIndex == 1) {
-          //this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.15); // Schwarzwald
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
         }
         else if(this.localGroundSampleIndex == 2) {
-          //this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.4); //  Schwäbische Alb
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
         }
         else if(this.localGroundSampleIndex == 3) {
-          //this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.65); // Voralpines Hügel- und Moorland 
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });
         }
         else if(this.localGroundSampleIndex == 4) {
-          //this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.225); // Nördliches, Oberrhein-Tiefland
           this.groundSampleCallbacks.forEach(cb => {
             cb(this.localGroundSampleIndex);
           });

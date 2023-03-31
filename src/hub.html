@@ -1449,11 +1449,19 @@
 
             <template id="interactable-second-experiment-01-camera">
                 <!--Ground samples:-->
-                <a-entity id="second-experiment-01-wrapper" 
-                    second-experiment-01
+                <a-entity 
+                    class="interactable" 
+                    id="second-experiment-01-wrapper" 
                     matrix-auto-update
                     set-yxz-order
+                    second-experiment-01
                     > <!--static-->
+                    <a-entity class="ui interactable-ui"> <!--static-->
+                        <a-entity class="next-btn" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                            <a-entity text=" value: Weiter; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>    
+                    </a-entity>
+                    
                     <a-entity class="ui interactable-ui ground-samples-wrapper" position="0.3 -0.1 0.2">                        
                         <a-entity class="geco-map" visible = false position="0 1 0" scale="1.0 1.0 1.0"></a-entity> <!--static-->
                         <a-entity class="interactable" second-experiment-01-sample>
@@ -1478,9 +1486,7 @@
                         </a-entity>
                     </a-entity>
                     
-                    <a-entity class="experiment-table-wrapper" position="0 -0.1 0">
-                        
-                    </a-entity>
+                   
                 </a-entity>
             </template>
 
