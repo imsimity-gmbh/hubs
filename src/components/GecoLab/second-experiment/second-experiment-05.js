@@ -27,7 +27,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         //bind Callback funtion:
         this.startPart05 = AFRAME.utils.bind(this.startPart05, this);
         this.onSieve2PutToSide = AFRAME.utils.bind(this.onSieve2PutToSide, this);
-        this.onSieve1Placed = AFRAME.utils.bind(this.onSieve1Placed, this);
+        this.onSieve1PlacedOnScale = AFRAME.utils.bind(this.onSieve1PlacedOnScale, this);
+        this.onSieve1PutToSide = AFRAME.utils.bind(this.onSieve1PutToSide, this);
+        this.onSieveBasePlacedOnScale = AFRAME.utils.bind(this.onSieveBasePlacedOnScale, this);
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
@@ -57,12 +59,17 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 console.log("05 callback subscribed");
 
               
-                this.sieve1Socket = this.el.querySelector(".sieve-1-final-socket");
-                this.sockets.push(this.sieve1Socket);
-                this.sieve2Socket = this.el.querySelector(".sieve-2-final-socket");
-                this.sockets.push(this.sieve2Socket);
+                this.sieve1ScaleSocket = this.el.querySelector(".sieve-1-scale-socket");
+                this.sockets.push(this.sieve1ScaleSocket);
+                this.sieveBaseScaleSocket = this.el.querySelector(".sieve-base-scale-socket");
+                this.sockets.push(this.sieveBaseScaleSocket);
+                this.sieve1SideSocket = this.el.querySelector(".sieve-1-side-socket");
+                this.sockets.push(this.sieve1SideSocket);
+                this.sieve2SideSocket = this.el.querySelector(".sieve-2-side-socket");
+                this.sockets.push(this.sieve2SideSocket);
 
                 this.sockets.forEach(s => {
+                    console.log(s);
                     s.object3D.visible = false; //hide holograms until needed
                 });
 
@@ -79,7 +86,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         switch(eventName) {
             case "onFinishPart05":
-              this.onFinishPart04Callbacks.push(fn);
+              this.onFinishPart05Callbacks.push(fn);
               break;
         }
     },
@@ -88,8 +95,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         switch(eventName) {
             case "onFinishPart05":
-              let index = this.onFinishPart04Callbacks.indexOf(fn);
-              this.onFinishPart03Callbacks.splice(index, 1);
+              let index = this.onFinishPart05Callbacks.indexOf(fn);
+              this.onFinishPart05Callbacks.splice(index, 1);
               break;
         }
     },
@@ -112,8 +119,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     startPart05() {
         console.log("startig part 05");
 
-        this.sieve2Socket.object3D.visible = true;
-        var socket = this.sieve2Socket.components["entity-socket"];
+        this.secondExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+        this.scaleText = this.secondExpPart02.querySelector(".scale-entity").querySelector(".display-text");
+        console.log(this.scaleText);
+
+        this.sieve2SideSocket.object3D.visible = true;
+        var socket = this.sieve2SideSocket.components["entity-socket"];
         socket.subscribe("onSnap", this.onSieve2PutToSide);
         socket.delayedInitSocket();
     },
@@ -122,25 +133,60 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         console.log("sieve 2 put to side");
 
-        this.sieve2Socket.object3D.visible = false;
-        var socket2 = this.sieve2Socket.components["entity-socket"];
+        this.sieve2SideSocket.object3D.visible = false;
+        var socket2 = this.sieve2SideSocket.components["entity-socket"];
         socket2.unsubscribe("onSnap", this.onSieve2PutToSide);
 
-        this.sieve1Socket.object3D.visible = true;
-        var socket1 = this.sieve1Socket.components["entity-socket"];
-        socket1.subscribe("onSnap", this.onSieve1Placed);
+        this.sieve1ScaleSocket.object3D.visible = true;
+        var socket1 = this.sieve1ScaleSocket.components["entity-socket"];
+        socket1.subscribe("onSnap", this.onSieve1PlacedOnScale);
         socket1.delayedInitSocket();
     },
 
-    onSieve1Placed()
+    onSieve1PlacedOnScale()
     {
-        this.sieve1Socket.object3D.visible = false;
-        var socket1 = this.sieve1Socket.components["entity-socket"];
-        socket1.unsubscribe("onSnap", this.onSieve1Placed);
+        console.log(this.sieve1ScaleSocket);
 
-        console.log("end of placing sieves");
+        this.sieve1ScaleSocket.object3D.visible = false;
+        var socket1 = this.sieve1ScaleSocket.components["entity-socket"];
+        socket1.unsubscribe("onSnap", this.onSieve1PlacedOnScale);
+
+        this.scaleText.setAttribute("text", { value: "49.3g" });
+
+        this.sieve1SideSocket.object3D.visible = true;
+        var socketSide = this.sieve1SideSocket.components["entity-socket"];
+        socketSide.subscribe("onSnap", this.onSieve1PutToSide);
+        socketSide.delayedInitSocket();
     },
 
+    onSieve1PutToSide()
+    {
+        this.sieve1SideSocket.object3D.visible = false;
+        var socket1 = this.sieve1SideSocket.components["entity-socket"];
+        socket1.unsubscribe("onSnap", this.onSieve1PutToSide);
+
+        this.scaleText.setAttribute("text", { value: "0.0g" });
+
+        this.sieveBaseScaleSocket.object3D.visible = true;
+        var socketScale = this.sieveBaseScaleSocket.components["entity-socket"];
+        socketScale.subscribe("onSnap", this.onSieveBasePlacedOnScale);
+        socketScale.delayedInitSocket();
+    },
+
+    onSieveBasePlacedOnScale()
+    {
+        this.sieveBaseScaleSocket.object3D.visible = false;
+        var socketBase = this.sieveBaseScaleSocket.components["entity-socket"];
+        socketBase.unsubscribe("onSnap", this.onSieveBasePlacedOnScale);
+
+        this.scaleText.setAttribute("text", { value: "51.2g" });
+
+        console.log("experiment 05 done");
+
+        this.onFinishPart05Callbacks.forEach(cb => {
+            cb();
+        });
+    },
     
     playSound(soundID) {
         if (this.isMember)

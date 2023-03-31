@@ -123,7 +123,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         switch(eventName) {
             case "onFinishPart04":
               let index = this.onFinishPart04Callbacks.indexOf(fn);
-              this.onFinishPart03Callbacks.splice(index, 1);
+              this.onFinishPart04Callbacks.splice(index, 1);
               break;
         }
     },
@@ -159,7 +159,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
    
     startPart04() {
-        this.fillSoilBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.fillSoilBtn.object3D.visible = true;
+        }
     },
 
     onSoilBtnClicked() {
@@ -228,7 +231,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         
         this.playSound(SOUND_POURING_SOIL);
 
-        this.lockMachineBtn.object3D.visible = true;
+        if (this.isMember)
+        {
+            this.lockMachineBtn.object3D.visible = true;
+        }
+       
     },
 
 
@@ -291,11 +298,17 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             this.stopLoopingSound();
             this.simpleAnim.stopClip("anim_02");
             
-            this.unlockMachineBtn.object3D.visible = true;
+            if (this.isMember)
+            {
+                this.unlockMachineBtn.object3D.visible = true;
+            }
         }
         else if (this.data.lockBtnClicked == true)
-        {            
-            this.startMachineBtn.object3D.visible = true;
+        {          
+            if (this.isMember)
+            {
+                this.startMachineBtn.object3D.visible = true;
+            }
         }
 
 

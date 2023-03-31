@@ -1071,12 +1071,22 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        selector: ".sieve-1-final-socket",
+        selector: ".sieve-base-scale-socket",
         component: "entity-socket",
         property: "triggerValue"
       },
       {
-        selector: ".sieve-2-final-socket",
+        selector: ".sieve-1-scale-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sieve-1-side-socket",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sieve-2-side-socket",
         component: "entity-socket",
         property: "triggerValue"
       },
