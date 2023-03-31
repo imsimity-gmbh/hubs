@@ -158,9 +158,9 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
             this.grindSampleBtn.object3D.visible = false;
             this.mortarStick.object3D.visible = false;
 
-             // Mannequin
+            // Mannequin
             this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-            //this.mannequin.components["mannequin"].displayMessage(2);
+            this.mannequin.components["mannequin"].displayMessage(31);
             
             this.onFinishPart03Callbacks.forEach(cb => {
                 cb();

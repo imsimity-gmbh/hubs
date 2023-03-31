@@ -197,6 +197,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         {
             this.fillSoilBtn.object3D.visible = true;
+
+            // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+            this.mannequin.components["mannequin"].displayMessage(32);
         }
     },
 
@@ -272,6 +276,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         {
             this.lockMachineBtn.object3D.visible = true;
+
+            // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+            this.mannequin.components["mannequin"].displayMessage(33);
         }
        
     },
@@ -342,6 +350,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             if (this.isMember)
             {
                 this.unlockMachineBtn.object3D.visible = true;
+
+                // Mannequin
+                this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+                this.mannequin.components["mannequin"].displayMessage(34);
             }
         }
         else if (this.data.lockBtnClicked == true)

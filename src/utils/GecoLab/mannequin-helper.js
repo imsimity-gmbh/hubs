@@ -82,6 +82,7 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "Denk daran, dass du das Gewicht des Siebs selbst (245g) abziehen musst.",
   "Denk daran, dass du das Gewicht der Auffangschale (285g) selbst abziehen musst.",
+  "",
 ]
 
 export var MANNEQUIN_TEXTS_BUBBLES = [

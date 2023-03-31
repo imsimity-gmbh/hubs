@@ -133,6 +133,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     {
         console.log("sieve 2 put to side");
 
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(35);
+
         this.sieve2SideSocket.object3D.visible = false;
         var socket2 = this.sieve2SideSocket.components["entity-socket"];
         socket2.unsubscribe("onSnap", this.onSieve2PutToSide);
@@ -166,6 +170,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         socket1.unsubscribe("onSnap", this.onSieve1PutToSide);
 
         this.scaleText.setAttribute("text", { value: "0.0g" });
+
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(36);
 
         this.sieveBaseScaleSocket.object3D.visible = true;
         var socketScale = this.sieveBaseScaleSocket.components["entity-socket"];

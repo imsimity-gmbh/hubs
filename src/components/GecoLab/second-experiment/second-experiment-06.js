@@ -154,6 +154,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         {
             this.el.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+
+            // Mannequin
+            this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+            this.mannequin.components["mannequin"].displayMessage(37);
         }
     },
 
