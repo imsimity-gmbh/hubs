@@ -97,15 +97,7 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             label: <FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />,
             onSelect: () => scene.emit("action_toggle_camera"),
             selected: hasActiveCamera
-          },
-          false && hubChannel.can("spawn_camera") && {
-           id: "camera",
-           icon: CameraIcon,
-           color: "accent5",
-           label: <FormattedMessage id="place-popover.item-type.debug-modal-1" defaultMessage="Modal 1" />,
-           onSelect: () => scene.emit("action_toggle_modal_1", "0000"),
-           selected: hasActiveCamera
-          },
+          }
          
         ];
 

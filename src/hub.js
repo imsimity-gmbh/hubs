@@ -170,6 +170,7 @@ import "./components/GecoLab/second-experiment/second-experiment-02";
 import "./components/GecoLab/second-experiment/second-experiment-03";
 import "./components/GecoLab/second-experiment/second-experiment-04";
 import "./components/GecoLab/second-experiment/second-experiment-05";
+import "./components/GecoLab/second-experiment/second-experiment-06";
 
 
 

@@ -1551,6 +1551,14 @@
                             animation-mixer
                             simple-animation
                             >
+                            <a-entity
+                                position="0 1.6 0" 
+                                rotation="0 90 0"
+                                scale="3 3 3"
+                                class="sieve-machine-clock-entity"
+                            >
+                            <a-entity class="machine-clock-display-text" text="value:00:00; width:1.4; color: #000; align:center;" text-raycast-hack position="0 0 -0.0005" scale="1.0 1.0 1.0"></a-entity> 
+                            </a-entity>
                         </a-entity>
                         <a-entity class="mortar-empty-entity" position="0 1 0" rotation="0 180 0"></a-entity>
 
@@ -1647,11 +1655,22 @@
                 <a-entity
                     matrix-auto-update
                     set-yxz-order 
-                    second-experiment-05 
+                    second-experiment-06 
                     class="ui interactable-ui part06-wrapper"
                     id="second-experiment-06-wrapper">
                     
-                    
+                    <a-entity class="result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                        <a-entity text=" value: Ergebnisse; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity>
+
+                    <a-entity class="next-result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1.5 1 1">
+                        <a-entity text=" value: nächsten Ergebnisse; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.333 0.5 0.5"></a-entity>
+                    </a-entity>
+
+                    <a-entity class="feedback-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                        <a-entity  text=" value: Feedback; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity>
+
                 </a-entity>
             </template>
 

@@ -17,7 +17,7 @@ AFRAME.registerSystem("second-experiments", {
     this.experiments06Els = [];
 
     // 2D array of all experiment parts
-    this.experimentsAllParts = [this.experiments01Els, this.experiments02Els, this.experiments03Els];
+    this.experimentsAllParts = [this.experiments01Els, this.experiments02Els, this.experiments03Els, this.experiments04Els, this.experiments05Els, this.experiments06Els];
 
     // "Rights" for Experiments
     this.experimentsIsMember = [];
@@ -99,7 +99,7 @@ AFRAME.registerSystem("second-experiments", {
         return this.findByGroupCode(this.experiments04Els, groupCode);
       case "05":
         return this.findByGroupCode(this.experiments05Els, groupCode);
-      case "05":
+      case "06":
         return this.findByGroupCode(this.experiments06Els, groupCode);
     }
   },

@@ -9,7 +9,7 @@ import { Button } from "../../../input/Button";
 export function ShowFormulaResultSandModal ({ scene, onClose, result, groupCode }) {
 
     function handleSubmit() {
-        
+        scene.systems["second-experiments"].getTaskById("06", groupCode).components["second-experiment-06"].onSandDone();
         onClose();
     }
 

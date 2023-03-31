@@ -104,6 +104,8 @@ import { ChooseGlovesModalContainer } from "./room/GecoLab/ChooseGlovesModalCont
 import { TemperatureInfoModalContainer } from "./room/GecoLab/TemperatureInfoModalContainer";
 import { FeedbackModalContainer } from "./room/GecoLab/FeedbackModalContainer";
 import { EnterFormulaValuesModalContainer } from "./room/GecoLab/EnterFormulaValuesModalContainer";
+import { EnterFormulaGroundModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaGroundModalContainer";
+import { EnterFormulaSandModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaSandModalContainer";
 import { EnterFormulaClayModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaClayModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
@@ -363,11 +365,25 @@ class UIRoot extends Component {
         EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
       );
     });
-    this.props.scene.addEventListener("action_toggle_modal_1", (event) => {
+    this.props.scene.addEventListener("gecolab_second_experiment_modal_ground", (event) => {
       var groupCode = event.detail;
      
-    this.showNonHistoriedDialog(
-      EnterFormulaClayModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
+      this.showNonHistoriedDialog(
+        EnterFormulaGroundModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
+      );
+    });
+    this.props.scene.addEventListener("gecolab_second_experiment_modal_sand", (event) => {
+      var groupCode = event.detail;
+     
+      this.showNonHistoriedDialog(
+        EnterFormulaSandModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
+      );
+    });
+    this.props.scene.addEventListener("gecolab_second_experiment_modal_clay", (event) => {
+      var groupCode = event.detail;
+     
+      this.showNonHistoriedDialog(
+        EnterFormulaClayModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
       );
     });
 
