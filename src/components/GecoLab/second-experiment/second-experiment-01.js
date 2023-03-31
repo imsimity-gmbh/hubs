@@ -154,7 +154,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
         if (this.localNextButtonClickCount == 1)
         {
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          // TODO_Arne: put 2nd text
+          this.mannequin.components["mannequin"].displayMessage(27);
 
           this.nextBtn.object3D.visible = false;
 
@@ -169,8 +169,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
         else
         {
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          // TODO_Arne: put 3nd text
-          //this.mannequin.components["mannequin"].displayMessage(17);
+          this.mannequin.components["mannequin"].displayMessage(28);
 
           this.nextBtn.object3D.visible = false;
 
