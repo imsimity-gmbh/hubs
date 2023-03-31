@@ -16,6 +16,7 @@ import sieve1Src from "../../../assets/models/GecoLab/second-experiment/sieve_63
 import sieve2Src from "../../../assets/models/GecoLab/second-experiment/sieve_2mm.glb";
 import sieveMachineEmptySrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_empty.glb";
 import sieveMachineAnimsSrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_w_anims.glb";
+import clockSrc from "../../../assets/models/GecoLab/stopwatch.glb";
 
 
 
@@ -31,9 +32,11 @@ const sieve1Promise = waitForDOMContentLoaded().then(() => loadModel(sieve1Src))
 const sieve2Promise = waitForDOMContentLoaded().then(() => loadModel(sieve2Src));
 
 const sieveMachineEmptyPromise = waitForDOMContentLoaded().then(() => loadModel(sieveMachineEmptySrc));
-const sieveMachineAnimsPromise = waitForDOMContentLoaded().then(() => loadModel(sieveMachineAnimsSrc))
+const sieveMachineAnimsPromise = waitForDOMContentLoaded().then(() => loadModel(sieveMachineAnimsSrc));
+const clockPromise =  waitForDOMContentLoaded().then(() => loadModel(clockSrc));
 
 const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
+const clockModelsScale = new THREE.Vector3(1.8, 1.8, 1.8);
 
 /* Networking: How to network entity-socket properly? If callback from onSnap works, part02 should too*/
 
@@ -138,6 +141,8 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
         this.sieveMachineAnimsEntity = this.el.querySelector(".sieve-machine-anims-entity");
 
+        this.machineClockEntity = this.el.querySelector(".sieve-machine-clock-entity");
+
 
         this.spawnItem(sieveBasePromise, new THREE.Vector3(-0.15, 0.75, 0), this.sieveBaseEntity, false, secondExpModelsScale);
         this.spawnItem(sieve1Promise, new THREE.Vector3(-0.65, 0.7, -0.1), this.sieve1Entity, false, secondExpModelsScale);
@@ -158,7 +163,6 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 
         this.spawnItem(sieveMachineAnimsPromise, new THREE.Vector3(-0.5, 0.9, -0.1), this.sieveMachineAnimsEntity, false, secondExpModelsScale, true);
 
-
         sideTableAnchor.remove(this.mortarEmptyEntity.object3D);
         mainTableAnchor.add(this.mortarEmptyEntity.object3D);
         
@@ -176,6 +180,13 @@ const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
         mainTableAnchor.add(this.scaleEntity.object3D);
 
         this.spawnItem(scaleModelPromise, new THREE.Vector3(1, 0.7, 0.1), this.scaleEntity, false);
+
+
+        sideTableAnchor.remove(this.machineClockEntity.object3D);
+        mainTableAnchor.add(this.machineClockEntity.object3D);
+
+        this.spawnItem(clockPromise, new THREE.Vector3(-0.5, 1.45, -0.1), this.machineClockEntity, false, clockModelsScale);
+
 
         this.secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
         this.secondExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);

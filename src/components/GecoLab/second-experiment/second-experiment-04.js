@@ -38,6 +38,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
+        this.countingDown = false;
+        this.countingDuration = 300;
+        this.actualCountingDuration = 10;
+        this.startTime = 0;
 
         waitForDOMContentLoaded().then(() => { 
 
@@ -103,7 +107,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.sieve2 = this.secondExpPart02.querySelector(".sieve-2-entity");
 
         this.machineAnims = this.secondExpPart02.querySelector(".sieve-machine-anims-entity");
-        
+        this.machineClock = this.secondExpPart02.querySelector(".sieve-machine-clock-entity");
+        this.machineClockText = this.secondExpPart02.querySelector(".machine-clock-display-text");
+
         this.simpleAnim = this.machineAnims.components["simple-animation"];
         this.simpleAnim.playClip("idle", true, false);
         this.simpleAnim.printAnimations();
@@ -155,6 +161,35 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
   
     tick: function() {
 
+        if (this.countingDown == true)
+        {
+            var elapsed = (performance.now() - this.startTime)
+            var scaledElapsed = Math.min(Math.max(elapsed	* this.actualCountingDuration / this.countingDuration, 0), this.countingDuration); ;
+            
+            var secondsLeft = Math.floor(this.countingDuration - scaledElapsed);
+
+            console.log(scaledElapsed);
+
+            let formattedTime = "";
+    
+            let minutes = Math.floor(secondsLeft / 60);
+            let seconds = secondsLeft - minutes * 60;
+
+            if(minutes < 10) {
+                if(seconds < 10) 
+                  formattedTime = "0" + minutes + ":0" + seconds;
+                else if(seconds >= 10 && seconds < 60) 
+                  formattedTime = "0" + minutes + ":" + seconds;
+              } 
+              else if(minutes >= 10) {
+                if(seconds < 10) 
+                  formattedTime = minutes + ":0" + seconds;
+                else if(seconds >= 10 && seconds < 60) 
+                  formattedTime = minutes + ":" + seconds;
+              }
+
+            this.machineClockText.setAttribute("text", { value: formattedTime });
+        }
     },
 
    
@@ -219,6 +254,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         // shows the animated version
         this.machineAnims.object3D.visible = toggle;
+        
+        // shows the clock
+        this.machineClock.object3D.visible = toggle;
     },
 
     fillMachine()
@@ -264,12 +302,15 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.playLoopingSound(SOUND_VIBRATING_MACHINE);
 
+        this.countingDown = true;
+        this.startTime = performance.now();
 
         setTimeout(() => {
 
+            this.countingDown = false;
             this.onAnimFinished();
 
-        }, 10 * 1000);
+        }, this.actualCountingDuration * 1000);
     },
 
     unlockMachine()

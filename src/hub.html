@@ -1500,7 +1500,7 @@
                 id="second-experiment-02-wrapper"> 
                     <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
                         <a-entity class="sieve-base-entity" position="0 1 0" rotation="0 -45 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
                             set-yxz-order
@@ -1510,7 +1510,7 @@
                         >
                        </a-entity>
                        <a-entity class="sieve-1-entity" position="0 1 0" rotation="0 -45 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
                             set-yxz-order
@@ -1520,7 +1520,7 @@
                         >
                        </a-entity>
                        <a-entity class="sieve-2-entity" position="0 1 0" rotation="0 -45 0"
-                            tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true;"
+                            tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
                             is-remote-hover-target
                             matrix-auto-update
                             set-yxz-order
@@ -1557,15 +1557,21 @@
                             animation-mixer
                             simple-animation
                             >
-                            <a-entity
-                                position="0 1.6 0" 
+                            <a-entity 
+                                class="machine-clock-display-text" text="value:05:00; width:1.4; color: #000; align:center;" text-raycast-hack 
+                                position="0 1.65 -0.0005" 
                                 rotation="0 90 0"
-                                scale="3 3 3"
-                                class="sieve-machine-clock-entity"
-                            >
-                            <a-entity class="machine-clock-display-text" text="value:00:00; width:1.4; color: #000; align:center;" text-raycast-hack position="0 0 -0.0005" scale="1.0 1.0 1.0"></a-entity> 
+                                scale="3 3 3"> 
                             </a-entity>
                         </a-entity>
+                        <a-entity
+                            position="0 1.6 0" 
+                            rotation="0 0 0"
+                            scale="1 1 1"
+                            class="sieve-machine-clock-entity"
+                        >
+                        </a-entity>
+
                         <a-entity class="mortar-empty-entity" position="0 1 0" rotation="0 180 0"></a-entity>
 
                         
