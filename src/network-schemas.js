@@ -1093,6 +1093,14 @@ function registerNetworkSchemas() {
     ]
   });
 
+  NAF.schemas.add({
+    template: "#interactable-second-experiment-06-camera",
+    components: [
+      "position",
+      "rotation"
+    ]
+  });
+
 
 
   NAF.schemas.add({
