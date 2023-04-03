@@ -106,6 +106,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.sieve1 = this.secondExpPart02.querySelector(".sieve-1-entity");
         this.sieve2 = this.secondExpPart02.querySelector(".sieve-2-entity");
 
+        this.sieveBaseGround = this.secondExpPart02.querySelector(".sieve-base-ground-sample-entity");
+        this.sieve1Ground = this.secondExpPart02.querySelector(".sieve-1-ground-sample-entity");
+
         this.machineAnims = this.secondExpPart02.querySelector(".sieve-machine-anims-entity");
         this.machineClock = this.secondExpPart02.querySelector(".sieve-machine-clock-entity");
         this.machineClockText = this.secondExpPart02.querySelector(".machine-clock-display-text");
@@ -255,6 +258,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.sieveBase.object3D.visible = !toggle;
         this.sieve1.object3D.visible = !toggle;
         this.sieve2.object3D.visible = !toggle;
+        
+        this.sieveBaseGround.object3D.visible = !toggle;
+        this.sieve1Ground.object3D.visible = !toggle;
 
         // shows the animated version
         this.machineAnims.object3D.visible = toggle;

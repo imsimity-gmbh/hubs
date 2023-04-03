@@ -17,7 +17,7 @@ import sieve2Src from "../../../assets/models/GecoLab/second-experiment/sieve_2m
 import sieveMachineEmptySrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_empty.glb";
 import sieveMachineAnimsSrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_w_anims.glb";
 import clockSrc from "../../../assets/models/GecoLab/stopwatch.glb";
-
+import groundSampleSrc from "../../../assets/models/GecoLab/ground_sample_grinded.glb";
 
 
 import { THREE } from "aframe";
@@ -35,8 +35,11 @@ const sieveMachineEmptyPromise = waitForDOMContentLoaded().then(() => loadModel(
 const sieveMachineAnimsPromise = waitForDOMContentLoaded().then(() => loadModel(sieveMachineAnimsSrc));
 const clockPromise =  waitForDOMContentLoaded().then(() => loadModel(clockSrc));
 
+const groundSamplePromise = waitForDOMContentLoaded().then(() => loadModel(groundSampleSrc));
+
 const secondExpModelsScale = new THREE.Vector3(0.33, 0.33, 0.33);
 const clockModelsScale = new THREE.Vector3(1.8, 1.8, 1.8);
+const groundSampleScale = new THREE.Vector3(4, 4, 4);
 
 /* Networking: How to network entity-socket properly? If callback from onSnap works, part02 should too*/
 
@@ -65,7 +68,7 @@ const clockModelsScale = new THREE.Vector3(1.8, 1.8, 1.8);
         this.onFinishPart02Callbacks = [];
 
         this.modelsSpawned = 0;
-        this.totalModels = 9;
+        this.totalModels = 12;
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
@@ -113,11 +116,17 @@ const clockModelsScale = new THREE.Vector3(1.8, 1.8, 1.8);
         this.sieveBaseEntity = this.el.querySelector(".sieve-base-entity");
         this.movableEntities.push(this.sieveBaseEntity);
         this.hiddenOnSpawn.push(this.sieveBaseEntity);
-
+        
+        // Ground inside the base plate
+        this.sieveBaseGroundSampleEntity = this.el.querySelector(".sieve-base-ground-sample-entity");
+        
         this.sieve1Entity = this.el.querySelector(".sieve-1-entity");
         this.movableEntities.push(this.sieve1Entity);
         this.hiddenOnSpawn.push(this.sieve1Entity);
 
+        // Ground inside the Sieve 1
+        this.sieve1GroundSampleEntity = this.el.querySelector(".sieve-1-ground-sample-entity");
+        
         this.sieve2Entity = this.el.querySelector(".sieve-2-entity");
         this.movableEntities.push(this.sieve2Entity);
         this.hiddenOnSpawn.push(this.sieve2Entity);
@@ -147,7 +156,9 @@ const clockModelsScale = new THREE.Vector3(1.8, 1.8, 1.8);
         this.spawnItem(sieveBasePromise, new THREE.Vector3(-0.15, 0.75, 0), this.sieveBaseEntity, false, secondExpModelsScale);
         this.spawnItem(sieve1Promise, new THREE.Vector3(-0.65, 0.7, -0.1), this.sieve1Entity, false, secondExpModelsScale);
         this.spawnItem(sieve2Promise, new THREE.Vector3(-1.15, 0.6, 0), this.sieve2Entity, false, secondExpModelsScale);
-        
+
+        this.spawnItem(groundSamplePromise, new THREE.Vector3(0,.17,0), this.sieveBaseGroundSampleEntity, false, groundSampleScale);
+        this.spawnItem(groundSamplePromise, new THREE.Vector3(0,.31,0), this.sieve1GroundSampleEntity, false, groundSampleScale);
         
         // Crucible entity needs special care...
         var mainTableAnchor = this.expSystem.getTaskById('01', this.experimentData.groupCode).object3D;
