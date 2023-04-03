@@ -531,7 +531,29 @@ class MediaBrowserContainer extends Component {
     this.close();
   }
 
-  onRemoveExperiment = (e, position_id, experiment) => {
+  onRemoveSecondExperiment = (e, position_id) => {
+    const { scene } = this.props;
+    const { hubChannel } = this.props;
+
+    console.log(position_id);
+
+    var secondExpSystem = scene.systems["second-experiments"];
+    
+    var groupCode = secondExpSystem.getCurrentGroupCodeForPosition(position_id);
+
+    console.log("Deleting " + groupCode);
+
+    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "second-experiment" };
+
+    // We are not the Moderator, we broadcast an event !
+    console.log("We broadcast a Despawn Request to all");
+
+    hubChannel.sendMessage(data, "gecolab-spawn");
+     
+    this.close();
+  }
+
+  onRemoveFirstExperiment = (e, position_id) => {
     const { scene } = this.props;
     const { hubChannel } = this.props;
 
@@ -543,7 +565,7 @@ class MediaBrowserContainer extends Component {
 
     console.log("Deleting " + groupCode);
 
-    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: experiment };
+    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "first-experiment" };
 
     // We are not the Moderator, we broadcast an event !
     console.log("We broadcast a Despawn Request to all");
@@ -649,27 +671,30 @@ class MediaBrowserContainer extends Component {
     var deleteSecondExperimentPosition01 = null;
     var deleteSecondExperimentPosition02 = null;
 
+    var pos1occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_01")) != null;
+    var pos2occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_02")) != null;
+
     if (firstExperimentSystem)
     {
       var groupCode01 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_01");
       var groupCode02 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_02");
 
-      deleteFirstExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01", "first-experiment") : null;
-      deleteFirstExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02", "first-experiment") : null;
+      deleteFirstExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveFirstExperiment(e, "position_01") : null;
+      deleteFirstExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveFirstExperiment(e, "position_02") : null;
 
-      createFirstExperimentPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "first-experiment") : null;
-      createFirstExperimentPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "first-experiment") : null;
+      createFirstExperimentPosition01 = (!pos1occupied && groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "first-experiment") : null;
+      createFirstExperimentPosition02 = (!pos2occupied && groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "first-experiment") : null;
     }
     if (secondExperimentSystem)
     {
       var groupCode01 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_01");
       var groupCode02 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_02");
 
-      deleteSecondExperimentPosition01 = (groupCode01 != null) ? e => this.onRemoveExperiment(e, "position_01", "second-experiment") : null;
-      deleteSecondExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveExperiment(e, "position_02", "second-experiment") : null;
+      deleteSecondExperimentPosition01 = (groupCode01 != null) ? e => this.onRemoveSecondExperiment(e, "position_01") : null;
+      deleteSecondExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveSecondExperiment(e, "position_02") : null;
 
-      createSecondExperimentPosition01 = (groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "second-experiment") : null;
-      createSecondExperimentPosition02 = (groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "second-experiment") : null;
+      createSecondExperimentPosition01 = (!pos1occupied &&groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "second-experiment") : null;
+      createSecondExperimentPosition02 = (!pos2occupied &&groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "second-experiment") : null;
     }
 
     let experiments = [
