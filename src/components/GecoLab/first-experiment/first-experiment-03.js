@@ -96,7 +96,7 @@ const curcibleModelPromise = waitForDOMContentLoaded().then(() => loadModel(curc
  
                 
                 //Subscribe to callback after placing mortar    
-                this.firstExpPart02.components["first-experiment-02"].subscribe("onInitPart02", this.startPart03);
+                this.firstExpPart02.components["first-experiment-02"].subscribe("onFinishPart02", this.startPart03);
 
                 this.mortarSocket03 = this.el.querySelector(".mortar-socket-03");
                 /// this.groundSampleSocket03 = this.el.querySelector(".ground-sample-socket-03");
