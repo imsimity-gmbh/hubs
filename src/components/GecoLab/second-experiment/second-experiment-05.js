@@ -33,6 +33,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
         this.expSystem = this.el.sceneEl.systems["second-experiments"];
 
+        this.groundSampleIndex = 0;
+        this.sieve1weights = ["279.1", "248.6", "267.5", "282.45"];
+        this.sieveBaseWeights = ["300.9","331.4","312.5", "297.55"];
 
         waitForDOMContentLoaded().then(() => { 
 
@@ -119,6 +122,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     startPart05() {
         console.log("startig part 05");
 
+        var secondExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+        console.log(secondExpPart01);
+
+        this.groundSampleIndex = secondExpPart01.components["second-experiment-01"].localGroundSampleIndex;
+        console.log(this.groundSampleIndex); 
+
+
         this.secondExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
         this.scaleText = this.secondExpPart02.querySelector(".scale-entity").querySelector(".display-text");
         console.log(this.scaleText);
@@ -155,7 +165,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         var socket1 = this.sieve1ScaleSocket.components["entity-socket"];
         socket1.unsubscribe("onSnap", this.onSieve1PlacedOnScale);
 
-        this.scaleText.setAttribute("text", { value: "49.3g" });
+        //TODO: use real values
+        var weight = this.sieve1weights[this.groundSampleIndex];
+        console.log("weight :"+weight);
+
+        this.scaleText.setAttribute("text", { value: weight });
 
         this.sieve1SideSocket.object3D.visible = true;
         var socketSide = this.sieve1SideSocket.components["entity-socket"];
@@ -187,7 +201,10 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         var socketBase = this.sieveBaseScaleSocket.components["entity-socket"];
         socketBase.unsubscribe("onSnap", this.onSieveBasePlacedOnScale);
 
-        this.scaleText.setAttribute("text", { value: "51.2g" });
+        var weight = this.sieveBaseWeights[this.groundSampleIndex];
+        console.log("weight :"+weight);
+
+        this.scaleText.setAttribute("text", { value: weight });
 
         console.log("experiment 05 done");
 

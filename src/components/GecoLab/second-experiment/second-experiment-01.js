@@ -166,7 +166,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
             }, IMSIMITY_INIT_DELAY);
           }
         }
-        else
+        else if (this.localNextButtonClickCount == 2)
         {
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
           this.mannequin.components["mannequin"].displayMessage(28);
@@ -184,7 +184,23 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
               
             }, IMSIMITY_INIT_DELAY);
           }
+        }
+        else if (this.localNextButtonClickCount == 3)
+        {
+          // TODO_ARNE: Weiter button after choosing sample
+          this.nextBtn.object3D.visible = false;
 
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          //this.mannequin.components["mannequin"].displayMessage(28);
+
+          if (this.isMember)
+          {
+            //little delay to make things nicer
+            setTimeout(() => {
+              this.callOnFinishPart1();
+            }, IMSIMITY_INIT_DELAY);
+          }
+        
         }
       }
     },
@@ -209,6 +225,7 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
 
       return "Error";
     },
+
 
     spawnMap(promise, position, entity, show) {
       promise.then(model => {
@@ -287,9 +304,12 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
         }  
          
         setTimeout(() => {
-          this.callOnFinishPart1();
-        }, 500);
-       
+          if (this.isMember)
+          {
+            this.nextBtn.object3D.visible = true;
+          }
+        }, IMSIMITY_INIT_DELAY);
+        
         // Mannequin
         this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
         //this.mannequin.components["mannequin"].displayMessage(16);
