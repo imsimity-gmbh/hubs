@@ -3,7 +3,7 @@ import { ShowFormulaResultSandModalContainer } from "./ShowFormulaResultSandModa
 import PropTypes from "prop-types";
 import { Modal } from "../../../modal/Modal";
 import { FormattedMessage } from "react-intl";
-import correctFormula from "../../../../assets/images/icons/humusgehalt_formel_richtig_neu.png";
+import correctFormula from "../../../../assets/images/icons/Formel_AnteilKornfraktion.png";
 import styles from "./EnterFormulaSandModal.scss";
 import { Column } from "../../../layout/Column";
 import { useForm } from "react-hook-form";

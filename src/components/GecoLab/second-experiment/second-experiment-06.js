@@ -151,6 +151,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     onFeedbackClick()
     {
+       this.feedbackBtn.object3D.visible = false;
+
         if (this.isMember)
         {
             this.el.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
