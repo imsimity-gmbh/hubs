@@ -115,7 +115,9 @@ AFRAME.registerComponent("mannequin", {
         var moreInfoTextAvailable = MANNEQUIN_TEXTS_EXTRA[textId] != "";
         this.moreButton.object3D.visible = moreInfoTextAvailable;
         this.moreButtonText.setAttribute("text", { value: "Tipp"});
-        if(textId==16) this.moreButtonText.setAttribute("text", { value: "Weiter"});
+        
+        if(textId==16) 
+            this.moreButtonText.setAttribute("text", { value: "Weiter"});
 
         this.currentTextId = textId;
 

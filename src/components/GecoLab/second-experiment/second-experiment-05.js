@@ -166,8 +166,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         socket1.unsubscribe("onSnap", this.onSieve1PlacedOnScale);
 
         //TODO: use real values
-        var weight = this.sieve1weights[this.groundSampleIndex];
-        console.log("weight :"+weight);
+        var weight = this.sieve1weights[this.groundSampleIndex - 1] + "g";
+        console.log("weight :"+ weight);
 
         this.scaleText.setAttribute("text", { value: weight });
 
@@ -201,8 +201,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         var socketBase = this.sieveBaseScaleSocket.components["entity-socket"];
         socketBase.unsubscribe("onSnap", this.onSieveBasePlacedOnScale);
 
-        var weight = this.sieveBaseWeights[this.groundSampleIndex];
-        console.log("weight :"+weight);
+        var weight = this.sieveBaseWeights[this.groundSampleIndex - 1] + "g";
+        console.log("weight :"+ weight);
 
         this.scaleText.setAttribute("text", { value: weight });
 

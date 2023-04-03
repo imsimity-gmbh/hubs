@@ -39,7 +39,7 @@ export var MANNEQUIN_TEXTS = [
   "Verschließe die Maschine mit dem Deckel und den Schrauben, sodass nichts von deiner Bodenprobe im Raum landet. Nun kannst du die Siebmaschine starten. Das Sieben wird ungefähr 5 Minuten dauern.",
   "Deine Bodenprobe ist fertig. Nachdem die Bestandteile auseinander gesiebt wurden, können wir sie jetzt wiegen. Öffne den Verschluss und lege das grobe Sieb zur Seite. Der Boden, der sich darin befindet, wird als Bodenskelett bezeichnet und ist für die Bestimmung der Bodenart nicht relevant.",
   "Platziere das 0,63 mm Sieb auf der Waage und notiere das Gewicht. In diesem Sieb befinden sich die Bodenpartikel die eine Größe zwischen 2mm- 0,063mm haben, also die Sandfraktion. Um den prozentualen Anteil der Sandfraktion zu berechnen, musst du deine notierten Werte in die Formel eintragen.",
-  "Nimm die Auffangschale, stelle sie auf die Waage und notiere das Gewicht. In der Auffangschale sind alle Bodenpartikel, die kleiner sind als 0,063mm. Wenn man diese Partikel auch noch voneinander trennen will, müsste man eine sogenannte Schlämmanalyse machen. Um den prozentualen Anteil der Ton-/ Schlufffraktion zu berechnen musst du deine notierten Werte in die Formel eintragen.",
+  "Nimm die Auffangschale, stelle sie auf die Waage und notiere das Gewicht. In der Auffangschale sind alle Bodenpartikel, die kleiner sind als 0,063mm. Wenn man diese Partikel voneinander trennen will, müsste man eine sogenannte Schlämmanalyse machen. Um den prozentualen Anteil der Ton-/ Schlufffraktion zu berechnen musst du deine notierten Werte in die Formel eintragen.",
   "Super das Experiment ist geschafft!",
 ]
 

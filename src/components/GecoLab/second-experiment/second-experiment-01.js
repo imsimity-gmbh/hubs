@@ -192,14 +192,11 @@ const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSr
 
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
           //this.mannequin.components["mannequin"].displayMessage(28);
-
-          if (this.isMember)
-          {
-            //little delay to make things nicer
-            setTimeout(() => {
-              this.callOnFinishPart1();
-            }, IMSIMITY_INIT_DELAY);
-          }
+          
+          //little delay to make things nicer
+          setTimeout(() => {
+            this.callOnFinishPart1();
+          }, IMSIMITY_INIT_DELAY);
         
         }
       }
