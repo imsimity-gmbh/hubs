@@ -33,7 +33,7 @@ export function EnterFormulaGroundModal ({ scene, showNonHistoriedDialog, onClos
 
     return (
         <Modal  
-            title={<FormattedMessage id="enter-values.title" defaultMessage="Werte einsetzen" />}
+            title={<FormattedMessage id="enter-values.title.ground" defaultMessage="Berechnung der Gesamtmasse Boden" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
         >
             <Column as="form" center>
