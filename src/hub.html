@@ -1600,10 +1600,12 @@
                     second-experiment-03 
                     class="ui interactable-ui part03-wrapper"
                     id="second-experiment-03-wrapper">
-                    
-                    <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1 0" rotation="0 0 0" scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
+
+                    <a-entity class="interactable" first-experiment-03-grind></a-entity>
+                        <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1 0" rotation="0 0 0" scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
+                    </a-entity> 
                     
                     <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
                 </a-entity>
