@@ -1600,10 +1600,12 @@
                     second-experiment-03 
                     class="ui interactable-ui part03-wrapper"
                     id="second-experiment-03-wrapper">
-                    
-                    <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1 0" rotation="0 0 0" scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
+                    <a-entity class="interactable">
+                        <a-entity class="grind-sample-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1 0" rotation="0 0 0" scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Probe mörsern; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
+    
+                    </a-entity>
                     
                     <a-entity class="grind-sample-entity" position="-0.55 0.8 0.2" rotation="0 90 0"></a-entity>
                 </a-entity>
@@ -1616,23 +1618,23 @@
                     second-experiment-04
                     class="ui interactable-ui part04-wrapper"
                     id="second-experiment-04-wrapper">
-                    
-                    <a-entity class="fill-soil-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.1 1.2 0" rotation="-15 0 0" scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Befüllen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
+                    <a-entity class="interactable">
+                        <a-entity class="fill-soil-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.1 1.2 0" rotation="-15 0 0" scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Befüllen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
 
-                    <a-entity class="lock-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.88 0.3" rotation="-15 0 0" scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Verschließen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
+                        <a-entity class="lock-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.88 0.3" rotation="-15 0 0" scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Verschließen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
 
-                    <a-entity class="start-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.88 0.3" rotation="-15 0 0"  scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Start; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
+                        <a-entity class="start-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 0.88 0.3" rotation="-15 0 0"  scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Start; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
 
-                    <a-entity class="unlock-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;"  position="-0.5 0.88 0.3" rotation="-15 0 0"  scale="0.5 0.5 0.5">
-                        <a-entity text=" value: Öffnen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity> <!--static-->
-                    
+                        <a-entity class="unlock-machine-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;"  position="-0.5 0.88 0.3" rotation="-15 0 0"  scale="0.5 0.5 0.5">
+                            <a-entity text=" value: Öffnen; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->
+                    </a-entity>
                     
                 </a-entity>
             </template>
@@ -1676,17 +1678,18 @@
                     second-experiment-06 
                     class="ui interactable-ui part06-wrapper"
                     id="second-experiment-06-wrapper">
-                    
-                    <a-entity class="result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
-                        <a-entity text=" value: Berechnung; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
-                    </a-entity>
+                    <a-entity class="interactable">
+                        <a-entity class="result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                            <a-entity text=" value: Berechnung; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
 
-                    <a-entity class="next-result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1.5 1 1">
-                        <a-entity text=" value: nächsten Berechnung; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.333 0.5 0.5"></a-entity>
-                    </a-entity>
+                        <a-entity class="next-result-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1.5 1 1">
+                            <a-entity text=" value: nächsten Berechnung; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.333 0.5 0.5"></a-entity>
+                        </a-entity>
 
-                    <a-entity class="feedback-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
-                        <a-entity  text=" value: Feedback; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        <a-entity class="feedback-btn" visible = false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                            <a-entity  text=" value: Feedback; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
                     </a-entity>
 
                 </a-entity>
