@@ -67,6 +67,7 @@ export function FeedbackModal ({ scene, showNonHistoriedDialog, onClose, groupCo
         <Modal  
             title={<FormattedMessage id="temperatureInfo-modal.title" defaultMessage="Feedback" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <div class="modal-wrapper">
                 <Column as="form" center>

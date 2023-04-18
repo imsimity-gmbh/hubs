@@ -37,6 +37,7 @@ export function EnterFormulaValuesModal ({ scene, showNonHistoriedDialog, onClos
         <Modal  
             title={<FormattedMessage id="enter-values.title" defaultMessage="Werte einsetzen" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <Column as="form" center>
             <div class="modal-wrapper">

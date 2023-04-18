@@ -703,7 +703,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteFirstExperimentPostion01 == null) ? "Experiment 1 - Arbeitsbereich 1" : "Experiment 1 - Arbeitsbereich 1 - Schon Platziert",
+        name: (deleteFirstExperimentPostion01 == null) ? "Humusglühen - Arbeitsbereich 1" : "Humusglühen - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -713,7 +713,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteFirstExperimentPosition02 == null) ? "Experiment 1 - Arbeitsbereich 2" : "Experiment 1 - Arbeitsbereich 2 - Schon Platziert",
+        name: (deleteFirstExperimentPosition02 == null) ? "Humusglühen - Arbeitsbereich 2" : "Humusglühen - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -723,7 +723,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteSecondExperimentPosition01 == null) ? "Experiment 2 - Arbeitsbereich 1" : "Experiment 2 - Arbeitsbereich 1 - Schon Platziert",
+        name: (deleteSecondExperimentPosition01 == null) ? "Sieben - Arbeitsbereich 1" : "Sieben - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -733,7 +733,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteSecondExperimentPosition02 == null) ? "Experiment 2 - Arbeitsbereich 2" : "Experiment 2 - Arbeitsbereich 2 - Schon Platziert",
+        name: (deleteSecondExperimentPosition02 == null) ? "Sieben - Arbeitsbereich 2" : "Sieben - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"

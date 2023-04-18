@@ -44,6 +44,7 @@ export function ChooseGlovesModal ({ scene, showNonHistoriedDialog, onClose, gro
         <Modal  
             title={<FormattedMessage id="glove-modal.title" defaultMessage="Feuerschutz" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <div className="safety-text">
                 Sicherheit ist wichtig! <br></br>

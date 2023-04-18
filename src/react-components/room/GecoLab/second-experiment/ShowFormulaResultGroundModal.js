@@ -17,6 +17,7 @@ export function ShowFormulaResultGroundModal ({ scene, onClose, result, groupCod
         <Modal  
             title={<FormattedMessage id="show-result.title" defaultMessage="Ergebnis" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <div class="result-modal-wrapper">
                 <div class="result-text">

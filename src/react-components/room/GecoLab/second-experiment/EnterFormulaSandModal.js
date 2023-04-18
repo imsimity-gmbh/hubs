@@ -35,6 +35,7 @@ export function EnterFormulaSandModal ({ scene, showNonHistoriedDialog, onClose,
         <Modal  
             title={<FormattedMessage id="enter-values.title.sand" defaultMessage="Berechnung der Sandfraktion" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <Column as="form" center>
             <div class="modal-wrapper">

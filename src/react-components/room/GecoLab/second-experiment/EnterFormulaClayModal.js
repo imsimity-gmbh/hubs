@@ -35,6 +35,7 @@ export function EnterFormulaClayModal ({ scene, showNonHistoriedDialog, onClose,
         <Modal  
             title={<FormattedMessage id="enter-values.title.clay" defaultMessage="Berechnung der Ton-/ Schlufffraktion" />}
             /*beforeTitle={<CloseButton onClick={onClose} />}*/
+            disableFullscreen={true}
         >
             <Column as="form" center>
             <div class="modal-wrapper">
