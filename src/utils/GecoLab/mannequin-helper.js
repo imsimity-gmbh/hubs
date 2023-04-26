@@ -80,8 +80,8 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "",
   "",
-  "Das Gewicht der Sandfraktion benötigst du, um die Gesamtmasse des Bodens zu berechnen, aber auch den prozentualen Anteil der Sandfraktion am Gesamtboden.",
-  "Das Gewicht der Ton-/Schlufffraktion benötigst du, um die Gesamtmasse des Bodens, aber auch den prozentualen Anteil der Ton-/Schlufffraktion am Gesamtboden zu berechnen.",
+  "Das Gewicht der Sandfraktion benötigst du, um die Gesamtmasse des Bodens aber auch um den prozentualen Anteil der Sandfraktion am Gesamtboden zu berechnen.",
+  "Das Gewicht der Ton-/Schlufffraktion benötigst du, um die Gesamtmasse des Bodens, aber auch um den prozentualen Anteil der Ton-/Schlufffraktion am Gesamtboden zu berechnen.",
   "",
 ]
 

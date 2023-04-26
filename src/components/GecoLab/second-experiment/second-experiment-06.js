@@ -65,11 +65,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
                 this.resultBtn = this.el.querySelector(".result-btn");
                 this.resultBtn.object3D.visible = false;
                 this.resultBtn.object3D.addEventListener("interact", () => this.onStartCalculations());
+                this.resultBtnText = this.resultBtn.querySelector(".result-btn-text");
 
-                this.nextResultBtn = this.el.querySelector(".next-result-btn");
-                this.nextResultBtn.object3D.visible = false;
-                this.nextResultBtn.object3D.addEventListener("interact", () => this.onStartCalculations());
-             
                 this.feedbackBtn = this.el.querySelector(".feedback-btn");
                 this.feedbackBtn.object3D.visible = false;
                 this.feedbackBtn.object3D.addEventListener("interact", () => this.onFeedbackClick());
@@ -120,13 +117,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         {
             this.resultBtn.object3D.visible = true;
+            this.resultBtnText.setAttribute("text", { value: "Gesamtmasse Boden\nberechnen" });
         }
     },
 
     onStartCalculations()
     {
         this.resultBtn.object3D.visible = false;
-        this.nextResultBtn.object3D.visible = false;
 
         this.resultClicks++;
 
@@ -168,7 +165,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         {
             setTimeout(() => {
-                this.nextResultBtn.object3D.visible = true;
+                this.resultBtn.object3D.visible = true;
+                this.resultBtnText.setAttribute("text", { value: "Sandfraktion\nberechnen" });
             }, IMSIMITY_INIT_DELAY);
         }
     },
@@ -178,7 +176,8 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if (this.isMember)
         { 
             setTimeout(() => {
-                this.nextResultBtn.object3D.visible = true;
+                this.resultBtn.object3D.visible = true;
+                this.resultBtnText.setAttribute("text", { value: "Ton-/ Schlufffraktion\nberechnen" });
             }, IMSIMITY_INIT_DELAY);
         }
     },
