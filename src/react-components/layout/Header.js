@@ -11,8 +11,6 @@ import modalStyles from "../../react-components/modal/Modal.scss";
 import { FaqModal } from "../home/FaqModal";
 
 export function Header({
-  appName,
-  appLogo,
   showCloud,
   enableSpoke,
   editorName,
@@ -52,7 +50,12 @@ export function Header({
           <ul>
             <li>
               <a href="/" className={styles.homeLink}>
-                <img alt={appName} src={appLogo} />
+                {/*
+                This forceConfigurableLogo prop is a bit of a hack, since we want the home page on HMC to use our 
+                configured logo, which is left-aligned, as opposed to the logo that we typically used for HMC, 
+                which is center-aligned.
+                */}
+                <AppLogo forceConfigurableLogo />
               </a>
             </li>
 
@@ -108,6 +111,13 @@ export function Header({
                 </a>
               </li>
             )}
+            {isHmc && (
+              <li>
+                <a href="/labs">
+                  <FormattedMessage id="header.labs" defaultMessage="Labs" />
+                </a>
+              </li>
+            )}
             {isAdmin && (
               <li>
                 <a href="/admin" rel="noreferrer noopener">
@@ -145,8 +155,6 @@ export function Header({
 }
 
 Header.propTypes = {
-  appName: PropTypes.string,
-  appLogo: PropTypes.string,
   showCloud: PropTypes.bool,
   enableSpoke: PropTypes.bool,
   editorName: PropTypes.string,

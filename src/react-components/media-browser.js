@@ -57,7 +57,10 @@ const DEFAULT_FACETS = {
     { text: "Newest", params: { filter: "" } }
   ],
   favorites: [],
-  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }]
+  scenes: [
+    { text: "Featured", params: { filter: "featured" } },
+    { text: "My Scenes", params: { filter: "my-scenes" } }
+  ]
 };
 
 const poweredByMessages = defineMessages({

@@ -15,7 +15,6 @@ import { MediaTile } from "../room/MediaTiles";
 import { PageContainer } from "../layout/PageContainer";
 import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
-import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
 import modalStyles from "../../react-components/modal/Modal.scss";
 import avatarImage from '../../assets/images/avatarImages/myavatar.png';
@@ -39,6 +38,7 @@ export function HomePage() {
 
  
 
+  const wrapInBold = chunk => <b>{chunk}</b>;
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
 
