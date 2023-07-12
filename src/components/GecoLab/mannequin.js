@@ -71,6 +71,7 @@ AFRAME.registerComponent("mannequin", {
             
             var firstExpSystem = this.el.sceneEl.systems["first-experiments"];
             var secondExpSystem = this.el.sceneEl.systems["second-experiments"];
+            var thirdExpSystem = this.el.sceneEl.systems["third-experiments"];
 
             if (firstExpSystem.isGroupCodeActive(this.experimentData.groupCode))
             {
@@ -79,6 +80,10 @@ AFRAME.registerComponent("mannequin", {
             else if (secondExpSystem.isGroupCodeActive(this.experimentData.groupCode))
             {
                 this.isMember = secondExpSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+            }
+            else if (thirdExpSystem.isGroupCodeActive(this.experimentData.groupCode))
+            {
+                this.isMember = thirdExpSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
             }
 
             console.log(this.experimentData);

@@ -133,11 +133,15 @@ export function TeacherExperimentModal({ onSubmit, location ,onClose, presences,
     <Modal
       title={ (location==="position_01") ? 
                 (experiment==="first-experiment") ?
-          <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> : 
+          <FormattedMessage id="teacher-experiment-modal.title_01" defaultMessage="Experiment 1 - Arbeitsbereich 1" /> :
+                (experiment==="second-experiment") ? 
           <FormattedMessage id="teacher-experiment-modal.title_03" defaultMessage="Experiment 2 - Arbeitsbereich 1" /> :
+          <FormattedMessage id="teacher-experiment-modal.title_05" defaultMessage="Experiment 3 - Arbeitsbereich 1" /> :
                 (experiment==="first-experiment") ?
           <FormattedMessage id="teacher-experiment-modal.title_02" defaultMessage="Experiment 1 - Arbeitsbereich 2" /> :
-          <FormattedMessage id="teacher-experiment-modal.title_04" defaultMessage="Experiment 2 - Arbeitsbereich 2" />}
+                (experiment==="second-experiment") ?
+          <FormattedMessage id="teacher-experiment-modal.title_04" defaultMessage="Experiment 2 - Arbeitsbereich 2" /> :
+          <FormattedMessage id="teacher-experiment-modal.title_06" defaultMessage="Experiment 3 - Arbeitsbereich 2" />}
       beforeTitle={<CloseButton onClick={onClose} />}
     >
       <Column as="form" padding center onSubmit={handleSubmit(onSubmit)}>

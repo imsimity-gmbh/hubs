@@ -154,6 +154,10 @@ export function ChatContextProvider({ messageDispatch, children }) {
             {
               scene.systems['second-experiments'].setIsMemberForGroupCode(data.groupCode, isMember);
             }
+            else if (data.experiment == "third-experiment")
+            {
+              scene.systems['third-experiments'].setIsMemberForGroupCode(data.groupCode, isMember);
+            }
           }
 
           // We are the Moderator

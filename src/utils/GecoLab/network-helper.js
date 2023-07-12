@@ -117,6 +117,14 @@ function createId(length) {
       scene.emit("action_toggle_second_experiment_02", groupCode);
       scene.emit("action_toggle_second_experiment_02_start", groupCode);
     }
+    else if (position === "position_01" && experiment === "third-experiment") {
+      scene.emit("action_toggle_third_experiment_01", groupCode);
+      scene.emit("action_toggle_third_experiment_01_start", groupCode);
+    }
+    else if (position === "position_02" && experiment === "third-experiment") {
+      scene.emit("action_toggle_third_experiment_02", groupCode);
+      scene.emit("action_toggle_third_experiment_02_start", groupCode);
+    }
   }
   
   export function getUsersFromPresences(presences, sessionId)
@@ -232,6 +240,13 @@ function createId(length) {
     if (parent != null)
     {
       return parent.components['second-experiment-06'].experimentData;
+    }
+
+    parent = entity.closest('#third-experiment-wrapper');
+  
+    if (parent != null)
+    {
+      return parent.components['third-experiment'].experimentData;
     }
 
     return null;

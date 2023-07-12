@@ -75,6 +75,7 @@ const HELD = 3;
             
             this.firstExpSystem = this.el.sceneEl.systems["first-experiments"];
             this.secondExpSystem = this.el.sceneEl.systems["second-experiments"];
+            this.thirdExpSystem = this.el.sceneEl.systems["third-experiments"];
 
             if (this.firstExpSystem.isGroupCodeActive(this.groupCode))
             {
@@ -90,6 +91,14 @@ const HELD = 3;
               // TODO: unsubscribe on delete
               // this.delayedInitSocket called from second-experiment-02 directly...
               // this.experiment02.components["second-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
+            }
+            else if (this.thirdExpSystem.isGroupCodeActive(this.groupCode))
+            {
+              this.experiment02 = this.thirdExpSystem.getTaskById("02", this.groupCode);
+              this.isMember = this.thirdExpSystem.getIsMemberForGroupCode(this.groupCode)
+              // TODO: unsubscribe on delete
+              // this.delayedInitSocket called from third-experiment-02 directly...
+              // this.experiment02.components["third-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInitSocket);
             }
 
          
@@ -110,7 +119,7 @@ const HELD = 3;
       console.log('Delayed init');
       for(let i = 0; i < this.data.acceptedEntities.length; i++) {
 
-        let component = this.firstExpSystem.isGroupCodeActive(this.groupCode) ?  this.firstExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : this.secondExpSystem.isGroupCodeActive(this.groupCode) ?  this.secondExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : null;
+        let component = this.firstExpSystem.isGroupCodeActive(this.groupCode) ?  this.firstExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : this.secondExpSystem.isGroupCodeActive(this.groupCode) ?  this.secondExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : this.thirdExpSystem.isGroupCodeActive(this.groupCode) ?  this.thirdExpSystem.findElementForGroupCode(this.data.acceptedEntities[i], this.groupCode) : null;
         
         if(component == null) {
           console.log("entity -" + this.data.acceptedEntities[i] + "- not found, this entity will not be considered by the socket");
@@ -517,6 +526,10 @@ const HELD = 3;
           else if (this.secondExpSystem.isGroupCodeActive(this.groupCode))
           {
             acceptedEntity = this.secondExpSystem.findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
+          }
+          else if (this.thirdExpSystem.isGroupCodeActive(this.groupCode))
+          {
+            acceptedEntity = this.thirdExpSystem.findElementForGroupCode(this.data.acceptedEntities[0], this.groupCode);
           }
         }
         

@@ -531,6 +531,28 @@ class MediaBrowserContainer extends Component {
     this.close();
   }
 
+  onRemoveThirdExperiment = (e, position_id) => {
+    const { scene } = this.props;
+    const { hubChannel } = this.props;
+
+    console.log(position_id);
+
+    var thirdExpSystem = scene.systems["third-experiments"];
+    
+    var groupCode = thirdExpSystem.getCurrentGroupCodeForPosition(position_id);
+
+    console.log("Deleting " + groupCode);
+
+    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "third-experiment" };
+
+    // We are not the Moderator, we broadcast an event !
+    console.log("We broadcast a Despawn Request to all");
+
+    hubChannel.sendMessage(data, "gecolab-spawn");
+     
+    this.close();
+  }
+
   onRemoveSecondExperiment = (e, position_id) => {
     const { scene } = this.props;
     const { hubChannel } = this.props;
@@ -659,20 +681,25 @@ class MediaBrowserContainer extends Component {
 
     var firstExperimentSystem = this.props.scene.systems["first-experiments"];
     var secondExperimentSystem = this.props.scene.systems["second-experiments"];
+    var thirdExperimentSystem = this.props.scene.systems["third-experiments"];
 
     
     var createFirstExperimentPosition01 = null;
     var createFirstExperimentPosition02 = null;
     var createSecondExperimentPosition01 = null;
     var createSecondExperimentPosition02 = null;
+    var createThirdExperimentPosition01 = null;
+    var createThirdExperimentPosition02 = null;
 
     var deleteFirstExperimentPostion01 = null;
     var deleteFirstExperimentPosition02 = null;
     var deleteSecondExperimentPosition01 = null;
     var deleteSecondExperimentPosition02 = null;
+    var deleteThirdExperimentPostion01 = null;
+    var deleteThirdExperimentPosition02 = null;
 
-    var pos1occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_01")) != null;
-    var pos2occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_02")) != null;
+    var pos1occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? thirdExperimentSystem.getCurrentGroupCodeForPosition("position_01"))!= null;
+    var pos2occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? thirdExperimentSystem.getCurrentGroupCodeForPosition("position_02")) != null;
 
     if (firstExperimentSystem)
     {
@@ -695,6 +722,17 @@ class MediaBrowserContainer extends Component {
 
       createSecondExperimentPosition01 = (!pos1occupied &&groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "second-experiment") : null;
       createSecondExperimentPosition02 = (!pos2occupied &&groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "second-experiment") : null;
+    }
+    if (thirdExperimentSystem)
+    {
+      var groupCode01 = thirdExperimentSystem.getCurrentGroupCodeForPosition("position_01");
+      var groupCode02 = thirdExperimentSystem.getCurrentGroupCodeForPosition("position_02");
+
+      deleteThirdExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveThirdExperiment(e, "position_01") : null;
+      deleteThirdExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveThirdExperiment(e, "position_02") : null;
+
+      createThirdExperimentPosition01 = (!pos1occupied && groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "third-experiment") : null;
+      createThirdExperimentPosition02 = (!pos2occupied && groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "third-experiment") : null;
     }
 
     let experiments = [
@@ -734,6 +772,26 @@ class MediaBrowserContainer extends Component {
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
         name: (deleteSecondExperimentPosition02 == null) ? "Sieben - Arbeitsbereich 2" : "Sieben - Arbeitsbereich 2 - Schon Platziert",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      },
+      {
+        id: "005",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
+        name: (deleteThirdExperimentPostion01 == null) ? "Test - Arbeitsbereich 1" : "Test - Arbeitsbereich 1 - Schon Platziert",
+        project_id: null,
+        type: "experiment_listing",
+        url: "#"
+      },
+      {
+        id: "006",
+        attributions: null,
+        description: null,
+        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
+        name: (deleteThirdExperimentPosition02 == null) ? "Test - Arbeitsbereich 2" : "Test - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -871,6 +929,24 @@ class MediaBrowserContainer extends Component {
             processThumbnailUrl={this.processThumbnailUrl}
             onClick={createSecondExperimentPosition02}
             onEdit={deleteSecondExperimentPosition02}
+          />
+        }
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`005`}
+            entry={experiments[4]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={createThirdExperimentPosition01}
+            onEdit={deleteThirdExperimentPostion01}
+          />
+        }
+        {urlSource === "experiments" &&
+          <MediaTile
+            key={`006`}
+            entry={experiments[5]}
+            processThumbnailUrl={this.processThumbnailUrl}
+            onClick={createThirdExperimentPosition02}
+            onEdit={deleteThirdExperimentPosition02}
           />
         }
           

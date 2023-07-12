@@ -172,6 +172,8 @@ import "./components/GecoLab/second-experiment/second-experiment-04";
 import "./components/GecoLab/second-experiment/second-experiment-05";
 import "./components/GecoLab/second-experiment/second-experiment-06";
 
+import "./components/GecoLab/third-experiment/third-experiment";
+
 
 
 import "./components/GecoLab/mannequin";
@@ -226,6 +228,7 @@ import "./systems/GecoLab/first-experiments";
 import "./systems/GecoLab/gecolab-manager";
 import "./systems/GecoLab/mannequin-manager";
 import "./systems/GecoLab/second-experiments";
+import "./systems/GecoLab/third-experiments";
 
 import "./gltf-component-mappings";
 

@@ -98,6 +98,10 @@ export default class SceneEntryManager {
     this._startSecondExperimentPos01();
     this._setupSecondExperimentPos02();
     this._startSecondExperimentPos02();
+    this._setupThirdExperimentPos01();
+    this._startThirdExperimentPos01();
+    this._setupThirdExperimentPos02();
+    this._startThirdExperimentPos02();
 
     if (qsTruthy("offline")) return;
 
@@ -745,6 +749,101 @@ export default class SceneEntryManager {
       this._spawnSecondExperimentPart04(".table_main_02", groupCode, "position_02");
       this._spawnSecondExperimentPart05(".table_main_02", groupCode, "position_02");
       this._spawnSecondExperimentPart06(".table_main_02", groupCode, "position_02");
+    });
+  };
+
+  _setupThirdExperimentPos01 = () => {
+    this.scene.addEventListener("action_toggle_third_experiment_01", (event) => {
+
+      console.log("Placing");
+
+      var groupCode = event.detail;
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["third-experiments"].getExperimentByGroupCode(groupCode);
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_01");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
+        var networkId = encodeNetworkId("base", groupCode, "position_01");
+
+        entity.setAttribute("networked", { template: "#interactable-third-experiment-camera", networkId: networkId });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+
+        this.scene.appendChild(entity);
+      }
+    });
+  };
+
+
+  _setupThirdExperimentPos02 = () => {
+    this.scene.addEventListener("action_toggle_third_experiment_02", (event) => {
+
+      console.log("Placing");
+
+      var groupCode = event.detail;
+
+      if (!this.hubChannel.can("spawn_camera")) return;
+      
+      const myExperiment = this.scene.systems["third-experiments"].getExperimentByGroupCode(groupCode);
+
+      if (myExperiment) {
+        myExperiment.parentNode.removeChild(myExperiment);
+      } else {
+        const entity = document.createElement("a-entity");
+
+        const anchor = this.scene.querySelector(".table_main_02");
+        const anchorPos = anchor.getAttribute("position");
+        const anchorRot = anchor.getAttribute("rotation");
+
+        var networkId = encodeNetworkId("base", groupCode, "position_02");
+
+        entity.setAttribute("networked", { template: "#interactable-third-experiment-camera", networkId:networkId });
+        entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+        entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+        this.scene.appendChild(entity);
+        
+      }
+    });
+  };
+  _startThirdExperimentPos01 = () => {
+    this.scene.addEventListener("action_toggle_Third_experiment_01_start", (event) => {
+
+      var groupCode = event.detail;
+      /*
+      this._spawnStopwatch(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart03(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart01(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart02(".table_side_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart04(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart05(".table_main_01", groupCode, "position_01");
+      this._spawnFirstExperimentPart06(".table_main_01", groupCode, "position_01");
+      */
+    });
+  };
+
+
+  _startThirdExperimentPos02 = () => {
+    this.scene.addEventListener("action_toggle_Third_experiment_02_start", (event) => {
+      
+      var groupCode = event.detail;
+      /*
+      this._spawnStopwatch(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart03(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart01(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart02(".table_side_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart04(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart05(".table_main_02", groupCode, "position_02");
+      this._spawnFirstExperimentPart06(".table_main_02", groupCode, "position_02");
+      */
     });
   };
 
