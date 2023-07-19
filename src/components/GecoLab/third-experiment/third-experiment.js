@@ -88,10 +88,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     startExperiment() { 
       this.thirdExpStartBtn.object3D.visible = false;
-      //this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
       
+      console.log(this.expSystem);
 
-      //this.thirdExpPart01.components["third-experiment-01"].startPart01(); //for some reason this.thirdExpPart01 is undefined for second user (observer)
+      this.thirdExpPart01.components["third-experiment-01"].startPart01(); //for some reason this.thirdExpPart01 is undefined for second user (observer)
      
       console.log("show stuff third-experiment");
     },

@@ -1,0 +1,376 @@
+import { waitForDOMContentLoaded } from "../../../utils/async-utils";
+import { cloneObject3D } from "../../../utils/three-utils";
+import { loadModel } from "../.././gltf-model-plus";
+import gecoMapSrc from "../../../assets/models/GecoLab/geco_map.glb";
+import gecoGroundProfileSrc from "../../../assets/models/GecoLab/geco_ground_profile.glb";
+import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
+import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
+
+const gecoMapPromise =  waitForDOMContentLoaded().then(() => loadModel(gecoMapSrc));
+const gecoGroundProfilePromise =  waitForDOMContentLoaded().then(() => loadModel(gecoGroundProfileSrc));
+
+/* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
+ 
+ AFRAME.registerComponent("third-experiment-01", {
+    schema: {
+      groundSampleChosen: {default: false},
+      groundSampleIndex: {default: 0},
+      questionAnswered: {default: false},
+      groundProfileSkiped: {default: false},
+    },
+  
+    init: function() {
+      console.log("Third exp 1 started");
+      
+      this.lastUpdate = performance.now();
+     
+      this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
+      this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
+
+      this.localGroundSampleClicked = false;
+      this.localGroundSampleIndex = 0;
+      this.localQuestionAnswered = false;
+      this.localGroundProfileSkiped = false;
+
+      this.startPart02Callbacks = [];
+      this.groundSampleCallbacks = [];
+
+      this.expSystem = this.el.sceneEl.systems["third-experiments"];
+
+
+      this.onSubmitMultipleChoice = AFRAME.utils.bind(this.onSubmitMultipleChoice, this);
+      this.onGroundProfileSkiped = AFRAME.utils.bind(this.onGroundProfileSkiped, this);
+
+      this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+
+      waitForDOMContentLoaded().then(() => {
+        console.log("Third exp 1 registered");
+        var networkId = getNetworkIdFromEl(this.el);
+
+        this.experimentData = decodeNetworkId(networkId);
+
+        this.isMember = this.expSystem.getIsMemberForGroupCode(this.experimentData.groupCode);
+
+        this.expSystem.registerTask("01", this.el, this.experimentData);
+        
+        setTimeout(() => {
+          waitForDOMContentLoaded().then(() => {
+          
+            this.thirdExpPart02 = this.el.sceneEl.systems["third-experiments"].getTaskById("02", this.experimentData.groupCode);
+            
+            if (this.thirdExpPart02)
+            {
+              // TODO: unsubscribe on delete
+              this.thirdExpPart02.components["third-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
+            }
+            else  
+            {
+              console.log('third-experiment-02 not found');
+              // Fallback, we trigger manualy the delayed init
+              this.delayedInit();
+            }
+           
+          });  
+        }, IMSIMITY_INIT_DELAY * 0.9);
+
+      });
+
+      
+      
+      
+    },
+
+    delayedInit()
+    {
+      console.log('Delayed Init FE-01');
+
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+
+      this.groundSamplesWrapper = this.el.querySelector(".ground-samples-wrapper");
+     
+      this.gecoMap = this.el.querySelector(".geco-map");
+      this.spawnMap(gecoMapPromise, new THREE.Vector3(0, 1.05, 0.15), this.gecoMap, false);
+
+      this.groundProfile = this.el.querySelector(".ground-profile-wrapper"); 
+      this.groundProfileText = this.el.querySelector(".ground-profile-text"); 
+      this.groundProfileModel = this.el.querySelector(".ground-profile-model"); 
+      this.groundProfileBtn = this.el.querySelector(".ground-profile-btn"); 
+
+      this.spawnGroundProfile(gecoGroundProfilePromise,new THREE.Vector3(-0.2, 0.2, -0.1), this.groundProfileModel);
+
+      this.groundProfileBtn.object3D.addEventListener("interact", () => this.onGroundProfileSkiped());
+      this.groundProfile.object3D.visible = false;
+
+      this.btnWrapper = this.el.querySelector(".sample-btn-wrapper");
+      this.btnWrapper.object3D.visible = false;
+
+      this.groundSample1Btn = this.el.querySelector(".ground-sample-btn-1");
+      this.groundSample1Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(1));
+
+      this.groundSample2Btn = this.el.querySelector(".ground-sample-btn-2");
+      this.groundSample2Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(2));
+
+      this.groundSample3Btn = this.el.querySelector(".ground-sample-btn-3");
+      this.groundSample3Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(3));
+
+      this.groundSample4Btn = this.el.querySelector(".ground-sample-btn-4");
+      this.groundSample4Btn.object3D.addEventListener("interact", () => this.onClickGroundSample(4));
+      // TODO: Not Found...
+      this.scaleEntity = this.thirdExpPart02.querySelector(".scale-entity");
+
+      console.log(this.scaleEntity);
+
+      this.multipleChoice = this.el.querySelector("#multiple-choice-question");
+      this.multipleChoice.object3D.visible = false; 
+
+      this.updateUI();
+
+    },
+
+    subscribe(eventName, fn)
+    {
+      switch(eventName) {
+        case "startPart02":
+          this.startPart02Callbacks.push(fn);
+          break;
+        case "groundSampleSelected":
+          this.groundSampleCallbacks.push(fn);
+          break;
+      }
+    },
+
+    unsubscribe(eventName, fn)
+    {
+      switch(eventName) {
+        case "startPart02":
+          let index2 = this.startPart02Callbacks.indexOf(fn);
+          this.startPart02Callbacks.splice(index2, 1);
+          break;
+      }
+    },
+
+    update() {
+      waitForDOMContentLoaded().then(() => { 
+        this.updateUI();
+      });
+    },
+    
+    updateUI: function() {
+      if(this.localGroundSampleClicked != this.data.groundSampleChosen) {
+        this.localGroundSampleIndex = this.data.groundSampleIndex;
+        
+        this.chooseGroundSample();
+        this.localGroundSampleClicked = this.data.groundSampleChosen;
+      }
+
+      if (this.localQuestionAnswered != this.data.questionAnswered)
+      {
+        this.localQuestionAnswered = this.data.questionAnswered;
+
+        this.thirdExpPart02.components["third-experiment-02"].showExpItems();
+         
+        setTimeout(() => {
+          this.multipleChoice.object3D.visible = false; 
+          this.notifyPart02();
+        }, 500);
+      }
+
+      if (this.localGroundProfileSkiped != this.data.groundProfileSkiped)
+      {
+        this.localGroundProfileSkiped = this.data.groundProfileSkiped;
+         
+        setTimeout(() => {
+          this.multipleChoice.object3D.visible = true; 
+          if(this.multipleChoice != null)
+            this.multipleChoice.components["multiple-choice-question"].subscribe("onSubmit", this.onSubmitMultipleChoice); //should be networked (I really hope it works)
+          else 
+            console.log("Can't subscribe to multiple-choice1 callback, multiple-choice1 component not found");
+
+          this.groundProfile.object3D.visible = false;
+          this.groundSamplesWrapper.object3D.visible = false;
+
+          // Mannequin
+          this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+          this.mannequin.components["mannequin"].displayMessage(-1);
+        }, 500);
+      }
+
+
+    },
+  
+    tick: function() {
+
+    },
+
+    getGroundSampleName()
+    {
+      switch(this.localGroundSampleIndex)
+      {
+        case 1:
+          return "Schwarzwald";
+        case 2:
+          return "Schwäbische Alb";
+        case 3:
+          return "Voralpines Hügel-\nund Moorland";
+        case 4:
+          return "Nördliches,\nOberrhein-Tiefland";
+      }
+
+      return "Error";
+    },
+
+    spawnMap(promise, position, entity, show) {
+      promise.then(model => {
+          entity.object3D.visible = false;
+          const mesh = cloneObject3D(model.scene);
+          mesh.scale.set(1, 1, 1);
+          mesh.matrixNeedsUpdate = true;
+          entity.setObject3D("mesh", mesh);
+      
+          if(show)
+            entity.object3D.visible = true;
+
+          entity.object3D.scale.set(0.7, 0.7, 0.7);
+          entity.object3D.rotation.set(0.4, 0, 0);
+          entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
+          entity.object3D.matrixNeedsUpdate = true;
+          console.log(entity);
+      });
+    },
+
+    spawnGroundProfile(promise, position, entity) {
+      promise.then(model => {
+          entity.object3D.visible = false;
+          const mesh = cloneObject3D(model.scene);
+          mesh.scale.set(.5, .5, .5);
+          mesh.matrixNeedsUpdate = true;
+          entity.setObject3D("mesh", mesh);
+    
+          entity.object3D.visible = true;
+
+          entity.object3D.scale.set(1, 1, 1);
+          entity.object3D.rotation.set(0, 0.25, 0);
+          entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
+          entity.object3D.matrixNeedsUpdate = true;
+          console.log(entity);
+      });
+    },
+
+    startPart01() {
+
+      console.log('Show Ground Sample');
+
+      
+      this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+
+      if (this.isMember)
+      {
+        this.gecoMap.object3D.visible = true;
+
+        this.btnWrapper.object3D.visible = true;  
+      }
+     
+      this.mannequin.components["mannequin"].displayMessage(17);
+    },
+
+    onClickGroundSample(index) {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-01", "groundSampleIndex", index); 
+        this.el.setAttribute("third-experiment-01", "groundSampleChosen", true);      
+        
+        this.updateUI();
+      });
+    },
+
+    chooseGroundSample() {
+        this.gecoMap.object3D.visible = false;
+        this.btnWrapper.object3D.visible = false;
+
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(-1);
+
+        if(this.localGroundSampleIndex == 1) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.15); // Schwarzwald
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }
+        else if(this.localGroundSampleIndex == 2) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.4); //  Schwäbische Alb
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }
+        else if(this.localGroundSampleIndex == 3) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(113.65); // Voralpines Hügel- und Moorland 
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }
+        else if(this.localGroundSampleIndex == 4) {
+          this.scaleEntity.components["waage-tool"].setGlowLossWeight(114.225); // Nördliches, Oberrhein-Tiefland
+          this.groundSampleCallbacks.forEach(cb => {
+            cb(this.localGroundSampleIndex);
+          });
+        }  
+        
+        console.log("showing Ground Profile");
+
+        if (this.isMember)
+        {
+          this.groundProfile.object3D.visible = true;
+
+          this.groundProfileText.setAttribute("text", { value: this.getGroundSampleName() });     
+        }
+       
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(16);
+    },
+
+    notifyPart02() {
+      this.startPart02Callbacks.forEach(cb => {
+        cb(this.localGroundSampleIndex);
+      });
+    },
+
+    onSubmitMultipleChoice(correctAnswer, selectedAnswer) {
+      if(correctAnswer == selectedAnswer) {
+        // Mannequin
+        this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
+        this.mannequin.components["mannequin"].displayMessage(-1);
+
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+          NAF.utils.takeOwnership(networkedEl);
+    
+          this.el.setAttribute("third-experiment-01", "questionAnswered", true); 
+          
+          this.updateUI();
+        });
+      }
+    },
+
+    onGroundProfileSkiped()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-01", "groundProfileSkiped", true); 
+        
+        this.updateUI();
+      });
+    },
+
+    remove() {
+      console.log("removing third-experiment 01");
+      this.expSystem.deregisterTask("01", this.el, this.experimentData);
+    }
+
+  });
+
