@@ -96,6 +96,7 @@ import { TweetModalContainer } from "./room/TweetModalContainer";
 import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
+import { DemoExitWarningModalContainer } from "./room/DemoExitWarningModalContainer";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -545,7 +546,10 @@ class UIRoot extends Component {
   };
 
   checkForDemoExit = () => {
-    if (this.isWaitingForDemoExit()) this.forceUpdate();
+    if (this.isWaitingForDemoExit()) 
+    {
+      this.showNonHistoriedDialog(DemoExitWarningModalContainer, {reason: DemoExitReason.demo, secondsRemaining: this.state.secondsRemainingBeforeDemoExit});
+    }
     if (this.state.secondsRemainingBeforeDemoExit !== 0) return;
     this.endDemoExitTimer();
     window.location = 'https://imsimity.de/';

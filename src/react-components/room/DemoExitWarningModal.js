@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { Modal } from "../modal/Modal";
-import { CancelButton } from "../input/Button";
+import { CancelDemoButton } from "../input/Button";
 import { Column } from "../layout/Column";
 
 export const DemoExitReason = {
@@ -30,7 +30,7 @@ export function DemoExitWarningModal({ onCancel, reason, secondsRemaining }) {
           />
         </b>
         <p>{intl.formatMessage(messages[reason])}</p>
-        <CancelButton onClick={onCancel} />
+        <CancelDemoButton onClick={() => (window.location = 'https://imsimity.de/')}/>
       </Column>
     </Modal>
   );

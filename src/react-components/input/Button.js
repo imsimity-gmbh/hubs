@@ -103,3 +103,11 @@ export function ApplyButton(props) {
     </Button>
   );
 }
+
+export function CancelDemoButton(props) {
+  return (
+    <Button preset="cancel" {...props}>
+      <FormattedMessage id="button.cancelDemo" defaultMessage="Zur Übersicht" />
+    </Button>
+  );
+}
