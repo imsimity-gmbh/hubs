@@ -87,6 +87,7 @@ import { LeaveReason, LeaveRoomModal } from "./room/LeaveRoomModal";
 import { RoomSidebar } from "./room/RoomSidebar";
 import { RoomSettingsSidebarContainer } from "./room/RoomSettingsSidebarContainer";
 import { AutoExitWarningModal, AutoExitReason } from "./room/AutoExitWarningModal";
+//import { DemoExitWarningModal, DemoExitReason } from "./room/DemoExitWarningModal";
 import { ExitReason } from "./room/ExitedRoomScreen";
 import { UserProfileSidebarContainer } from "./room/UserProfileSidebarContainer";
 import { CloseRoomModal } from "./room/CloseRoomModal";
@@ -113,6 +114,7 @@ async function grantedMicLabels() {
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const AUTO_EXIT_TIMER_SECONDS = 10;
+//const DEMO_EXIT_TIMER_SECONDS = 10;
 
 class UIRoot extends Component {
   willCompileAndUploadMaterials = false;
@@ -190,6 +192,11 @@ class UIRoot extends Component {
     autoExitTimerInterval: null,
     autoExitReason: null,
     secondsRemainingBeforeAutoExit: Infinity,
+
+/*     demoExitTimerStartedAt: null,
+    demoExitTimerInterval: null,
+    demoExitReason: null,
+    secondsRemainingBeforeDemoExit: 180, */
 
     signedIn: false,
     videoShareMediaSource: null,
@@ -462,6 +469,7 @@ class UIRoot extends Component {
   onSceneLoaded = () => {
     console.log("UI root scene has loaded");
     this.setState({ sceneLoaded: true });
+    //this.startDemoExitTimer(DemoExitReason.demo);
   };
 
   onShareVideoEnabled = e => {
@@ -513,6 +521,36 @@ class UIRoot extends Component {
     }
   };
 
+/*   startDemoExitTimer = demoExitReason => {
+    const roomId = window.location.pathname.split('/')[1];
+
+    if (roomID === "V9JeWhU") return;
+
+    const demoExitTimerInterval = setInterval(() => {
+      let secondsRemainingBeforeDemoExit = Infinity;
+
+      if (this.state.demoExitTimerStartedAt) {
+        const secondsSinceStart = (new Date() - this.state.demoExitTimerStartedAt) / 1000;
+        secondsRemainingBeforeDemoExit = Math.max(0, Math.floor(DEMO_EXIT_TIMER_SECONDS - secondsSinceStart));
+      }
+
+      this.setState({ secondsRemainingBeforeDemoExit });
+      this.checkForDemoExit();
+    }, 500);
+
+    this.setState({ DemoExitTimerStartedAt: new Date(), demoExitTimerInterval, demoExitReason });
+  };
+
+  checkForDemoExit = () => {
+    if (this.state.secondsRemainingBeforeDemoExit !== 0) return;
+    this.endDemoExitTimer();
+    this.props.exitScene();
+  };
+
+  isWaitingForDemoExit = () => {
+    return this.state.secondsRemainingBeforeDemoExit <= DEMO_EXIT_TIMER_SECONDS;
+  };
+ */
   startAutoExitTimer = autoExitReason => {
     if (this.state.autoExitTimerInterval) return;
 
@@ -1040,6 +1078,13 @@ class UIRoot extends Component {
           secondsRemaining={this.state.secondsRemainingBeforeAutoExit}
           onCancel={this.endAutoExitTimer}
         />
+      //) :
+      //(this.isWaitingForDemoExit() ? (
+      //  <DemoExitWarningModal
+      //    reason={this.state.demoExitReason}
+      //    secondsRemaining={this.state.secondsRemainingBeforeDemoExit}
+      //    onCancel={this.endDemoExitTimer}
+      //  />
       ) : (
         <>
           <StateRoute stateKey="entry_step" stateValue="device" history={this.props.history}>
