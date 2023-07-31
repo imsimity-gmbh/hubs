@@ -87,7 +87,7 @@ import { LeaveReason, LeaveRoomModal } from "./room/LeaveRoomModal";
 import { RoomSidebar } from "./room/RoomSidebar";
 import { RoomSettingsSidebarContainer } from "./room/RoomSettingsSidebarContainer";
 import { AutoExitWarningModal, AutoExitReason } from "./room/AutoExitWarningModal";
-//import { DemoExitWarningModal, DemoExitReason } from "./room/DemoExitWarningModal";
+import { DemoExitWarningModal, DemoExitReason } from "./room/DemoExitWarningModal";
 import { ExitReason } from "./room/ExitedRoomScreen";
 import { UserProfileSidebarContainer } from "./room/UserProfileSidebarContainer";
 import { CloseRoomModal } from "./room/CloseRoomModal";
@@ -114,7 +114,7 @@ async function grantedMicLabels() {
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const AUTO_EXIT_TIMER_SECONDS = 10;
-//const DEMO_EXIT_TIMER_SECONDS = 10;
+const DEMO_EXIT_TIMER_SECONDS = 10;
 
 class UIRoot extends Component {
   willCompileAndUploadMaterials = false;
@@ -193,10 +193,10 @@ class UIRoot extends Component {
     autoExitReason: null,
     secondsRemainingBeforeAutoExit: Infinity,
 
-/*     demoExitTimerStartedAt: null,
+    demoExitTimerStartedAt: null,
     demoExitTimerInterval: null,
     demoExitReason: null,
-    secondsRemainingBeforeDemoExit: 180, */
+    secondsRemainingBeforeDemoExit: 200,
 
     signedIn: false,
     videoShareMediaSource: null,
@@ -521,36 +521,50 @@ class UIRoot extends Component {
     }
   };
 
-/*   startDemoExitTimer = demoExitReason => {
+  startDemoExitTimer = demoExitReason => {
     const roomId = window.location.pathname.split('/')[1];
-
-    if (roomID === "V9JeWhU") return;
-
+    console.log("RoomID "+roomId);
+    if (!roomId === "hub.html") return;
+ 
     const demoExitTimerInterval = setInterval(() => {
+
       let secondsRemainingBeforeDemoExit = Infinity;
+      let secondsRemainingBeforeDemoExitStart = 180;
 
       if (this.state.demoExitTimerStartedAt) {
         const secondsSinceStart = (new Date() - this.state.demoExitTimerStartedAt) / 1000;
-        secondsRemainingBeforeDemoExit = Math.max(0, Math.floor(DEMO_EXIT_TIMER_SECONDS - secondsSinceStart));
+        secondsRemainingBeforeDemoExit = Math.max(0, Math.floor(secondsRemainingBeforeDemoExitStart - secondsSinceStart));
+        console.log("Sekunden "+secondsRemainingBeforeDemoExit);
       }
 
       this.setState({ secondsRemainingBeforeDemoExit });
       this.checkForDemoExit();
     }, 500);
 
-    this.setState({ DemoExitTimerStartedAt: new Date(), demoExitTimerInterval, demoExitReason });
+    this.setState({ demoExitTimerStartedAt: new Date(), demoExitTimerInterval, demoExitReason });
   };
 
   checkForDemoExit = () => {
+    if (this.isWaitingForDemoExit()) this.forceUpdate();
     if (this.state.secondsRemainingBeforeDemoExit !== 0) return;
     this.endDemoExitTimer();
-    this.props.exitScene();
+    window.location = 'https://imsimity.de/';
   };
 
   isWaitingForDemoExit = () => {
     return this.state.secondsRemainingBeforeDemoExit <= DEMO_EXIT_TIMER_SECONDS;
   };
- */
+
+  endDemoExitTimer = () => {
+    clearInterval(this.state.demoExitTimerInterval);
+    this.setState({
+      demoExitTimerStartedAt: null,
+      demoExitTimerInterval: null,
+      demoExitReason: null,
+      secondsRemainingBeforeDemoExit: Infinity
+    });
+  };
+
   startAutoExitTimer = autoExitReason => {
     if (this.state.autoExitTimerInterval) return;
 
@@ -644,6 +658,7 @@ class UIRoot extends Component {
       this.onAudioReadyButton();
     } else {
       console.log(`Starting audio setup`);
+      this.startDemoExitTimer(DemoExitReason.demo);
       this.pushHistoryState("entry_step", "audio");
     }
   };
@@ -1078,13 +1093,13 @@ class UIRoot extends Component {
           secondsRemaining={this.state.secondsRemainingBeforeAutoExit}
           onCancel={this.endAutoExitTimer}
         />
-      //) :
-      //(this.isWaitingForDemoExit() ? (
-      //  <DemoExitWarningModal
-      //    reason={this.state.demoExitReason}
-      //    secondsRemaining={this.state.secondsRemainingBeforeDemoExit}
-      //    onCancel={this.endDemoExitTimer}
-      //  />
+      ) :
+      (this.isWaitingForDemoExit() ? (
+        <DemoExitWarningModal
+          reason={this.state.demoExitReason}
+          secondsRemaining={this.state.secondsRemainingBeforeDemoExit}
+          onCancel={this.endDemoExitTimer}
+        />
       ) : (
         <>
           <StateRoute stateKey="entry_step" stateValue="device" history={this.props.history}>
@@ -1126,7 +1141,7 @@ class UIRoot extends Component {
             {this.renderEntryStartPanel()}
           </StateRoute>
         </>
-      ));
+      )));
 
     const presenceLogEntries = this.props.presenceLogEntries || [];
 

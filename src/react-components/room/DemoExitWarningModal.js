@@ -11,7 +11,7 @@ export const DemoExitReason = {
 
 const messages = defineMessages({
   [DemoExitReason.demo]: {
-    id: "demo-exit-warning-modal.reason.concurrent-session",
+    id: "demo-exit-warning-modal.reason.demo-session",
     defaultMessage: "Ihre Demo-Zeit ist abgelaufen"
   }
 });
