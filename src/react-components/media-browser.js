@@ -781,7 +781,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteThirdExperimentPostion01 == null) ? "Test - Arbeitsbereich 1" : "Test - Arbeitsbereich 1 - Schon Platziert",
+        name: (deleteThirdExperimentPostion01 == null) ? "Pflanzenwachstumsreihe - Arbeitsbereich 1" : "Pflanzenwachstumsreihe - Arbeitsbereich 1 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"
@@ -791,7 +791,7 @@ class MediaBrowserContainer extends Component {
         attributions: null,
         description: null,
         images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteThirdExperimentPosition02 == null) ? "Test - Arbeitsbereich 2" : "Test - Arbeitsbereich 2 - Schon Platziert",
+        name: (deleteThirdExperimentPosition02 == null) ? "Pflanzenwachstumsreihe - Arbeitsbereich 2" : "Pflanzenwachstumsreihe - Arbeitsbereich 2 - Schon Platziert",
         project_id: null,
         type: "experiment_listing",
         url: "#"

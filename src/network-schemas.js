@@ -1124,70 +1124,8 @@ function registerNetworkSchemas() {
       "rotation",
       {
         component: "third-experiment-01",
-        property: "groundSampleChosen"
-      },
-      {
-        component: "third-experiment-01",
-        property: "groundSampleIndex"
-      },
-      {
-        component: "third-experiment-01",
-        property: "questionAnswered"
-      },
-      {
-        component: "third-experiment-01",
-        property: "groundProfileSkiped"
-      },
-      {
-        selector: ".bunsen-burner-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".tripod-1-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".tripod-2-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".firelighter-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".thermo-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".glass-stick-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".spoon-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".ground-sample-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".mortar-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
-      {
-        selector: ".tong-socket",
-        component: "entity-socket",
-        property: "triggerValue"
-      },
+        property: "expClicked"
+      }
     ]
   });
 
