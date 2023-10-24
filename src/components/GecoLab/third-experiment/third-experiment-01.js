@@ -1,8 +1,8 @@
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
-import growthCabinetSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_saucer.glb";
-import plantSrc from "../../../assets/models/GecoLab/scales_container.glb";
+import growthCabinetSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_Cabinet.glb";
+import plantSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
@@ -29,9 +29,14 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       //this.startPart02Callbacks = [];
 
+      this.movableEntities = [];
+      this.sockets = [];
+
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+
+      this.plantPlaced = AFRAME.utils.bind(this.plantPlaced, this);
 
       waitForDOMContentLoaded().then(() => {
         console.log("Third exp 1 registered");
@@ -90,14 +95,24 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.growthCabinet3 = this.el.querySelector(".growth-Cabinet-3");
       this.spawnItem(growthCabinetPromise, new THREE.Vector3(2.7, 0.8, 0.2), this.growthCabinet3, false);
 
-      this.plantPlace1 = this.el.querySelector(".plant-Place-1");
-      this.spawnItem(plantPromise, new THREE.Vector3(0, 3, 0), this.plantPlace1, false);
-      this.plantPlace2 = this.el.querySelector(".plant-Place-2");
-      this.spawnItem(plantPromise, new THREE.Vector3(2, 3, 0), this.plantPlace2, false);
-      this.plantPlace3 = this.el.querySelector(".plant-Place-3");
-      this.spawnItem(plantPromise, new THREE.Vector3(4, 3, 0), this.plantPlace3, false);
+      this.plantPlace1 = this.el.querySelector(".plant-Place-1-entity");
+      this.movableEntities.push(this.plantPlace1);
+      this.spawnItem(plantPromise, new THREE.Vector3(1.4, 0.8, 0.5), this.plantPlace1, false);
+      this.plantPlace2 = this.el.querySelector(".plant-Place-2-entity");
+      this.movableEntities.push(this.plantPlace2);
+      this.spawnItem(plantPromise, new THREE.Vector3(1.7, 0.8, 0.5), this.plantPlace2, false);
+      this.plantPlace3 = this.el.querySelector(".plant-Place-3-entity");
+      this.movableEntities.push(this.plantPlace3);
+      this.spawnItem(plantPromise, new THREE.Vector3(2, 0.8, 0.5), this.plantPlace3, false);
 
-      this.updateUI();
+      //this.updateUI();
+
+      this.plantSocket01 = this.el.querySelector(".plant-socket-01");
+      this.sockets.push(this.plantSocket01);
+
+      this.sockets.forEach(s => {
+        s.object3D.visible = false; //hide holograms until needed
+      });
 
     },
 
@@ -167,10 +182,6 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.growthCabinet2.object3D.visible = true;
       this.growthCabinet3.object3D.visible = true;
 
-      this.plantPlace1.object3D.visible = true;
-      this.plantPlace2.object3D.visible = true;
-      this.plantPlace3.object3D.visible = true;
-
       if (this.isMember)
       {
         this.thirdExpStartBtn.object3D.visible = true;
@@ -196,7 +207,36 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantPlace1.object3D.visible = true;
       this.plantPlace2.object3D.visible = true;
       this.plantPlace3.object3D.visible = true;
+
+      this.enableInteractables();
+      this.plantSocket01.components["entity-socket"].enableSocket();
     },
+
+    plantPlaced()
+    {
+      this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+    },
+
+    enableInteractables() {
+
+      console.log("enabling interaction on movableEntities");
+
+      this.sockets.forEach(s => {
+          s.object3D.visible = true;
+          var socket = s.components["entity-socket"];
+          socket.subscribe("onSnap", this.plantPlaced);
+          socket.delayedInitSocket();
+      });
+      
+      if (this.isMember)
+      {
+          this.movableEntities.forEach(e => {
+              let name = e.className;
+              e.className = "interactable " + name;
+          });
+      }
+      
+  },
 
     /*
     notifyPart02() {
