@@ -1125,7 +1125,31 @@ function registerNetworkSchemas() {
       {
         component: "third-experiment-01",
         property: "expClicked"
+      },
+      {
+        component: "third-experiment-01",
+        property: "closeCabinetClicked"
       }
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-third-experiment-02-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "third-experiment-02",
+        property: "parameterClicked"
+      },
+      {
+        component: "third-experiment-02",
+        property: "chosen"
+      },
+      {
+        component: "third-experiment-02",
+        property: "nextBtnClickCount"
+      },
     ]
   });
 

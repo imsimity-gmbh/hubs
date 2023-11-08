@@ -1750,9 +1750,13 @@
                                     position="0.3 1.4 0.6" scale="1.5 1.5 1.5">
                                     <a-entity text=" value: Zum Experiment; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
+                            <a-entity class="closeCabinet-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                    position="0.3 1.4 0.6" scale="1.5 1.5 1.5">
+                                    <a-entity text=" value: Wachstumsschränke schließen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
                         </a-entity>
 
-                        <a-entity class="ui interactable-ui cupboard-wrapper" position="0 -0.1 0">
+                        <a-entity class="ui interactable-ui entity-wrapper 01" position="0 -0.1 0">
 
                             <a-entity class="plant-Place-1-entity" position="0 1 0" rotation="0 0 0"
                                 tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1790,7 +1794,78 @@
                             <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                             <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                         </a-entity> <!--static-->
+                        <a-entity class="plant-socket-02" position="3.1 0.55 0.1" rotation="0 0 0" entity-socket="acceptedEntities: .plant-Place-2-entity; radius: 1.1; enabled: false;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity> <!--static-->
+                        <a-entity class="plant-socket-03" position="3.8 0.55 0.1" rotation="0 0 0" entity-socket="acceptedEntities: .plant-Place-3-entity; radius: 1.1; enabled: false;">
+                            <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
+                            <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
+                        </a-entity> <!--static-->
                     </a-entity>
+                </a-entity>
+            </template>
+
+            <template id="interactable-third-experiment-02-camera">
+                <!--Ground samples:-->
+                <a-entity id="third-experiment-02-wrapper" 
+                    third-experiment-02
+                    matrix-auto-update
+                    set-yxz-order
+                    > <!--static-->
+
+                    <a-entity class="cabinet-1-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="-1 1.2 0" scale="1 2 1.5">
+                        <a-entity class="cabinet-1-text" text=" value: Bli; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.75 0.375 0.5"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-2-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="-0.3 1.2 0" scale="1 2 1.5">
+                        <a-entity class="cabinet-2-text" text=" value: Bla; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.75 0.375 0.5"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-3-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="0.4 1.2 0" scale="1 2 1.5">
+                        <a-entity class="cabinet-3-text" text=" value: Blub; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.75 0.375 0.5"></a-entity>
+                    </a-entity>
+
+                    <a-entity class="interactable" third-experiment-02-sample>
+                        <a-entity class="parameter-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="0.3 1.4 0.6" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Parameter auswählen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                        <a-entity class="next-btn-3-2" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.25 1.1 0" rotation="0 0 0" scale="1 1 1">
+                            <a-entity text=" value: Weiter; width: 2.5; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>   
+                    </a-entity>
+
+                    <a-entity 
+                            class="ui interactable-ui multi-choice-wrapper" 
+                            visible="false"
+                            position="0.3 0 0.5">
+                                <a-entity class="question-text" text="value: Wähle den zu betrachtenen Parameter!"
+                                    text-raycast-hack position="0.5 2.7 0" scale="3 3 3">
+                                </a-entity> <!--static-->
+                                <a-entity class="answer-area" position="0.5 2 0">
+                                    <a-entity class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
+                                        <a-entity 
+                                        text=" value:Die Temperatur beschreibt den erfassbaren Wärmezustand von Materie oder Stoffen, d.h. die Temperatur sagt uns, ob etwas warm oder kalt ist. Zur Messung der Temperatur werden Einheiten wie Kelvin, Grad Celsius oder Grad Fahrenheit verwendet. Bei zu hohen Temperaturen nimmt die Fotosynthese ab, während niedrige Temperaturen auch das Wachstum und Fruchtbildung verlangsamen können.; 
+                                        width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    </a-entity>
+                                    <a-entity class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
+                                        <a-entity 
+                                        text=" value:Die CO2-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO2). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO2 nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
+                                        width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    </a-entity>
+                                    <a-entity class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
+                                        <a-entity 
+                                        text=" value:Die Bodenart bezeichnet die prozentuale Zusammensetzung des Feinbodens. Nach abnehmender Korngröße werden drei Feinbodenarten unterschieden: Sand, Schluff und Ton. Jeder Boden setzt sich neben Wasser, Luft und organischen Substanzen aus den drei Feinbodenarten zusammen und hat dadurch charakteristische Eigenschaften.; 
+                                        width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                                    </a-entity>
+                                </a-entity> <!--static-->
+                                <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 1.2 0" scale="2 2 2">
+                                    <a-entity text=" value:Parameter auswählen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                                </a-entity> <!--static-->    
+                        </a-entity> <!--static-->
+
                 </a-entity>
             </template>
 

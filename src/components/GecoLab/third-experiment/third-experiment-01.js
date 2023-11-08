@@ -14,6 +14,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
  AFRAME.registerComponent("third-experiment-01", {
     schema: {
       expClicked: {default: false},
+      closeCabinetClicked: {default: false},
     },
   
     init: function() {
@@ -26,11 +27,13 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       //local version of network variable:
       this.localExpClicked = false;
+      this.localcloseCabinetClicked = false;
 
       //this.startPart02Callbacks = [];
 
       this.movableEntities = [];
       this.sockets = [];
+      this.placedPlants = 0;
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
@@ -55,20 +58,10 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
             this.thirdExpStartBtn.object3D.addEventListener("interact", () => this.onClickExp());
             this.thirdExpStartBtn.object3D.visible = false;
 
-            /*
-            this.thirdExpPart02 = this.el.sceneEl.systems["third-experiments"].getTaskById("02", this.experimentData.groupCode);
-            
-            if (this.thirdExpPart02)
-            {
-              // TODO: unsubscribe on delete
-              this.thirdExpPart02.components["third-experiment-02"].subscribe('onObjectSpawnedPart02', this.delayedInit);
-            }
-            else  
-            {
-              console.log('third-experiment-02 not found');
-              // Fallback, we trigger manualy the delayed init
-              this.delayedInit();
-            }*/
+            this.closeCabinetBtn = this.el.querySelector(".closeCabinet-button");
+            this.closeCabinetBtn.object3D.addEventListener("interact", () => this.onClickCloseCabinet());
+            this.closeCabinetBtn.object3D.visible = false;
+
             this.delayedInit();
           });  
         }, IMSIMITY_INIT_DELAY * 0.9);
@@ -109,6 +102,10 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       this.plantSocket01 = this.el.querySelector(".plant-socket-01");
       this.sockets.push(this.plantSocket01);
+      this.plantSocket02 = this.el.querySelector(".plant-socket-02");
+      this.sockets.push(this.plantSocket02);
+      this.plantSocket03 = this.el.querySelector(".plant-socket-03");
+      this.sockets.push(this.plantSocket03);
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -149,6 +146,10 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.showPlants();
         this.localExpClicked = this.data.expClicked;
       }
+      if(this.localcloseCabinetClicked != this.data.closeCabinetClicked) {
+        this.closeCabinets();
+        this.localcloseCabinetClicked = this.data.closeCabinetClicked;
+      }
     },
   
     tick: function() {
@@ -176,7 +177,6 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
     startPart01() {
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-      console.log('Show Ground Sample');
 
       this.growthCabinet1.object3D.visible = true;
       this.growthCabinet2.object3D.visible = true;
@@ -210,11 +210,21 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       this.enableInteractables();
       this.plantSocket01.components["entity-socket"].enableSocket();
+      this.plantSocket02.components["entity-socket"].enableSocket();
+      this.plantSocket03.components["entity-socket"].enableSocket();
     },
 
     plantPlaced()
     {
-      this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+      this.placedPlants += 1;
+      if(this.placedPlants >= 3)
+      {
+        this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+        this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+        this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+
+        this.closeCabinetBtn.object3D.visible = true;
+      }   
     },
 
     enableInteractables() {
@@ -236,15 +246,29 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
           });
       }
       
-  },
+    },
 
-    /*
-    notifyPart02() {
-      this.startPart02Callbacks.forEach(cb => {
-        cb(this.localGroundSampleIndex);
+    onClickCloseCabinet()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-01", "closeCabinetClicked", true);      
+  
+        this.updateUI();
       });
     },
-    */
+
+    closeCabinets()
+    {
+      this.closeCabinetBtn.object3D.visible = false;
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      
+      console.log(this.expSystem);
+
+      this.thirdExpPart02.components["third-experiment-02"].startPart02(); //for some reason this.thirdExpPart02 is undefined for second user (observer)
+    },
 
     remove() {
       console.log("removing third-experiment 01");
