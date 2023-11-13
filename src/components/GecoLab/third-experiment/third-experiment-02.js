@@ -14,6 +14,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       parameterClicked: {default: false},
       chosen: {default: -1},
       nextBtnClickCount: {default: 0},
+      skipBtnClicked: {default: false},
+      openBtnClicked: {default: false},
     },
   
     init: function() {
@@ -27,6 +29,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       //local version of network variable:
       this.localParameterClicked = false;
       this.localNextButtonClickCount = 0;
+      this.localSkipBtnClicked = false;
+      this.localOpenBtnClicked = false;
 
 
       this.movableEntities = [];
@@ -61,6 +65,14 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
             this.thirdParameterBtn = this.el.querySelector(".parameter-button");
             this.thirdParameterBtn.object3D.addEventListener("interact", () => this.onClickParameter());
             this.thirdParameterBtn.object3D.visible = false;
+
+            this.skipBtn = this.el.querySelector(".skip-btn-3-2");
+            this.skipBtn.object3D.visible = false;
+            this.skipBtn.object3D.addEventListener("interact", () => this.onClickSkipBtn());
+
+            this.openBtn = this.el.querySelector(".open-btn-3-2");
+            this.openBtn.object3D.visible = false;
+            this.openBtn.object3D.addEventListener("interact", () => this.onClickOpenButton());
             
             this.delayedInit();
 
@@ -101,6 +113,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.answerOption2.object3D.addEventListener("interact", () => this.choiceGround());
       this.submitBtn = this.el.querySelector(".submit-button");
       this.submitBtn.object3D.addEventListener("interact", () => this.onClickSubmitChoice());
+
+      this.timeText = this.el.querySelector(".time-text");
+      this.timeText.object3D.visible = false;
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -146,6 +161,17 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.showChoice();
         this.localParameterClicked = this.data.parameterClicked;
       }
+
+      if(this.localSkipBtnClicked != this.data.skipBtnClicked) {
+        this.speedUp();
+        this.localSkipBtnClicked = this.data.skipBtnClicked;
+      }
+
+      if(this.localOpenBtnClicked != this.data.openBtnClicked) {
+        this.openCabinet();
+        this.localOpenBtnClicked = this.data.openBtnClicked;
+      }
+
       if(this.data.chosen != -1)
       {
         this.explainParameter();
@@ -170,7 +196,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         }
         else if (this.localNextButtonClickCount == 4)
         {
-          this.nextBtn.object3D.visible = false;
+          //this.nextBtn.object3D.visible = false;
           this.saySpeedUp();
         }
       }
@@ -311,9 +337,80 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     saySpeedUp()
     {
       this.nextBtn.object3D.visible = false;
+      this.skipBtn.object3D.visible = true;
+
+      this.timeText.object3D.visible = true;
 
       //Mannequin Vorspulen
 
+      
+    },
+
+    onClickSkipBtn()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-02", "skipBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    speedUp()
+    {
+      this.skipBtn.object3D.visible = false;
+
+      this.timeText.setAttribute("text", { value: "0 Woche"});
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "1 Woche"});
+      }, 1000);
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "2 Woche"});
+      }, 2000);
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "3 Woche"});
+      }, 3000);
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "4 Woche"});
+      }, 4000);
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "5 Woche"});
+      }, 5000);
+
+      setTimeout(() => {
+        this.timeText.setAttribute("text", { value: "6 Woche"});
+        this.showOpenButton();
+      }, 6000);
+    },
+
+    showOpenButton()
+    {
+      this.timeText.object3D.visible = false;
+      this.openBtn.object3D.visible = true;
+    },
+
+    onClickOpenButton()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-02", "openBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    openCabinet()
+    {
+      this.openBtn.object3D.visible = false;
       console.log("This is the end!");
     },
 

@@ -1150,6 +1150,14 @@ function registerNetworkSchemas() {
         component: "third-experiment-02",
         property: "nextBtnClickCount"
       },
+      {
+        component: "third-experiment-02",
+        property: "skipBtnClicked"
+      },
+      {
+        component: "third-experiment-02",
+        property: "openBtnClicked"
+      },
     ]
   });
 
