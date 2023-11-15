@@ -1161,6 +1161,22 @@ function registerNetworkSchemas() {
     ]
   });
 
+  NAF.schemas.add({
+    template: "#interactable-third-experiment-03-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "third-experiment-03",
+        property: "answer"
+      },
+      {
+        component: "third-experiment-03",
+        property: "answerRound"
+      },
+    ]
+  });
+
 
   NAF.schemas.add({
     template: "#template-waypoint-avatar",

@@ -1879,6 +1879,46 @@
                 </a-entity>
             </template>
 
+            <template id="interactable-third-experiment-03-camera">
+                <!--Ground samples:-->
+                <a-entity id="third-experiment-03-wrapper" 
+                    third-experiment-03
+                    matrix-auto-update
+                    set-yxz-order
+                    > <!--static-->
+
+                    <a-entity 
+                    class="ui interactable-ui multi-choice-wrapper" 
+                    visible="false"
+                    position="0.3 0 0.5">
+                        <a-entity class="question-text" text="value: Haben sich alle drei Pflanzen auf die gleiche Weise entwickelt?"
+                            text-raycast-hack position="0.5 2.7 0" scale="3 3 3">
+                        </a-entity> <!--static-->
+                        <a-entity class="answer-area" position="0.5 2 0">
+                            <a-entity class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
+                                <a-entity class="answer-0-text"
+                                text=" value:Die Temperatur beschreibt den erfassbaren Wärmezustand von Materie oder Stoffen, d.h. die Temperatur sagt uns, ob etwas warm oder kalt ist. Zur Messung der Temperatur werden Einheiten wie Kelvin, Grad Celsius oder Grad Fahrenheit verwendet. Bei zu hohen Temperaturen nimmt die Fotosynthese ab, während niedrige Temperaturen auch das Wachstum und Fruchtbildung verlangsamen können.; 
+                                width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                            </a-entity>
+                            <a-entity class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
+                                <a-entity class="answer-1-text"
+                                text=" value:Die CO2-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO2). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO2 nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
+                                width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                            </a-entity>
+                            <a-entity class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
+                                <a-entity class="answer-2-text"
+                                text=" value:Die Bodenart bezeichnet die prozentuale Zusammensetzung des Feinbodens. Nach abnehmender Korngröße werden drei Feinbodenarten unterschieden: Sand, Schluff und Ton. Jeder Boden setzt sich neben Wasser, Luft und organischen Substanzen aus den drei Feinbodenarten zusammen und hat dadurch charakteristische Eigenschaften.; 
+                                width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
+                            </a-entity>
+                        </a-entity> <!--static-->
+                        <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 1.2 0" scale="2 2 2">
+                            <a-entity text=" value:Parameter auswählen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> <!--static-->    
+                    </a-entity> <!--static-->
+
+                </a-entity>
+            </template>
+
             <template id="interactable-camera">
                 <a-entity
                     class="interactable"

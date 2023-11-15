@@ -821,6 +821,7 @@ export default class SceneEntryManager {
       
       this._spawnThirdExperimentPart01(".table_main_01", groupCode, "position_01");
       this._spawnThirdExperimentPart02(".table_main_01", groupCode, "position_01");
+      this._spawnThirdExperimentPart03(".table_main_01", groupCode, "position_01");
     });
   };
 
@@ -832,6 +833,7 @@ export default class SceneEntryManager {
       
       this._spawnThirdExperimentPart01(".table_main_02", groupCode, "position_02");
       this._spawnThirdExperimentPart02(".table_main_02", groupCode, "position_02");
+      this._spawnThirdExperimentPart03(".table_main_02", groupCode, "position_02");
     });
   };
 
@@ -1207,6 +1209,33 @@ export default class SceneEntryManager {
       var networkId = encodeNetworkId("02", groupCode, position);
 
       entity.setAttribute("networked", { template: "#interactable-third-experiment-02-camera", networkId: networkId });
+      entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
+      entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
+      this.scene.appendChild(entity);
+      
+    }
+  };
+
+  _spawnThirdExperimentPart03 = (table, groupCode, position) => {
+
+    console.log("Placing");
+
+    if (!this.hubChannel.can("spawn_camera")) return;
+    
+    const myExperiment = this.scene.systems["third-experiments"].getTaskById("03", groupCode);
+
+    if (myExperiment) {
+      myExperiment.parentNode.removeChild(myExperiment);
+    } else {
+      const entity = document.createElement("a-entity");
+
+      const anchor = this.scene.querySelector(table);
+      const anchorPos = anchor.getAttribute("position");
+      const anchorRot = anchor.getAttribute("rotation");
+      
+      var networkId = encodeNetworkId("03", groupCode, position);
+
+      entity.setAttribute("networked", { template: "#interactable-third-experiment-03-camera", networkId: networkId });
       entity.setAttribute("position", {x: anchorPos.x, y: anchorPos.y, z: anchorPos.z});
       entity.setAttribute("rotation", {x: anchorRot.x, y: anchorRot.y, z: anchorRot.z});
       this.scene.appendChild(entity);

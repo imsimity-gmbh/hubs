@@ -7,6 +7,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 const growthCabinetPromise =  waitForDOMContentLoaded().then(() => loadModel(growthCabinetSrc));
 const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
+const sleep = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
+
+
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-02", {
@@ -174,8 +179,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       if(this.data.chosen != -1)
       {
-        this.explainParameter();
         this.chosen = this.data.chosen;
+        this.explainParameter();
       }
 
       if (this.localNextButtonClickCount != this.data.nextBtnClickCount)
@@ -295,14 +300,17 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
     onClickSubmitChoice()
     {
-      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      if(this.chosen >= 0)
+      {
+          NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      
+          NAF.utils.takeOwnership(networkedEl);
     
-        NAF.utils.takeOwnership(networkedEl);
-  
-        this.el.setAttribute("third-experiment-02", "chosen", this.chosen);      
-  
-        this.updateUI();
-      });
+          this.el.setAttribute("third-experiment-02", "chosen", this.chosen);      
+    
+          this.updateUI();
+        });
+      }
     },
 
     explainParameter()
@@ -358,36 +366,36 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       });
     },
 
-    speedUp()
+    async speedUp()
     {
       this.skipBtn.object3D.visible = false;
 
-      this.timeText.setAttribute("text", { value: "0 Woche"});
+      this.timeText.setAttribute("text", { value: "0 Wochen"});
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "1 Woche"});
-      }, 1000);
+      await sleep(1000);
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "2 Woche"});
-      }, 2000);
+      this.timeText.setAttribute("text", { value: "1 Woche"});
+      
+      await sleep(1000);
+      
+      this.timeText.setAttribute("text", { value: "2 Wochen"});
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "3 Woche"});
-      }, 3000);
+      await sleep(1000);
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "4 Woche"});
-      }, 4000);
+      this.timeText.setAttribute("text", { value: "3 Wochen"});
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "5 Woche"});
-      }, 5000);
+      await sleep(1000);
+      
+      this.timeText.setAttribute("text", { value: "4 Wochen"});
+      
+      await sleep(1000);
 
-      setTimeout(() => {
-        this.timeText.setAttribute("text", { value: "6 Woche"});
-        this.showOpenButton();
-      }, 6000);
+      this.timeText.setAttribute("text", { value: "5 Wochen"});
+
+      await sleep(1000);
+
+      this.timeText.setAttribute("text", { value: "6 Wochen"});
+      this.showOpenButton();
     },
 
     showOpenButton()
@@ -411,7 +419,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     openCabinet()
     {
       this.openBtn.object3D.visible = false;
-      console.log("This is the end!");
+
+      this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
+      this.thirdExpPart03.components["third-experiment-03"].startPart03();
     },
 
     remove() {
