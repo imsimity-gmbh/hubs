@@ -4,8 +4,10 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-const growthCabinetPromise =  waitForDOMContentLoaded().then(() => loadModel(growthCabinetSrc));
-const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
+const sleep = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
+
 
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
@@ -13,6 +15,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     schema: {
       answer: {default: -1},
       answerRound: {default: 0},
+      nextBtnClicked: {default: false},
+      skipBtnClicked: {default: false},
+      openBtnClicked: {default: false},
     },
   
     init: function() {
@@ -26,6 +31,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       //local version of network variable:
       this.answer = -1;
       this.answerRound = 0;
+      this.localNextBtnClicked = false;
+      this.localSkipBtnClicked = false;
+      this.localOpenBtnClicked = false;
 
       this.chosen;
       this.rightAnswer = -1;
@@ -56,6 +64,18 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         
         setTimeout(() => {
           waitForDOMContentLoaded().then(() => {
+
+            this.nextBtn = this.el.querySelector(".next-btn-3-3");
+            this.nextBtn.object3D.visible = false;
+            this.nextBtn.object3D.addEventListener("interact", () => this.onClickNextBtn());
+
+            this.skipBtn = this.el.querySelector(".skip-btn-3-3");
+            this.skipBtn.object3D.visible = false;
+            this.skipBtn.object3D.addEventListener("interact", () => this.onClickSkipBtn());
+
+            this.openBtn = this.el.querySelector(".open-btn-3-3");
+            this.openBtn.object3D.visible = false;
+            this.openBtn.object3D.addEventListener("interact", () => this.onClickOpenButton());
             
             this.delayedInit();
           });  
@@ -81,8 +101,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.submitBtn.object3D.addEventListener("interact", () => this.onClickSubmitChoice());
 
       this.answerText0 = this.el.querySelector(".answer-0-text");
-      this.answerText0 = this.el.querySelector(".answer-1-text");
-      this.answerText0 = this.el.querySelector(".answer-2-text");
+      this.answerText1 = this.el.querySelector(".answer-1-text");
+      this.answerText2 = this.el.querySelector(".answer-2-text");
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -129,6 +149,20 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.answer = this.data.answer;
         this.compileAnswer();
       }
+      if(this.localNextBtnClicked != this.data.nextBtnClicked) {
+        this.showSkipButton();
+        this.localNextBtnClicked = this.data.nextBtnClicked;
+      }
+
+      if(this.localSkipBtnClicked != this.data.skipBtnClicked) {
+        this.speedUp();
+        this.localSkipBtnClicked = this.data.skipBtnClicked;
+      }
+
+      if(this.localOpenBtnClicked != this.data.openBtnClicked) {
+        this.openCabinet();
+        this.localOpenBtnClicked = this.data.openBtnClicked;
+      }
     },
   
     tick: function() {
@@ -163,17 +197,23 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       //fill in right answer
       if(this.chosen == 0)
       {
-        this.answerText0.setAttribute("text", { value: "wegwegwegwegwegwegwegwegwegwegwegwegwegwegwegwegwegwegwegweg"});
+        this.answerText0.setAttribute("text", { value: "1"});
+        this.answerText1.setAttribute("text", { value: "2"});
+        this.answerText2.setAttribute("text", { value: "3"});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 1)
       {
-        this.answerText0.setAttribute("text", { value: "weg"});
+        this.answerText0.setAttribute("text", { value: "1"});
+        this.answerText1.setAttribute("text", { value: "2"});
+        this.answerText2.setAttribute("text", { value: "3"});
         this.rightAnswer = 1;
       }
       else if(this.chosen == 2)
       {
-        this.answerText0.setAttribute("text", { value: "weg"});
+        this.answerText0.setAttribute("text", { value: "1"});
+        this.answerText1.setAttribute("text", { value: "2"});
+        this.answerText2.setAttribute("text", { value: "3"});
         this.rightAnswer = 2;
       }
 
@@ -230,7 +270,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       {
         if(this.rightAnswer == this.answer)
         {
-          this.multipleChoice.object3D.visible = false;
+          //this.multipleChoice.object3D.visible = false;
           this.prepSkip();
 
           NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
@@ -254,7 +294,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       {
         if(this.rightAnswer == this.answer)
         {
-          this.multipleChoice.object3D.visible = false;
+          //this.multipleChoice.object3D.visible = false;
         }
         else
         {
@@ -272,8 +312,105 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     },
 
     prepSkip()
+    { 
+      this.nextBtn.object3D.visible = true;
+    },
+
+    onClickNextBtn()
     {
-      console.log("This is the end!");
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-03", "nextBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    showSkipButton()
+    {
+      this.nextBtn.object3D.visible = false;
+      this.multipleChoice.object3D.visible = false;
+
+      this.skipBtn.object3D.visible = true;
+    },
+
+    onClickSkipBtn()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-03", "skipBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    async speedUp()
+    {
+      this.skipBtn.object3D.visible = false;
+
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.timeText = this.thirdExpPart02.components["third-experiment-02"].timeText;
+
+      this.timeText.object3D.visible = true;
+      this.timeText.setAttribute("text", { value: "6 Wochen"});
+
+      await sleep(1000);
+
+      this.timeText.setAttribute("text", { value: "7 Woche"});
+      
+      await sleep(1000);
+      
+      this.timeText.setAttribute("text", { value: "8 Wochen"});
+
+      await sleep(1000);
+
+      this.timeText.setAttribute("text", { value: "9 Wochen"});
+
+      await sleep(1000);
+      
+      this.timeText.setAttribute("text", { value: "10 Wochen"});
+      
+      await sleep(1000);
+
+      this.timeText.setAttribute("text", { value: "11 Wochen"});
+
+      await sleep(1000);
+
+      this.timeText.setAttribute("text", { value: "12 Wochen"});
+      this.showOpenButton();
+    },
+
+    showOpenButton()
+    {
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.timeText = this.thirdExpPart02.components["third-experiment-02"].timeText;
+      
+      this.timeText.object3D.visible = false;
+      this.openBtn.object3D.visible = true;
+    },
+
+    onClickOpenButton()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-03", "openBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    openCabinet()
+    {
+      this.openBtn.object3D.visible = false;
+
+      this.thirdExpPart04 = this.expSystem.getTaskById("04", this.experimentData.groupCode);
+      this.thirdExpPart04.components["third-experiment-04"].startPart04();
     },
     
     remove() {

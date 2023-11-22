@@ -1129,7 +1129,37 @@ function registerNetworkSchemas() {
       {
         component: "third-experiment-01",
         property: "closeCabinetClicked"
-      }
+      },
+      {
+        selector: "plant-Place-1-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: "plant-Place-2-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: "plant-Place-3-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".plant-socket-01",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".plant-socket-02",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".plant-socket-03",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
     ]
   });
 
@@ -1173,6 +1203,30 @@ function registerNetworkSchemas() {
       {
         component: "third-experiment-03",
         property: "answerRound"
+      },
+      {
+        component: "third-experiment-03",
+        property: "nextBtnClicked"
+      },
+      {
+        component: "third-experiment-03",
+        property: "skipBtnClicked"
+      },
+      {
+        component: "third-experiment-03",
+        property: "openBtnClicked"
+      },
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-third-experiment-04-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "third-experiment-04",
+        property: "answer"
       },
     ]
   });

@@ -1916,6 +1916,29 @@
                         </a-entity> <!--static-->    
                     </a-entity> <!--static-->
 
+                    <a-entity class="interactable" third-experiment-03-sample>
+                        <a-entity class="next-btn-3-3" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
+                                position="0.3 1.4 0.6" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Parameter auswählen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                        <a-entity class="skip-btn-3-3" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1.4 0" rotation="0 0 0" scale="1.5 1.5 1.5">
+                            <a-entity text=" value: 12 Wochen später; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity>
+                        <a-entity class="open-btn-3-3" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1.4 0" rotation="0 0 0" scale="1.5 1.5 1.5">
+                            <a-entity text=" value: Wachstumsschränke öffnen; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        </a-entity> 
+                    </a-entity>
+
+                </a-entity>
+            </template>
+
+            <template id="interactable-third-experiment-04-camera">
+                <!--Ground samples:-->
+                <a-entity id="third-experiment-04-wrapper" 
+                    third-experiment-04
+                    matrix-auto-update
+                    set-yxz-order
+                    > <!--static-->
                 </a-entity>
             </template>
 
