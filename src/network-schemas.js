@@ -1225,8 +1225,49 @@ function registerNetworkSchemas() {
       "position",
       "rotation",
       {
-        component: "third-experiment-04",
-        property: "answer"
+        selector: ".sample-socket-scale-01",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sample-socket-scale-02",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sample-socket-scale-03",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sample-socket-01",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sample-socket-02",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".sample-socket-03",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".resolution-socket-01",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".resolution-socket-02",
+        component: "entity-socket",
+        property: "triggerValue"
+      },
+      {
+        selector: ".resolution-socket-03",
+        component: "entity-socket",
+        property: "triggerValue"
       },
     ]
   });
