@@ -155,7 +155,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     tick: function() {
 
     },
-
+    //Step 3?
     spawnItem(promise, position, entity, show) {
       promise.then(model => {
           entity.object3D.visible = false;
@@ -174,7 +174,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       });
     },
-
+    //Step 4
     startPart01() {
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
 
@@ -199,11 +199,13 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.updateUI();
       });
     },
-
+    //Step 5
     showPlants()
     {
       this.thirdExpStartBtn.object3D.visible = false;
       
+      this.mannequin.components["mannequin"].displayMessage(44);
+
       this.plantPlace1.object3D.visible = true;
       this.plantPlace2.object3D.visible = true;
       this.plantPlace3.object3D.visible = true;
@@ -213,7 +215,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantSocket02.components["entity-socket"].enableSocket();
       this.plantSocket03.components["entity-socket"].enableSocket();
     },
-
+    //Step 6
     plantPlaced()
     {
       this.placedPlants += 1;
@@ -223,7 +225,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
         this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
 
-        this.closeCabinetBtn.object3D.visible = true;
+        this.mannequin.components["mannequin"].displayMessage(45);
+        this.closeCabinetBtn.object3D.visible = true; //step 6
       }   
     },
 

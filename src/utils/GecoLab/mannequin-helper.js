@@ -51,18 +51,18 @@ export var MANNEQUIN_TEXTS = [
   "Schließe die Wachstumsschränke.",
   "An jedem Wachstumsschrank findest du eine Anzeigetafel. Auf dieser kannst du die 5 Parameter sehen, die Einfluss auf das Wachstum der Pflanze haben und verändert werden können. Wenn wir wissen wollen, welcher Parameter genau das Wachstum beeinflusst hat, dürfen wir immer nur einen Parameter verändern, während die Anderen gleichbleiben. Wir können sonst nicht genau unterscheiden, was der Ursprung für die Veränderung ist.",
   "Du kannst dich nun entscheiden, ob du den Einfluss einer veränderter Kohlenstoffdioxid-Konzentration, eine Veränderung der Temperatur oder unterschiedliche Bodenarten näher untersuchen möchtest",
-  //CO2_Konzentration
+  //CO₂_Konzentration
   "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die Temperatur, die Luftfeuchtigkeit, die Bodenart und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
   "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt",
-  "Die CO2-Konzentration ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im ersten Schrank ist ein Wert von 419ppm eingestellt, was dem Jahresmittelwert auf der Zugspitze im Jahr 2022 entspricht. Im 2. Wachstumsschrank beträgt die CO2- Konzentration 550ppm. Im Jahr 2050 würden wir diesen Wert erreichen, wenn wir unseren derzeitigen Kurs behalten und keine Maßnahmen zum Klimaschutz ergreifen. Im letzten Wachstumsschrank beträgt die CO2- Konzentration 650ppm",
-  "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der CO2- Konzentration auf das Wachstum von Weizen hat.",
+  "Die CO₂-Konzentration ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im ersten Schrank ist ein Wert von 419ppm eingestellt, was dem Jahresmittelwert auf der Zugspitze im Jahr 2022 entspricht. Im 2. Wachstumsschrank beträgt die CO₂- Konzentration 550ppm. Im Jahr 2050 würden wir diesen Wert erreichen, wenn wir unseren derzeitigen Kurs behalten und keine Maßnahmen zum Klimaschutz ergreifen. Im letzten Wachstumsschrank beträgt die CO₂- Konzentration 650ppm",
+  "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der CO₂- Konzentration auf das Wachstum von Weizen hat.",
   //Temperatur
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die CO2- Konzentration, die Luftfeuchtigkeit, die Bodenart und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die CO₂- Konzentration, die Luftfeuchtigkeit, die Bodenart und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
   "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt.",
   "Die Temperatur ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im ersten Schrank beträgt die Temperatur 25°C, was den idealen Wachstumsbedingungen von Weizen entspricht. Im 2.Wachstumsschrank beträgt die Temperatur 29°C, was einem Anstieg der Temperatur von 4°C entspricht. Im 3. Wachstumsschrank sind durchgängig 33°C, um den Einfluss von Hitzeereignissen zu untersuchen.",
   "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der Temperatur auf das Wachstum von Weizen hat.",
   //Bodenart
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die Temperatur, die Luftfeuchtigkeit, die CO2- Konzentration und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die Temperatur, die Luftfeuchtigkeit, die CO₂- Konzentration und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
   "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt.",
   "Die Bodenart ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im 1.Wachstumsschrank wirst du den Weizen auf einem schluffigen Lehmboden anbauen, was den idealen Bedingungen für Weizen entspricht. Im 2. Wachstumsschrank wird der Weizen auf einem lehmigen Ton angebaut und im 3. Wachstumsschrank auf einem schwach schluffigen Sand.",
   "In diesem Versuch untersuchen wir daher, inwiefern die unterschiedliche Korngrößenzusammensetzung, Einfluss auf das Wachstum von Weizen hat.",
@@ -73,7 +73,7 @@ export var MANNEQUIN_TEXTS = [
   "Deine Antwort ist leider nicht korrekt. Ich schlage dir vor, dass du deine Pflanze nochmals genau betrachtest.",
   //Feedback zweite Runde 
   "Sehr gut, deine Antwort ist korrekt.",
-  //CO2-Konzentartion
+  //CO₂-Konzentartion
   "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
   //Temperatur
   "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die zweite/mittlere. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
@@ -81,10 +81,10 @@ export var MANNEQUIN_TEXTS = [
   "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
   "Als nächstes schauen wir uns die Veränderungen nach 12 Wochen an.",
   "Wir sehen zwar einen Unterschied im Wachstum der Pflanzen, allerdings wollen wir das Ganze auch noch wissenschaftlich überprüfen. Öffne die Wachstumsschränke.",
-  "Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Pflanze ab und lege ihn in die Petrischale. Wiederhole den Vorgang mit den anderen beiden Pflanzen.",
+  /*70*/"Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Pflanze ab und lege ihn in die Petrischale. Wiederhole den Vorgang mit den anderen beiden Pflanzen.",
   "Platziere die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300g anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
   //Feedback
-  //CO2-Konzentration
+  //CO₂-Konzentration
   "Super, deine Antwort ist richtig.",
   "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
   "Top! Du hast die richtige Lösung.",
@@ -93,19 +93,19 @@ export var MANNEQUIN_TEXTS = [
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-2-3.",
   //Bodenart
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
-  //CO2
+  //CO₂
   //Feedback erste Runde
   "Gut gemacht! Deine Antwort ist korrekt. Mach weiter so!",
-  "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss von CO2 auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
+  "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss von CO₂ auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
   "Sehr gut! Du hast die korrekte Antwort herausgefunden. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Eine erhöhte CO2- Konzentration kann das Wachstum von Pflanzen steigern, allerdings leidet die Qualität der Erträge darunter.",
-  //Temperatur - richtige Antworten gleich wie bei CO2
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Eine erhöhte CO₂- Konzentration kann das Wachstum von Pflanzen steigern, allerdings leidet die Qualität der Erträge darunter.",
+  //Temperatur - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Temperatur auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
   "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die zweite/mittlere. Eine moderate Erhöhung der Temperatur kann dazu führen, dass die Fotosyntheseaktivität ansteigt. Allerdings musst du beachten, dass ein Anstieg der Temperatur nur innerhalb des sogenannten Toleranzbereichs möglich ist. Wenn die Temperatur zu hoch, oder zu niedrig ist verlangsam sich die Prozesse innerhalb der Pflanze.",
-  //Bodenart - richtige Antworten gleich wie bei CO2
+  //Bodenart - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Bodenart auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde

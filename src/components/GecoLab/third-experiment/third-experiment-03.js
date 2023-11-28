@@ -195,26 +195,26 @@ const sleep = ms => new Promise(
       this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
 
       //fill in right answer
-      if(this.chosen == 0)
+      if(this.chosen == 0)//Temp
       {
-        this.answerText0.setAttribute("text", { value: "1"});
-        this.answerText1.setAttribute("text", { value: "2"});
-        this.answerText2.setAttribute("text", { value: "3"});
-        this.rightAnswer = 0;
-      }
-      else if(this.chosen == 1)
-      {
-        this.answerText0.setAttribute("text", { value: "1"});
-        this.answerText1.setAttribute("text", { value: "2"});
-        this.answerText2.setAttribute("text", { value: "3"});
+        this.answerText0.setAttribute("text", { value: "Alle 3 Pflanzen zeigen eine vergleichbare Entwicklung."});
+        this.answerText1.setAttribute("text", { value: "Die Weizenpflanze 3, die den höchsten Temperaturen aus-gesetzt ist, zeigt vereinzelte gelbe Flecken auf den Blättern."});
+        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
         this.rightAnswer = 1;
       }
-      else if(this.chosen == 2)
+      else if(this.chosen == 1)//CO2
       {
-        this.answerText0.setAttribute("text", { value: "1"});
-        this.answerText1.setAttribute("text", { value: "2"});
-        this.answerText2.setAttribute("text", { value: "3"});
-        this.rightAnswer = 2;
+        this.answerText0.setAttribute("text", { value: "Alle Pflanzen haben das gleiche Erscheinungsbild."});
+        this.answerText1.setAttribute("text", { value: "Die Pflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das das stärkste Wachstum."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration führt zu vermindertem Wachstum."});
+        this.rightAnswer = 0;
+      }
+      else if(this.chosen == 2)//Ground
+      {
+        this.answerText0.setAttribute("text", { value: "Durch die ungünstigen Bodenverhältnisse ist das Wachstum der Pflanze 2 beeinträchtigt."});
+        this.answerText1.setAttribute("text", { value: "Es gibt keine Unterschiede in der Entwicklung aller Pflanzen."});
+        this.answerText2.setAttribute("text", { value: "Pflanze 2 und 3 zeigen eine vergleichbare Entwicklung."});
+        this.rightAnswer = 0;
       }
 
       this.showQuestion();
@@ -271,6 +271,7 @@ const sleep = ms => new Promise(
         if(this.rightAnswer == this.answer)
         {
           //this.multipleChoice.object3D.visible = false;
+          this.mannequin.components["mannequin"].displayMessage(62);
           this.prepSkip();
 
           NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
@@ -282,6 +283,7 @@ const sleep = ms => new Promise(
         }
         else
         {
+          this.mannequin.components["mannequin"].displayMessage(63);
           NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
         
             NAF.utils.takeOwnership(networkedEl);
@@ -294,11 +296,24 @@ const sleep = ms => new Promise(
       {
         if(this.rightAnswer == this.answer)
         {
+          this.mannequin.components["mannequin"].displayMessage(64);
           //this.multipleChoice.object3D.visible = false;
         }
         else
         {
-          
+          switch (this.chosen) {
+            case 0:
+              this.mannequin.components["mannequin"].displayMessage(66);
+              break;
+            case 1:
+              this.mannequin.components["mannequin"].displayMessage(65);
+              break;
+            case 2:
+              this.mannequin.components["mannequin"].displayMessage(67);
+              break;
+            default:
+              break;
+          }
         }
         NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
         
@@ -314,6 +329,7 @@ const sleep = ms => new Promise(
     prepSkip()
     { 
       this.nextBtn.object3D.visible = true;
+      this.mannequin.components["mannequin"].displayMessage(68);
     },
 
     onClickNextBtn()
@@ -389,6 +405,7 @@ const sleep = ms => new Promise(
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
       this.timeText = this.thirdExpPart02.components["third-experiment-02"].timeText;
       
+      this.mannequin.components["mannequin"].displayMessage(69);
       this.timeText.object3D.visible = false;
       this.openBtn.object3D.visible = true;
     },
@@ -400,6 +417,8 @@ const sleep = ms => new Promise(
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("third-experiment-03", "openBtnClicked", true);      
+
+        this.mannequin.components["mannequin"].displayMessage(70);
   
         this.updateUI();
       });

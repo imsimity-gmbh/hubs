@@ -36,7 +36,7 @@ const sleep = ms => new Promise(
       this.localNextButtonClickCount = 0;
       this.localSkipBtnClicked = false;
       this.localOpenBtnClicked = false;
-
+      this.localChosen = -1;
 
       this.movableEntities = [];
       this.sockets = [];
@@ -53,6 +53,11 @@ const sleep = ms => new Promise(
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
+
+      this.explainParameter = AFRAME.utils.bind(this.explainParameter, this);
+      this.explainParameter2 = AFRAME.utils.bind(this.explainParameter2, this);
+      this.explainParameter3 = AFRAME.utils.bind(this.explainParameter3, this);
+      this.explainParameter4 = AFRAME.utils.bind(this.explainParameter4, this);
 
       waitForDOMContentLoaded().then(() => {
         console.log("Third exp 2 registered");
@@ -88,10 +93,6 @@ const sleep = ms => new Promise(
         }, IMSIMITY_INIT_DELAY * 0.9);
 
       });
-
-      
-      
-      
     },
 
     delayedInit()
@@ -162,6 +163,7 @@ const sleep = ms => new Promise(
     },
     
     updateUI: function() {
+      
       if(this.localParameterClicked != this.data.parameterClicked) {
         this.showChoice();
         this.localParameterClicked = this.data.parameterClicked;
@@ -177,9 +179,10 @@ const sleep = ms => new Promise(
         this.localOpenBtnClicked = this.data.openBtnClicked;
       }
 
-      if(this.data.chosen != -1)
+      if(this.localChosen != this.data.chosen)
       {
         this.chosen = this.data.chosen;
+        this.localChosen = this.data.chosen;
         this.explainParameter();
       }
 
@@ -237,7 +240,7 @@ const sleep = ms => new Promise(
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("third-experiment-02", "nextBtnClickCount", this.localNextButtonClickCount + 1); 
-        
+        console.log("Count:", this.localNextButtonClickCount);
         this.updateUI();
       });
     },
@@ -248,10 +251,13 @@ const sleep = ms => new Promise(
       this.cabinet1background.object3D.visible = true;
       this.cabinet2background.object3D.visible = true; 
       this.cabinet3background.object3D.visible = true; 
+
       //this.cabinet1Text.setAttribute("text", { value: "weg"});
       //this.cabinet2Text.setAttribute("text", { value: "war"});
       //this.cabinet3Text.setAttribute("text", { value: "er"});
+      this.mannequin.components["mannequin"].displayMessage(46);
 
+      //this.nextBtn.onclick = function(){onNextButtonClick()};
       this.thirdParameterBtn.object3D.visible = true;
     },
 
@@ -266,10 +272,12 @@ const sleep = ms => new Promise(
         this.updateUI();
       });
     },
-
+    
     showChoice()
     {
       this.thirdParameterBtn.object3D.visible = false;
+
+      this.mannequin.components["mannequin"].displayMessage(-1);
 
       this.multipleChoice.object3D.visible = true;
     },
@@ -308,6 +316,8 @@ const sleep = ms => new Promise(
     
           this.el.setAttribute("third-experiment-02", "chosen", this.chosen);      
     
+          this.nextBtn.object3D.visible = true;
+
           this.updateUI();
         });
       }
@@ -317,6 +327,18 @@ const sleep = ms => new Promise(
     {
       this.multipleChoice.object3D.visible = false;
 
+      switch (this.chosen) {
+        case 0://Temp 52
+        this.mannequin.components["mannequin"].displayMessage(52);
+          break;
+        case 1://CO2 48
+        this.mannequin.components["mannequin"].displayMessage(48);
+          break;
+        case 2://Ground 56
+        this.mannequin.components["mannequin"].displayMessage(56);
+          break;
+      }
+
       //text depending on Parameter
       //this.cabinet1Text.setAttribute("text", { value: "weg"});
       //this.cabinet2Text.setAttribute("text", { value: "war"});
@@ -324,22 +346,55 @@ const sleep = ms => new Promise(
       
       //Mannequin depending on Parameter
 
-      this.nextBtn.object3D.visible = true;
+      //this.nextBtn.object3D.visible = true;
     },
 
     explainParameter2()
     {
       //Mannequin depending on Parameter
+      switch (this.data.chosen) {
+        case 0://Temp 
+        this.mannequin.components["mannequin"].displayMessage(53);
+          break;
+        case 1://CO2 
+        this.mannequin.components["mannequin"].displayMessage(49);
+          break;
+        case 2://Ground 
+        this.mannequin.components["mannequin"].displayMessage(57);
+          break;
+      }
     },
 
     explainParameter3()
     {
       //Mannequin depending on Parameter
+      switch (this.chosen) {
+        case 0://Temp 
+        this.mannequin.components["mannequin"].displayMessage(54);
+          break;
+        case 1://CO2 
+        this.mannequin.components["mannequin"].displayMessage(50);
+          break;
+        case 2://Ground 
+        this.mannequin.components["mannequin"].displayMessage(58);
+          break;
+      }
     },
 
     explainParameter4()
     {
       //Mannequin depending on Parameter
+      switch (this.chosen) {
+        case 0://Temp 
+        this.mannequin.components["mannequin"].displayMessage(55);
+          break;
+        case 1://CO2 
+        this.mannequin.components["mannequin"].displayMessage(51);
+          break;
+        case 2://Ground 
+        this.mannequin.components["mannequin"].displayMessage(59);
+          break;
+    }
     },
 
     saySpeedUp()
@@ -348,10 +403,8 @@ const sleep = ms => new Promise(
       this.skipBtn.object3D.visible = true;
 
       this.timeText.object3D.visible = true;
-
+      this.mannequin.components["mannequin"].displayMessage(60);
       //Mannequin Vorspulen
-
-      
     },
 
     onClickSkipBtn()
@@ -369,6 +422,8 @@ const sleep = ms => new Promise(
     async speedUp()
     {
       this.skipBtn.object3D.visible = false;
+
+      this.mannequin.components["mannequin"].displayMessage(-1);
 
       this.timeText.setAttribute("text", { value: "0 Wochen"});
 
@@ -396,11 +451,14 @@ const sleep = ms => new Promise(
 
       this.timeText.setAttribute("text", { value: "6 Wochen"});
       this.showOpenButton();
+      this.mannequin.components["mannequin"].displayMessage(61);
     },
 
     showOpenButton()
     {
       this.timeText.object3D.visible = false;
+      this.nextBtn.object3D.visible = false;
+      this.skipBtn.object3D.visible = false;
       this.openBtn.object3D.visible = true;
     },
 
@@ -411,7 +469,7 @@ const sleep = ms => new Promise(
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("third-experiment-02", "openBtnClicked", true);      
-  
+        
         this.updateUI();
       });
     },
@@ -419,7 +477,7 @@ const sleep = ms => new Promise(
     openCabinet()
     {
       this.openBtn.object3D.visible = false;
-
+      this.mannequin.components["mannequin"].displayMessage(-1);
       this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
       this.thirdExpPart03.components["third-experiment-03"].startPart03();
     },
