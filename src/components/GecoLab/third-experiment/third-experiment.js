@@ -51,7 +51,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
            // Mannequin
           this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
-          this.mannequin.components["mannequin"].displayMessage(19);
+          this.mannequin.components["mannequin"].displayMessage(42);
         }, IMSIMITY_INIT_DELAY * 6);
                  
       });  
@@ -74,7 +74,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
     tick: function() {
 
     },
-
+    //Step 3
     onClickStart() {
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
@@ -85,7 +85,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.updateUI();
       });
     },
-
+    //after Step3
     startExperiment() { 
       this.thirdExpStartBtn.object3D.visible = false;
       this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
@@ -93,7 +93,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       console.log(this.expSystem);
 
       this.thirdExpPart01.components["third-experiment-01"].startPart01(); //for some reason this.thirdExpPart01 is undefined for second user (observer)
-     
+      this.mannequin.components["mannequin"].displayMessage(43);
       console.log("show stuff third-experiment");
     },
 

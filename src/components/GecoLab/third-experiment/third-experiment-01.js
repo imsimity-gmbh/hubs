@@ -82,21 +82,21 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantStartWrapper = this.el.querySelector(".plant-Start-Wrapper");
      
       this.growthCabinet1 = this.el.querySelector(".growth-Cabinet-1");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(1.3, 0.8, 0.2), this.growthCabinet1, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(2.7, 0.8, 0.2), this.growthCabinet1, false);
       this.growthCabinet2 = this.el.querySelector(".growth-Cabinet-2");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(2, 0.8, 0.2), this.growthCabinet2, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(3.4, 0.8, 0.2), this.growthCabinet2, false);
       this.growthCabinet3 = this.el.querySelector(".growth-Cabinet-3");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(2.7, 0.8, 0.2), this.growthCabinet3, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(4.1, 0.8, 0.2), this.growthCabinet3, false);
 
       this.plantPlace1 = this.el.querySelector(".plant-Place-1-entity");
       this.movableEntities.push(this.plantPlace1);
-      this.spawnItem(plantPromise, new THREE.Vector3(1.4, 0.8, 0.5), this.plantPlace1, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(2.4, 0.8, 0.5), this.plantPlace1, false);
       this.plantPlace2 = this.el.querySelector(".plant-Place-2-entity");
       this.movableEntities.push(this.plantPlace2);
-      this.spawnItem(plantPromise, new THREE.Vector3(1.7, 0.8, 0.5), this.plantPlace2, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(2.7, 0.8, 0.5), this.plantPlace2, false);
       this.plantPlace3 = this.el.querySelector(".plant-Place-3-entity");
       this.movableEntities.push(this.plantPlace3);
-      this.spawnItem(plantPromise, new THREE.Vector3(2, 0.8, 0.5), this.plantPlace3, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(3, 0.8, 0.5), this.plantPlace3, false);
 
       //this.updateUI();
 
@@ -155,7 +155,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     tick: function() {
 
     },
-
+    //Step 3?
     spawnItem(promise, position, entity, show) {
       promise.then(model => {
           entity.object3D.visible = false;
@@ -174,7 +174,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       });
     },
-
+    //Step 4
     startPart01() {
       this.mannequin = this.el.sceneEl.systems["mannequin-manager"].getMannequinByGroupCode(this.experimentData.groupCode);
 
@@ -199,11 +199,13 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.updateUI();
       });
     },
-
+    //Step 5
     showPlants()
     {
       this.thirdExpStartBtn.object3D.visible = false;
       
+      this.mannequin.components["mannequin"].displayMessage(44);
+
       this.plantPlace1.object3D.visible = true;
       this.plantPlace2.object3D.visible = true;
       this.plantPlace3.object3D.visible = true;
@@ -213,7 +215,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantSocket02.components["entity-socket"].enableSocket();
       this.plantSocket03.components["entity-socket"].enableSocket();
     },
-
+    //Step 6
     plantPlaced()
     {
       this.placedPlants += 1;
@@ -223,7 +225,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
         this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
         this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
 
-        this.closeCabinetBtn.object3D.visible = true;
+        this.mannequin.components["mannequin"].displayMessage(45);
+        this.closeCabinetBtn.object3D.visible = true; //step 6
       }   
     },
 
