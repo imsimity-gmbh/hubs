@@ -33,6 +33,13 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       this.wrongColor = "#761614";
       this.rightColor = "#18FF03";
 
+      this.plant1Weigth = AFRAME.utils.bind(this.plant1Weigth, this);
+      this.showScale2 = AFRAME.utils.bind(this.showScale2, this);
+      this.plant2Weigth = AFRAME.utils.bind(this.plant2Weigth, this);
+      this.showScale3 = AFRAME.utils.bind(this.showScale3, this);
+      this.plant3Weigth = AFRAME.utils.bind(this.plant3Weigth, this);
+      this.remove3Weigth = AFRAME.utils.bind(this.remove3Weigth, this);
+
       this.movableEntities = [];
       this.sockets = [];
  
