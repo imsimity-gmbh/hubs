@@ -1269,6 +1269,38 @@ function registerNetworkSchemas() {
         component: "entity-socket",
         property: "triggerValue"
       },
+      {
+        component: "third-experiment-04",
+        property: "confirmBtnClicked"
+      },
+      {
+        component: "third-experiment-04",
+        property: "skipBtnClicked"
+      },
+    ]
+  });
+
+  NAF.schemas.add({
+    template: "#interactable-third-experiment-05-camera",
+    components: [
+      "position",
+      "rotation",
+      {
+        component: "third-experiment-05",
+        property: "answer"
+      },
+      {
+        component: "third-experiment-05",
+        property: "answerRound"
+      },
+      {
+        component: "third-experiment-05",
+        property: "nextBtnClicked"
+      },
+      {
+        component: "third-experiment-05",
+        property: "skipBtnClicked"
+      },
     ]
   });
 

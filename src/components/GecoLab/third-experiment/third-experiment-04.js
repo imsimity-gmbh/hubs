@@ -12,6 +12,8 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
  
  AFRAME.registerComponent("third-experiment-04", {
     schema: {
+      confirmBtnClicked: {default: -1},
+      skipBtnClicked: {default: false},
     },
   
     init: function() {
@@ -23,9 +25,21 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
 
       //local version of network variable:
+      this.localConfirmBtnClicked = -1;
+      this.localSkipBtnClicked = false;
 
 
       this.chosen;
+
+      this.firstCorrect = false;
+      this.secondCorrect = false;
+      this.thirdCorrect = false;
+      this.firstPlaced = null;
+      this.secondPlaced = null;
+      this.thirdPlaced = null;
+      this.firstPosition = new THREE.Vector3(3, 0.55, 0.1);
+      this.secondPosition = new THREE.Vector3(3, 0.55, 0.4);
+      this.thirdPosition = new THREE.Vector3(3, 0.55, 0.7);
 
       //Colors for buttons:
       this.initialColor = "#D4ECFA";
@@ -60,6 +74,13 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
         
         setTimeout(() => {
           waitForDOMContentLoaded().then(() => {
+            this.confirmBtn = this.el.querySelector(".confirm-btn-3-4");
+            this.confirmBtn.object3D.visible = false;
+            this.confirmBtn.object3D.addEventListener("interact", () => this.onClickConfirmBtn());
+
+            this.skipBtn = this.el.querySelector(".skip-btn-3-4");
+            this.skipBtn.object3D.visible = false;
+            this.skipBtn.object3D.addEventListener("interact", () => this.onClickSkipBtn());
 
             
             this.delayedInit();
@@ -134,6 +155,16 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
     },
     
     updateUI: function() {
+
+      if(this.localConfirmBtnClicked != this.data.confirmBtnClicked) {
+        this.localConfirmBtnClicked = this.data.confirmBtnClicked;
+        this.snapSolution();
+      }
+
+      if(this.localSkipBtnClicked != this.data.skipBtnClicked) {
+        this.localSkipBtnClicked = this.data.skipBtnClicked;
+        this.skipOrderEnd();
+      }
     },
   
     tick: function() {
@@ -262,22 +293,177 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
 
     orderPlants()
     {
+      
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
       this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
       
-      this.sockets.forEach(s => {
-        var socket = s.components["entity-socket"];
-        socket.subscribe("onSnap", this.snapSolution);
+        var socket = this.resolutionSocket01.components["entity-socket"];
+        socket.subscribe("onSnap", this.place1Soluttion);
         socket.delayedInitSocket();
         socket.enableSocket();
-        s.object3D.visible = true; 
-      });
+        socket.object3D.visible = true; 
 
+        socket = this.resolutionSocket02.components["entity-socket"];
+        socket.subscribe("onSnap", this.place2Soluttion);
+        socket.delayedInitSocket();
+        socket.enableSocket();
+        socket.object3D.visible = true; 
+
+        socket = this.resolutionSocket03.components["entity-socket"];
+        socket.subscribe("onSnap", this.place3Soluttion);
+        socket.delayedInitSocket();
+        socket.enableSocket();
+        socket.object3D.visible = true; 
+
+        this.confirmBtn.object3D.visible = true;
     },
+
+    place1Soluttion(socket)
+    {
+      console.log(socket);
+      //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
+      var oldSocket = null;
+      if(this.firstPlaced) oldSocket = this.firstPlaced;
+      socket.setAttribute("position", {x: this.firstPosition.x, y: this.firstPosition.y, z:this.firstPosition.z});
+      this.firstPlaced = socket;
+
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
+
+      //need to  make != to ==
+      if(this.chosen == 0)
+      {
+        if(socket.object3D != null) this.firstCorrect = true;
+      }
+      else if(this.chosen == 1)
+      {
+        if(socket.object3D != null) this.firstCorrect = true;
+      }
+      else if(this.chosen == 2)
+      {
+        if(socket.object3D != null) this.firstCorrect = true;
+      }
+
+      if(oldSocket != null && socket == this.secondPlaced) this.place2Soluttion(oldSocket);
+      if(oldSocket != null && socket == this.thirdPlaced) this.place3Soluttion(oldSocket);
+
+      //this.resolutionSocket01.components["entity-socket"].enableSocket();
+      this.resolutionSocket01.components["entity-socket"].object3D.visible = true; 
+    },
+
+    place2Soluttion(socket)
+    {
+      console.log(socket);
+      //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
+      var oldSocket = null;
+      if(this.secondPlaced) oldSocket = this.secondPlaced;
+      socket.setAttribute("position", {x: this.secondPosition.x, y: this.secondPosition.y, z:this.secondPosition.z});
+      this.secondPlaced = socket;
+
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
+
+      //need to  make != to ==
+      if(this.chosen == 0)
+      {
+        if(socket.object3D != null) this.secondCorrect = true;
+      }
+      else if(this.chosen == 1)
+      {
+        if(socket.object3D != null) this.secondCorrect = true;
+      }
+      else if(this.chosen == 2)
+      {
+        if(socket.object3D != null) this.secondCorrect = true;
+      }
+
+      if(oldSocket != null && socket == this.firstPlaced) this.place1Soluttion(oldSocket);
+      if(oldSocket != null && socket == this.thirdPlaced) this.place3Soluttion(oldSocket);
+
+      //this.resolutionSocket02.components["entity-socket"].enableSocket();
+      this.resolutionSocket02.components["entity-socket"].object3D.visible = true; 
+    },
+
+
+    place3Soluttion(socket)
+    {
+      console.log(socket);
+      //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
+      var oldSocket = null;
+      if(this.thirdPlaced) oldSocket = this.thirdPlaced;
+      socket.setAttribute("position", {x: this.thirdPosition.x, y: this.thirdPosition.y, z:this.thirdPosition.z});
+      this.thirdPlaced = socket;
+
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
+
+      //need to  make != to ==
+      if(this.chosen == 0)
+      {
+        if(socket.object3D != null) this.thirdCorrect = true;
+      }
+      else if(this.chosen == 1)
+      {
+        if(socket.object3D != null) this.thirdCorrect = true;
+      }
+      else if(this.chosen == 2)
+      {
+        if(socket.object3D != null) this.thirdCorrect = true;
+      }
+      
+      if(oldSocket != null && socket == this.secondPlaced) this.place2Soluttion(oldSocket);
+      if(oldSocket != null && socket == this.firstPlaced) this.place1Soluttion(oldSocket);
+
+      //this.resolutionSocket03.components["entity-socket"].enableSocket();
+      this.resolutionSocket03.components["entity-socket"].object3D.visible = true; 
+    },
+
+    onClickConfirmBtn()
+    {
+      if(firstPlaced && secondPlaced && thirdPlaced)
+      {
+        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-04", "confirmBtnClicked", this.confirmBtnClicked + 1);      
+  
+        this.updateUI();
+        });
+      }
+    },
+
 
     snapSolution()
     {
-      console.log("This is the end!");
+      //TODO:Mannequin Wiring similar to SingleChoice
+      
+      if(firstCorrect && secondCorrect && thirdCorrect)
+      { 
+        this.confirmBtn.object3D.visible = false;
+      
+        this.skipBtn.object3D.visible = true;
+      }
+    },
+
+    onClickSkipBtn()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-04", "skipBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+    skipOrderEnd()
+    {
+      this.skipBtn.object3D.visible = false;
+
+      this.thirdExpPart04 = this.expSystem.getTaskById("05", this.experimentData.groupCode);
+      this.thirdExpPart04.components["third-experiment-05"].startPart05();
     },
 
     enableInteractables() {
