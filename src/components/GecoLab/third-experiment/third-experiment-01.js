@@ -90,13 +90,13 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       this.plantPlace1 = this.el.querySelector(".plant-Place-1-entity");
       this.movableEntities.push(this.plantPlace1);
-      this.spawnItem(plantPromise, new THREE.Vector3(2.4, 0.8, 0.5), this.plantPlace1, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(2.7, 0.8, 0.5), this.plantPlace1, false);
       this.plantPlace2 = this.el.querySelector(".plant-Place-2-entity");
       this.movableEntities.push(this.plantPlace2);
-      this.spawnItem(plantPromise, new THREE.Vector3(2.7, 0.8, 0.5), this.plantPlace2, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(3, 0.8, 0.5), this.plantPlace2, false);
       this.plantPlace3 = this.el.querySelector(".plant-Place-3-entity");
       this.movableEntities.push(this.plantPlace3);
-      this.spawnItem(plantPromise, new THREE.Vector3(3, 0.8, 0.5), this.plantPlace3, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(3.3, 0.8, 0.5), this.plantPlace3, false);
 
       //this.updateUI();
 

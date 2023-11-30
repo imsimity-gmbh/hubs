@@ -252,9 +252,10 @@ const sleep = ms => new Promise(
       this.cabinet2background.object3D.visible = true; 
       this.cabinet3background.object3D.visible = true; 
 
-      //this.cabinet1Text.setAttribute("text", { value: "weg"});
-      //this.cabinet2Text.setAttribute("text", { value: "war"});
-      //this.cabinet3Text.setAttribute("text", { value: "er"});
+      this.cabinet1Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
+      this.cabinet2Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
+      this.cabinet3Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
+
       this.mannequin.components["mannequin"].displayMessage(46);
 
       //this.nextBtn.onclick = function(){onNextButtonClick()};
@@ -338,14 +339,6 @@ const sleep = ms => new Promise(
         this.mannequin.components["mannequin"].displayMessage(56);
           break;
       }
-
-      //text depending on Parameter
-      //this.cabinet1Text.setAttribute("text", { value: "weg"});
-      //this.cabinet2Text.setAttribute("text", { value: "war"});
-      //this.cabinet3Text.setAttribute("text", { value: "er"});
-      
-      //Mannequin depending on Parameter
-
       //this.nextBtn.object3D.visible = true;
     },
 
@@ -371,12 +364,21 @@ const sleep = ms => new Promise(
       switch (this.chosen) {
         case 0://Temp 
         this.mannequin.components["mannequin"].displayMessage(54);
+        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 29°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 33°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
           break;
         case 1://CO2 
         this.mannequin.components["mannequin"].displayMessage(50);
+        this.cabinet1Text.setAttribute("text", { value: "CO2 419ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 650ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
           break;
         case 2://Ground 
         this.mannequin.components["mannequin"].displayMessage(58);
+        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nLehmiger Ton"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchwach schluffiger Sand"});
           break;
       }
     },

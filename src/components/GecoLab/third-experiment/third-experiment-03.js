@@ -31,6 +31,7 @@ const sleep = ms => new Promise(
       //local version of network variable:
       this.answer = -1;
       this.answerRound = 0;
+      this.secondRoundAvailable = 0;
       this.localNextBtnClicked = false;
       this.localSkipBtnClicked = false;
       this.localOpenBtnClicked = false;
@@ -292,8 +293,11 @@ const sleep = ms => new Promise(
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("third-experiment-03", "answerRound", 2);
-
-            this.updateUI();
+            if(secondRoundAvailable == 0)
+            {
+              secondRoundAvailable = 1;
+              this.updateUI();
+            }
           });
         }
         else
@@ -305,8 +309,11 @@ const sleep = ms => new Promise(
             NAF.utils.takeOwnership(networkedEl);
       
             this.el.setAttribute("third-experiment-03", "answerRound", 1);
-
-            this.updateUI();
+            if(secondRoundAvailable == 0)
+            {
+              this.updateUI();
+              secondRoundAvailable = 1;
+            }
           });
         }
       }
@@ -317,7 +324,7 @@ const sleep = ms => new Promise(
         {
           console.log("AnswerRound2 Right");
           this.mannequin.components["mannequin"].displayMessage(64);
-          //this.multipleChoice.object3D.visible = false;
+          
         }
         else
         {
@@ -343,7 +350,11 @@ const sleep = ms => new Promise(
     
           this.el.setAttribute("third-experiment-03", "answerRound", 2);
 
-          this.updateUI();
+          if(secondRoundAvailable == 1)
+          {
+            this.updateUI();
+            secondRoundAvailable = 2;
+          }
         });
 
         this.prepSkip();
@@ -354,7 +365,8 @@ const sleep = ms => new Promise(
     prepSkip()
     { 
       this.nextBtn.object3D.visible = true;
-      this.mannequin.components["mannequin"].displayMessage(68);
+      this.multipleChoice.object3D.visible = false;
+      this.submitBtn.object3D.visible = false;
     },
 
     onClickNextBtn()
@@ -362,7 +374,7 @@ const sleep = ms => new Promise(
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
-  
+        this.mannequin.components["mannequin"].displayMessage(68);
         this.el.setAttribute("third-experiment-03", "nextBtnClicked", true);      
   
         this.updateUI();
@@ -373,7 +385,7 @@ const sleep = ms => new Promise(
     {
       this.nextBtn.object3D.visible = false;
       this.multipleChoice.object3D.visible = false;
-
+      this.submitBtn.object3D.visible = false;
       this.skipBtn.object3D.visible = true;
     },
 
@@ -401,7 +413,7 @@ const sleep = ms => new Promise(
 
       await sleep(1000);
 
-      this.timeText.setAttribute("text", { value: "7 Woche"});
+      this.timeText.setAttribute("text", { value: "7 Wochen"});
       
       await sleep(1000);
       
