@@ -4,11 +4,6 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-const sleep = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
-
-
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-03", {
@@ -389,7 +384,7 @@ const sleep = ms => new Promise(
       });
     },
 
-    async speedUp()
+    speedUp()
     {
       this.skipBtn.object3D.visible = false;
 
@@ -399,29 +394,37 @@ const sleep = ms => new Promise(
       this.timeText.object3D.visible = true;
       this.timeText.setAttribute("text", { value: "6 Wochen"});
 
-      await sleep(1000);
+      setTimeout(() => this.speedText1(),1000);
+      setTimeout(() => this.speedText2(),2000);
+      setTimeout(() => this.speedText3(),3000);
+      setTimeout(() => this.speedText4(),4000);
+      setTimeout(() => this.speedText5(),5000);
+      setTimeout(() => this.speedText6(),6000);
+    },
 
+    speedText1()
+    {
       this.timeText.setAttribute("text", { value: "7 Woche"});
-      
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "8 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "9 Wochen"});
-
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "10 Wochen"});
-      
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "11 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "12 Wochen"});
+    },
+    speedText2()
+    {
+      this.timeText.setAttribute("text", { value: "8 Woche"});
+    },
+    speedText3()
+    {
+      this.timeText.setAttribute("text", { value: "9 Woche"});
+    },
+    speedText4()
+    {
+      this.timeText.setAttribute("text", { value: "10 Woche"});
+    },
+    speedText5()
+    {
+      this.timeText.setAttribute("text", { value: "11 Woche"});
+    },
+    speedText6()
+    {
+      this.timeText.setAttribute("text", { value: "12 Woche"});
       this.showOpenButton();
     },
 

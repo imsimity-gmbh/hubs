@@ -7,7 +7,6 @@ import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
 
-
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-04", {
@@ -37,9 +36,6 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       this.firstPlaced = null;
       this.secondPlaced = null;
       this.thirdPlaced = null;
-      this.firstPosition = new THREE.Vector3(3, 0.55, 0.1);
-      this.secondPosition = new THREE.Vector3(3, 0.55, 0.4);
-      this.thirdPosition = new THREE.Vector3(3, 0.55, 0.7);
 
       //Colors for buttons:
       this.initialColor = "#D4ECFA";
@@ -288,9 +284,9 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
 
       this.displayText.setAttribute("text", { value: "0"});
 
-      this.orderPlants();
+      //this.orderPlants();
     },
-
+    /*
     orderPlants()
     {
       
@@ -324,7 +320,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
       var oldSocket = null;
       if(this.firstPlaced) oldSocket = this.firstPlaced;
-      socket.setAttribute("position", {x: this.firstPosition.x, y: this.firstPosition.y, z:this.firstPosition.z});
+      socket.setAttribute("position", {x: 3, y: 0.55, z:0.1});
       this.firstPlaced = socket;
 
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
@@ -357,7 +353,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
       var oldSocket = null;
       if(this.secondPlaced) oldSocket = this.secondPlaced;
-      socket.setAttribute("position", {x: this.secondPosition.x, y: this.secondPosition.y, z:this.secondPosition.z});
+      socket.setAttribute("position", {x: 3, y: 0.55, z:0.3});
       this.secondPlaced = socket;
 
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
@@ -391,7 +387,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       //if (this.objectsPlacedSockets.some(({object3D}) => object3D.id === socket.object3D.id))
       var oldSocket = null;
       if(this.thirdPlaced) oldSocket = this.thirdPlaced;
-      socket.setAttribute("position", {x: this.thirdPosition.x, y: this.thirdPosition.y, z:this.thirdPosition.z});
+      socket.setAttribute("position", {x: 3, y: 0.55, z:0.7});
       this.thirdPlaced = socket;
 
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
@@ -445,7 +441,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
         this.skipBtn.object3D.visible = true;
       }
     },
-
+    */
     onClickSkipBtn()
     {
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
