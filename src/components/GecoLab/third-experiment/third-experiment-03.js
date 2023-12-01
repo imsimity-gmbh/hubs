@@ -4,17 +4,11 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-const sleep = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
-
-
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-03", {
     schema: {
       answer: {default: -1},
-      answerRound: {default: 0},
       nextBtnClicked: {default: false},
       skipBtnClicked: {default: false},
       openBtnClicked: {default: false},
@@ -27,11 +21,12 @@ const sleep = ms => new Promise(
      
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
+      this.el.sceneEl.addEventListener("stateadded", () => this.updateUI2());
+      this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI2());
 
       //local version of network variable:
       this.answer = -1;
       this.answerRound = 0;
-      this.secondRoundAvailable = 0;
       this.localNextBtnClicked = false;
       this.localSkipBtnClicked = false;
       this.localOpenBtnClicked = false;
@@ -145,20 +140,11 @@ const sleep = ms => new Promise(
     },
     
     updateUI: function() {
-      console.log("Update UI hittet");
-      console.log("answerRound: "+ this.answerRound);
-      console.log("answerRoundNet: "+ this.data.answerRound);
-      if(this.data.answer != -1 && this.answerRound == this.data.answerRound)
+      if(this.data.answer != -1 && this.answer != -2)
       {
-        console.log("Vergleich der beiden Runden")
-        console.log(this.answerRound == this.data.answerRound)
         this.answer = this.data.answer;
         this.compileAnswer();
-      }
-      if(this.answerRound != this.data.answerRound)
-      {
-        this.answerRound = this.data.answerRound;
-      }
+      }  
       if(this.localNextBtnClicked != this.data.nextBtnClicked) {
         this.localNextBtnClicked = this.data.nextBtnClicked;
         this.showSkipButton();
@@ -276,59 +262,35 @@ const sleep = ms => new Promise(
 
     compileAnswer()
     {
-      console.log("startCompileAnswer");
       
       if(this.answerRound == 0)
       {
-        console.log("AnswerRound1");
+        this.answerRound = 1;
         if(this.rightAnswer == this.answer)
         {
-          console.log("AnswerRound1 Right");
+          this.answer = -2;
+          this.answerRound = 2;
           //this.multipleChoice.object3D.visible = false;
           this.mannequin.components["mannequin"].displayMessage(62);
           this.prepSkip();
-
-          NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("third-experiment-03", "answerRound", 2);
-            if(secondRoundAvailable == 0)
-            {
-              secondRoundAvailable = 1;
-              this.updateUI();
-            }
-          });
         }
         else
         {
-          console.log("AnswerRound1 Wrong");
+          this.answer = -2;
           this.mannequin.components["mannequin"].displayMessage(63);
-          NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("third-experiment-03", "answerRound", 1);
-            if(secondRoundAvailable == 0)
-            {
-              this.updateUI();
-              secondRoundAvailable = 1;
-            }
-          });
         }
       }
       else if(this.answerRound == 1)
       {
-        console.log("AnswerRound2");
+        this.answerRound = 2;
         if(this.rightAnswer == this.answer)
         {
-          console.log("AnswerRound2 Right");
+          this.answer = -2;
           this.mannequin.components["mannequin"].displayMessage(64);
-          
         }
         else
         {
-          console.log("AnswerRound2 Wrong");
+          this.answer = -2;
           switch (this.chosen) {
             case 0:
               this.mannequin.components["mannequin"].displayMessage(66);
@@ -343,23 +305,8 @@ const sleep = ms => new Promise(
               break;
           }
         }
-        console.log("AnswerRound2 Always");
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-          NAF.utils.takeOwnership(networkedEl);
-    
-          this.el.setAttribute("third-experiment-03", "answerRound", 2);
-
-          if(secondRoundAvailable == 1)
-          {
-            this.updateUI();
-            secondRoundAvailable = 2;
-          }
-        });
-
         this.prepSkip();
       }
-      console.log("endCompileAnswer");
     },
 
     prepSkip()
@@ -401,7 +348,7 @@ const sleep = ms => new Promise(
       });
     },
 
-    async speedUp()
+    speedUp()
     {
       this.skipBtn.object3D.visible = false;
 
@@ -411,29 +358,30 @@ const sleep = ms => new Promise(
       this.timeText.object3D.visible = true;
       this.timeText.setAttribute("text", { value: "6 Wochen"});
 
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "7 Wochen"});
-      
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "8 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "9 Wochen"});
-
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "10 Wochen"});
-      
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "11 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "12 Wochen"});
+      setTimeout(() => this.sayText1(),1000);
+      setTimeout(() => this.sayText2(),2000);
+      setTimeout(() => this.sayText3(),3000);
+      setTimeout(() => this.sayText4(),4000);
+      setTimeout(() => this.sayText5(),5000);
+      setTimeout(() => this.sayText6(),6000);
+    },
+    sayText1(){
+      this.timeText.setAttribute("text", { value: "7 Woche"});
+    },
+    sayText2(){
+      this.timeText.setAttribute("text", { value: "8 Woche"});
+    },
+    sayText3(){
+      this.timeText.setAttribute("text", { value: "9 Woche"});
+    },
+    sayText4(){
+      this.timeText.setAttribute("text", { value: "10 Woche"});
+    },
+    sayText5(){
+      this.timeText.setAttribute("text", { value: "11 Woche"});
+    },
+    sayText6(){
+      this.timeText.setAttribute("text", { value: "12 Woche"});
       this.showOpenButton();
     },
 

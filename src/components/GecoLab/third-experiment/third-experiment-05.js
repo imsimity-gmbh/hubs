@@ -4,19 +4,14 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-const sleep = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
-
-
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-05", {
     schema: {
       answer: {default: -1},
-      answerRound: {default: 0},
       nextBtnClicked: {default: false},
       skipBtnClicked: {default: false},
+      tidyBtnClicked: {default: false},
     },
   
     init: function() {
@@ -32,6 +27,7 @@ const sleep = ms => new Promise(
       this.answerRound = 0;
       this.localNextBtnClicked = false;
       this.localSkipBtnClicked = false;
+      this.localTidyBtnClicked = false;
 
       this.chosen;
       this.rightAnswer = -1;
@@ -73,7 +69,7 @@ const sleep = ms => new Promise(
 
             this.tidyBtn = this.el.querySelector(".tidy-btn-3-5");
             this.tidyBtn.object3D.visible = false;
-            this.tidyBtn.object3D.addEventListener("interact", () => this.onClickOpenButton());
+            this.tidyBtn.object3D.addEventListener("interact", () => this.onClickTidyBtn());
             
             this.delayedInit();
           });  
@@ -146,23 +142,22 @@ const sleep = ms => new Promise(
     },
     
     updateUI: function() {
-      if(this.data.answer != -1 && this.answerRound == this.data.answerRound)
+      if(this.data.answer != -1 && this.answer != -2)
       {
         this.answer = this.data.answer;
         this.compileAnswer();
-      }
-      if(this.answerRound != this.data.answerRound)
-      {
-        this.answerRound = this.data.answerRound;
       }
       if(this.localNextBtnClicked != this.data.nextBtnClicked) {
         this.showSkipButton();
         this.localNextBtnClicked = this.data.nextBtnClicked;
       }
-
       if(this.localSkipBtnClicked != this.data.skipBtnClicked) {
         this.showTidyButton();
         this.localSkipBtnClicked = this.data.skipBtnClicked;
+      }
+      if(this.localTidyBtnClicked != this.data.tidyBtnClicked) {
+        this.onTidyUpClicked();
+        this.localTidyBtnClicked = this.data.tidyBtnClicked;
       }
     },
   
@@ -269,43 +264,32 @@ const sleep = ms => new Promise(
     {
       if(this.answerRound == 0)
       {
+        this.answerRound = 1
         if(this.rightAnswer == this.answer)
         {
+          this.answer = -2;
           //this.multipleChoice.object3D.visible = false;
           this.mannequin.components["mannequin"].displayMessage(62);
           this.prepSkip();
 
-          NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("third-experiment-05", "answerRound", 2);
-            
-            this.updateUI();
-          });
+          this.answerRound = 2;
         }
         else
         {
+          this.answer = -2;
           this.mannequin.components["mannequin"].displayMessage(63);
-          NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-            NAF.utils.takeOwnership(networkedEl);
-      
-            this.el.setAttribute("third-experiment-05", "answerRound", 1);  
-
-            this.updateUI();
-          });
         }
       }
       else if(this.answerRound == 1)
       {
         if(this.rightAnswer == this.answer)
         {
+          this.answer = -2;
           this.mannequin.components["mannequin"].displayMessage(64);
-          //this.multipleChoice.object3D.visible = false;
         }
         else
         {
+          this.answer = -2;
           switch (this.chosen) {
             case 0:
               this.mannequin.components["mannequin"].displayMessage(66);
@@ -320,14 +304,6 @@ const sleep = ms => new Promise(
               break;
           }
         }
-        NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
-        
-          NAF.utils.takeOwnership(networkedEl);
-    
-          this.el.setAttribute("third-experiment-05", "answerRound", 2); 
-          
-          this.updateUI();
-        });
 
         this.prepSkip();
       }
@@ -354,6 +330,8 @@ const sleep = ms => new Promise(
     showSkipButton()
     {
       this.nextBtn.object3D.visible = false;
+      this.multipleChoice.object3D.visible = false;
+      this.submitBtn.object3D.visible = false;
       
       this.infoFieldBackground.object3D.visible = true;
 
@@ -380,12 +358,25 @@ const sleep = ms => new Promise(
       this.tidyBtn.object3D.visible = true;
     },
 
+    onClickTidyBtn()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-05", "tidyBtnClicked", true);      
+  
+        this.updateUI();
+      });
+    },
+
+
     onTidyUpClicked() {
       this.tidyUp();
   },
 
   tidyUp() {
-      this.tidyUpBtn.object3D.visible = false;
+      this.tidyBtn.object3D.visible = false;
       
       if (this.isMember)
       {

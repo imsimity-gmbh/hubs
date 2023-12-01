@@ -1202,10 +1202,6 @@ function registerNetworkSchemas() {
       },
       {
         component: "third-experiment-03",
-        property: "answerRound"
-      },
-      {
-        component: "third-experiment-03",
         property: "nextBtnClicked"
       },
       {
@@ -1291,15 +1287,15 @@ function registerNetworkSchemas() {
       },
       {
         component: "third-experiment-05",
-        property: "answerRound"
-      },
-      {
-        component: "third-experiment-05",
         property: "nextBtnClicked"
       },
       {
         component: "third-experiment-05",
         property: "skipBtnClicked"
+      },
+      {
+        component: "third-experiment-05",
+        property: "tidyBtnClicked"
       },
     ]
   });

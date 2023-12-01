@@ -4,14 +4,6 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-const growthCabinetPromise =  waitForDOMContentLoaded().then(() => loadModel(growthCabinetSrc));
-const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
-
-const sleep = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
-
-
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-02", {
@@ -421,7 +413,7 @@ const sleep = ms => new Promise(
       });
     },
 
-    async speedUp()
+    speedUp()
     {
       this.skipBtn.object3D.visible = false;
 
@@ -429,29 +421,30 @@ const sleep = ms => new Promise(
 
       this.timeText.setAttribute("text", { value: "0 Wochen"});
 
-      await sleep(1000);
-
+      setTimeout(() => this.sayText1(),1000);
+      setTimeout(() => this.sayText2(),2000);
+      setTimeout(() => this.sayText3(),3000);
+      setTimeout(() => this.sayText4(),4000);
+      setTimeout(() => this.sayText5(),5000);
+      setTimeout(() => this.sayText6(),6000);
+    },
+    sayText1(){
       this.timeText.setAttribute("text", { value: "1 Woche"});
-      
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "2 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "3 Wochen"});
-
-      await sleep(1000);
-      
-      this.timeText.setAttribute("text", { value: "4 Wochen"});
-      
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "5 Wochen"});
-
-      await sleep(1000);
-
-      this.timeText.setAttribute("text", { value: "6 Wochen"});
+    },
+    sayText2(){
+      this.timeText.setAttribute("text", { value: "2 Woche"});
+    },
+    sayText3(){
+      this.timeText.setAttribute("text", { value: "3 Woche"});
+    },
+    sayText4(){
+      this.timeText.setAttribute("text", { value: "4 Woche"});
+    },
+    sayText5(){
+      this.timeText.setAttribute("text", { value: "5 Woche"});
+    },
+    sayText6(){
+      this.timeText.setAttribute("text", { value: "6 Woche"});
       this.showOpenButton();
       this.mannequin.components["mannequin"].displayMessage(61);
     },

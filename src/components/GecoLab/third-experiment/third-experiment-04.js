@@ -37,9 +37,11 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       this.firstPlaced = null;
       this.secondPlaced = null;
       this.thirdPlaced = null;
+      /*
       this.firstPosition = new THREE.Vector3(3, 0.55, 0.1);
       this.secondPosition = new THREE.Vector3(3, 0.55, 0.4);
       this.thirdPosition = new THREE.Vector3(3, 0.55, 0.7);
+      */
 
       //Colors for buttons:
       this.initialColor = "#D4ECFA";
@@ -288,9 +290,11 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
 
       this.displayText.setAttribute("text", { value: "0"});
 
-      this.orderPlants();
-    },
+      this.skipBtn.object3D.visible = true;
 
+      //this.orderPlants();
+    },
+    /*
     orderPlants()
     {
       
@@ -445,7 +449,7 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
         this.skipBtn.object3D.visible = true;
       }
     },
-
+    */
     onClickSkipBtn()
     {
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
