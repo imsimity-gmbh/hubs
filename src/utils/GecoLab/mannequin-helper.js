@@ -95,7 +95,7 @@ export var MANNEQUIN_TEXTS = [
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
   //CO₂
   //Feedback erste Runde
-  "Gut gemacht! Deine Antwort ist korrekt. Mach weiter so!",
+  /*78*/"Gut gemacht! Deine Antwort ist korrekt. Mach weiter so!",
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss von CO₂ auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
   "Sehr gut! Du hast die korrekte Antwort herausgefunden. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen.",

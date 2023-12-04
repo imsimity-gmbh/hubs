@@ -429,22 +429,22 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       setTimeout(() => this.sayText6(),6000);
     },
     sayText1(){
-      this.timeText.setAttribute("text", { value: "1 Woche"});
+      this.timeText.setAttribute("text", { value: "1 Wochen"});
     },
     sayText2(){
-      this.timeText.setAttribute("text", { value: "2 Woche"});
+      this.timeText.setAttribute("text", { value: "2 Wochen"});
     },
     sayText3(){
-      this.timeText.setAttribute("text", { value: "3 Woche"});
+      this.timeText.setAttribute("text", { value: "3 Wochen"});
     },
     sayText4(){
-      this.timeText.setAttribute("text", { value: "4 Woche"});
+      this.timeText.setAttribute("text", { value: "4 Wochen"});
     },
     sayText5(){
-      this.timeText.setAttribute("text", { value: "5 Woche"});
+      this.timeText.setAttribute("text", { value: "5 Wochen"});
     },
     sayText6(){
-      this.timeText.setAttribute("text", { value: "6 Woche"});
+      this.timeText.setAttribute("text", { value: "6 Wochen"});
       this.showOpenButton();
       this.mannequin.components["mannequin"].displayMessage(61);
     },

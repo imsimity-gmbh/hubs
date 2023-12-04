@@ -28,6 +28,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.localNextBtnClicked = false;
       this.localSkipBtnClicked = false;
       this.localTidyBtnClicked = false;
+      this.localCountInfoField = 0;
 
       this.chosen;
       this.rightAnswer = -1;
@@ -97,6 +98,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.answerText0 = this.el.querySelector(".answer-0-text");
       this.answerText1 = this.el.querySelector(".answer-1-text");
       this.answerText2 = this.el.querySelector(".answer-2-text");
+      this.questionText = this.el.querySelector(".question-text");
 
       this.infoFieldBackground = this.el.querySelector(".info-field-background");
       this.infoFieldBackground.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
@@ -193,23 +195,26 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       //fill in right answer
       if(this.chosen == 0)//Temp
       {
-        this.answerText0.setAttribute("text", { value: "Alle 3 Pflanzen zeigen eine vergleichbare Entwicklung."});
-        this.answerText1.setAttribute("text", { value: "Die Weizenpflanze 3, die den höchsten Temperaturen aus-gesetzt ist, zeigt vereinzelte gelbe Flecken auf den Blättern."});
-        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
+        this.questionText.setAttribute("text",{ value: "Welchen Einfluss kann eine Erhöhung der Temperatur auf das Wachstum von Pflanzen haben?"});
+        this.answerText0.setAttribute("text", { value: "Eine Änderung der Temperatur hat keinen Einfluss auf das Wachstum von Pflanzen, da Pflanzen nicht auf die Temperatur ihrer Umgebung reagieren."});
+        this.answerText1.setAttribute("text", { value: "Eine leichte Erhöhung der Temperatur kann das Pflanzenwachstum fördern, da sie die Stoffwechselprozesse beschleunigt und die Photosynthese steigert."});
+        this.answerText2.setAttribute("text", { value: "Eine Änderung der Temperatur führt immer zu einem Rückgang des Pflanzenwachstums, da Pflanzen empfindlich auf Temperaturschwankungen reagieren."});
         this.rightAnswer = 1;
       }
       else if(this.chosen == 1)//CO2
       {
-        this.answerText0.setAttribute("text", { value: "Alle Pflanzen haben das gleiche Erscheinungsbild."});
-        this.answerText1.setAttribute("text", { value: "Die Pflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das das stärkste Wachstum."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration führt zu vermindertem Wachstum."});
+        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO2-Konzentration auf das Wachstum von Pflanzen auswirken?"});
+        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen anregen. Pflanzen verwenden CO2 für die Photosynthese, und eine höhere Konzentration kann die Effizienz dieses Prozesses erhöhen, was zu schnellerem Wachstum führt."});
+        this.answerText1.setAttribute("text", { value: "CO2 hat keine Auswirkungen auf das Pflanzenwachstum; es ist nur ein Abfallprodukt der Atmung von Tieren."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
       {
-        this.answerText0.setAttribute("text", { value: "Durch die ungünstigen Bodenverhältnisse ist das Wachstum der Pflanze 2 beeinträchtigt."});
-        this.answerText1.setAttribute("text", { value: "Es gibt keine Unterschiede in der Entwicklung aller Pflanzen."});
-        this.answerText2.setAttribute("text", { value: "Pflanze 2 und 3 zeigen eine vergleichbare Entwicklung."});
+        this.questionText.setAttribute("text",{ value: "Welche Auswirkungen hat eine Änderung der Bodenart auf das Wachstum der Pflanze?"});
+        this.answerText0.setAttribute("text", { value: "Eine Änderung der Bodenart hat keinerlei Auswirkungen auf das Wachstum der Pflanze, da Pflanzen immer in der Lage sind, sich an verschiedene Bodenbedingungen anzupassen."});
+        this.answerText1.setAttribute("text", { value: "Eine Änderung der Bodenart führt immer zu einem Absterben der Pflanze, da Pflanzen sehr empfindlich auf Bodenveränderungen reagieren und nicht in der Lage sind, sich anzupassen."});
+        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart kann das Wachstum der Pflanze beeinflussen, da unter-schiedliche Bodenarten unterschiedliche Nähr-stoffe und Wasserhalte-kapazitäten bieten."});
         this.rightAnswer = 0;
       }
 
@@ -262,57 +267,81 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     compileAnswer()
     {
+      
       if(this.answerRound == 0)
       {
-        this.answerRound = 1
+        this.answerRound = 1;
         if(this.rightAnswer == this.answer)
         {
           this.answer = -2;
-          //this.multipleChoice.object3D.visible = false;
-          this.mannequin.components["mannequin"].displayMessage(62);
+          this.answerRound = 3;
+          this.mannequin.components["mannequin"].displayMessage(78);
           this.prepSkip();
-
-          this.answerRound = 2;
-        }
-        else
-        {
-          this.answer = -2;
-          this.mannequin.components["mannequin"].displayMessage(63);
-        }
-      }
-      else if(this.answerRound == 1)
-      {
-        if(this.rightAnswer == this.answer)
-        {
-          this.answer = -2;
-          this.mannequin.components["mannequin"].displayMessage(64);
         }
         else
         {
           this.answer = -2;
           switch (this.chosen) {
             case 0:
-              this.mannequin.components["mannequin"].displayMessage(66);
+              this.mannequin.components["mannequin"].displayMessage(82);
               break;
             case 1:
-              this.mannequin.components["mannequin"].displayMessage(65);
+              this.mannequin.components["mannequin"].displayMessage(79);
               break;
             case 2:
-              this.mannequin.components["mannequin"].displayMessage(67);
+              this.mannequin.components["mannequin"].displayMessage(84);
               break;
             default:
               break;
           }
         }
-
-        this.prepSkip();
+      }
+      else if(this.answerRound == 1)
+      {
+        this.answerRound = 2;
+        if(this.rightAnswer == this.answer)
+        {
+          this.answer = -2;
+          this.answerRound = 3;
+          this.mannequin.components["mannequin"].displayMessage(80);
+          this.prepSkip();
+        }
+        else
+        {
+          this.answer = -2;
+          switch (this.chosen) {
+            case 0:
+              this.mannequin.components["mannequin"].displayMessage(83);
+              break;
+            case 1:
+              this.mannequin.components["mannequin"].displayMessage(81);
+              break;
+            case 2:
+              this.mannequin.components["mannequin"].displayMessage(85);
+              break;
+            default:
+              break;
+          }
+        } 
+      }
+      else if(this.answerRound == 2)
+      {
+        if(this.rightAnswer == this.answer)
+        {
+          this.answer = -2;
+          this.prepSkip();
+        }
+        else
+        {
+          this.answer = -2;
+        }
       }
     },
 
     prepSkip()
     { 
       this.nextBtn.object3D.visible = true;
-      this.mannequin.components["mannequin"].displayMessage(68);
+      this.multipleChoice.object3D.visible = false;
     },
 
     onClickNextBtn()
@@ -320,22 +349,59 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
-  
-        this.el.setAttribute("third-experiment-05", "nextBtnClicked", true);      
-  
+        
+        this.el.setAttribute("third-experiment-05", "nextBtnClicked", true); 
+        /*this.localCountInfoField++;
+        switch (this.localCountInfoField) {
+          case 1:
+            this.infoFieldText.value = "Hier sind noch einige Tipps und Tricks, die bei zukünftigen Experimenten im Labor hilfreich sein können:";
+            break;
+          case 2:
+            this.infoFieldText.value = "Eine gründliche Vorbereitung ist von großer Bedeutung: Stelle sicher, dass du das Experiment sowie seinen Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst.";
+            break;
+          case 3:
+            this.infoFieldText.value = "Priorisiere Sicherheit: Trage stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe.";
+            break;
+          case 4:
+            this.infoFieldText.value = "Halte deine Arbeitsfläche sauber und ordentlich, um Verunreinigungen zu vermeiden.";
+            break;
+          case 5:
+            this.infoFieldText.value = "Gewährleiste Messgenauigkeit: Verwende geeichte Instrumente und führe präzise Messungen durch, um genaue Ergebnisse zu erzielen.";
+            break;
+          case 6:
+            this.infoFieldText.value = "Dokumentiere sorgfältig alle Beobachtungen und Messwerte sowie ihre Veränderungen.";
+            break;
+          case 7:
+            this.infoFieldText.value = "Kollaboration ist entscheidend: Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen.";
+            break;
+          case 8:
+            this.infoFieldText.value = "Nutze Fehler als Gelegenheit zur Verbesserung und akzeptiere sie als wichtigen Bestandteil des wissenschaftlichen Prozesses.";
+            break;
+          case 9:
+            this.infoFieldText.value = "Diese Tipps und Tricks sollen dazu beitragen, dass deine Laborarbeit effizienter, sicherer und produktiver wird.";
+            break;
+          case 10:
+            this.infoFieldText.value = "Ein Tipp für dich: Lies die Aufgaben aufmerksam und gründlich, bevor du antwortest.";
+            break;
+            default:
+            break;
+        }*/     
         this.updateUI();
       });
     },
 
     showSkipButton()
     {
-      this.nextBtn.object3D.visible = false;
-      this.multipleChoice.object3D.visible = false;
-      this.submitBtn.object3D.visible = false;
-      
-      this.infoFieldBackground.object3D.visible = true;
-
-      this.skipBtn.object3D.visible = true;
+      //if(localCountInfoField >= 11)
+      //{
+        this.nextBtn.object3D.visible = false;
+        this.multipleChoice.object3D.visible = false;
+        this.submitBtn.object3D.visible = false;
+        
+        this.infoFieldBackground.object3D.visible = true;
+  
+        this.skipBtn.object3D.visible = true;
+      //}
     },
 
     onClickSkipBtn()
@@ -356,6 +422,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.skipBtn.object3D.visible = false;
       
       this.tidyBtn.object3D.visible = true;
+      this.mannequin.components["mannequin"].displayMessage(86);
     },
 
     onClickTidyBtn()

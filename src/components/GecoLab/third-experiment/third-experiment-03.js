@@ -269,8 +269,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if(this.rightAnswer == this.answer)
         {
           this.answer = -2;
-          this.answerRound = 2;
-          //this.multipleChoice.object3D.visible = false;
+          this.answerRound = 3;
           this.mannequin.components["mannequin"].displayMessage(62);
           this.prepSkip();
         }
@@ -286,7 +285,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if(this.rightAnswer == this.answer)
         {
           this.answer = -2;
+          this.answerRound = 3;
           this.mannequin.components["mannequin"].displayMessage(64);
+          this.prepSkip();
         }
         else
         {
@@ -304,8 +305,19 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             default:
               break;
           }
+        } 
+      }
+      else if(this.answerRound == 2)
+      {
+        if(this.rightAnswer == this.answer)
+        {
+          this.answer = -2;
+          this.prepSkip();
         }
-        this.prepSkip();
+        else
+        {
+          this.answer = -2;
+        }
       }
     },
 
@@ -366,22 +378,22 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       setTimeout(() => this.sayText6(),6000);
     },
     sayText1(){
-      this.timeText.setAttribute("text", { value: "7 Woche"});
+      this.timeText.setAttribute("text", { value: "7 Wochen"});
     },
     sayText2(){
-      this.timeText.setAttribute("text", { value: "8 Woche"});
+      this.timeText.setAttribute("text", { value: "8 Wochen"});
     },
     sayText3(){
-      this.timeText.setAttribute("text", { value: "9 Woche"});
+      this.timeText.setAttribute("text", { value: "9 Wochen"});
     },
     sayText4(){
-      this.timeText.setAttribute("text", { value: "10 Woche"});
+      this.timeText.setAttribute("text", { value: "10 Wochen"});
     },
     sayText5(){
-      this.timeText.setAttribute("text", { value: "11 Woche"});
+      this.timeText.setAttribute("text", { value: "11 Wochen"});
     },
     sayText6(){
-      this.timeText.setAttribute("text", { value: "12 Woche"});
+      this.timeText.setAttribute("text", { value: "12 Wochen"});
       this.showOpenButton();
     },
 

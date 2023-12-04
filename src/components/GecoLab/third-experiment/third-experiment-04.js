@@ -98,8 +98,8 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       console.log('Delayed Init FE-04');
 
       this.scaleEntity  = this.el.querySelector(".scale-entity");
-      this.spawnItem(scaleModelPromise, new THREE.Vector3(1, 0.7, 0.1), this.scaleEntity, false);
-
+      this.spawnItem(scaleModelPromise, new THREE.Vector3(1.1, 0.7, 0.1), this.scaleEntity, false);
+      
       this.displayText  = this.el.querySelector(".display-text");
 
       this.sampleSocketScale01 = this.el.querySelector(".sample-socket-scale-01");
@@ -185,10 +185,9 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
             entity.object3D.visible = true;
 
           entity.object3D.scale.set(1, 1, 1);
-          entity.object3D.rotation.set(0, 0, 0);
+          entity.object3D.rotation.set(0, 1.6, 0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
-
       });
     },
 
