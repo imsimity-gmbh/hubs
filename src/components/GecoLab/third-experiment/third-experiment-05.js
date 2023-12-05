@@ -351,78 +351,70 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         NAF.utils.takeOwnership(networkedEl);
         
         this.el.setAttribute("third-experiment-05", "nextBtnClicked", true); 
-        /*this.localCountInfoField++;
-        switch (this.localCountInfoField) {
-          case 1:
-            this.infoFieldText.value = "Hier sind noch einige Tipps und Tricks, die bei zukünftigen Experimenten im Labor hilfreich sein können:";
-            break;
-          case 2:
-            this.infoFieldText.value = "Eine gründliche Vorbereitung ist von großer Bedeutung: Stelle sicher, dass du das Experiment sowie seinen Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst.";
-            break;
-          case 3:
-            this.infoFieldText.value = "Priorisiere Sicherheit: Trage stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe.";
-            break;
-          case 4:
-            this.infoFieldText.value = "Halte deine Arbeitsfläche sauber und ordentlich, um Verunreinigungen zu vermeiden.";
-            break;
-          case 5:
-            this.infoFieldText.value = "Gewährleiste Messgenauigkeit: Verwende geeichte Instrumente und führe präzise Messungen durch, um genaue Ergebnisse zu erzielen.";
-            break;
-          case 6:
-            this.infoFieldText.value = "Dokumentiere sorgfältig alle Beobachtungen und Messwerte sowie ihre Veränderungen.";
-            break;
-          case 7:
-            this.infoFieldText.value = "Kollaboration ist entscheidend: Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen.";
-            break;
-          case 8:
-            this.infoFieldText.value = "Nutze Fehler als Gelegenheit zur Verbesserung und akzeptiere sie als wichtigen Bestandteil des wissenschaftlichen Prozesses.";
-            break;
-          case 9:
-            this.infoFieldText.value = "Diese Tipps und Tricks sollen dazu beitragen, dass deine Laborarbeit effizienter, sicherer und produktiver wird.";
-            break;
-          case 10:
-            this.infoFieldText.value = "Ein Tipp für dich: Lies die Aufgaben aufmerksam und gründlich, bevor du antwortest.";
-            break;
-            default:
-            break;
-        }*/     
+        
         this.updateUI();
       });
     },
 
     showSkipButton()
     {
-      //if(localCountInfoField >= 11)
-      //{
         this.nextBtn.object3D.visible = false;
         this.multipleChoice.object3D.visible = false;
         this.submitBtn.object3D.visible = false;
         
         this.infoFieldBackground.object3D.visible = true;
-  
+        this.mannequin.components["mannequin"].displayMessage(86);
         this.skipBtn.object3D.visible = true;
-      //}
     },
 
     onClickSkipBtn()
-    {
+    { 
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
-  
-        this.el.setAttribute("third-experiment-05", "skipBtnClicked", true);      
-  
+
+        this.localCountInfoField++;
+        switch (this.localCountInfoField) {
+          case 1:
+            this.infoFieldText.setAttribute("text", { value: "Eine gründliche Vorbereitung ist von großer Bedeutung: Stelle sicher, dass du das Experiment sowie seinen Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst."});
+            break;
+          case 2:
+            this.infoFieldText.setAttribute("text", { value: "Priorisiere Sicherheit: Trage stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe."});
+            break;
+          case 3:
+            this.infoFieldText.setAttribute("text", { value:  "Halte deine Arbeitsfläche sauber und ordentlich, um Verunreinigungen zu vermeiden."});
+            break;
+          case 4:
+            this.infoFieldText.setAttribute("text", { value:  "Gewährleiste Messgenauigkeit: Verwende geeichte Instrumente und führe präzise Messungen durch, um genaue Ergebnisse zu erzielen."});
+            break;
+          case 5:
+            this.infoFieldText.setAttribute("text", { value:  "Dokumentiere sorgfältig alle Beobachtungen und Messwerte sowie ihre Veränderungen."});
+            break;
+          case 6:
+            this.infoFieldText.setAttribute("text", { value:  "Kollaboration ist entscheidend: Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen."});
+            break;
+          case 7:
+            this.infoFieldText.setAttribute("text", { value:  "Nutze Fehler als Gelegenheit zur Verbesserung und akzeptiere sie als wichtigen Bestandteil des wissenschaftlichen Prozesses."});
+            break;
+          case 8:
+            this.infoFieldText.setAttribute("text", { value: "Diese Tipps und Tricks sollen dazu beitragen, dass deine Laborarbeit effizienter, sicherer und produktiver wird."});
+            break;
+          case 9:
+            this.infoFieldText.setAttribute("text", { value: "Ein Tipp für dich: Lies die Aufgaben aufmerksam und gründlich, bevor du antwortest."});
+            this.el.setAttribute("third-experiment-05", "skipBtnClicked", true);  
+            break;
+            default:
+            break;
+        }
         this.updateUI();
       });
     },
 
     showTidyButton()
     {
-      this.infoFieldBackground.object3D.visible = false;
       this.skipBtn.object3D.visible = false;
       
       this.tidyBtn.object3D.visible = true;
-      this.mannequin.components["mannequin"].displayMessage(86);
     },
 
     onClickTidyBtn()
@@ -437,19 +429,18 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       });
     },
 
-
     onTidyUpClicked() {
       this.tidyUp();
-  },
+    },
 
-  tidyUp() {
-      this.tidyBtn.object3D.visible = false;
-      
-      if (this.isMember)
-      {
-          this.el.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
-      }
-  },
+    tidyUp() {
+        this.tidyBtn.object3D.visible = false;
+        this.infoFieldBackground.object3D.visible = false;
+        if (this.isMember)
+        {
+            this.el.sceneEl.emit("gecolab_feedback", this.experimentData.groupCode);
+        }
+    },
     
     remove() {
       console.log("removing third-experiment 05");

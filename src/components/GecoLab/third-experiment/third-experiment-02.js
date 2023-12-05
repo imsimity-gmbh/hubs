@@ -451,7 +451,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     showOpenButton()
     {
-      this.timeText.object3D.visible = false;
+      //this.timeText.object3D.visible = false;
       this.nextBtn.object3D.visible = false;
       this.skipBtn.object3D.visible = false;
       this.openBtn.object3D.visible = true;

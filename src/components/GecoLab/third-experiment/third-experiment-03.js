@@ -21,8 +21,6 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
      
       this.el.sceneEl.addEventListener("stateadded", () => this.updateUI());
       this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI());
-      this.el.sceneEl.addEventListener("stateadded", () => this.updateUI2());
-      this.el.sceneEl.addEventListener("stateremoved", () => this.updateUI2());
 
       //local version of network variable:
       this.answer = -1;
@@ -403,7 +401,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.timeText = this.thirdExpPart02.components["third-experiment-02"].timeText;
       
       this.mannequin.components["mannequin"].displayMessage(69);
-      this.timeText.object3D.visible = false;
+      //this.timeText.object3D.visible = false; dissapears in step 18
       this.openBtn.object3D.visible = true;
     },
 

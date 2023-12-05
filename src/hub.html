@@ -1874,8 +1874,8 @@
                                 </a-entity> <!--static-->    
                     </a-entity> <!--static-->
 
-                    <a-entity class="time-text" text="value: 0 Wochen"
-                        text-raycast-hack position="0.5 2.7 0" scale="3 3 3">
+                    <a-entity class="time-text" text="value: 0 Wochen; color: black"
+                        text-raycast-hack position="2.3 2.1 0.2" scale="3 3 3">
                     </a-entity> <!--static-->
 
                 </a-entity>
@@ -1989,10 +1989,10 @@
 
                     <a-entity class="interactable" third-experiment-04-sample>
                         <a-entity class="confirm-btn-3-4" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.4 0" rotation="0 0 0" scale="1.5 1.5 1.5">
-                            <a-entity text=" value: Sortierung abgeben; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity text=" value: ???; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                         <a-entity class="skip-btn-3-4" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.2 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
-                            <a-entity text=" value: 12 Wochen später; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                            <a-entity text=" value: Sortierung abgeben; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                     </a-entity>
 
@@ -2009,9 +2009,11 @@
                     > <!--static-->
 
                     <a-entity class="info-field-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
-                        position="0 1.5 1" scale="1 2 1.5">
-                        <a-entity class="info-field-text" text=" value: bli; width:2; align:center;" 
-                        text-raycast-hack position="0 0 0.001" scale="0.75 0.375 0.5"></a-entity>
+                        position="-1.8 1.8 2" scale="6 3 3" rotation="0 90 0">
+                        <a-entity class="info-field-text" text=" value: Hier sind noch einige Tipps und Tricks, 
+                        die bei zukünftigen Experimenten im 
+                        Labor hilfreich sein können:; width:2; align:center;" 
+                        text-raycast-hack position="0 0 0.001" scale="0.21 0.42 0.42"></a-entity>
                     </a-entity>
 
                     <a-entity 
@@ -2039,20 +2041,19 @@
                                 width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                             </a-entity>
                         </a-entity> <!--static-->
-                        <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 0 -1.5" scale="2 2 2">
+                        <a-entity class="submit-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.5 1.25 0.5" scale="2 2 2">
                             <a-entity text=" value:Parameter auswählen; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> <!--static-->    
                     </a-entity> <!--static-->
 
                     <a-entity class="interactable" third-experiment-03-sample>
-                        <a-entity class="next-btn-3-5" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
-                                position="0.3 1.4 0.6" scale="1.5 1.5 1.5">
-                                <a-entity text=" value: Experiment beenden; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        <a-entity class="next-btn-3-5" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.25 0.5" scale="1.5 1.5 1.5">
+                                <a-entity text=" value: Tipps; width:2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
-                        <a-entity class="skip-btn-3-5" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1.4 0" rotation="0 0 0" scale="1.5 1.5 1.5">
-                            <a-entity text=" value: Skip order; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
+                        <a-entity class="skip-btn-3-5" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.25 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
+                            <a-entity text=" value: Nächster Tipp; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
-                        <a-entity class="tidy-btn-3-5" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0.3 1.4 0" rotation="0 0 0" scale="1.5 1.5 1.5">
+                        <a-entity class="tidy-btn-3-5" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.25 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
                             <a-entity text=" value: Zum Feedback; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity> 
                     </a-entity>
