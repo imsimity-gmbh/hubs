@@ -1131,17 +1131,29 @@ function registerNetworkSchemas() {
         property: "closeCabinetClicked"
       },
       {
-        selector: "plant-Place-1-entity",
+        selector: ".plant-Place-1-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-Place-1-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-Place-1-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-Place-1-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
-        selector: "plant-Place-2-entity",
+        selector: ".plant-Place-2-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
       {
-        selector: "plant-Place-3-entity",
+        selector: ".plant-Place-3-entity",
         component: "rotation",
         requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
