@@ -170,7 +170,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     },
 
-    spawnItem(promise, position, entity, show) {
+    spawnItem(promise, position, entity, show, animated = false) {
       promise.then(model => {
           entity.object3D.visible = false;
           const mesh = cloneObject3D(model.scene);
@@ -185,6 +185,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
           entity.object3D.rotation.set(0, 0, 0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
+
+          if (animated)
+            {
+                console.log(mesh.animations);
+                entity.setAttribute("animation-mixer", {});
+                entity.components["animation-mixer"].initMixer(mesh.animations);
+            }
 
       });
     },
