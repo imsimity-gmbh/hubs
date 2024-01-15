@@ -41,6 +41,14 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
       this.movableEntities = [];
       this.sockets = [];
+
+      this.onClickNextBtn = AFRAME.utils.bind(this.onClickNextBtn, this);
+      this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
+      this.onClickTidyBtn = AFRAME.utils.bind(this.onClickTidyBtn, this);
+      //this.onClickSubmitChoice = AFRAME.utils.bind(this.onClickSubmitChoice, this);
+      //this.choice01 = AFRAME.utils.bind(this.choice01, this);
+      //this.choice02 = AFRAME.utils.bind(this.choice02, this);
+      //this.choice03 = AFRAME.utils.bind(this.choice03, this);
  
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];

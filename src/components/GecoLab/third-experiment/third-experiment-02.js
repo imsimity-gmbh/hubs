@@ -51,6 +51,15 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.explainParameter3 = AFRAME.utils.bind(this.explainParameter3, this);
       this.explainParameter4 = AFRAME.utils.bind(this.explainParameter4, this);
 
+      this.onClickParameter = AFRAME.utils.bind(this.onClickParameter, this);
+      this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
+      this.onClickOpenButton = AFRAME.utils.bind(this.onClickOpenButton, this);
+      this.onNextButtonClick = AFRAME.utils.bind(this.onNextButtonClick, this);
+      this.onClickSubmitChoice = AFRAME.utils.bind(this.onClickSubmitChoice, this);
+      this.choiceTemp = AFRAME.utils.bind(this.choiceTemp, this);
+      this.choiceCO2 = AFRAME.utils.bind(this.choiceCO2, this);
+      this.choiceGround = AFRAME.utils.bind(this.choiceGround, this);
+
       waitForDOMContentLoaded().then(() => {
         console.log("Third exp 2 registered");
         var networkId = getNetworkIdFromEl(this.el);
@@ -475,6 +484,23 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.mannequin.components["mannequin"].displayMessage(-1);
       this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
       this.thirdExpPart03.components["third-experiment-03"].startPart03();
+
+      this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      
+      this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
+      this.simpleAnim1 = this.simpleAnims1.components["simple-animation"];
+      this.simpleAnim1.stopClip("04_close_door");
+      this.simpleAnim1.playClip("02_open_door", false, true);
+
+      this.simpleAnims2 = this.thirdExpPart01.querySelector(".growth-Cabinet-2");
+      this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
+      this.simpleAnim2.stopClip("04_close_door");
+      this.simpleAnim2.playClip("02_open_door", false, true);
+
+      this.simpleAnims3 = this.thirdExpPart01.querySelector(".growth-Cabinet-3");
+      this.simpleAnim3 = this.simpleAnims3.components["simple-animation"];
+      this.simpleAnim3.stopClip("04_close_door");
+      this.simpleAnim3.playClip("02_open_door", false, true);
     },
 
     remove() {

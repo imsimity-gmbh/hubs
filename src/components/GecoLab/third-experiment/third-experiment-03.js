@@ -41,6 +41,13 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.movableEntities = [];
       this.sockets = [];
  
+      this.onClickNextBtn = AFRAME.utils.bind(this.onClickNextBtn, this);
+      this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
+      this.onClickOpenButton = AFRAME.utils.bind(this.onClickOpenButton, this);
+      //this.onClickSubmitChoice = AFRAME.utils.bind(this.onClickSubmitChoice, this);
+      //this.choice01 = AFRAME.utils.bind(this.choice01, this);
+      //this.choice02 = AFRAME.utils.bind(this.choice02, this);
+      //this.choice03 = AFRAME.utils.bind(this.choice03, this);
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
@@ -340,6 +347,23 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     showSkipButton()
     {
+      this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      
+      this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
+      this.simpleAnim1 = this.simpleAnims1.components["simple-animation"];
+      this.simpleAnim1.stopClip("02_open_door");
+      this.simpleAnim1.playClip("04_close_door", false, true);
+
+      this.simpleAnims2 = this.thirdExpPart01.querySelector(".growth-Cabinet-2");
+      this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
+      this.simpleAnim2.stopClip("02_open_door");
+      this.simpleAnim2.playClip("04_close_door", false, true);
+
+      this.simpleAnims3 = this.thirdExpPart01.querySelector(".growth-Cabinet-3");
+      this.simpleAnim3 = this.simpleAnims3.components["simple-animation"];
+      this.simpleAnim3.stopClip("02_open_door");
+      this.simpleAnim3.playClip("04_close_door", false, true);
+
       this.nextBtn.object3D.visible = false;
       this.multipleChoice.object3D.visible = false;
       this.submitBtn.object3D.visible = false;
@@ -425,6 +449,23 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
       this.thirdExpPart04 = this.expSystem.getTaskById("04", this.experimentData.groupCode);
       this.thirdExpPart04.components["third-experiment-04"].startPart04();
+
+      this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      
+      this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
+      this.simpleAnim1 = this.simpleAnims1.components["simple-animation"];
+      this.simpleAnim1.stopClip("04_close_door");
+      this.simpleAnim1.playClip("02_open_door", false, true);
+
+      this.simpleAnims2 = this.thirdExpPart01.querySelector(".growth-Cabinet-2");
+      this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
+      this.simpleAnim2.stopClip("04_close_door");
+      this.simpleAnim2.playClip("02_open_door", false, true);
+
+      this.simpleAnims3 = this.thirdExpPart01.querySelector(".growth-Cabinet-3");
+      this.simpleAnim3 = this.simpleAnims3.components["simple-animation"];
+      this.simpleAnim3.stopClip("04_close_door");
+      this.simpleAnim3.playClip("02_open_door", false, true);
     },
     
     remove() {

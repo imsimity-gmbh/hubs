@@ -56,6 +56,9 @@ const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSr
       this.plant3Weigth = AFRAME.utils.bind(this.plant3Weigth, this);
       this.remove3Weigth = AFRAME.utils.bind(this.remove3Weigth, this);
 
+      //this.onClickConfirmBtn = AFRAME.utils.bind(this.onClickConfirmBtn, this);
+      this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
+
       this.movableEntities = [];
       this.sockets = [];
  

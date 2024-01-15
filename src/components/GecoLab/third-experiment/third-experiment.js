@@ -24,6 +24,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
      
+      this.onClickStart = AFRAME.utils.bind(this.onClickStart, this);
       
       
       waitForDOMContentLoaded().then(() => {

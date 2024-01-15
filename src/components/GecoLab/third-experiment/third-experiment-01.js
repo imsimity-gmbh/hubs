@@ -1,7 +1,7 @@
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
-import growthCabinetSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_Cabinet.glb";
+import growthCabinetSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
 import plantSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
@@ -34,6 +34,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.movableEntities = [];
       this.sockets = [];
       this.placedPlants = 0;
+
+      this.onClickExp = AFRAME.utils.bind(this.onClickExp, this);
+      this.onClickCloseCabinet = AFRAME.utils.bind(this.onClickCloseCabinet, this);
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
@@ -82,21 +85,21 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantStartWrapper = this.el.querySelector(".plant-Start-Wrapper");
      
       this.growthCabinet1 = this.el.querySelector(".growth-Cabinet-1");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(2.7, 0.8, 0.2), this.growthCabinet1, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(2.7, 0.8, 0.2), this.growthCabinet1, false, true);
       this.growthCabinet2 = this.el.querySelector(".growth-Cabinet-2");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(3.4, 0.8, 0.2), this.growthCabinet2, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(3.4, 0.8, 0.2), this.growthCabinet2, false, true);
       this.growthCabinet3 = this.el.querySelector(".growth-Cabinet-3");
-      this.spawnItem(growthCabinetPromise, new THREE.Vector3(4.1, 0.8, 0.2), this.growthCabinet3, false);
+      this.spawnItem(growthCabinetPromise, new THREE.Vector3(4.1, 0.8, 0.2), this.growthCabinet3, false, true);
 
       this.plantPlace1 = this.el.querySelector(".plant-Place-1-entity");
       this.movableEntities.push(this.plantPlace1);
-      this.spawnItem(plantPromise, new THREE.Vector3(2.7, 0.8, 0.5), this.plantPlace1, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(2.7, 0.8, 0.5), this.plantPlace1, false, false);
       this.plantPlace2 = this.el.querySelector(".plant-Place-2-entity");
       this.movableEntities.push(this.plantPlace2);
-      this.spawnItem(plantPromise, new THREE.Vector3(3, 0.8, 0.5), this.plantPlace2, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(3, 0.8, 0.5), this.plantPlace2, false, false);
       this.plantPlace3 = this.el.querySelector(".plant-Place-3-entity");
       this.movableEntities.push(this.plantPlace3);
-      this.spawnItem(plantPromise, new THREE.Vector3(3.3, 0.8, 0.5), this.plantPlace3, false);
+      this.spawnItem(plantPromise, new THREE.Vector3(3.3, 0.8, 0.5), this.plantPlace3, false, false);
 
       //this.updateUI();
 
@@ -156,7 +159,7 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
     },
     //Step 3?
-    spawnItem(promise, position, entity, show) {
+    spawnItem(promise, position, entity, show, animated = false) {
       promise.then(model => {
           entity.object3D.visible = false;
           const mesh = cloneObject3D(model.scene);
@@ -171,6 +174,13 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
           entity.object3D.rotation.set(0, 0, 0);
           entity.setAttribute("position", {x: position.x, y: position.y, z: position.z});
           entity.object3D.matrixNeedsUpdate = true;
+
+          if (animated)
+            {
+                console.log(mesh.animations);
+                entity.setAttribute("animation-mixer", {});
+                entity.components["animation-mixer"].initMixer(mesh.animations);
+            }
 
       });
     },
@@ -268,7 +278,19 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.closeCabinetBtn.object3D.visible = false;
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
       
-      console.log(this.expSystem);
+      console.log(this.growthCabinet1.components["simple-animation"]);
+
+      this.simpleAnim1 = this.growthCabinet1.components["simple-animation"];
+      this.simpleAnim1.playClip("04_close_door", false, true);
+      this.simpleAnim1.printAnimations();
+
+      this.simpleAnim2 = this.growthCabinet2.components["simple-animation"];
+      this.simpleAnim2.playClip("04_close_door", false, true);
+      this.simpleAnim2.printAnimations();
+
+      this.simpleAnim3 = this.growthCabinet3.components["simple-animation"];
+      this.simpleAnim3.playClip("04_close_door", false, true);
+      this.simpleAnim3.printAnimations();
 
       this.thirdExpPart02.components["third-experiment-02"].startPart02(); //for some reason this.thirdExpPart02 is undefined for second user (observer)
     },
