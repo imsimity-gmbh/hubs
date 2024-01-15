@@ -5,9 +5,9 @@ import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 //Initial Models:
-import grindedSampleSrc from "../../../assets/models/GecoLab/ground_sample_grinded.glb";
-import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
-import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
+import grindedSampleSrc from"../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import scaleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import curcibleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
 import { THREE } from "aframe";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";

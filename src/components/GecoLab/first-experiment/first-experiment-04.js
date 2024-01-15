@@ -4,7 +4,7 @@ import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 
-import flameModelSrc from "../../../assets/models/GecoLab/flame.glb";
+import flameModelSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
 import { THREE } from "aframe";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";

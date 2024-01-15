@@ -1,8 +1,8 @@
 import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { cloneObject3D } from "../../../utils/three-utils";
 import { loadModel } from "../.././gltf-model-plus";
-import gecoMapSrc from "../../../assets/models/GecoLab/geco_map.glb";
-import gecoGroundProfileSrc from "../../../assets/models/GecoLab/geco_ground_profile.glb";
+import gecoMapSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import gecoGroundProfileSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
