@@ -49,22 +49,22 @@ export var MANNEQUIN_TEXTS = [
   "Vor dir siehst du einen Wachstumsschrank. In diesem können natürliche, aber auch zukünftige klimatische Bedingungen präzise simuliert werden unter denen Pflanzen und Organismen wachsen können. In Hinblick auf das sich verändernde Klima können wir schauen, wie Pflanzen in Zukunft wachsen und, ob sie das überhaupt noch können.",
   "Beginnen wir mit dem Experiment! Stelle jeweils einen Topf mit einem Samen in ein Abteil des Wachstumsschranks.",
   "Schließe die Wachstumsschränke.",
-  "An jedem Wachstumsschrank findest du eine Anzeigetafel. Auf dieser kannst du die 5 Parameter sehen, die Einfluss auf das Wachstum der Pflanze haben und verändert werden können. Wenn wir wissen wollen, welcher Parameter genau das Wachstum beeinflusst hat, dürfen wir immer nur einen Parameter verändern, während die Anderen gleichbleiben. Wir können sonst nicht genau unterscheiden, was der Ursprung für die Veränderung ist.",
+  "An jedem Wachstumsschrank findest du eine Anzeigetafel. Auf dieser kannst du die fünf Parameter sehen, die Einfluss auf das Wachstum der Pflanze haben und verändert werden können. Wenn wir wissen wollen, welcher Parameter genau das Wachstum beeinflusst hat, dürfen wir immer nur einen Parameter verändern, während die Anderen gleichbleiben. Wir können sonst nicht genau unterscheiden, was der Ursprung für die Veränderung ist.",
   "Du kannst dich nun entscheiden, ob du den Einfluss einer veränderter Kohlenstoffdioxid-Konzentration, eine Veränderung der Temperatur oder unterschiedliche Bodenarten näher untersuchen möchtest",
   //CO₂_Konzentration
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die Temperatur, die Luftfeuchtigkeit, die Bodenart und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt",
-  "Die CO₂-Konzentration ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im ersten Schrank ist ein Wert von 419ppm eingestellt, was dem Jahresmittelwert auf der Zugspitze im Jahr 2022 entspricht. Im 2. Wachstumsschrank beträgt die CO₂- Konzentration 550ppm. Im Jahr 2050 würden wir diesen Wert erreichen, wenn wir unseren derzeitigen Kurs behalten und keine Maßnahmen zum Klimaschutz ergreifen. Im letzten Wachstumsschrank beträgt die CO₂- Konzentration 650ppm",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die CO2-Konzentration unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter gleich sind und den idealen Wachstumsbedingungen von Weizen entsprechen",
+  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt",
+  "Im ersten Schrank ist ein Wert von 419ppm eingestellt, was dem Jahresmittelwert auf der Zugspitze im Jahr 2022 entspricht. Im 2. Wachstumsschrank beträgt die CO2- Konzentration 550ppm. Im Jahr 2050 würden wir diesen Wert erreichen, wenn wir unseren derzeitigen Kurs behalten und keine Maßnahmen zum Klimaschutz ergreifen. Im letzten Wachstumsschrank beträgt die CO2- Konzentration 650ppm.",
   "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der CO₂- Konzentration auf das Wachstum von Weizen hat.",
   //Temperatur
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die CO₂- Konzentration, die Luftfeuchtigkeit, die Bodenart und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt.",
-  "Die Temperatur ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im ersten Schrank beträgt die Temperatur 25°C, was den idealen Wachstumsbedingungen von Weizen entspricht. Im 2.Wachstumsschrank beträgt die Temperatur 29°C, was einem Anstieg der Temperatur von 4°C entspricht. Im 3. Wachstumsschrank sind durchgängig 33°C, um den Einfluss von Hitzeereignissen zu untersuchen.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die Temperatur unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter den idealen Wachstumsbedingungen von Weizen entsprechen.",
+  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt.",
+  "Im ersten Schrank beträgt die Temperatur 25 °C, was den idealen Wachstumsbedingungen von Weizen entspricht. Im 2.Wachstumsschrank beträgt die Temperatur 29 °C. Im 3. Wachstumsschrank sind durchgängig 33 °C, um den Einfluss von Hitzeereignissen darzustellen. ",
   "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der Temperatur auf das Wachstum von Weizen hat.",
   //Bodenart
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du 5 verschiedene Parameter sehen. Die Temperatur, die Luftfeuchtigkeit, die CO₂- Konzentration und die Lichtintensität sind bei allen 3 Schränken gleich und entsprechen den idealen Wachstumsbedingungen von Weizen. Außerdem werden alle 3 Pflanzen gleich viel gegossen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich eingestellt.",
-  "Die Bodenart ist bei den 3 Wachstumsschränken allerdings unterschiedlich. Im 1.Wachstumsschrank wirst du den Weizen auf einem schluffigen Lehmboden anbauen, was den idealen Bedingungen für Weizen entspricht. Im 2. Wachstumsschrank wird der Weizen auf einem lehmigen Ton angebaut und im 3. Wachstumsschrank auf einem schwach schluffigen Sand.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die Bodenart unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter den idealen Wachstumsbedingungen von Weizen entsprechen.",
+  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt.",
+  "Im 1.Wachstumsschrank wirst du den Weizen auf einem schluffigen Lehmboden anbauen, was den idealen Bedingungen für Weizen entspricht. Im 2. Wachstumsschrank wird der Weizen auf einem lehmigen Ton angebaut und im 3. Wachstumsschrank auf einem schwach schluffigen Sand. ",
   "In diesem Versuch untersuchen wir daher, inwiefern die unterschiedliche Korngrößenzusammensetzung, Einfluss auf das Wachstum von Weizen hat.",
   "Für das Experiment nutzen wir einen weiteren Vorteil des virtuellen Labors. Normalerweise müssten wir jetzt mehrere Wochen warten, um Veränderungen zu sehen. Wir werden das ganze einfach ein bisschen schneller machen und vorspulen.",
   "Nach 6 Wochen kannst du bereits die ersten Veränderungen deiner Pflanzen sehen. Notiere dir, wie deine Pflanzen aussehen und welche Unterschiede es gibt.",
@@ -74,11 +74,11 @@ export var MANNEQUIN_TEXTS = [
   //Feedback zweite Runde 
   "Sehr gut, deine Antwort ist korrekt.",
   //CO₂-Konzentartion
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
   //Temperatur
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die zweite/mittlere. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die mittlere. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
   //Bodenart
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
   "Als nächstes schauen wir uns die Veränderungen nach 12 Wochen an.",
   "Wir sehen zwar einen Unterschied im Wachstum der Pflanzen, allerdings wollen wir das Ganze auch noch wissenschaftlich überprüfen. Öffne die Wachstumsschränke.",
   /*70*/"Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Pflanze ab und lege ihn in die Petrischale. Wiederhole den Vorgang mit den anderen beiden Pflanzen.",
@@ -99,17 +99,17 @@ export var MANNEQUIN_TEXTS = [
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss von CO₂ auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
   "Sehr gut! Du hast die korrekte Antwort herausgefunden. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die erste. Eine erhöhte CO₂- Konzentration kann das Wachstum von Pflanzen steigern, allerdings leidet die Qualität der Erträge darunter.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Eine erhöhte CO₂-Konzentration kann das Wachstum von Pflanzen steigern, allerdings leidet die Qualität der Erträge darunter.",
   //Temperatur - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Temperatur auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die zweite/mittlere. Eine moderate Erhöhung der Temperatur kann dazu führen, dass die Fotosyntheseaktivität ansteigt. Allerdings musst du beachten, dass ein Anstieg der Temperatur nur innerhalb des sogenannten Toleranzbereichs möglich ist. Wenn die Temperatur zu hoch, oder zu niedrig ist verlangsam sich die Prozesse innerhalb der Pflanze.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die mittlere. Eine moderate Erhöhung der Temperatur kann dazu führen, dass die Fotosyntheseaktivität ansteigt. Allerdings musst du beachten, dass ein Anstieg der Temperatur nur innerhalb des sogenannten Toleranzbereichs möglich ist. Wenn die Temperatur zu hoch, oder zu niedrig ist verlangsam sich die Prozesse innerhalb der Pflanze.",
   //Bodenart - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Bodenart auf das Pflanzenwachstum gehört hast, und versuche es noch einmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die dritte. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Pflanzen beeinflussen. Einige Böden bieten beispielsweise aufgrund einer begrenzten Wasserverfügbarkeit keinen Raum für das Wachstum von Pflanzen, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die rechte. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Pflanzen beeinflussen. Einige Böden können aufgrund einer begrenzten Wasserverfügbarkeit das Wachstum einschränken, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
   "Super, das Experiment ist geschafft!",
 ]
 

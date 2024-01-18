@@ -210,11 +210,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
         this.rightAnswer = 1;
       }
-      else if(this.chosen == 1)//CO2
+      else if(this.chosen == 1)//CO₂
       {
         this.answerText0.setAttribute("text", { value: "Alle Pflanzen haben das gleiche Erscheinungsbild."});
-        this.answerText1.setAttribute("text", { value: "Die Pflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das das stärkste Wachstum."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration führt zu vermindertem Wachstum."});
+        this.answerText1.setAttribute("text", { value: "Die Pflanze, die der höchsten CO₂-Konzentration ausgesetzt ist, zeigt das das stärkste Wachstum."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration führt zu vermindertem Wachstum."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground

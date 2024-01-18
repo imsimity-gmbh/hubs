@@ -205,24 +205,24 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       {
         this.questionText.setAttribute("text",{ value: "Welchen Einfluss kann eine Erhöhung der Temperatur auf das Wachstum von Pflanzen haben?"});
         this.answerText0.setAttribute("text", { value: "Eine Änderung der Temperatur hat keinen Einfluss auf das Wachstum von Pflanzen, da Pflanzen nicht auf die Temperatur ihrer Umgebung reagieren."});
-        this.answerText1.setAttribute("text", { value: "Eine leichte Erhöhung der Temperatur kann das Pflanzenwachstum fördern, da sie die Stoffwechselprozesse beschleunigt und die Photosynthese steigert."});
+        this.answerText1.setAttribute("text", { value: "Eine leichte Erhöhung der Temperatur kann das Pflanzenwachstum fördern, indem sie die Stoffwechselprozesse beschleunigt und die Photosynthese steigert."});
         this.answerText2.setAttribute("text", { value: "Eine Änderung der Temperatur führt immer zu einem Rückgang des Pflanzenwachstums, da Pflanzen empfindlich auf Temperaturschwankungen reagieren."});
         this.rightAnswer = 1;
       }
-      else if(this.chosen == 1)//CO2
+      else if(this.chosen == 1)//CO₂
       {
-        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO2-Konzentration auf das Wachstum von Pflanzen auswirken?"});
-        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen anregen. Pflanzen verwenden CO2 für die Photosynthese, und eine höhere Konzentration kann die Effizienz dieses Prozesses erhöhen, was zu schnellerem Wachstum führt."});
-        this.answerText1.setAttribute("text", { value: "CO2 hat keine Auswirkungen auf das Pflanzenwachstum; es ist nur ein Abfallprodukt der Atmung von Tieren."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
+        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO₂-Konzentration auf das Wachstum von Pflanzen auswirken?"});
+        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration kann das Wachstum von Pflanzen anregen, indem es die Effizienz der Fotosynthese verbessert."});
+        this.answerText1.setAttribute("text", { value: "CO₂ beeinflusst nicht das Wachstum der Pflanze; es ist nur ein Abfallprodukt der tierischen Atmung."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
       {
         this.questionText.setAttribute("text",{ value: "Welche Auswirkungen hat eine Änderung der Bodenart auf das Wachstum der Pflanze?"});
-        this.answerText0.setAttribute("text", { value: "Eine Änderung der Bodenart hat keinerlei Auswirkungen auf das Wachstum der Pflanze, da Pflanzen immer in der Lage sind, sich an verschiedene Bodenbedingungen anzupassen."});
-        this.answerText1.setAttribute("text", { value: "Eine Änderung der Bodenart führt immer zu einem Absterben der Pflanze, da Pflanzen sehr empfindlich auf Bodenveränderungen reagieren und nicht in der Lage sind, sich anzupassen."});
-        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart kann das Wachstum der Pflanze beeinflussen, da unter-schiedliche Bodenarten unterschiedliche Nähr-stoffe und Wasserhalte-kapazitäten bieten."});
+        this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Pflanzen sich stets an verschiedene Bodenbedingungen anpassen können."});
+        this.answerText1.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben der Pflanze, da Pflanzen sehr empfindlich darauf reagieren und nicht in der Lage sind, sich anzupassen."});
+        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum der Pflanze, da verschiedene Bodenarten unterschiedliche Nährstoffe und Wasserspeicherkapazitäten bieten."});
         this.rightAnswer = 0;
       }
 
@@ -405,9 +405,6 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
             this.infoFieldText.setAttribute("text", { value:  "Nutze Fehler als Gelegenheit zur Verbesserung und akzeptiere sie als wichtigen Bestandteil des wissenschaftlichen Prozesses."});
             break;
           case 8:
-            this.infoFieldText.setAttribute("text", { value: "Diese Tipps und Tricks sollen dazu beitragen, dass deine Laborarbeit effizienter, sicherer und produktiver wird."});
-            break;
-          case 9:
             this.infoFieldText.setAttribute("text", { value: "Ein Tipp für dich: Lies die Aufgaben aufmerksam und gründlich, bevor du antwortest."});
             this.el.setAttribute("third-experiment-05", "skipBtnClicked", true);  
             break;

@@ -326,7 +326,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
     {
       this.thirdParameterBtn.object3D.visible = false;
 
-      this.mannequin.components["mannequin"].displayMessage(-1);
+      this.mannequin.components["mannequin"].displayMessage(47);
 
       this.multipleChoice.object3D.visible = true;
     },
@@ -416,7 +416,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 29°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
         this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 33°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
           break;
-        case 1://CO2 
+        case 1://CO₂ 
         this.mannequin.components["mannequin"].displayMessage(50);
         this.cabinet1Text.setAttribute("text", { value: "CO2 419ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
         this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
@@ -438,7 +438,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         case 0://Temp 
         this.mannequin.components["mannequin"].displayMessage(55);
           break;
-        case 1://CO2 
+        case 1://CO₂ 
         this.mannequin.components["mannequin"].displayMessage(51);
           break;
         case 2://Ground 
