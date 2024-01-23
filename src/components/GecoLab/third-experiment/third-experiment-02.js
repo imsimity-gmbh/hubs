@@ -382,6 +382,8 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
     
           this.el.setAttribute("third-experiment-02", "chosen", this.chosen);
 
+          this.el.setAttribute("third-experiment-02", "submitBtnClicked", true);
+
           this.updateUI();
         });
       }
