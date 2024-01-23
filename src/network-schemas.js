@@ -1135,11 +1135,11 @@ function registerNetworkSchemas() {
         component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
-        selector: ".plant-Place-1-entity",
+        selector: ".plant-Place-2-entity",
         component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
-        selector: ".plant-Place-1-entity",
+        selector: ".plant-Place-3-entity",
         component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
       },
       {
@@ -1263,17 +1263,17 @@ function registerNetworkSchemas() {
         property: "triggerValue"
       },
       {
-        selector: ".resolution-socket-01",
+        selector: ".scissor-socket-01",
         component: "entity-socket",
         property: "triggerValue"
       },
       {
-        selector: ".resolution-socket-02",
+        selector: ".scissor-socket-02",
         component: "entity-socket",
         property: "triggerValue"
       },
       {
-        selector: ".resolution-socket-03",
+        selector: ".scissor-socket-03",
         component: "entity-socket",
         property: "triggerValue"
       },
@@ -1284,6 +1284,54 @@ function registerNetworkSchemas() {
       {
         component: "third-experiment-04",
         property: "skipBtnClicked"
+      },
+      {
+        component: "third-experiment-04",
+        property: "change1BtnClicked"
+      },
+      {
+        component: "third-experiment-04",
+        property: "change2BtnClicked"
+      },
+      {
+        component: "third-experiment-04",
+        property: "delayBtnClicked"
+      },
+      {
+        selector: ".plant-sol-1-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-sol-2-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-sol-3-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".plant-sol-1-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".plant-sol-2-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".plant-sol-3-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
+      },
+      {
+        selector: ".scissor-entity",
+        component: "position", requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+      },
+      {
+        selector: ".scissor-entity",
+        component: "rotation",
+        requiresNetworkUpdate: vectorRequiresUpdate(0.5)
       },
     ]
   });

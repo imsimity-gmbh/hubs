@@ -4,6 +4,26 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
+import plant1GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_1.glb";
+import plant2GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_2.glb";
+import plant3GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_3.glb";
+import plant1Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_1.glb";
+import plant2Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_2.glb";
+import plant3Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_3.glb";
+import plant1TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_1.glb";
+import plant2TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_2.glb";
+import plant3TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_3.glb";
+
+const plant1GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant1GroundSrc));
+const plant2GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant2GroundSrc));
+const plant3GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3GroundSrc));
+const plant1Co2Promise =  waitForDOMContentLoaded().then(() => loadModel(plant1Co2Src));
+const plant2Co2Promise =  waitForDOMContentLoaded().then(() => loadModel(plant2Co2Src));
+const plant3Co2Promise =  waitForDOMContentLoaded().then(() => loadModel(plant3Co2Src));
+const plant1TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant1TempSrc));
+const plant2TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant2TempSrc));
+const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3TempSrc));
+
 /* should be networked (buttons and multiple-choice), couldn't test yet, cause second user can't even go past the spawning of the experiment */
  
  AFRAME.registerComponent("third-experiment-03", {
@@ -104,6 +124,27 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.answerText0 = this.el.querySelector(".answer-0-text");
       this.answerText1 = this.el.querySelector(".answer-1-text");
       this.answerText2 = this.el.querySelector(".answer-2-text");
+
+      this.plant6Ground1 = this.el.querySelector(".plant-6-ground-1");
+      this.spawnItem(plant1GroundPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Ground1, false, true);
+      this.plant6Ground2 = this.el.querySelector(".plant-6-ground-2");
+      this.spawnItem(plant2GroundPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Ground2, false, true);
+      this.plant6Ground3 = this.el.querySelector(".plant-6-ground-3");
+      this.spawnItem(plant3GroundPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Ground3, false, true);
+
+      this.plant6Co21 = this.el.querySelector(".plant-6-co2-1");
+      this.spawnItem(plant1Co2Promise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Co21, false, true);
+      this.plant6Co22 = this.el.querySelector(".plant-6-co2-2");
+      this.spawnItem(plant2Co2Promise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Co22, false, true);
+      this.plant6Co23 = this.el.querySelector(".plant-6-co2-3");
+      this.spawnItem(plant3Co2Promise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Co23, false, true);
+
+      this.plant6Temp1 = this.el.querySelector(".plant-6-temp-1");
+      this.spawnItem(plant1TempPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Temp1, false, true);
+      this.plant6Temp2 = this.el.querySelector(".plant-6-temp-2");
+      this.spawnItem(plant2TempPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Temp2, false, true);
+      this.plant6Temp3 = this.el.querySelector(".plant-6-temp-3");
+      this.spawnItem(plant3TempPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Temp3, false, true);
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -371,6 +412,11 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.simpleAnim3.stopClip("02_open_door");
       this.simpleAnim3.playClip("04_close_door", false, true);
 
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.thirdExpPart02.components["third-experiment-02"].cabinet1background.object3D.visible = true;
+      this.thirdExpPart02.components["third-experiment-02"].cabinet2background.object3D.visible = true;
+      this.thirdExpPart02.components["third-experiment-02"].cabinet3background.object3D.visible = true;
+
       this.nextBtn.object3D.visible = false;
       this.multipleChoice.object3D.visible = false;
       this.submitBtn.object3D.visible = false;
@@ -452,12 +498,47 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 
     openCabinet()
     {
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.thirdExpPart02.components["third-experiment-02"].cabinet1background.object3D.visible = false;
+      this.thirdExpPart02.components["third-experiment-02"].cabinet2background.object3D.visible = false;
+      this.thirdExpPart02.components["third-experiment-02"].cabinet3background.object3D.visible = false;
+      
       this.openBtn.object3D.visible = false;
 
       this.thirdExpPart04 = this.expSystem.getTaskById("04", this.experimentData.groupCode);
       this.thirdExpPart04.components["third-experiment-04"].startPart04();
 
       this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+
+      this.thirdExpPart02.querySelector(".plant-6-ground-1").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-ground-2").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-ground-3").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-1").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-2").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-3").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-1").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-2").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-3").object3D.visible = false;
+
+      if(this.chosen == 0)
+      {
+        this.plant6Temp1.object3D.visible = true;
+        this.plant6Temp2.object3D.visible = true;
+        this.plant6Temp3.object3D.visible = true;
+      } 
+      else if (this.chosen == 1)
+      {
+        this.plant6Co21.object3D.visible = true;
+        this.plant6Co22.object3D.visible = true;
+        this.plant6Co23.object3D.visible = true;
+      }
+      else if (this.chosen == 2)
+      {
+        this.plant6Ground1.object3D.visible = true;
+        this.plant6Ground2.object3D.visible = true;
+        this.plant6Ground3.object3D.visible = true;
+      }
       
       this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
       this.simpleAnim1 = this.simpleAnims1.components["simple-animation"];
