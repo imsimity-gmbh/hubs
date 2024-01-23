@@ -19,9 +19,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
  AFRAME.registerComponent("third-experiment-04", {
     schema: {
       confirmBtnClicked: {default: -1},
-      skipBtnClicked: {default: false},
-      change1BtnClicked: {default: false},
-      change2BtnClicked: {default: false},
+      skipBtnClicked: {default: 0},
+      change1BtnClicked: {default: 0},
+      change2BtnClicked: {default: 0},
       delayBtnClicked: {default: false},
     },
   
@@ -35,7 +35,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       //local version of network variable:
       this.localConfirmBtnClicked = -1;
-      this.localSkipBtnClicked = false;
+      this.localSkipBtnClicked = 0;
+      this.localChange1BtnClicked = 0;
+      this.localChange2BtnClicked = 0;
       this.localDelayBtnClicked = false;
 
 
@@ -213,26 +215,27 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.snapSolution();
       }
 
-      if(this.localSkipBtnClicked != this.data.skipBtnClicked) {
+      if(this.localSkipBtnClicked < this.data.skipBtnClicked) {
         this.localSkipBtnClicked = this.data.skipBtnClicked;
         this.compileAnswer();
       }
 
-      if(this.data.change1BtnClicked) {
-        this.data.change1BtnClicked = false;
-        
-        [this.firstPlaced, this.secondPlaced] = [this.secondPlaced, this.firstPlaced];
-        this.firstPlaced.setAttribute("position", {x: 3, y: 0.55, z: 0.1});
-        this.secondPlaced.setAttribute("position", {x: 3, y: 0.55, z: 0.4});
+      if(this.localChange1BtnClicked < this.data.change1BtnClicked) { 
+        this.localChange1BtnClicked = this.data.change1BtnClicked;
+        this.temp = this.firstPlaced;
+        this.firstPlaced = this.secondPlaced;
+        this.secondPlaced = this.temp;
+        this.firstPlaced.setAttribute("position", {x: 2.4, y: 0.7, z: 0.5});
+        this.secondPlaced.setAttribute("position", {x: 2.7, y: 0.7, z: 0.5});
       }
 
-      if(this.data.change2BtnClicked) {
-        this.data.change2BtnClicked = false;
-
-        [this.secondPlaced, this.thirdPlaced] = [this.secondPlaced, this.thirdPlaced];
-        this.thirdPlaced.setAttribute("position", {x: 3, y: 0.55, z: 0.7});
-        this.secondPlaced.setAttribute("position", {x: 3, y: 0.55, z: 0.4});
-        
+      if(this.localChange2BtnClicked < this.data.change2BtnClicked) {
+        this.localChange2BtnClicked = this.data.change2BtnClicked;
+        this.temp = this.thirdPlaced;
+        this.thirdPlaced = this.secondPlaced;
+        this.secondPlaced = this.temp;
+        this.thirdPlaced.setAttribute("position", {x: 3, y: 0.7, z: 0.5});
+        this.secondPlaced.setAttribute("position", {x: 2.7, y: 0.7, z: 0.5});
       }
 
       if(this.localDelayBtnClicked != this.data.delayBtnClicked) {
@@ -551,12 +554,11 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
     onClickSkipBtn()
     {
-      if(this.data.skipBtnClicked) this.localSkipBtnClicked = false;
       NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
     
         NAF.utils.takeOwnership(networkedEl);
   
-        this.el.setAttribute("third-experiment-04", "skipBtnClicked", true);      
+        this.el.setAttribute("third-experiment-04", "skipBtnClicked", this.data.skipBtnClicked+1);      
   
         this.updateUI();
       });
@@ -568,7 +570,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     
         NAF.utils.takeOwnership(networkedEl);
   
-        this.el.setAttribute("third-experiment-04", "change1BtnClicked", true);      
+        this.el.setAttribute("third-experiment-04", "change1BtnClicked", this.data.change1BtnClicked+1);      
   
         this.updateUI();
       });
@@ -580,7 +582,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     
         NAF.utils.takeOwnership(networkedEl);
   
-        this.el.setAttribute("third-experiment-04", "change2BtnClicked", true);      
+        this.el.setAttribute("third-experiment-04", "change2BtnClicked", this.data.change2BtnClicked+1);      
   
         this.updateUI();
       });
@@ -589,7 +591,25 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     compileAnswer()
     {
       this.correct=false;
-      if(this.firstPlaced == this.sol1 && this.secondPlaced == this.sol2 && this.thirdPlaced == this.sol3)this.correct=true;
+      console.log(this.firstPlaced == this.sol1);
+      console.log(this.secondPlaced == this.sol3);
+      console.log(this.thirdPlaced == this.sol2);
+      console.log(this.firstPlaced);
+      console.log(this.secondPlaced);
+      console.log(this.thirdPlaced);
+
+      switch (this.chosen)
+      {
+        case 0:
+          if(this.firstPlaced == this.sol1 && this.secondPlaced == this.sol2 && this.thirdPlaced == this.sol3)this.correct=true;
+          break;
+        case 1:
+          if(this.firstPlaced == this.sol3 && this.secondPlaced == this.sol2 && this.thirdPlaced == this.sol1)this.correct=true;
+          break;
+        case 2:
+          if(this.firstPlaced == this.sol1 && this.secondPlaced == this.sol3 && this.thirdPlaced == this.sol2)this.correct=true;
+          break;
+      }
       
       if(this.answerRound == 0)
       {
