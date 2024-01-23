@@ -4,15 +4,15 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-import plant1GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_1.glb";
-import plant2GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_2.glb";
-import plant3GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_3.glb";
-import plant1Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_1.glb";
-import plant2Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_2.glb";
-import plant3Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_3.glb";
-import plant1TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_1.glb";
-import plant2TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_2.glb";
-import plant3TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_3.glb";
+import plant1GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant2GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant3GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant1Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant2Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant3Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant1TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant2TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant3TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
 
 const plant1GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant1GroundSrc));
 const plant2GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant2GroundSrc));
