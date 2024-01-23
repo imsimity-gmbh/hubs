@@ -211,9 +211,9 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       }
       else if(this.chosen == 1)//CO₂
       {
-        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO₂-Konzentration auf das Wachstum von Pflanzen auswirken?"});
-        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration kann das Wachstum von Pflanzen anregen, indem es die Effizienz der Fotosynthese verbessert."});
-        this.answerText1.setAttribute("text", { value: "CO₂ beeinflusst nicht das Wachstum der Pflanze; es ist nur ein Abfallprodukt der tierischen Atmung."});
+        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO2-Konzentration auf das Wachstum von Pflanzen auswirken?"});
+        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen anregen, indem es die Effizienz der Fotosynthese verbessert."});
+        this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum der Pflanze; es ist nur ein Abfallprodukt der tierischen Atmung."});
         this.answerText2.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
         this.rightAnswer = 0;
       }
@@ -337,6 +337,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         if(this.rightAnswer == this.answer)
         {
           this.answer = -2;
+          this.mannequin.components["mannequin"].displayMessage(80);
           this.prepSkip();
         }
         else

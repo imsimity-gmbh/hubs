@@ -365,6 +365,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         if(this.rightAnswer == this.answer)
         {
           this.answer = -2;
+          this.mannequin.components["mannequin"].displayMessage(64);
           this.prepSkip();
         }
         else

@@ -300,9 +300,9 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.cabinet2background.object3D.visible = true; 
       this.cabinet3background.object3D.visible = true; 
 
-      this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-      this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-      this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+      this.cabinet1Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+      this.cabinet2Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+      this.cabinet3Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
 
       this.mannequin.components["mannequin"].displayMessage(46);
 
@@ -412,21 +412,21 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       switch (this.chosen) {
         case 0://Temp 
         this.mannequin.components["mannequin"].displayMessage(54);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 29°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 33°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 29°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 33°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
           break;
         case 1://CO₂ 
         this.mannequin.components["mannequin"].displayMessage(50);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 419ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 650ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2: 419ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2: 650ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
           break;
         case 2://Ground 
         this.mannequin.components["mannequin"].displayMessage(58);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nLehmiger Ton"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchwach schluffiger Sand"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nLehmiger Ton"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2: 550ppm\nTemperatur: 25°C\nLicht: 100%\nLuftfeuchtigkeit: 90%\nSchwach schluffiger Sand"});
           break;
       }
     },
