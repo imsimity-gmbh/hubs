@@ -32,6 +32,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       nextBtnClickCount: {default: 0},
       skipBtnClicked: {default: false},
       openBtnClicked: {default: false},
+      submitBtnClicked: {default: false},
     },
   
     init: function() {
@@ -47,6 +48,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.localNextButtonClickCount = 0;
       this.localSkipBtnClicked = false;
       this.localOpenBtnClicked = false;
+      this.localSubmitBtnClicked = false;
       this.localChosen = -1;
 
       this.movableEntities = [];
@@ -230,6 +232,11 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         this.localOpenBtnClicked = this.data.openBtnClicked;
       }
 
+      if(this.localSubmitBtnClicked != this.data.submitBtnClicked) {
+        this.showNext();
+        this.localSubmitBtnClicked = this.data.submitBtnClicked;
+      }
+
       if(this.localChosen != this.data.chosen)
       {
         this.chosen = this.data.chosen;
@@ -373,9 +380,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       
           NAF.utils.takeOwnership(networkedEl);
     
-          this.el.setAttribute("third-experiment-02", "chosen", this.chosen);      
-    
-          this.nextBtn.object3D.visible = true;
+          this.el.setAttribute("third-experiment-02", "chosen", this.chosen);
 
           this.updateUI();
         });
@@ -477,6 +482,11 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
   
         this.updateUI();
       });
+    },
+
+    showNext()
+    {
+      this.nextBtn.object3D.visible = true;
     },
 
     speedUp()

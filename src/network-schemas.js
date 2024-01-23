@@ -1200,6 +1200,10 @@ function registerNetworkSchemas() {
         component: "third-experiment-02",
         property: "openBtnClicked"
       },
+      {
+        component: "third-experiment-02",
+        property: "submitBtnClicked"
+      },
     ]
   });
 

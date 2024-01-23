@@ -239,8 +239,8 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.temp = this.firstPlaced;
         this.firstPlaced = this.secondPlaced;
         this.secondPlaced = this.temp;
-        this.firstPlaced.setAttribute("position", {x: 2.4, y: 0.7, z: 0.5});
-        this.secondPlaced.setAttribute("position", {x: 2.7, y: 0.7, z: 0.5});
+        this.firstPlaced.setAttribute("position", {x: 2.2, y: 0.7, z: 0.5});
+        this.secondPlaced.setAttribute("position", {x: 2.5, y: 0.7, z: 0.5});
       }
 
       if(this.localChange2BtnClicked < this.data.change2BtnClicked) {
@@ -248,8 +248,8 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.temp = this.thirdPlaced;
         this.thirdPlaced = this.secondPlaced;
         this.secondPlaced = this.temp;
-        this.thirdPlaced.setAttribute("position", {x: 3, y: 0.7, z: 0.5});
-        this.secondPlaced.setAttribute("position", {x: 2.7, y: 0.7, z: 0.5});
+        this.thirdPlaced.setAttribute("position", {x: 2.8, y: 0.7, z: 0.5});
+        this.secondPlaced.setAttribute("position", {x: 2.5, y: 0.7, z: 0.5});
       }
 
       if(this.localDelayBtnClicked != this.data.delayBtnClicked) {
