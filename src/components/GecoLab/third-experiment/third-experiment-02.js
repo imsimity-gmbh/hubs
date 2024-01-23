@@ -144,25 +144,25 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.timeText.object3D.visible = false;
 
       this.plant6Ground1 = this.el.querySelector(".plant-6-ground-1");
-      this.spawnItem(plant1GroundPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Ground1, false, false);
+      this.spawnItem(plant1GroundPromise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Ground1, false, false);
       this.plant6Ground2 = this.el.querySelector(".plant-6-ground-2");
-      this.spawnItem(plant2GroundPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Ground2, false, false);
+      this.spawnItem(plant2GroundPromise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Ground2, false, false);
       this.plant6Ground3 = this.el.querySelector(".plant-6-ground-3");
-      this.spawnItem(plant3GroundPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Ground3, false, false);
+      this.spawnItem(plant3GroundPromise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Ground3, false, false);
 
       this.plant6Co21 = this.el.querySelector(".plant-6-co2-1");
-      this.spawnItem(plant1Co2Promise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Co21, false, false);
+      this.spawnItem(plant1Co2Promise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Co21, false, false);
       this.plant6Co22 = this.el.querySelector(".plant-6-co2-2");
-      this.spawnItem(plant2Co2Promise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Co22, false, false);
+      this.spawnItem(plant2Co2Promise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Co22, false, false);
       this.plant6Co23 = this.el.querySelector(".plant-6-co2-3");
-      this.spawnItem(plant3Co2Promise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Co23, false, false);
+      this.spawnItem(plant3Co2Promise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Co23, false, false);
 
       this.plant6Temp1 = this.el.querySelector(".plant-6-temp-1");
-      this.spawnItem(plant1TempPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Temp1, false, false);
+      this.spawnItem(plant1TempPromise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Temp1, false, false);
       this.plant6Temp2 = this.el.querySelector(".plant-6-temp-2");
-      this.spawnItem(plant2TempPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Temp2, false, false);
+      this.spawnItem(plant2TempPromise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Temp2, false, false);
       this.plant6Temp3 = this.el.querySelector(".plant-6-temp-3");
-      this.spawnItem(plant3TempPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Temp3, false, false);
+      this.spawnItem(plant3TempPromise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Temp3, false, false);
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -300,9 +300,9 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.cabinet2background.object3D.visible = true; 
       this.cabinet3background.object3D.visible = true; 
 
-      this.cabinet1Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
-      this.cabinet2Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
-      this.cabinet3Text.setAttribute("text", { value: "CO2 (ppm)\nTemperatur (°C)\nLicht (%)\nLuftfeuchtigkeit (%)\nBodenart"});
+      this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+      this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+      this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
 
       this.mannequin.components["mannequin"].displayMessage(46);
 
@@ -412,21 +412,21 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       switch (this.chosen) {
         case 0://Temp 
         this.mannequin.components["mannequin"].displayMessage(54);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 29°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 33°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 29°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 33°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
           break;
         case 1://CO₂ 
         this.mannequin.components["mannequin"].displayMessage(50);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 419ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 650ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2 419ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 650ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
           break;
         case 2://Ground 
         this.mannequin.components["mannequin"].displayMessage(58);
-        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
-        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nLehmiger Ton"});
-        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht (%)\nLuftfeuchtigkeit 90%\nSchwach schluffiger Sand"});
+        this.cabinet1Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchluffiger Lehmboden"});
+        this.cabinet2Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nLehmiger Ton"});
+        this.cabinet3Text.setAttribute("text", { value: "CO2 550ppm\nTemperatur 25°C\nLicht 100%\nLuftfeuchtigkeit 90%\nSchwach schluffiger Sand"});
           break;
       }
     },

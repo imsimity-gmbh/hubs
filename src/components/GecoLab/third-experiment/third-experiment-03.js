@@ -126,25 +126,25 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.answerText2 = this.el.querySelector(".answer-2-text");
 
       this.plant6Ground1 = this.el.querySelector(".plant-6-ground-1");
-      this.spawnItem(plant1GroundPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Ground1, false, true);
+      this.spawnItem(plant1GroundPromise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Ground1, false, true);
       this.plant6Ground2 = this.el.querySelector(".plant-6-ground-2");
-      this.spawnItem(plant2GroundPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Ground2, false, true);
+      this.spawnItem(plant2GroundPromise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Ground2, false, true);
       this.plant6Ground3 = this.el.querySelector(".plant-6-ground-3");
-      this.spawnItem(plant3GroundPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Ground3, false, true);
+      this.spawnItem(plant3GroundPromise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Ground3, false, true);
 
       this.plant6Co21 = this.el.querySelector(".plant-6-co2-1");
-      this.spawnItem(plant1Co2Promise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Co21, false, true);
+      this.spawnItem(plant1Co2Promise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Co21, false, true);
       this.plant6Co22 = this.el.querySelector(".plant-6-co2-2");
-      this.spawnItem(plant2Co2Promise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Co22, false, true);
+      this.spawnItem(plant2Co2Promise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Co22, false, true);
       this.plant6Co23 = this.el.querySelector(".plant-6-co2-3");
-      this.spawnItem(plant3Co2Promise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Co23, false, true);
+      this.spawnItem(plant3Co2Promise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Co23, false, true);
 
       this.plant6Temp1 = this.el.querySelector(".plant-6-temp-1");
-      this.spawnItem(plant1TempPromise, new THREE.Vector3(0.4, 0.8, 0), this.plant6Temp1, false, true);
+      this.spawnItem(plant1TempPromise, new THREE.Vector3(3.8, 0.65, 0.1), this.plant6Temp1, false, true);
       this.plant6Temp2 = this.el.querySelector(".plant-6-temp-2");
-      this.spawnItem(plant2TempPromise, new THREE.Vector3(1.1, 0.8, 0), this.plant6Temp2, false, true);
+      this.spawnItem(plant2TempPromise, new THREE.Vector3(4.5, 0.65, 0.1), this.plant6Temp2, false, true);
       this.plant6Temp3 = this.el.querySelector(".plant-6-temp-3");
-      this.spawnItem(plant3TempPromise, new THREE.Vector3(1.8, 0.8, 0), this.plant6Temp3, false, true);
+      this.spawnItem(plant3TempPromise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Temp3, false, true);
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed

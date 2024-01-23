@@ -223,7 +223,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Pflanzen sich stets an verschiedene Bodenbedingungen anpassen können."});
         this.answerText1.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben der Pflanze, da Pflanzen sehr empfindlich darauf reagieren und nicht in der Lage sind, sich anzupassen."});
         this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum der Pflanze, da verschiedene Bodenarten unterschiedliche Nährstoffe und Wasserspeicherkapazitäten bieten."});
-        this.rightAnswer = 0;
+        this.rightAnswer = 2;
       }
 
       this.showQuestion();

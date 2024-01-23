@@ -135,13 +135,13 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       this.sol1 = this.el.querySelector(".plant-sol-1-entity");
       this.movableEntities.push(this.sol1);
-      this.spawnItem(solModelPromise, new THREE.Vector3(0.5, 0.7, -3.8), this.sol1, false, false); //0.5 0.7 -3.8
+      this.spawnItem(solModelPromise, new THREE.Vector3(0.5, 0.7, -3), this.sol1, false, false); //0.5 0.7 -3.8
       this.sol2 = this.el.querySelector(".plant-sol-2-entity");
       this.movableEntities.push(this.sol2);
-      this.spawnItem(solModelPromise, new THREE.Vector3(1.2, 0.7, -3.8), this.sol2, false, false); //1.2 0.7 -3.8
+      this.spawnItem(solModelPromise, new THREE.Vector3(1.2, 0.7, -3), this.sol2, false, false); //1.2 0.7 -3.8
       this.sol3 = this.el.querySelector(".plant-sol-3-entity");
       this.movableEntities.push(this.sol3);
-      this.spawnItem(solModelPromise, new THREE.Vector3(1.9, 0.7, -3.8), this.sol3, false, false); //1.9 0.7 -3.8
+      this.spawnItem(solModelPromise, new THREE.Vector3(1.9, 0.7, -3), this.sol3, false, false); //1.9 0.7 -3.8
 
       this.sampleSocketScale01 = this.el.querySelector(".sample-socket-scale-01");
       this.sockets.push(this.sampleSocketScale01);
@@ -158,7 +158,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       this.scissor = this.el.querySelector(".scissor-entity");
       this.movableEntities.push(this.scissor);
-      this.spawnItem(scissorModelPromise, new THREE.Vector3(0, 0.7, 0.5), this.scissor, false, true);
+      this.spawnItem(scissorModelPromise, new THREE.Vector3(0, 0.7, -3.3), this.scissor, false, true);
 
       this.scissorSocket01 = this.el.querySelector(".scissor-socket-01");
       this.sockets.push(this.scissorSocket01);
@@ -315,7 +315,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           break;
       }*/
 
-      setTimeout(() => this.showSol1(),2000);
+      setTimeout(() => this.showSol1(),4000);
     },
 
     showSol1()
@@ -360,7 +360,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           break;
       }*/
 
-      setTimeout(() => this.showSol2(),2000);
+      setTimeout(() => this.showSol2(),4000);
     },
 
     showSol2()
@@ -405,7 +405,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           break;
       }*/
 
-      setTimeout(() => this.showSol3(),2000);
+      setTimeout(() => this.showSol3(),4000);
     },
 
     showSol3()
@@ -434,8 +434,19 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     plant1Weigth()
     {
       this.sampleSocketScale01.components["entity-socket"].unsubscribe("onSnap", this.plant1Weigth);
-
-      this.displayText.setAttribute("text", { value: "1"});
+      if(this.chosen == 0)
+      {
+        this.displayText.setAttribute("text", { value: "800g"});
+      }
+      else if(this.chosen == 1)
+      {
+        this.displayText.setAttribute("text", { value: "800g"});
+      }
+      else if(this.chosen == 2)
+      {
+        this.displayText.setAttribute("text", { value: "800g"});
+      }
+      
 
       var socket = this.sampleSocket01.components["entity-socket"];
         socket.subscribe("onSnap", this.showScale2);
@@ -463,7 +474,18 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       this.sampleSocketScale02.components["entity-socket"].unsubscribe("onSnap", this.plant2Weigth);
 
-      this.displayText.setAttribute("text", { value: "2"});
+      if(this.chosen == 0)
+      {
+        this.displayText.setAttribute("text", { value: "750g"});
+      }
+      else if(this.chosen == 1)
+      {
+        this.displayText.setAttribute("text", { value: "950g"});
+      }
+      else if(this.chosen == 2)
+      {
+        this.displayText.setAttribute("text", { value: "50g"});
+      }
 
       var socket = this.sampleSocket02.components["entity-socket"];
         socket.subscribe("onSnap", this.showScale3);
@@ -491,7 +513,18 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       this.sampleSocketScale03.components["entity-socket"].unsubscribe("onSnap", this.plant3Weigth);
 
-      this.displayText.setAttribute("text", { value: "3"});
+      if(this.chosen == 0)
+      {
+        this.displayText.setAttribute("text", { value: "600g"});
+      }
+      else if(this.chosen == 1)
+      {
+        this.displayText.setAttribute("text", { value: "970g"});
+      }
+      else if(this.chosen == 2)
+      {
+        this.displayText.setAttribute("text", { value: "300g"});
+      }
 
       var socket = this.sampleSocket03.components["entity-socket"];
         socket.subscribe("onSnap", this.remove3Weigth);
