@@ -5,7 +5,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
-import scissorSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import scissorSrc from "../../../assets/models/GecoLab/PlantGrowth/scissorA.glb";
 import solSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
 import { faBreadSlice } from "@fortawesome/free-solid-svg-icons";
 
@@ -129,6 +129,16 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       console.log('Delayed Init FE-04');
 
+      this.cabinet1background = this.el.querySelector(".cabinet-1-background");
+      this.cabinet1background.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet1Text = this.el.querySelector(".cabinet-1-text");
+      this.cabinet2background = this.el.querySelector(".cabinet-2-background");
+      this.cabinet2background.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet2Text = this.el.querySelector(".cabinet-2-text");
+      this.cabinet3background = this.el.querySelector(".cabinet-3-background");
+      this.cabinet3background.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet3Text = this.el.querySelector(".cabinet-3-text");
+
       this.scaleEntity  = this.el.querySelector(".scale-entity");
       this.spawnItem(scaleModelPromise, new THREE.Vector3(-0.4, 0.7, 0.1), this.scaleEntity, false);
       this.scaleEntity.object3D.rotation.set(0, 0, 0);
@@ -145,6 +155,10 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.movableEntities.push(this.sol3);
       this.spawnItem(solModelPromise, new THREE.Vector3(1.9, 0.7, -3), this.sol3, false, false); //1.9 0.7 -3.8
 
+      this.sol1background = this.el.querySelector(".sol-1-background");
+      this.sol2background = this.el.querySelector(".sol-2-background");
+      this.sol3background = this.el.querySelector(".sol-3-background");
+
       this.sampleSocketScale01 = this.el.querySelector(".sample-socket-scale-01");
       this.sockets.push(this.sampleSocketScale01);
       this.sampleSocketScale02 = this.el.querySelector(".sample-socket-scale-02");
@@ -160,7 +174,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       this.scissor = this.el.querySelector(".scissor-entity");
       this.movableEntities.push(this.scissor);
-      this.spawnItem(scissorModelPromise, new THREE.Vector3(0, 0.7, -3.3), this.scissor, false, true);
+      this.spawnItem(scissorModelPromise, new THREE.Vector3(-0.1, 0.8, 0.1), this.scissor, false, true);
 
       this.scissorSocket01 = this.el.querySelector(".scissor-socket-01");
       this.sockets.push(this.scissorSocket01);
@@ -272,6 +286,27 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
       this.chosen = this.thirdExpPart02.components["third-experiment-02"].chosen;
 
+      switch(this.chosen)
+      {
+        case 0:
+          this.cabinet1Text.setAttribute("text", { value: "80 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "80 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "75 cm"});
+        break;
+        case 1:
+          this.cabinet1Text.setAttribute("text", { value: "70 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "75 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "80 cm"});
+        break;
+        case 2:
+          this.cabinet1Text.setAttribute("text", { value: "80 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "0 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "70 cm"});
+        break;
+      }
+      this.cabinet1background.object3D.visible = true;
+      this.cabinet2background.object3D.visible = true;
+      this.cabinet3background.object3D.visible = true;
       this.animateScissor();
     },
 
@@ -422,8 +457,37 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
     showScale()
     {
-      this.scaleEntity.object3D.visible = true;
+      this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
+      this.thirdExpPart01.components["third-experiment-01"].growthCabinet1.object3D.visible = false;
+      this.thirdExpPart01.components["third-experiment-01"].growthCabinet2.object3D.visible = false;
+      this.thirdExpPart01.components["third-experiment-01"].growthCabinet3.object3D.visible = false;
 
+      this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
+      switch(this.chosen)
+      {
+        case 0:
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp1.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp2.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp3.object3D.visible = false;
+          break;
+        case 1:
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co21.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co22.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co23.object3D.visible = false;
+          break;
+        case 2:
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground1.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground2.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground3.object3D.visible = false;
+          break;
+      }
+
+      this.cabinet1background.object3D.visible = false;
+      this.cabinet2background.object3D.visible = false;
+      this.cabinet3background.object3D.visible = false;
+
+      this.scaleEntity.object3D.visible = true;
+      this.mannequin.components["mannequin"].displayMessage(87);
       //this.enableInteractables();
 
       var socket = this.sampleSocketScale01.components["entity-socket"];
@@ -450,6 +514,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.displayText.setAttribute("text", { value: "800g"});
       }
       
+      this.sol1background.object3D.rotation.set(0, 0, 0);
+      this.sol1background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol1background.object3D.matrixNeedsUpdate = true;
 
       var socket = this.sampleSocket01.components["entity-socket"];
         socket.subscribe("onSnap", this.showScale2);
@@ -490,6 +557,10 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.displayText.setAttribute("text", { value: "50g"});
       }
 
+      this.sol2background.object3D.rotation.set(0, 0, 0);
+      this.sol2background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol2background.object3D.matrixNeedsUpdate = true;
+
       var socket = this.sampleSocket02.components["entity-socket"];
         socket.subscribe("onSnap", this.showScale3);
         socket.delayedInitSocket();
@@ -529,6 +600,10 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         this.displayText.setAttribute("text", { value: "300g"});
       }
 
+      this.sol3background.object3D.rotation.set(0, 0, 0);
+      this.sol3background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol3background.object3D.matrixNeedsUpdate = true;
+
       var socket = this.sampleSocket03.components["entity-socket"];
         socket.subscribe("onSnap", this.remove3Weigth);
         socket.delayedInitSocket();
@@ -543,9 +618,13 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       this.displayText.setAttribute("text", { value: "0"});
 
+      this.scaleEntity.object3D.visible = false;
+
       this.firstPlaced = this.sol1;
       this.secondPlaced = this.sol2;
       this.thirdPlaced = this.sol3;
+
+      this.mannequin.components["mannequin"].displayMessage(88);
 
       this.skipBtn.object3D.visible = true;
       this.changeBtn1.object3D.visible = true;
@@ -617,12 +696,12 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         if(this.correct)
         {
           this.answerRound = 3;
-          this.mannequin.components["mannequin"].displayMessage(62);
+          this.mannequin.components["mannequin"].displayMessage(89);
           this.skipOrderEnd();
         }
         else
         {
-          this.mannequin.components["mannequin"].displayMessage(63);
+          this.mannequin.components["mannequin"].displayMessage(90);
         }
       }
       else if(this.answerRound == 1)
@@ -631,20 +710,20 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         if(this.correct)
         {
           this.answerRound = 3;
-          this.mannequin.components["mannequin"].displayMessage(64);
+          this.mannequin.components["mannequin"].displayMessage(91);
           this.skipOrderEnd();
         }
         else
         {
           switch (this.chosen) {
             case 0:
-              this.mannequin.components["mannequin"].displayMessage(66);
+              this.mannequin.components["mannequin"].displayMessage(93);
               break;
             case 1:
-              this.mannequin.components["mannequin"].displayMessage(65);
+              this.mannequin.components["mannequin"].displayMessage(92);
               break;
             case 2:
-              this.mannequin.components["mannequin"].displayMessage(67);
+              this.mannequin.components["mannequin"].displayMessage(94);
               break;
             default:
               break;
@@ -687,6 +766,8 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     endPart04()
     {
       this.delayBtn.object3D.visible = false;
+
+      this.mannequin.components["mannequin"].displayMessage(-1);
 
       this.thirdExpPart04 = this.expSystem.getTaskById("05", this.experimentData.groupCode);
       this.thirdExpPart04.components["third-experiment-05"].startPart05();

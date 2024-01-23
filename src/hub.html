@@ -1828,6 +1828,19 @@
                         <a-entity class="cabinet-3-text" text=" value: Blub; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="0.75 0.375 0.5"></a-entity>
                     </a-entity>
 
+                    <a-entity class="cabinet-1-background-1" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="0.4 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-1-text-1" text=" value: Bli; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-2-background-1" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="1.1 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-2-text-1" text=" value: Bla; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-3-background-1" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="1.8 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-3-text-1" text=" value: Blub; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+
                     <a-entity class="interactable" third-experiment-02-sample>
                         <a-entity class="parameter-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
                                 position="-0.4 1 0.5" scale="1.5 1.5 1.5">
@@ -1908,6 +1921,8 @@
                     set-yxz-order
                     > <!--static-->
 
+                    
+
                     <a-entity 
                     class="ui interactable-ui multi-choice-wrapper" 
                     visible="false"
@@ -1974,6 +1989,19 @@
                     set-yxz-order
                     > <!--static-->
 
+                    <a-entity class="cabinet-1-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="0.4 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-1-text" text=" value: Bli; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-2-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="1.1 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-2-text" text=" value: Bla; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+                    <a-entity class="cabinet-3-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
+                        position="1.8 1.5 0" scale="0.5 1 0.9">
+                        <a-entity class="cabinet-3-text" text=" value: Blub; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                    </a-entity>
+
                     <a-entity class="sample-socket-scale-01" position="3 0.45 0.3" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-1-entity; radius: 100; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
@@ -1986,28 +2014,28 @@
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="sample-socket-01" position="2.4 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-1-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="sample-socket-01" position="2.2 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-1-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="sample-socket-02" position="2.7 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-2-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="sample-socket-02" position="2.5 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-2-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="sample-socket-03" position="3 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-3-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="sample-socket-03" position="2,8 0.35 0.5" rotation="0 0 0" entity-socket="acceptedEntities: .plant-sol-3-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
 
-                    <a-entity class="scissor-socket-01" position="3.8, 0.65, 0.1" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 100; enabled: false;">
+                    <a-entity class="scissor-socket-01" position="0.4, 1, 0" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 100; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="scissor-socket-02" position="4.5, 0.65, 0.1" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="scissor-socket-02" position="1.1, 1, 0" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
-                    <a-entity class="scissor-socket-03" position="5.2, 0.65, 0.1" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 0.3; enabled: false;">
+                    <a-entity class="scissor-socket-03" position="1.8, 1, 0" rotation="0 0 0" entity-socket="acceptedEntities: .scissor-entity; radius: 0.3; enabled: false;">
                         <a-entity class="root" position="0 0.2 0" rotation="0 0 0"></a-entity>
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
@@ -2023,6 +2051,10 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="sol-1-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
+                            <a-entity class="sol-1-text" text=" value: 1; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            </a-entity>
                         </a-entity>
                         <a-entity class="plant-sol-2-entity" position="0 1 0" rotation="0 0 0"
                             tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -2033,6 +2065,10 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="sol-2-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
+                            <a-entity class="sol-2-text" text=" value: 2; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            </a-entity>
                         </a-entity>
                         <a-entity class="plant-sol-3-entity" position="0 1 0" rotation="0 0 0"
                             tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -2043,6 +2079,10 @@
                             scalable-when-grabbed
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
+                            <a-entity class="sol-3-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
+                            <a-entity class="sol-3-text" text=" value: 3; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            </a-entity>
                         </a-entity>
                             <a-entity class="scissor-entity" position="0 1 0" rotation="0 0 0"
                             tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -2069,10 +2109,10 @@
                         <a-entity class="skip-btn-3-4" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.2 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
                             <a-entity text=" value: Sortierung abgeben; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
-                        <a-entity class="switch-btn-3-4-1" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.7 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
+                        <a-entity class="switch-btn-3-4-1" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1 1.5 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
                             <a-entity text=" value: Beiden linken tauschen; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
-                        <a-entity class="switch-btn-3-4-2" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.7 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
+                        <a-entity class="switch-btn-3-4-2" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 1.5 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">
                             <a-entity text=" value: Beiden rechten tauschen; width: 2; align:center;" text-raycast-hack position="0 0 0.001" scale="0.5 0.5 0.5"></a-entity>
                         </a-entity>
                         <a-entity class="delay-btn-3-4" visible=false mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-0.5 1.2 0.5" rotation="0 0 0" scale="1.5 1.5 1.5">

@@ -129,6 +129,16 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.cabinet3background.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
       this.cabinet3Text = this.el.querySelector(".cabinet-3-text");
 
+      this.cabinet1background1 = this.el.querySelector(".cabinet-1-background-1");
+      this.cabinet1background1.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet1Text1 = this.el.querySelector(".cabinet-1-text-1");
+      this.cabinet2background1 = this.el.querySelector(".cabinet-2-background-1");
+      this.cabinet2background1.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet2Text1 = this.el.querySelector(".cabinet-2-text-1");
+      this.cabinet3background1 = this.el.querySelector(".cabinet-3-background-1");
+      this.cabinet3background1.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
+      this.cabinet3Text1 = this.el.querySelector(".cabinet-3-text-1");
+
       this.multipleChoice = this.el.querySelector(".multi-choice-wrapper");
       this.multipleChoice.object3D.visible = false; 
       this.answerOption0 = this.el.querySelector(".answer-option-0");
@@ -527,6 +537,28 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
 
     openCabinet()
     {
+      switch(this.chosen)
+      {
+        case 0:
+          this.cabinet1Text1.setAttribute("text", { value: "15 cm"});
+          this.cabinet2Text1.setAttribute("text", { value: "15 cm"});
+          this.cabinet3Text1.setAttribute("text", { value: "12 cm"});
+        break;
+        case 1:
+          this.cabinet1Text1.setAttribute("text", { value: "15 cm"});
+          this.cabinet2Text1.setAttribute("text", { value: "15 cm"});
+          this.cabinet3Text1.setAttribute("text", { value: "12 cm"});
+        break;
+        case 2:
+          this.cabinet1Text1.setAttribute("text", { value: "15 cm"});
+          this.cabinet2Text1.setAttribute("text", { value: "10 cm"});
+          this.cabinet3Text1.setAttribute("text", { value: "12 cm"});
+        break;
+      }
+      this.cabinet1background1.object3D.visible = true;
+      this.cabinet2background1.object3D.visible = true;
+      this.cabinet3background1.object3D.visible = true;
+
       this.cabinet1background.object3D.visible = false;
       this.cabinet2background.object3D.visible = false;
       this.cabinet3background.object3D.visible = false;

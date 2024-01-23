@@ -64,10 +64,10 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.onClickNextBtn = AFRAME.utils.bind(this.onClickNextBtn, this);
       this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
       this.onClickOpenButton = AFRAME.utils.bind(this.onClickOpenButton, this);
-      //this.onClickSubmitChoice = AFRAME.utils.bind(this.onClickSubmitChoice, this);
+      this.onClickSubmitChoice = AFRAME.utils.bind(this.onClickSubmitChoice, this);
       //this.choice01 = AFRAME.utils.bind(this.choice01, this);
       //this.choice02 = AFRAME.utils.bind(this.choice02, this);
-      //this.choice03 = AFRAME.utils.bind(this.choice03, this);
+      //this.choice03 = AFRAME.utils.bind(this.choice03, this);npm
 
       this.expSystem = this.el.sceneEl.systems["third-experiments"];
 
@@ -396,6 +396,12 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
 
     showSkipButton()
     {
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+
+      this.thirdExpPart02.querySelector(".cabinet-1-background-1").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".cabinet-2-background-1").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".cabinet-3-background-1").object3D.visible = false;
+
       this.thirdExpPart01 = this.expSystem.getTaskById("01", this.experimentData.groupCode);
       
       this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
@@ -499,6 +505,7 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
 
     openCabinet()
     {
+
       this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
       this.thirdExpPart02.components["third-experiment-02"].cabinet1background.object3D.visible = false;
       this.thirdExpPart02.components["third-experiment-02"].cabinet2background.object3D.visible = false;

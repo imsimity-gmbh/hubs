@@ -111,6 +111,16 @@ export var MANNEQUIN_TEXTS = [
   //Feedback zweite Runde
   "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die rechte. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Pflanzen beeinflussen. Einige Böden können aufgrund einer begrenzten Wasserverfügbarkeit das Wachstum einschränken, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
   "Super, das Experiment ist geschafft!",
+  //ThirdExp04
+  /*87*/
+  "Platziere die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300g anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
+  "Ordne die Pflanzen 1 bis 3 nach ihrem Entwicklungsstand und ihrem Gewicht in absteigender Reihenfolge.",
+  "Super, deine Antwort ist richtig.",
+  "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
+  "Top! Du hast die richtige Lösung.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 3-2-1.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-2-3.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
 ]
 
 
@@ -202,6 +212,14 @@ export var MANNEQUIN_TEXTS_EXTRA = [
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
 ]
 
 export var MANNEQUIN_TEXTS_BUBBLES = [
@@ -230,6 +248,14 @@ export var MANNEQUIN_TEXTS_BUBBLES = [
   MANNEQUIN_BUBBLE_LOW,
   MANNEQUIN_BUBBLE_LOW,
   MANNEQUIN_BUBBLE_LOW,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
+  MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_HIGH,
   MANNEQUIN_BUBBLE_HIGH,
