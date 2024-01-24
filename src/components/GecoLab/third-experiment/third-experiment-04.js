@@ -530,7 +530,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       this.sampleSocket01.components["entity-socket"].unsubscribe("onSnap", this.showScale2);
 
-      this.displayText.setAttribute("text", { value: "0"});
+      this.displayText.setAttribute("text", { value: "-300g"});
       
       var socket = this.sampleSocketScale02.components["entity-socket"];
         socket.subscribe("onSnap", this.plant2Weigth);
@@ -573,7 +573,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       this.sampleSocket02.components["entity-socket"].unsubscribe("onSnap", this.showScale3);
 
-      this.displayText.setAttribute("text", { value: "0"});
+      this.displayText.setAttribute("text", { value: "-300g"});
       
       var socket = this.sampleSocketScale03.components["entity-socket"];
         socket.subscribe("onSnap", this.plant3Weigth);
@@ -616,7 +616,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     {
       this.sampleSocket03.components["entity-socket"].unsubscribe("onSnap", this.remove3Weigth);
 
-      this.displayText.setAttribute("text", { value: "0"});
+      this.displayText.setAttribute("text", { value: "-300g"});
 
       this.scaleEntity.object3D.visible = false;
 
