@@ -33,7 +33,6 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       this.movableEntities = [];
       this.sockets = [];
-      this.placedPlants = 0;
 
       this.onClickExp = AFRAME.utils.bind(this.onClickExp, this);
       this.onClickCloseCabinet = AFRAME.utils.bind(this.onClickCloseCabinet, this);
@@ -42,7 +41,9 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
 
       this.delayedInit = AFRAME.utils.bind(this.delayedInit, this);
 
-      this.plantPlaced = AFRAME.utils.bind(this.plantPlaced, this);
+      this.plantPlaced1 = AFRAME.utils.bind(this.plantPlaced1, this);
+      this.plantPlaced2 = AFRAME.utils.bind(this.plantPlaced2, this);
+      this.plantPlaced3 = AFRAME.utils.bind(this.plantPlaced3, this);
 
       waitForDOMContentLoaded().then(() => {
         console.log("Third exp 1 registered");
@@ -221,35 +222,54 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.plantPlace3.object3D.visible = true;
 
       this.enableInteractables();
+
+      this.plantSocket01.components["entity-socket"]
+      this.plantSocket01.object3D.visible = true;
+      this.plantSocket01.components["entity-socket"].subscribe("onSnap", this.plantPlaced1);
+      this.plantSocket01.components["entity-socket"].delayedInitSocket();
       this.plantSocket01.components["entity-socket"].enableSocket();
-      this.plantSocket02.components["entity-socket"].enableSocket();
-      this.plantSocket03.components["entity-socket"].enableSocket();
     },
     //Step 6
-    plantPlaced()
+    plantPlaced1()
     {
-      this.placedPlants += 1;
-      if(this.placedPlants >= 3)
-      {
-        this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
-        this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
-        this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced);
+      this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced1);
 
-        this.mannequin.components["mannequin"].displayMessage(45);
-        this.closeCabinetBtn.object3D.visible = true; //step 6
-      }   
+      this.plantSocket02.components["entity-socket"]
+      this.plantSocket02.object3D.visible = true;
+      this.plantSocket02.components["entity-socket"].subscribe("onSnap", this.plantPlaced2);
+      this.plantSocket02.components["entity-socket"].delayedInitSocket();
+      this.plantSocket02.components["entity-socket"].enableSocket();
+    },
+
+    plantPlaced2()
+    {
+      this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced2);
+
+      this.plantSocket03.components["entity-socket"]
+      this.plantSocket03.object3D.visible = true;
+      this.plantSocket03.components["entity-socket"].subscribe("onSnap", this.plantPlaced3);
+      this.plantSocket03.components["entity-socket"].delayedInitSocket();
+      this.plantSocket03.components["entity-socket"].enableSocket();
+    },
+
+    plantPlaced3()
+    {
+      this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced3);
+
+      this.mannequin.components["mannequin"].displayMessage(45);
+      this.closeCabinetBtn.object3D.visible = true; //step 6  
     },
 
     enableInteractables() {
 
       console.log("enabling interaction on movableEntities");
-
+      /*
       this.sockets.forEach(s => {
           s.object3D.visible = true;
           var socket = s.components["entity-socket"];
           socket.subscribe("onSnap", this.plantPlaced);
           socket.delayedInitSocket();
-      });
+      });*/
       
       if (this.isMember)
       {

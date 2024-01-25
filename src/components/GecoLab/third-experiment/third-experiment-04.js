@@ -5,7 +5,7 @@ import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
-import scissorSrc from "../../../assets/models/GecoLab/PlantGrowth/scissorA.glb";
+import scissorSrc from "../../../assets/models/GecoLab/PlantGrowth/scissor_w_collider.glb";
 import solSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
 import { faBreadSlice } from "@fortawesome/free-solid-svg-icons";
 
@@ -22,6 +22,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       skipBtnClicked: {default: 0},
       change1BtnClicked: {default: 0},
       change2BtnClicked: {default: 0},
+      change3BtnClicked: {default: 0},
       delayBtnClicked: {default: false},
     },
   
@@ -38,6 +39,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.localSkipBtnClicked = 0;
       this.localChange1BtnClicked = 0;
       this.localChange2BtnClicked = 0;
+      this.localChange3BtnClicked = 0;
       this.localDelayBtnClicked = false;
 
 
@@ -74,6 +76,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.onClickSkipBtn = AFRAME.utils.bind(this.onClickSkipBtn, this);
       this.onClickChange1Btn = AFRAME.utils.bind(this.onClickChange1Btn, this);
       this.onClickChange2Btn = AFRAME.utils.bind(this.onClickChange2Btn, this);
+      this.onClickChange3Btn = AFRAME.utils.bind(this.onClickChange3Btn, this);
       this.onClickDelayBtn = AFRAME.utils.bind(this.onClickDelayBtn, this);
 
       this.movableEntities = [];
@@ -111,6 +114,10 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
             this.changeBtn2 = this.el.querySelector(".switch-btn-3-4-2");
             this.changeBtn2.object3D.visible = false;
             this.changeBtn2.object3D.addEventListener("interact", () => this.onClickChange2Btn());
+
+            this.changeBtn3 = this.el.querySelector(".switch-btn-3-4-3");
+            this.changeBtn3.object3D.visible = false;
+            this.changeBtn3.object3D.addEventListener("interact", () => this.onClickChange3Btn());
 
             this.delayBtn = this.el.querySelector(".delay-btn-3-4");
             this.delayBtn.object3D.visible = false;
@@ -236,20 +243,41 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
       if(this.localChange1BtnClicked < this.data.change1BtnClicked) { 
         this.localChange1BtnClicked = this.data.change1BtnClicked;
-        this.temp = this.firstPlaced;
-        this.firstPlaced = this.secondPlaced;
-        this.secondPlaced = this.temp;
+        //this.temp = this.firstPlaced;
+        //this.firstPlaced = this.secondPlaced;
+        //this.secondPlaced = this.temp;
+        this.firstPlaced = this.sol1;
+        this.secondPlaced = this.sol2;
+        this.thirdPlaced = this.sol3;
         this.firstPlaced.setAttribute("position", {x: 2.2, y: 0.7, z: 0.5});
         this.secondPlaced.setAttribute("position", {x: 2.5, y: 0.7, z: 0.5});
+        this.thirdPlaced.setAttribute("position", {x: 2.8, y: 0.7, z: 0.5});
       }
 
       if(this.localChange2BtnClicked < this.data.change2BtnClicked) {
         this.localChange2BtnClicked = this.data.change2BtnClicked;
-        this.temp = this.thirdPlaced;
-        this.thirdPlaced = this.secondPlaced;
-        this.secondPlaced = this.temp;
-        this.thirdPlaced.setAttribute("position", {x: 2.8, y: 0.7, z: 0.5});
+        //this.temp = this.thirdPlaced;
+        //this.thirdPlaced = this.secondPlaced;
+        //this.secondPlaced = this.temp;
+        this.firstPlaced = this.sol1;
+        this.secondPlaced = this.sol3;
+        this.thirdPlaced = this.sol2;
+        this.firstPlaced.setAttribute("position", {x: 2.2, y: 0.7, z: 0.5});
         this.secondPlaced.setAttribute("position", {x: 2.5, y: 0.7, z: 0.5});
+        this.thirdPlaced.setAttribute("position", {x: 2.8, y: 0.7, z: 0.5});
+      }
+
+      if(this.localChange3BtnClicked < this.data.change3BtnClicked) {
+        this.localChange3BtnClicked = this.data.change3BtnClicked;
+        //this.temp = this.thirdPlaced;
+        //this.thirdPlaced = this.secondPlaced;
+        //this.secondPlaced = this.temp;
+        this.firstPlaced = this.sol3;
+        this.secondPlaced = this.sol2;
+        this.thirdPlaced = this.sol1;
+        this.firstPlaced.setAttribute("position", {x: 2.2, y: 0.7, z: 0.5});
+        this.secondPlaced.setAttribute("position", {x: 2.5, y: 0.7, z: 0.5});
+        this.thirdPlaced.setAttribute("position", {x: 2.8, y: 0.7, z: 0.5});
       }
 
       if(this.localDelayBtnClicked != this.data.delayBtnClicked) {
@@ -629,6 +657,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.skipBtn.object3D.visible = true;
       this.changeBtn1.object3D.visible = true;
       this.changeBtn2.object3D.visible = true;
+      this.changeBtn3.object3D.visible = true;
     },
 
     onClickSkipBtn()
@@ -662,6 +691,18 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
         NAF.utils.takeOwnership(networkedEl);
   
         this.el.setAttribute("third-experiment-04", "change2BtnClicked", this.data.change2BtnClicked+1);      
+  
+        this.updateUI();
+      });
+    },
+
+    onClickChange3Btn()
+    {
+      NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+    
+        NAF.utils.takeOwnership(networkedEl);
+  
+        this.el.setAttribute("third-experiment-04", "change3BtnClicked", this.data.change3BtnClicked+1);      
   
         this.updateUI();
       });
@@ -747,6 +788,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.skipBtn.object3D.visible = false;
       this.changeBtn1.object3D.visible = false;
       this.changeBtn2.object3D.visible = false;
+      this.changeBtn3.object3D.visible = false;
 
       this.delayBtn.object3D.visible = true;
     },

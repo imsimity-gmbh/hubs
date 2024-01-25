@@ -1299,6 +1299,10 @@ function registerNetworkSchemas() {
       },
       {
         component: "third-experiment-04",
+        property: "change3BtnClicked"
+      },
+      {
+        component: "third-experiment-04",
         property: "delayBtnClicked"
       },
       {
