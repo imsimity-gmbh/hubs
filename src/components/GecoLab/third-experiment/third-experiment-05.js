@@ -214,7 +214,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO2-Konzentration auf das Wachstum von Pflanzen auswirken?"});
         this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen anregen, indem es die Effizienz der Fotosynthese verbessert."});
         this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum der Pflanze; es ist nur ein Abfallprodukt der tierischen Atmung."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO₂-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground

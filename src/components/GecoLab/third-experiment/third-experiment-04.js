@@ -543,7 +543,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       }
       
       this.sol1background.object3D.rotation.set(0, 0, 0);
-      this.sol1background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol1background.object3D.position.set(-3.39, 0.18, -0.15);
       this.sol1background.object3D.matrixNeedsUpdate = true;
 
       var socket = this.sampleSocket01.components["entity-socket"];
@@ -586,7 +586,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       }
 
       this.sol2background.object3D.rotation.set(0, 0, 0);
-      this.sol2background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol2background.object3D.position.set(-3.39, 0.18, -0.15);
       this.sol2background.object3D.matrixNeedsUpdate = true;
 
       var socket = this.sampleSocket02.components["entity-socket"];
@@ -629,7 +629,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       }
 
       this.sol3background.object3D.rotation.set(0, 0, 0);
-      this.sol3background.object3D.position.set(-3.4, 0.2, -0.1);
+      this.sol3background.object3D.position.set(-3.39, 0.18, -0.15);
       this.sol3background.object3D.matrixNeedsUpdate = true;
 
       var socket = this.sampleSocket03.components["entity-socket"];

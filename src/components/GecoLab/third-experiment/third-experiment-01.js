@@ -110,6 +110,10 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.sockets.push(this.plantSocket02);
       this.plantSocket03 = this.el.querySelector(".plant-socket-03");
       this.sockets.push(this.plantSocket03);
+      
+      this.place1Background = this.el.querySelector(".place-1-background");
+      this.place2Background = this.el.querySelector(".place-2-background");
+      this.place3Background = this.el.querySelector(".place-3-background");
 
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
@@ -193,6 +197,10 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
       this.growthCabinet2.object3D.visible = true;
       this.growthCabinet3.object3D.visible = true;
 
+      this.place1Background.object3D.visible = true;
+      this.place2Background.object3D.visible = true;
+      this.place3Background.object3D.visible = true;
+
       if (this.isMember)
       {
         this.thirdExpStartBtn.object3D.visible = true;
@@ -234,6 +242,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     {
       this.plantSocket01.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced1);
 
+      this.place1Background.object3D.visible = false;
+
       this.plantSocket02.components["entity-socket"]
       this.plantSocket02.object3D.visible = true;
       this.plantSocket02.components["entity-socket"].subscribe("onSnap", this.plantPlaced2);
@@ -245,6 +255,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     {
       this.plantSocket02.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced2);
 
+      this.place2Background.object3D.visible = false;
+
       this.plantSocket03.components["entity-socket"]
       this.plantSocket03.object3D.visible = true;
       this.plantSocket03.components["entity-socket"].subscribe("onSnap", this.plantPlaced3);
@@ -255,6 +267,8 @@ const plantPromise =  waitForDOMContentLoaded().then(() => loadModel(plantSrc));
     plantPlaced3()
     {
       this.plantSocket03.components["entity-socket"].unsubscribe("onSnap", this.plantPlaced3);
+
+      this.place3Background.object3D.visible = false;
 
       this.mannequin.components["mannequin"].displayMessage(45);
       this.closeCabinetBtn.object3D.visible = true; //step 6  

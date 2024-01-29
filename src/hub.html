@@ -1741,9 +1741,24 @@
                     set-yxz-order
                     > <!--static-->
                     <a-entity class="plant-Start-Wrapper" position="0 -0.1 0">                        
-                        <a-entity class="growth-Cabinet-1" visible = false position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation></a-entity> <!--static-->
-                        <a-entity class="growth-Cabinet-2" visible = false position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation></a-entity> <!--static-->
-                        <a-entity class="growth-Cabinet-3" visible = false position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation></a-entity> <!--static-->
+                        <a-entity class="growth-Cabinet-1" visible = true position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation>
+                            <a-entity class="cab-1-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-2.3 0.45 -0.355" rotation="0 0 0" scale="0.5 1 0.9">
+                            <a-entity class="cab-1-text" text=" value: 1; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                            </a-entity>
+                        </a-entity> <!--static-->
+                        <a-entity class="growth-Cabinet-2" visible = false position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation>
+                            <a-entity class="cab-2-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-2.3 0.45 -0.355" rotation="0 0 0" scale="0.5 1 0.9">
+                            <a-entity class="cab-2-text" text=" value: 2; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                            </a-entity>
+                        </a-entity> <!--static-->
+                        <a-entity class="growth-Cabinet-3" visible = false position="0 1 0" scale="1.0 1.0 1.0" animation-mixer simple-animation>
+                            <a-entity class="cab-3-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                            position="-2.3 0.45 -0.355" rotation="0 0 0" scale="0.5 1 0.9">
+                            <a-entity class="cab-3-text" text=" value: 3; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="1.5 0.75 1"></a-entity>
+                            </a-entity>
+                        </a-entity> <!--static-->
                         
                         <a-entity class="interactable" third-experiment-01-sample>
                             <a-entity class="exp-button" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" 
@@ -1768,6 +1783,10 @@
                                 scalable-when-grabbed
                                 floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                             >
+                                <a-entity class="place-1-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-3.39 0.18 -0.15" rotation="0 0 0" scale="0.125 0.25 0.225">
+                                <a-entity class="place-1-text" text=" value: 1; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
+                                </a-entity>
                             </a-entity>
                             <a-entity class="plant-Place-2-entity" position="0 1 0" rotation="0 0 0"
                                 tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1778,6 +1797,10 @@
                                 scalable-when-grabbed
                                 floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                             >
+                                <a-entity class="place-2-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-3.39 0.18 -0.15" rotation="0 0 0" scale="0.125 0.25 0.225">
+                                <a-entity class="place-2-text" text=" value: 2; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
+                                </a-entity>
                             </a-entity>
                             <a-entity class="plant-Place-3-entity" position="0 1 0" rotation="0 0 0"
                                 tags="isHandCollisionTarget: false; isHoldable: false; offersHandConstraint: true; offersRemoteConstraint: true;"
@@ -1788,6 +1811,10 @@
                                 scalable-when-grabbed
                                 floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                             >
+                                <a-entity class="place-3-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
+                                position="-3.39 0.18 -0.15" rotation="0 0 0" scale="0.125 0.25 0.225">
+                                <a-entity class="place-3-text" text=" value: 3; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
+                                </a-entity>
                             </a-entity>                
                         </a-entity>
 
@@ -1939,7 +1966,7 @@
                             </a-entity>
                             <a-entity class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0.15 0" scale="3.5 3.5 3.5">
                                 <a-entity class="answer-1-text"
-                                text=" value:Die CO₂-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO₂). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO₂ nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
+                                text=" value:Die CO2-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO2). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO2 nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
                                 width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                             </a-entity>
                             <a-entity class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0.15 0" scale="3.5 3.5 3.5">
@@ -2052,8 +2079,8 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                             <a-entity class="sol-1-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
-                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
-                            <a-entity class="sol-1-text" text=" value: 1; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            position="-3.43 0.18 -0.2" rotation="0 -90 0" scale="0.125 0.25 0.225">
+                            <a-entity class="sol-1-text" text=" value: 1; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
                             </a-entity>
                         </a-entity>
                         <a-entity class="plant-sol-2-entity" position="0 1 0" rotation="0 0 0"
@@ -2066,8 +2093,8 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                             <a-entity class="sol-2-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
-                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
-                            <a-entity class="sol-2-text" text=" value: 2; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            position="-3.43 0.18 -0.2" rotation="0 -90 0" scale="0.125 0.25 0.225">
+                            <a-entity class="sol-2-text" text=" value: 2; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
                             </a-entity>
                         </a-entity>
                         <a-entity class="plant-sol-3-entity" position="0 1 0" rotation="0 0 0"
@@ -2080,8 +2107,8 @@
                             floaty-object="autoLockOnRelease: true; autoLockOnLoad: true;" 
                         >
                             <a-entity class="sol-3-background" mixin="rounded-exp-action-button" visible = true is-remote-hover-target tags="singleActionButton: true;" 
-                            position="-3.55 0.2 -0.2" rotation="0 -90 0" scale="0.25 0.5 0.45">
-                            <a-entity class="sol-3-text" text=" value: 3; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="3 1.5 2"></a-entity>
+                            position="-3.43 0.18 -0.2" rotation="0 -90 0" scale="0.125 0.25 0.225">
+                            <a-entity class="sol-3-text" text=" value: 3; width:1.6; align:center;" text-raycast-hack position="0 0 0.001" scale="6 3 4"></a-entity>
                             </a-entity>
                         </a-entity>
                             <a-entity class="scissor-entity" position="0 1 0" rotation="0 0 0"
@@ -2160,7 +2187,7 @@
                             </a-entity>
                             <a-entity class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
                                 <a-entity class="answer-1-text"
-                                text=" value:Die CO₂-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO₂). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO2 nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
+                                text=" value:Die CO2-Konzentration bezeichnet den Anteil des Gases Kohlendioxid (CO2). Dieses Gas besteht aus einem Kohlenstoff- und zwei Sauerstoffatomen. Obwohl CO2 nur etwa 0,04 Prozent des Luftvolumens ausmacht, hat es eine entscheidende Bedeutung. Einerseits ist es wesentlich für viele biologische Prozesse, andererseits trägt es zum Treibhauseffekt bei, der die Temperatur der Erde beeinflusst.; 
                                 width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                             </a-entity>
                             <a-entity class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
