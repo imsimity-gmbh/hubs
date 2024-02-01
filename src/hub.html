@@ -92,6 +92,12 @@
             <img id="burner-btn-1" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_1.png">
             <img id="burner-btn-2" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_2.png">
             <img id="burner-btn-3" crossorigin="anonymous" src="./assets/images/icons/Icon_Regler_3.png">
+            <img id="TempPNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_Temperatur.png">
+            <img id="CO2PNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_CO2.png">
+            <img id="BodenPNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_Bodenart.png">
+            <img id="SingleChoicePNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_Single_Choice.png">
+            <img id="FragePNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_Sicherungsfrage.png">
+            <img id="TippPNG" crossorigin="anonymous" src="./assets/images/icons/Icons_GecoLab_Tipps und Tricks.png">
 
             <a-asset-item id="drawing-pen" response-type="arraybuffer" src="./assets/models/DrawingPen.glb"></a-asset-item>
             <a-asset-item id="spawn-point" response-type="arraybuffer" src="./assets/models/spawn-point.glb"></a-asset-item>
@@ -1890,31 +1896,30 @@
                             visible="false"
                             position="-1.8 0 3.5"
                             rotation="0 90 0">
-                                <a-entity class="question-text" text="value: Wähle den zu betrachtenen Parameter!"
+                                <a-entity class="question-text" text="value: Wähle den zu betrachtenden Parameter!"
                                     text-raycast-hack position="0.5 2.7 0" scale="3 3 3">
                                 </a-entity> <!--static-->
                                 <a-entity class="answer-area" position="0.5 2.2 0">
                                     <a-entity class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
+                                        <a-image class="TempImage" src="#TempPNG" position="-0.2 0.07 0.01" scale="0.05 0.05 0.05" visible=true material="alphaTest: 0.1"></a-image>
                                         <a-entity 
-                                        text=" value: Die Temperatur gibt den Wärmezustand von Materie an und zeigt, ob etwas warm oder
-                                        kalt ist. Kelvin, Grad Celsius und Grad Fahrenheit sind Einheiten zur Messung. Hohe
-                                        Temperaturen verringern die Fotosynthese, während niedrige Temperaturen das
-                                        Wachstum und die Fruchtbildung verlangsamen können.; 
+                                        text=" value: ` 
+                                        
+                                        Die Temperatur gibt den Wärmezustand von Materie an und zeigt, ob etwas warm oder kalt ist. Kelvin, Grad Celsius und Grad Fahrenheit sind Einheiten zur Messung. Hohe Temperaturen verringern die Fotosynthese, während niedrige Temperaturen das Wachstum und die Fruchtbildung verlangsamen können.; 
                                         width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                     </a-entity>
                                     <a-entity class="answer-option-1" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="0 0 0" scale="3.5 3.5 3.5">
+                                        <a-image class="CO2Image" src="#CO2PNG" position="-0.2 0.07 0.01" scale="0.05 0.05 0.05" visible=true material="alphaTest: 0.1"></a-image>
                                         <a-entity 
-                                        text=" value: Die CO2-Konzentration gibt den Anteil des Gases Kohlendioxid (CO2) an. Obwohl es nur
-                                        0,04 Prozent des Luftvolumens ausmacht, ist es entscheidend für biologische Prozesse
-                                        und trägt zum Treibhauseffekt bei, der die Erdtemperatur beeinflusst.;
+                                        text=" value: Die CO2-Konzentration gibt den Anteil des Gases Kohlendioxid (CO2) an. Obwohl es nur 0,04 Prozent des Luftvolumens ausmacht, ist es entscheidend für biologische Prozesse und trägt zum Treibhauseffekt bei, der die Erdtemperatur beeinflusst.;
                                         width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                     </a-entity>
                                     <a-entity class="answer-option-2" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="1.7 0 0" scale="3.5 3.5 3.5">
+                                        <a-image class="BodenImage" src="#BodenPNG" position="-0.2 0.07 0.01" scale="0.05 0.05 0.05" visible=true material="alphaTest: 0.1"></a-image>
                                         <a-entity 
-                                        text=" value: Die Bodenart gibt die prozentuale Zusammensetzung des Feinbodens an und umfasst nach
-                                        abnehmender Korngröße drei (Feinboden)arten: Sand, Schluff und Ton. Jeder Boden setzt
-                                        sich neben Wasser, Luft und organischen Substanzen aus den drei Feinbodenarten
-                                        zusammen und hat dadurch charakteristische Eigenschaften.;
+                                        text=" value: `
+                                        
+                                        Die Bodenart gibt die prozentuale Zusammensetzung des Feinbodens an und umfasst nach abnehmender Korngröße drei (Feinboden)arten: Sand, Schluff und Ton. Jeder Boden setzt sich neben Wasser, Luft und organischen Substanzen aus den drei Feinbodenarten zusammen und hat dadurch charakteristische Eigenschaften.;
                                         width:1; align:left;" text-raycast-hack position="0 0 0.001" scale="0.42 0.42 0.42"></a-entity>
                                     </a-entity>
                                 </a-entity> <!--static-->
@@ -2574,6 +2579,7 @@
             ></a-mixin>
 
             <a-mixin id="rounded-action-button"
+                material="alphaTest: 0.5"    
                 slice9="
                     width: 0.2;
                     height: 0.2;
@@ -2582,11 +2588,11 @@
                     right: 66;
                     bottom: 66;
                     transparent: false;
-                    alphaTest: 0.1;
                     src: #action-button"
             ></a-mixin>
 
             <a-mixin id="rounded-exp-action-button"
+                material="alphaTest: 0.5"
                 text-button="
                     textHoverColor: #000;
                     textColor: #000;
@@ -2601,11 +2607,11 @@
                     right: 66;
                     bottom: 66;
                     transparent: false;
-                    alphaTest: 0.1;
                     src: #mannequin-button-help"
             ></a-mixin>
 
             <a-mixin id="rounded-mannequin-action-button"
+                material="alphaTest: 0.5"
                 text-button="
                     textHoverColor: #000;
                     textColor: #000;
@@ -2620,11 +2626,11 @@
                     right: 66;
                     bottom: 66;
                     transparent: false;
-                    alphaTest: 0.1;
                     src: #mannequin-button"
             ></a-mixin>
 
             <a-mixin id="rounded-mannequin-help-action-button"
+                material="alphaTest: 0.5"    
                 text-button="
                     textHoverColor: #000;
                     textColor: #424242;
@@ -2639,7 +2645,6 @@
                     right: 66;
                     bottom: 66;
                     transparent: false;
-                    alphaTest: 0.1;
                     src: #mannequin-button-help"
             ></a-mixin>
 
