@@ -135,6 +135,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     delayedInit()
     {
       console.log('Delayed Init FE-04');
+      this.Quest = this.el.querySelector(".Q-3-4-Image");
 
       this.cabinet1background = this.el.querySelector(".cabinet-1-background");
       this.cabinet1background.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
@@ -658,6 +659,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.changeBtn1.object3D.visible = true;
       this.changeBtn2.object3D.visible = true;
       this.changeBtn3.object3D.visible = true;
+      this.Quest.object3D.visible = true;
     },
 
     onClickSkipBtn()
@@ -789,6 +791,8 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.changeBtn1.object3D.visible = false;
       this.changeBtn2.object3D.visible = false;
       this.changeBtn3.object3D.visible = false;
+
+      this.Quest.object3D.visible = false;
 
       this.delayBtn.object3D.visible = true;
     },

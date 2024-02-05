@@ -1954,6 +1954,7 @@
                     > <!--static-->
 
                     
+                    
 
                     <a-entity 
                     class="ui interactable-ui multi-choice-wrapper" 
@@ -1962,6 +1963,7 @@
                     rotation="0 90 0">
                         <a-entity class="question-text" text="value: Haben sich alle drei Pflanzen auf die gleiche Weise entwickelt?; color: black"
                             text-raycast-hack position="0.5 2 0" scale="3 3 3">
+                            <a-image class="Q-3-3-Image" src="#FragePNG" position="-0.6 0 0" scale="0.2 0.2 0.2" visible=true material="alphaTest: 0.1"></a-image>
                         </a-entity> <!--static-->
                         <a-entity class="answer-area" position="0.5 1 0">
                             <a-entity class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0.15 0" scale="3.5 3.5 3.5">
@@ -2072,6 +2074,8 @@
                         <a-entity class="hover-meshes" position="0 0.2 0"></a-entity>
                     </a-entity> <!--static-->
                
+                    <a-image class="Q-3-4-Image" src="#FragePNG" position="-1.8 2.25 0.2" scale="0.3 0.3 0.3" visible=false material="alphaTest: 0.1"></a-image>
+
                     <a-entity class="ui interactable-ui entity-wrapper 01" position="0 -0.1 0">
 
                         <a-entity class="plant-sol-1-entity" position="0 1 0" rotation="0 0 0"
@@ -2173,7 +2177,9 @@
                     <a-entity class="info-field-background" mixin="rounded-exp-action-button" visible = false is-remote-hover-target tags="singleActionButton: true;" 
                         position="-1.8 1.8 2" scale="6 3 3" rotation="0 90 0">
                         <a-entity class="info-field-text" text=" value: Hier sind noch zusätzliche Ratschläge und Strategien, die dazu beitragen sollen, dass deine Arbeit im Labor effektiver, sicherer und produktiver verläuft.; width:2; align:center;" 
-                        text-raycast-hack position="0 0 0.001" scale="0.21 0.42 0.42"></a-entity>
+                        text-raycast-hack position="0 0 0.001" scale="0.21 0.42 0.42">
+                        <a-image class="T-3-5-Image" src="#TippPNG" position="-1 0.1 0" scale="0.2 0.2 0.2" visible=true material="alphaTest: 0.1"></a-image>
+                        </a-entity>
                     </a-entity>
 
                     <a-entity 
@@ -2183,6 +2189,7 @@
                     rotation="0 90 0">
                         <a-entity class="question-text" text="value: Haben sich alle drei Pflanzen auf die gleiche Weise entwickelt?; color: black"
                             text-raycast-hack position="0.5 3 0" scale="3 3 3">
+                            <a-image class="S-3-5-Image" src="#SingleChoicePNG" position="-0.6 0 0" scale="0.2 0.2 0.2" visible=true material="alphaTest: 0.1"></a-image>
                         </a-entity> <!--static-->
                         <a-entity class="answer-area" position="0.5 2 0">
                             <a-entity class="answer-option-0" mixin="rounded-exp-action-button" is-remote-hover-target tags="singleActionButton: true;" position="-1.7 0 0" scale="3.5 3.5 3.5">
