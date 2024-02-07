@@ -388,6 +388,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     showSol1()
     {
       this.sol1.object3D.visible = true;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Temp1PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Co21PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Ground1PNG.object3D.visible = false;
 
       var socket = this.scissorSocket02.components["entity-socket"];
       socket.subscribe("onSnap", this.animateScissor2);
@@ -433,6 +436,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     showSol2()
     {
       this.sol2.object3D.visible = true;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Temp2PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Co22PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Ground2PNG.object3D.visible = false;
 
       var socket = this.scissorSocket03.components["entity-socket"];
       socket.subscribe("onSnap", this.animateScissor3);
@@ -478,6 +484,9 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
     showSol3()
     {
       this.sol3.object3D.visible = true;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Temp2PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Co22PNG.object3D.visible = false;
+      this.thirdExpPart03.components["third-experiment-03"].plant6Ground2PNG.object3D.visible = false;
 
       this.scissor.object3D.visible = false;
 
@@ -498,16 +507,28 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           this.thirdExpPart03.components["third-experiment-03"].plant6Temp1.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Temp2.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Temp3.object3D.visible = false;
+
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp1PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp2PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Temp3PNG.object3D.visible = false;
           break;
         case 1:
           this.thirdExpPart03.components["third-experiment-03"].plant6Co21.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Co22.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Co23.object3D.visible = false;
+
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co21PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co22PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Co23PNG.object3D.visible = false;
           break;
         case 2:
           this.thirdExpPart03.components["third-experiment-03"].plant6Ground1.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Ground2.object3D.visible = false;
           this.thirdExpPart03.components["third-experiment-03"].plant6Ground3.object3D.visible = false;
+
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground1PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground2PNG.object3D.visible = false;
+          this.thirdExpPart03.components["third-experiment-03"].plant6Ground3PNG.object3D.visible = false;
           break;
       }
 

@@ -146,6 +146,16 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.plant6Temp3 = this.el.querySelector(".plant-6-temp-3");
       this.spawnItem(plant3TempPromise, new THREE.Vector3(5.2, 0.65, 0.1), this.plant6Temp3, false, true);
 
+      this.plant6Ground1PNG = this.el.querySelector(".plant-6-ground-1PNG");
+      this.plant6Ground2PNG = this.el.querySelector(".plant-6-ground-2PNG");
+      this.plant6Ground3PNG = this.el.querySelector(".plant-6-ground-3PNG");
+      this.plant6Co21PNG = this.el.querySelector(".plant-6-co2-1PNG");
+      this.plant6Co22PNG = this.el.querySelector(".plant-6-co2-2PNG");
+      this.plant6Co23PNG = this.el.querySelector(".plant-6-co2-3PNG");
+      this.plant6Temp1PNG = this.el.querySelector(".plant-6-temp-1PNG");
+      this.plant6Temp2PNG = this.el.querySelector(".plant-6-temp-2PNG");
+      this.plant6Temp3PNG = this.el.querySelector(".plant-6-temp-3PNG");
+
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
       });
@@ -529,23 +539,44 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       this.thirdExpPart02.querySelector(".plant-6-temp-2").object3D.visible = false;
       this.thirdExpPart02.querySelector(".plant-6-temp-3").object3D.visible = false;
 
+      this.thirdExpPart02.querySelector(".plant-6-ground-1PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-ground-2PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-ground-3PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-1PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-2PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-co2-3PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-1PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-2PNG").object3D.visible = false;
+      this.thirdExpPart02.querySelector(".plant-6-temp-3PNG").object3D.visible = false;
       if(this.chosen == 0)
       {
         this.plant6Temp1.object3D.visible = true;
         this.plant6Temp2.object3D.visible = true;
         this.plant6Temp3.object3D.visible = true;
+
+        this.plant6Temp1PNG.object3D.visible = true;
+        this.plant6Temp2PNG.object3D.visible = true;
+        this.plant6Temp3PNG.object3D.visible = true;
       } 
       else if (this.chosen == 1)
       {
         this.plant6Co21.object3D.visible = true;
         this.plant6Co22.object3D.visible = true;
         this.plant6Co23.object3D.visible = true;
+
+        this.plant6Co21PNG.object3D.visible = true;
+        this.plant6Co22PNG.object3D.visible = true;
+        this.plant6Co23PNG.object3D.visible = true;
       }
       else if (this.chosen == 2)
       {
         this.plant6Ground1.object3D.visible = true;
         this.plant6Ground2.object3D.visible = true;
         this.plant6Ground3.object3D.visible = true;
+
+        this.plant6Ground1PNG.object3D.visible = true;
+        this.plant6Ground2PNG.object3D.visible = true;
+        this.plant6Ground3PNG.object3D.visible = true;
       }
       
       this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");
