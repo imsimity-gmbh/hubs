@@ -45,49 +45,49 @@ export var MANNEQUIN_TEXTS = [
   "",
   "",
   "",
-  "Hi! Schön, dass du den Weg in unser virtuelles Lehr-Lern-Labor gefunden hast. Ich werde dir durch meine Anleitung helfen das Experiment zum Pflanzenwachstum durchzuführen. An einigen Stellen wirst du den Button „Tipp“ sehen, der dir weitere Hilfestellungen geben wird. Während des Experiments wirst du einige Fragen gestellt bekommen. Zu diesen werde ich dir Feedback geben und dich unterstützen.",
-  "Vor dir siehst du einen Wachstumsschrank. In diesem können natürliche, aber auch zukünftige klimatische Bedingungen präzise simuliert werden unter denen Pflanzen und Organismen wachsen können. In Hinblick auf das sich verändernde Klima können wir schauen, wie Pflanzen in Zukunft wachsen und ob sie das überhaupt noch können.",
-  "Beginnen wir mit dem Experiment! Stelle jeweils einen Topf mit einem Samen in ein Abteil des Wachstumsschranks.",
-  "Schließe die Wachstumsschränke.",
-  "An jedem Wachstumsschrank findest du eine Anzeigetafel. Auf dieser kannst du fünf Parameter sehen, die Einfluss auf das Wachstum der Pflanze haben und verändert werden können. Wenn wir wissen wollen, welcher Parameter genau das Wachstum beeinflusst hat, dürfen wir immer nur einen Parameter verändern, während die Anderen gleichbleiben. Wir können sonst nicht genau unterscheiden, was der Ursprung für die Veränderung ist.",
-  "Du kannst dich nun entscheiden, ob du den Einfluss einer veränderter Kohlenstoffdioxid-Konzentration, eine Veränderung der Temperatur oder unterschiedliche Bodenarten näher untersuchen möchtest.",
+  "Hi! Schön, dass du den Weg in unser virtuelles Labor gefunden hast. Ich bin Erni und werde dir durch meine Anleitung helfen das Experiment zum Pflanzenwachstum durchzuführen. Während des Experiments wirst du einige Fragen beantworten, bei denen ich dich unterstützen kann und dir Feedback gebe.",
+  "Vor dir siehst du drei Wachstumsschränke. In einem Wachstumsschrank können natürliche, aber auch zukünftige klimatische Bedingungen präzise simuliert werden unter denen Pflanzen und Organismen wachsen können. Angesichts des sich verändernden Klimas können wir schauen, wie Pflanzen in Zukunft wachsen und, ob sie das überhaupt noch können.",
+  "Beginnen wir mit dem Experiment! Stell einen Topf mit einem Weizensamen in den dazugehörigen Wachstumsschrank.",
+  "Schließ die Wachstumsschränke.",
+  "An jedem Wachstumsschrank findest du eine Anzeigetafel mit fünf verschiedenen Parametern,  die Einfluss auf das Wachstum von Pflanze haben. Um zu verstehen welcher Parameter das Wachstum beeinflusst, ändern wir immer nur einen Parameter, während die Anderen gleichbleiben. Ansonsten wissen wir nicht genau, was der Ursprung für die Veränderung ist.",
+  "Du kannst dich nun entscheiden, ob du den Einfluss der Temperatur, der Kohlenstoffdioxid-Konzentration oder der Bodenart näher untersuchen möchtest.",
   //CO₂_Konzentration
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die CO2-Konzentration unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter gleich sind und den idealen Wachstumsbedingungen von Weizen entsprechen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt.",
-  "Im ersten Schrank ist ein Wert von 419ppm eingestellt, was dem Jahresmittelwert auf der Zugspitze im Jahr 2022 entspricht. Im 2. Wachstumsschrank beträgt die CO2-Konzentration 550ppm. Im Jahr 2050 würden wir diesen Wert erreichen, wenn wir unseren derzeitigen Kurs behalten und keine Maßnahmen zum Klimaschutz ergreifen. Im letzten Wachstumsschrank beträgt die CO2-Konzentration 650ppm.",
-  "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der CO2-Konzentration auf das Wachstum von Weizen hat.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die CO2-Konzentration wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
+  "Ich habe die unterschiedlichen CO2-Konzentrationen bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel.",
+  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere CO2- Konzentration auf das Wachstum von Weizen hat.",
+  "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
   //Temperatur
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die Temperatur unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter den idealen Wachstumsbedingungen von Weizen entsprechen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt.",
-  "Im ersten Schrank beträgt die Temperatur 25 °C, was den idealen Wachstumsbedingungen von Weizen entspricht. Im 2. Wachstumsschrank beträgt die Temperatur 29 °C. Im 3. Wachstumsschrank sind durchgängig 33 °C, um den Einfluss von Hitzeereignissen darzustellen. ",
-  "In diesem Versuch untersuchen wir, welchen Einfluss eine Erhöhung der Temperatur auf das Wachstum von Weizen hat.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Temperatur wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
+  "Ich habe die unterschiedlichen Temperaturen bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel.",
+  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere Temperatur auf das Wachstum von Weizen hat.",
+  "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
   //Bodenart
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du fünf verschiedene Parameter sehen. Die Bodenart unterscheidet sich bei den drei Wachstumsschränken, während die anderen Parameter den idealen Wachstumsbedingungen von Weizen entsprechen.",
-  "Ich habe die Werte für den gewählten Parameter bereits für dich ausgewählt.",
-  "Im 1. Wachstumsschrank wirst du den Weizen auf einem schluffigen Lehmboden anbauen, was den idealen Bedingungen für Weizen entspricht. Im 2. Wachstumsschrank wird der Weizen auf einem lehmigen Ton angebaut und im 3. Wachstumsschrank auf einem schwach schluffigen Sand. ",
-  "In diesem Versuch untersuchen wir daher, inwiefern die unterschiedliche Korngrößenzusammensetzung Einfluss auf das Wachstum von Weizen hat.",
-  "Für das Experiment nutzen wir einen weiteren Vorteil des virtuellen Labors. Normalerweise müssten wir jetzt mehrere Wochen warten, um eine Veränderung im Wachstum der Pflanzen zu beaobachten und zu analysieren. Wir werden das Ganze einfach ein bisschen schneller machen und vorspulen.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Bodenart wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
+  "Ich habe die unterschiedlichen Bodenarten bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel. ",
+  "In diesem Versuch untersuchen wir, welchen Einfluss verschiedene Bodenarten auf das Wachstum von Weizen haben.",
+  "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
+  "Für das Experiment nutzen wir einen Vorteil des virtuellen Labors. Normalerweise müssten wir jetzt mehrere Wochen warten, um eine Veränderung der Pflanzen zu beobachten und zu analysieren. Wir werden das Ganze einfach ein bisschen schneller machen und vorspulen.",
   "Nach 6 Wochen kannst du bereits die ersten Veränderungen deiner Pflanzen sehen. Notiere dir, wie deine Pflanzen aussehen und welche Unterschiede es gibt.",
   //Feedback erste Runde
   "Sehr gute Beobachtung!",
-  "Deine Antwort ist leider nicht korrekt. Ich schlage dir vor, dass du deine Pflanze nochmals genau betrachtest.",
+  "Deine Antwort ist leider nicht korrekt. Schau dir deine Pflanze doch nochmal genau an.",
   //Feedback zweite Runde 
   "Sehr gut, deine Antwort ist korrekt.",
   //CO₂-Konzentartion
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Alle Pflanzen haben das gleiche Erscheinungsbild. Für die Zukunft empfehle ich die, die Fragen und die Antworten sorgfältig und gründlich zu lesen.",
   //Temperatur
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die mittlere. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Die Pflanze drei zeigt vereinzelte gelbe Flecken auf den Blättern. Für die Zukunft  empfehle ich dir, die Fragen und  Antworten sorgfältig und gründlich zu lesen.",
   //Bodenart
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Für die Zukunft würde ich dir vorschlagen, die Fragen und die Antworten in aller Ruhe und gründlich zu lesen.",
+  "Leider ist deine Antwort nicht korrekt. Lehmiger Tonboden schränkt das Wachstum der Weizenpflanzen ein.  Für die Zukunft empfehle ich dir, die Fragen und Antworten sorgfältig und gründlich zu lesen.",
   "Als nächstes schauen wir uns die Veränderungen nach 12 Wochen an.",
-  "Wir sehen zwar einen Unterschied im Wachstum der Pflanzen, allerdings wollen wir das Ganze auch noch wissenschaftlich überprüfen. Öffne die Wachstumsschränke.",
-  /*70*/"Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Pflanze ab und lege ihn in die Petrischale. Wiederhole den Vorgang mit den anderen beiden Pflanzen.",
-  "Platziere die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300g anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
+  "Wir sehen zwar einen Unterschied im Wachstum der Pflanzen, allerdings wollen wir das Ganze auch noch wissenschaftlich überprüfen.",
+  /*70*/"Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Weizenpflanze ab und leg ihn in die Petrischale. Wiederhol den Vorgang mit den anderen beiden Pflanzen.",
+  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
   //Feedback
   //CO₂-Konzentration
   "Super, deine Antwort ist richtig.",
   "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
-  "Top! Du hast die richtige Lösung.",
+  "Top! Du hast die richtige Lösung. Mach weiter so und bleib aufmerksam beim Beantworten der Frage.",
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 3-2-1.",
   //Temperatur
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-2-3.",
@@ -95,26 +95,26 @@ export var MANNEQUIN_TEXTS = [
   "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
   //CO₂
   //Feedback erste Runde
-  /*78*/"Gut gemacht! Deine Antwort ist korrekt. Mach weiter so!",
-  "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss von CO2 auf das Wachstum von Pflanzen gehört hast, und versuche es noch einmal.",
+  /*78*/"Gut gemacht! Deine Antwort ist korrekt.",
+  "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Sehr gut! Du hast die korrekte Antwort herausgefunden. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die linke. Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen steigern, allerdings leidet die Qualität der Erträge darunter.",
+  "Sehr gut! Du hast die Frage richtig beantwortet.",
+  "Leider ist deine Antwort nicht korrekt. Eine erhöhte CO2-Konzentration steigert das Wachstum von Weizenpflanzen, allerdings leidet die Qualität der Erträge darunter.",
   //Temperatur - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
-  "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Temperatur auf das Wachstum von Pflanzen gehört hast, und versuche es noch einmal.",
+  "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die mittlere. Eine moderate Erhöhung der Temperatur kann dazu führen, dass die Fotosyntheseaktivität ansteigt. Beachte allerdings, dass ein Anstieg der Temperatur nur innerhalb des sogenannten Toleranzbereichs möglich ist. Zu hohe oder zu niedrige Temperaturen verlangsamen die Prozesse innerhalb der Pflanze.",
+  "Leider ist deine Antwort nicht korrekt. Weizen wächst am besten bei 25° C. Jede Erhöhung der Temperatur führt dazu, dass Weizen nicht mehr so ideal wächst.",
   //Bodenart - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
-  "Deine Antwort ist leider nicht korrekt. Bitte denk nochmal darüber nach, was du im Workshop über den Einfluss der Bodenart auf das Wachstum von Pflanzen gehört hast, und versuche es noch einmal.",
+  "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Die richtige Antwort ist die rechte. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Pflanzen beeinflussen. Einige Böden können aufgrund einer begrenzten Wasserverfügbarkeit das Wachstum einschränken, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
+  "Leider ist deine Antwort nicht korrekt. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Weizen beeinflusst. Einige Böden können aufgrund einer begrenzten Wasser-verfügbarkeit das Wachstum einschränken, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
   "Super, das Experiment ist geschafft!",
   //ThirdExp04
   /*87*/
-  "Platziere die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300g anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
-  "Ordne die Pflanzen 1 bis 3 nach ihrem Entwicklungsstand und ihrem Gewicht in absteigender Reihenfolge.",
+  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
+  "Ordne die Weizenpflanzen 1 bis 3 nach ihrem Entwicklungsstand und ihrem Gewicht in absteigender Reihenfolge.",
   "Super, deine Antwort ist richtig.",
   "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
   "Top! Du hast die richtige Lösung.",

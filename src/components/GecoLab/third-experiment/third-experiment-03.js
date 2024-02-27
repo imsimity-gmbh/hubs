@@ -256,24 +256,24 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       //fill in right answer
       if(this.chosen == 0)//Temp
       {
-        this.answerText0.setAttribute("text", { value: "Alle 3 Pflanzen zeigen eine vergleichbare Entwicklung."});
-        this.answerText1.setAttribute("text", { value: "Die Weizenpflanze 3, die den höchsten Temperaturen aus-gesetzt ist, zeigt vereinzelte gelbe Flecken auf den Blättern."});
-        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
-        this.rightAnswer = 1;
+        this.answerText0.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
+        this.answerText1.setAttribute("text", { value: "Alle  Weizenpflanzen zeigen eine vergleichbare Entwicklung."});
+        this.answerText2.setAttribute("text", { value: "Die Weizenpflanze 3, die den höchsten Temperaturen ausgesetzt ist, zeigt vereinzelte gelbe Flecken auf den Blättern."});
+        this.rightAnswer = 2;
       }
       else if(this.chosen == 1)//CO₂
       {
-        this.answerText0.setAttribute("text", { value: "Alle Pflanzen haben das gleiche Erscheinungsbild."});
-        this.answerText1.setAttribute("text", { value: "Die Pflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das das stärkste Wachstum."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration führt zu vermindertem Wachstum."});
+        this.answerText0.setAttribute("text", { value: "Alle Weizenpflanzen haben das gleiche Erscheinungsbild."});
+        this.answerText1.setAttribute("text", { value: "Die Weizenpflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das stärkste Wachstum. "});
+        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen unter der aktuellen CO2-Konzentration am besten. "});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
       {
-        this.answerText0.setAttribute("text", { value: "Durch die ungünstigen Bodenverhältnisse ist das Wachstum der Pflanze 2 beeinträchtigt."});
-        this.answerText1.setAttribute("text", { value: "Es gibt keine Unterschiede in der Entwicklung aller Pflanzen."});
-        this.answerText2.setAttribute("text", { value: "Pflanze 2 und 3 zeigen eine vergleichbare Entwicklung."});
-        this.rightAnswer = 0;
+        this.answerText0.setAttribute("text", { value: "Es gibt keine Unterschiede in der Entwicklung der Weizenpflanzen."});
+        this.answerText1.setAttribute("text", { value: "Weizenpflanzen zeigen ein eingeschränktes Wachstum auf einem lehmigen Tonboden."});
+        this.answerText2.setAttribute("text", { value: "Weizenpflanze 2 und 3 zeigen eine vergleichbare Entwicklung. "});
+        this.rightAnswer = 1;
       }
 
       this.showQuestion();

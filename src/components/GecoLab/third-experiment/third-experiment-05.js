@@ -112,6 +112,12 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       this.infoFieldBackground.setAttribute("text-button", {backgroundColor: "#FFFFFF"});
       this.infoFieldText = this.el.querySelector(".info-field-text");
 
+      this.TippImage = this.el.querySelector(".T-3-5-Image");
+      this.TippImage2 = this.el.querySelector(".T-3-5-Image2");
+      this.TippImage3 = this.el.querySelector(".T-3-5-Image3");
+      this.TippImage4 = this.el.querySelector(".T-3-5-Image4");
+      this.TippImage5 = this.el.querySelector(".T-3-5-Image5");
+
       this.sockets.forEach(s => {
         s.object3D.visible = false; //hide holograms until needed
       });
@@ -203,26 +209,26 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       //fill in right answer
       if(this.chosen == 0)//Temp
       {
-        this.questionText.setAttribute("text",{ value: "Welchen Einfluss kann eine Erhöhung der Temperatur auf das Wachstum von Pflanzen haben?"});
-        this.answerText0.setAttribute("text", { value: "Eine Änderung der Temperatur hat keinen Einfluss auf das Wachstum von Pflanzen, da Pflanzen nicht auf die Temperatur ihrer Umgebung reagieren."});
-        this.answerText1.setAttribute("text", { value: "Eine leichte Erhöhung der Temperatur kann das Pflanzenwachstum fördern, indem sie die Stoffwechselprozesse beschleunigt und die Photosynthese steigert."});
-        this.answerText2.setAttribute("text", { value: "Eine Änderung der Temperatur führt immer zu einem Rückgang des Pflanzenwachstums, da Pflanzen empfindlich auf Temperaturschwankungen reagieren."});
-        this.rightAnswer = 1;
+        this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte Temperatur auf das Wachstum der Weizenpflanzen ausgewirkt hat."});
+        this.answerText0.setAttribute("text", { value: "Eine erhöhte Temperatur hat keinen Einfluss auf das Wachstum, da Weizen nicht auf seine Umgebungstemperatur reagiert."});
+        this.answerText1.setAttribute("text", { value: "Eine Erhöhung der Temperatur kann das Wachstum fördern, da Pflanzen in einer kürzeren Zeit schneller wachsen."});
+        this.answerText2.setAttribute("text", { value: "Eine Erhöhung der Temperatur bei Weizen führt zu einem Rückgang des Wachstums, da Weizen am besten bei 25° C wachsen kann."});
+        this.rightAnswer = 2;
       }
       else if(this.chosen == 1)//CO₂
       {
-        this.questionText.setAttribute("text",{ value: "Wie kann sich eine Steigerung der CO2-Konzentration auf das Wachstum von Pflanzen auswirken?"});
-        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Pflanzen anregen, indem es die Effizienz der Fotosynthese verbessert."});
-        this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum der Pflanze; es ist nur ein Abfallprodukt der tierischen Atmung."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Pflanzenwachstum und führt zu einem Rückgang der Pflanzenproduktion."});
+        this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte CO2-Konzentration auf das Wachstums der Weizenpflanzen ausgewirkt hat."});
+        this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Weizenpflanzen anregen, indem es die Wirksamkeit der Fotosynthese verbessert."});
+        this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum; es ist nur ein Abfallprodukt der tierischen Atmung."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Wachstum, da Weizen am besten bei 419 ppm wächst ."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
       {
-        this.questionText.setAttribute("text",{ value: "Welche Auswirkungen hat eine Änderung der Bodenart auf das Wachstum der Pflanze?"});
-        this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Pflanzen sich stets an verschiedene Bodenbedingungen anpassen können."});
-        this.answerText1.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben der Pflanze, da Pflanzen sehr empfindlich darauf reagieren und nicht in der Lage sind, sich anzupassen."});
-        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum der Pflanze, da verschiedene Bodenarten unterschiedliche Nährstoffe und Wasserspeicherkapazitäten bieten."});
+        this.questionText.setAttribute("text",{ value: "Erkläre, wie sich  eine Änderung der Bodenart auf das Wachstum der Weizenpflanze ausgewirkt hat."});
+        this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Weizen sich an verschiedene Bodenbedingungen anpassen kann."});
+        this.answerText1.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben von Weizen, da Weizen nur auf einem sandigen Boden gut wachsen kann."});
+        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum von Weizen, weil verschiedene Boden-arten unterschiedliche Nährstoffe und Wasser-speicherkapazitäten bieten."});
         this.rightAnswer = 2;
       }
 
@@ -385,28 +391,28 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         this.localCountInfoField++;
         switch (this.localCountInfoField) {
           case 1:
-            this.infoFieldText.setAttribute("text", { value: "Eine gründliche Vorbereitung ist von großer Bedeutung: Stelle sicher, dass du das Experiment sowie seinen Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst."});
+            this.TippImage.object3D.visible = true;
+            this.infoFieldText.setAttribute("text", { value: "Stell sicher, dass du das Experiment sowie den Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst."});
             break;
           case 2:
-            this.infoFieldText.setAttribute("text", { value: "Priorisiere Sicherheit: Trage stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe."});
+            this.TippImage.object3D.visible = false;
+            this.TippImage2.object3D.visible = true;
+            this.infoFieldText.setAttribute("text", { value: "Trag stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe."});
             break;
           case 3:
-            this.infoFieldText.setAttribute("text", { value:  "Halte deine Arbeitsfläche sauber und ordentlich, um Verunreinigungen zu vermeiden."});
+            this.TippImage2.object3D.visible = false;
+            this.TippImage3.object3D.visible = true;
+            this.infoFieldText.setAttribute("text", { value:  "Dokumentier sorgfältig alle Beobachtungen, Messwerte und deren Veränderungen."});
             break;
           case 4:
-            this.infoFieldText.setAttribute("text", { value:  "Gewährleiste Messgenauigkeit: Verwende geeichte Instrumente und führe präzise Messungen durch, um genaue Ergebnisse zu erzielen."});
+            this.TippImage3.object3D.visible = false;
+            this.TippImage4.object3D.visible = true;
+            this.infoFieldText.setAttribute("text", { value:  "Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen. In der Gruppe sind wir stark."});
             break;
           case 5:
-            this.infoFieldText.setAttribute("text", { value:  "Dokumentiere sorgfältig alle Beobachtungen und Messwerte sowie ihre Veränderungen."});
-            break;
-          case 6:
-            this.infoFieldText.setAttribute("text", { value:  "Kollaboration ist entscheidend: Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen."});
-            break;
-          case 7:
-            this.infoFieldText.setAttribute("text", { value:  "Nutze Fehler als Gelegenheit zur Verbesserung und akzeptiere sie als wichtigen Bestandteil des wissenschaftlichen Prozesses."});
-            break;
-          case 8:
-            this.infoFieldText.setAttribute("text", { value: "Ein Tipp für dich: Lies die Aufgaben aufmerksam und gründlich, bevor du antwortest."});
+            this.TippImage4.object3D.visible = false;
+            this.TippImage5.object3D.visible = true;
+            this.infoFieldText.setAttribute("text", { value: "Fehler gehören zum wissenschaftlichen Prozess dazu. Nutze Sie als Chance zur Verbesserung."});
             this.el.setAttribute("third-experiment-05", "skipBtnClicked", true);  
             break;
             default:

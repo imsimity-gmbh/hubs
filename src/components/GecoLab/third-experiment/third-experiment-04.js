@@ -150,6 +150,8 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       this.scaleEntity  = this.el.querySelector(".scale-entity");
       this.spawnItem(scaleModelPromise, new THREE.Vector3(-0.4, 0.7, 0.1), this.scaleEntity, false);
       this.scaleEntity.object3D.rotation.set(0, 0, 0);
+      this.scaleEntity.object3D.scale.set(2, 2, 2);
+      this.scaleEntity.object3D.matrixNeedsUpdate = true;
       
       this.displayText  = this.el.querySelector(".display-text");
 
@@ -319,18 +321,18 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       {
         case 0:
           this.cabinet1Text.setAttribute("text", { value: "80 cm"});
-          this.cabinet2Text.setAttribute("text", { value: "80 cm"});
-          this.cabinet3Text.setAttribute("text", { value: "75 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "78 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "72 cm"});
         break;
         case 1:
-          this.cabinet1Text.setAttribute("text", { value: "70 cm"});
-          this.cabinet2Text.setAttribute("text", { value: "75 cm"});
-          this.cabinet3Text.setAttribute("text", { value: "80 cm"});
+          this.cabinet1Text.setAttribute("text", { value: "80 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "85 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "87 cm"});
         break;
         case 2:
           this.cabinet1Text.setAttribute("text", { value: "80 cm"});
-          this.cabinet2Text.setAttribute("text", { value: "0 cm"});
-          this.cabinet3Text.setAttribute("text", { value: "70 cm"});
+          this.cabinet2Text.setAttribute("text", { value: "5 cm"});
+          this.cabinet3Text.setAttribute("text", { value: "65 cm"});
         break;
       }
       this.cabinet1background.object3D.visible = true;
@@ -832,6 +834,10 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
 
     endPart04()
     {
+      this.thirdExpPart02 = this.expSystem.getTaskById("02", this.experimentData.groupCode);
+      this.timeText = this.thirdExpPart02.components["third-experiment-02"].timeText;
+      this.timeText.object3D.visible = false;
+
       this.delayBtn.object3D.visible = false;
 
       this.mannequin.components["mannequin"].displayMessage(-1);
