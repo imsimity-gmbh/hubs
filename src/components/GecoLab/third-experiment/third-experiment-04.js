@@ -649,7 +649,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       }
       else if(this.chosen == 2)
       {
-        this.displayText.setAttribute("text", { value: "300g"});
+        this.displayText.setAttribute("text", { value: "450g"});
       }
 
       this.sol3background.object3D.rotation.set(0, 0, 0);
