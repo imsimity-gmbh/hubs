@@ -5,6 +5,10 @@
   "main": "src/index.js",
   "license": "MPL-2.0",
   "homepage": "https://github.com/mozilla/hubs#readme",
+  "engines": {
+    "node": "v16.20.2",
+    "npm": "8.19.4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mozilla/hubs.git"
