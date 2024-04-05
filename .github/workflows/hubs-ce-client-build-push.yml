@@ -1,0 +1,50 @@
+name: Build & Push Hubs CE Custom Client
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: ["cybercinity-geko-dev"]
+
+jobs:
+  build:
+    permissions:
+      contents: 'read'
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout code
+        uses: actions/checkout@v4
+      -
+        name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ECR_ACCESS_KEY_SECRET }}
+          aws-region: ${{ vars.AWS_ECR_REGION }}
+      -
+        name: Docker Login to Amazon ECR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.AWS_ECR_REGISTRY }}
+          username: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_ECR_ACCESS_KEY_SECRET }}
+      - 
+        name: Docker metadata (tags) extraction
+        id: docker_metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+            type=raw,value=latest
+      - 
+        name: Docker Build and Push
+        id: docker_build_push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.docker_metadata.outputs.tags }}
+          labels: ${{ steps.docker_metadata.outputs.labels }}
