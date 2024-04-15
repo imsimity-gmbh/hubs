@@ -27,12 +27,6 @@ header {
     li {
       &:first-child {
         padding-top: 20px;
-        @media(min-width: theme.$breakpoint-lg) {
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
       }
       padding-top: 20px;
 
@@ -78,11 +72,10 @@ header {
 :local(.home-link) {
   display: inline-block;
   width: 124px;
-  height: 83px;
-  @media(min-width: theme.$breakpoint-lg) {
-   img {
-    height: 32px;
-    }
+ 
+  img {
+    max-height: 83px;
+    height: 100%;
   }
 }
 
@@ -159,9 +152,7 @@ header {
   svg {
     margin-left: 21px;
     cursor: pointer;
-      *[fill]{
-        fill: theme.$text1-color;
-      }
+    color: theme.$text1-color;
   }
   li:first-child {
     padding-top: 0;

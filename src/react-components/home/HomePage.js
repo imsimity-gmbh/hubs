@@ -15,13 +15,17 @@ import { MediaTile } from "../room/MediaTiles";
 import { PageContainer } from "../layout/PageContainer";
 import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
-import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
 import modalStyles from "../../react-components/modal/Modal.scss";
 import avatarImage from '../../assets/images/avatarImages/myavatar.png';
 import threeDIconImage  from '../../assets/images/icons/3d_icon.png';
 import crossplatformImage  from '../../assets/images/icons/crossplatform_icon.png';
 import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
+import { SocialBar } from "../home/SocialBar";
+import { SignInButton } from "./SignInButton";
+import { AppLogo } from "../misc/AppLogo";
+import { isHmc } from "../../utils/isHmc";
+import maskEmail from "../../utils/mask-email";
 
 export function HomePage() {
 
@@ -34,11 +38,7 @@ export function HomePage() {
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
-  //const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
-
-
- 
-
+  const wrapInBold = chunk => <b>{chunk}</b>;
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
 
@@ -54,7 +54,8 @@ export function HomePage() {
     }
 
     if (qs.has("new")) {
-      createAndRedirectToNewHub(null, null, true);
+      qs.delete("new");
+      createAndRedirectToNewHub(null, null, true, qs);
     }
   }, []);
 
@@ -66,6 +67,7 @@ export function HomePage() {
         <div className={styles.hero}>
           <div className={styles.logoContainer}>
             <img alt={configs.translation("app-name")} src={configs.image("logo")} />
+            <AppLogo />
           </div>
           <div className={styles.appInfo}>
             <div className={styles.appDescription}>

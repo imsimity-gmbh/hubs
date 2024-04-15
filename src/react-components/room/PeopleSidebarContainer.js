@@ -4,55 +4,59 @@ import { PeopleSidebar } from "./PeopleSidebar";
 import { getMicrophonePresences } from "../../utils/microphone-presence";
 import ProfileEntryPanel from "../profile-entry-panel";
 import { UserProfileSidebarContainer } from "./UserProfileSidebarContainer";
+import { useCan } from "./hooks/useCan";
+import { useRoomPermissions } from "./hooks/useRoomPermissions";
+import { useRole } from "./hooks/useRole";
 
-export function userFromPresence(sessionId, presence, micPresences, mySessionId) {
+export function userFromPresence(sessionId, presence, micPresences, mySessionId, voiceEnabled) {
   const meta = presence.metas[presence.metas.length - 1];
   const micPresence = micPresences.get(sessionId);
+  if (micPresence && !voiceEnabled && !meta.permissions.voice_chat) {
+    micPresence.muted = true;
+  }
   return { id: sessionId, isMe: mySessionId === sessionId, micPresence, ...meta };
 }
 
 function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
   const [people, setPeople] = useState([]);
-  console.log("People" + presences);
-  useEffect(
-    () => {
-      let timeout;
+  const { voice_chat: voiceChatEnabled } = useRoomPermissions();
 
-      function updateMicrophoneState() {
-        const micPresences = getMicrophonePresences();
+  useEffect(() => {
+    let timeout;
 
-        setPeople(
-          Object.entries(presences).map(([id, presence]) => {
-            return userFromPresence(id, presence, micPresences, mySessionId);
-          })
-        );
+    function updateMicrophoneState() {
+      const micPresences = getMicrophonePresences();
 
-        timeout = setTimeout(updateMicrophoneState, micUpdateFrequency);
-      }
+      setPeople(
+        Object.entries(presences).map(([id, presence]) => {
+          return userFromPresence(id, presence, micPresences, mySessionId, voiceChatEnabled);
+        })
+      );
 
-      updateMicrophoneState();
+      timeout = setTimeout(updateMicrophoneState, micUpdateFrequency);
+    }
 
-      return () => {
-        clearTimeout(timeout);
-      };
-    },
-    [presences, micUpdateFrequency, setPeople, mySessionId]
-  );
-  console.log("People2" + people);
+    updateMicrophoneState();
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [presences, micUpdateFrequency, setPeople, mySessionId, voiceChatEnabled]);
+
   return people;
 }
 
 function PeopleListContainer({ hubChannel, people, onSelectPerson, onClose }) {
-  const onMuteAll = useCallback(
-    () => {
-      for (const person of people) {
-        if (person.presence === "room" && person.permissions && !person.permissions.mute_users) {
-          hubChannel.mute(person.id);
-        }
+  const onMuteAll = useCallback(() => {
+    for (const person of people) {
+      if (person.presence === "room" && person.permissions && !person.permissions.mute_users) {
+        hubChannel.mute(person.id);
       }
-    },
-    [people, hubChannel]
-  );
+    }
+  }, [people, hubChannel]);
+  const canVoiceChat = useCan("voice_chat");
+  const { voice_chat: voiceChatEnabled } = useRoomPermissions();
+  const isMod = useRole("owner");
 
   return (
     <PeopleSidebar
@@ -61,6 +65,9 @@ function PeopleListContainer({ hubChannel, people, onSelectPerson, onClose }) {
       onClose={onClose}
       onMuteAll={onMuteAll}
       showMuteAll={hubChannel.can("mute_users")}
+      canVoiceChat={canVoiceChat}
+      voiceChatEnabled={voiceChatEnabled}
+      isMod={isMod}
     />
   );
 }

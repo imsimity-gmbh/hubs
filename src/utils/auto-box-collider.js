@@ -9,7 +9,16 @@ function isVisibleUpToRoot(node, root) {
   return false;
 }
 
-export const computeLocalBoundingBox = (function() {
+// HACK Troika Text GlyphGeometry doesn't play nicely with this code. Also it's infinitely thin.
+// We don't particularly care about it's bounds, but its important that they are non zero since
+// other code checks for that case. Fudge it for now with a very small static box.
+const FAKE_TROIKA_BOUNDS = new THREE.Box3(
+  new THREE.Vector3(-0.001, -0.001, -0.001),
+  new THREE.Vector3(0.001, 0.001, 0.001)
+);
+
+// TODO This whole function is suspect for manually computing bounding boxes when geometry already has code for this
+export const computeLocalBoundingBox = (function () {
   const vertex = new THREE.Vector3();
   const rootInverse = new THREE.Matrix4();
   const toRootSpace = new THREE.Matrix4();
@@ -24,7 +33,9 @@ export const computeLocalBoundingBox = (function() {
       node.updateMatrices();
       toRootSpace.multiplyMatrices(rootInverse, node.matrixWorld);
       if (node.geometry) {
-        if (node.geometry.isGeometry) {
+        if (node.isTroikaText) {
+          box.union(FAKE_TROIKA_BOUNDS);
+        } else if (node.geometry.isGeometry) {
           for (let i = 0; i < node.geometry.vertices; i++) {
             vertex.copy(node.geometry.vertices[i]).applyMatrix4(toRootSpace);
             if (isNaN(vertex.x)) continue;
@@ -56,7 +67,7 @@ export const computeLocalBoundingBox = (function() {
 // possible AABB -- we could return a tighter one if we examined all of the vertices
 // of the geometry for ourselves, but we don't care enough for what we're using this
 // for to do so much work.
-export const computeObjectAABB = (function() {
+export const computeObjectAABB = (function () {
   const bounds = new THREE.Box3();
   return function computeObjectAABB(root, target, excludeInvisible) {
     target.makeEmpty();
@@ -79,13 +90,13 @@ export const computeObjectAABB = (function() {
 })();
 
 const rotation = new THREE.Euler();
-export function getBox(entity, boxRoot, worldSpace) {
+export function getBox(obj, boxRoot, worldSpace) {
   const box = new THREE.Box3();
 
-  rotation.copy(entity.object3D.rotation);
-  entity.object3D.rotation.set(0, 0, 0);
+  rotation.copy(obj.rotation);
+  obj.rotation.set(0, 0, 0);
 
-  entity.object3D.updateMatrices(true, true);
+  obj.updateMatrices(true, true);
   boxRoot.updateMatrices(true, true);
   boxRoot.updateMatrixWorld(true);
 
@@ -93,11 +104,11 @@ export function getBox(entity, boxRoot, worldSpace) {
 
   if (!box.isEmpty()) {
     if (!worldSpace) {
-      entity.object3D.worldToLocal(box.min);
-      entity.object3D.worldToLocal(box.max);
+      obj.worldToLocal(box.min);
+      obj.worldToLocal(box.max);
     }
-    entity.object3D.rotation.copy(rotation);
-    entity.object3D.matrixNeedsUpdate = true;
+    obj.rotation.copy(rotation);
+    obj.matrixNeedsUpdate = true;
   }
 
   boxRoot.matrixWorldNeedsUpdate = true;

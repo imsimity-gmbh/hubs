@@ -41,7 +41,6 @@ $input-height: 40px;
       border: none;
     }
 
-
     :global(.keyboard-user) &:focus {
       border-width: 0;
 
@@ -59,11 +58,10 @@ $input-height: 40px;
         border-bottom-right-radius: theme.$border-radius-regular;
       }
     }
-
   }
 
   :local(.icon-button),
-  &>svg {
+  & > svg {
     padding: 0;
     margin-left: 8px;
 
@@ -86,7 +84,7 @@ $input-height: 40px;
 }
 
 :local(.disabled) {
-  cursor: not-allowed;
+  cursor: default;
   color: theme.$disabled-text-color;
   background-color: theme.$disabled-bg-color;
 }
@@ -110,16 +108,13 @@ $input-height: 40px;
   &:focus {
     box-shadow: none;
   }
+
+  &::placeholder {
+    color: theme.$text3-color;
+  }
 }
 
 :local(.invalid-icon) {
   margin: 0 8px;
-
-  *[fill=\#000] {
-    stroke: theme.$error-color;
-  }
-
-  *[stroke=\#000] {
-    stroke: theme.$error-color;
-  }
+  color: theme.$error-color;
 }

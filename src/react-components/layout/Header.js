@@ -9,10 +9,11 @@ import { Container } from "./Container";
 import { Button } from "../input/Button";
 import modalStyles from "../../react-components/modal/Modal.scss";
 import { FaqModal } from "../home/FaqModal";
+import { SocialBar } from "../home/SocialBar";
+import { SignInButton } from "../home/SignInButton";
+import { AppLogo } from "../misc/AppLogo";
 
 export function Header({
-  appName,
-  appLogo,
   showCloud,
   enableSpoke,
   editorName,
@@ -52,7 +53,7 @@ export function Header({
           <ul>
             <li>
               <a href="/" className={styles.homeLink}>
-                <img alt={appName} src={appLogo} />
+                <AppLogo />
               </a>
             </li>
 
@@ -108,6 +109,13 @@ export function Header({
                 </a>
               </li>
             )}
+            {isHmc && (
+              <li>
+                <a href="/labs">
+                  <FormattedMessage id="header.labs" defaultMessage="Labs" />
+                </a>
+              </li>
+            )}
             {isAdmin && (
               <li>
                 <a href="/admin" rel="noreferrer noopener">
@@ -145,8 +153,6 @@ export function Header({
 }
 
 Header.propTypes = {
-  appName: PropTypes.string,
-  appLogo: PropTypes.string,
   showCloud: PropTypes.bool,
   enableSpoke: PropTypes.bool,
   editorName: PropTypes.string,

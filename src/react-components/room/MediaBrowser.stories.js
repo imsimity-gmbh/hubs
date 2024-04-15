@@ -221,8 +221,7 @@ const sketchfabModel = {
   id: "a4c500d7358a4a199b6a5cd35f416466",
   images: {
     preview: {
-      url:
-        "https://media.sketchfab.com/models/a4c500d7358a4a199b6a5cd35f416466/thumbnails/6b41b00f0f474c058bea071db62097fd/d3a6f64b461f4cc8af7331a220a4122c.jpeg"
+      url: "https://media.sketchfab.com/models/a4c500d7358a4a199b6a5cd35f416466/thumbnails/6b41b00f0f474c058bea071db62097fd/d3a6f64b461f4cc8af7331a220a4122c.jpeg"
     }
   },
   name: "Ducky_MozillaHubs",
