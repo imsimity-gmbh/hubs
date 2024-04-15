@@ -191,6 +191,8 @@ import { platformUnsupported } from "./support";
 import { renderAsEntity } from "./utils/jsx-entity";
 import { VideoMenuPrefab, loadVideoMenuButtonIcons } from "./prefabs/video-menu";
 import { loadObjectMenuButtonIcons, ObjectMenuPrefab } from "./prefabs/object-menu";
+import { loadMirrorMenuButtonIcons, MirrorMenuPrefab } from "./prefabs/mirror-menu";
+import { loadPDFMenuButtonIcons } from "./prefabs/pdf-menu";
 import { LinkHoverMenuPrefab } from "./prefabs/link-hover-menu";
 import { PDFMenuPrefab } from "./prefabs/pdf-menu";
 import { loadWaypointPreviewModel, WaypointPreview } from "./prefabs/waypoint-preview";
@@ -205,8 +207,9 @@ function addToScene(entityDef, visible) {
     obj.visible = !!visible;
   });
 }
-preload(addToScene(PDFMenuPrefab(), false));
+preload(loadPDFMenuButtonIcons().then(() => addToScene(PDFMenuPrefab(), false)));
 preload(loadObjectMenuButtonIcons().then(() => addToScene(ObjectMenuPrefab(), false)));
+preload(loadMirrorMenuButtonIcons().then(() => addToScene(MirrorMenuPrefab(), false)));
 preload(addToScene(LinkHoverMenuPrefab(), false));
 preload(loadWaypointPreviewModel().then(() => addToScene(WaypointPreview(), false)));
 preload(
@@ -410,10 +413,15 @@ export async function getSceneUrlForHub(hub) {
     sceneUrl = document.querySelector("a-scene").is("entered") ? sceneUrl : loadingEnvironment;
   } else if (isLegacyBundle) {
     // Deprecated
-    const res = await fetch(sceneUrl);
-    const data = await res.json();
-    const baseURL = new URL(THREE.LoaderUtils.extractUrlBase(sceneUrl), window.location.href);
-    sceneUrl = new URL(data.assets[0].src, baseURL).href;
+    try {
+      const res = await fetch(sceneUrl);
+      const data = await res.json();
+      const baseURL = new URL(THREE.LoaderUtils.extractUrlBase(sceneUrl), window.location.href);
+      sceneUrl = new URL(data.assets[0].src, baseURL).href;
+    } catch (e) {
+      sceneUrl = loadingEnvironment;
+      console.error("Error fetching the scene: ", e);
+    }
   } else {
     sceneUrl = proxiedUrlFor(sceneUrl);
   }
