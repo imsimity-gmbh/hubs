@@ -1,23 +1,19 @@
 import React, { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
-import configs from "../../utils/configs";
 import { useIntl } from "react-intl";
 import { LoadingScreen } from "./LoadingScreen";
-import { useRoomLoadingState } from "./useRoomLoadingState";
+import { useRoomLoadingState } from "./hooks/useRoomLoadingState";
 
 export function LoadingScreenContainer({ onLoaded, scene }) {
   const intl = useIntl();
 
   const { loading, message } = useRoomLoadingState(scene);
 
-  useEffect(
-    () => {
-      if (!loading) {
-        onLoaded();
-      }
-    },
-    [loading, onLoaded]
-  );
+  useEffect(() => {
+    if (!loading) {
+      onLoaded();
+    }
+  }, [loading, onLoaded]);
 
   //TODO: Make these configurable
   const infoMessages = useMemo(
@@ -50,7 +46,7 @@ export function LoadingScreenContainer({ onLoaded, scene }) {
     [intl]
   );
 
-  return <LoadingScreen logoSrc={configs.image("logo")} message={message} infoMessages={infoMessages} />;
+  return <LoadingScreen message={message} infoMessages={infoMessages} />;
 }
 
 LoadingScreenContainer.propTypes = {
