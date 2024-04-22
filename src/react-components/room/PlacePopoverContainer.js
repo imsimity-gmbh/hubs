@@ -9,167 +9,107 @@ import { ReactComponent as ObjectIcon } from "../icons/Object.svg";
 import { ReactComponent as AvatarIcon } from "../icons/Avatar.svg";
 import { ReactComponent as SceneIcon } from "../icons/Scene.svg";
 import { ReactComponent as UploadIcon } from "../icons/Upload.svg";
-import { ReactComponent as ExperimentIcon } from "../icons/GecoLab/Experiment.svg";
 import { PlacePopoverButton } from "./PlacePopover";
 import { ObjectUrlModalContainer } from "./ObjectUrlModalContainer";
 import configs from "../../utils/configs";
 import { FormattedMessage } from "react-intl";
-
+import { anyEntityWith } from "../../utils/bit-utils";
+import { MyCameraTool } from "../../bit-components";
 
 export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistoriedDialog, hubChannel }) {
   const [items, setItems] = useState([]);
 
-  useEffect(
-    () => {
-      function updateItems() {
-        const hasActiveCamera = !!scene.systems["camera-tools"].getMyCamera();
-        const hasActivePen = !!scene.systems["pen-tools"].getMyPen();
-        const hasActiveMachine = !!scene.systems["machine-tools"].getMyMachine();
-        const hasActiveStopwatch = !!scene.systems["stopwatch-tools"].getMyStopwatch();
-        const hasActiveExample = !!scene.systems["example-tools"].getMyExample();
-        const hasActiveRobot = !!scene.systems["robot-tools"].getMyRobot();
-        
-        const isTeacher = !!scene.systems["gecolab-manager"].isTeacher();
-        const isStudent = !!scene.systems["gecolab-manager"].isStudent();
-        const isInLobby = !!scene.systems["gecolab-manager"].isInLobby();
+  useEffect(() => {
+    function updateItems() {
+      const hasActiveCamera = !!anyEntityWith(APP.world, MyCameraTool);
+      const hasActivePen = !!scene.systems["pen-tools"].getMyPen();
 
-        console.log("is teacher ? " + isTeacher);
+      let nextItems = [
+        hubChannel.can("spawn_drawing") && {
+          id: "pen",
+          icon: PenIcon,
+          color: "accent5",
+          label: <FormattedMessage id="place-popover.item-type.pen" defaultMessage="Pen" />,
+          onSelect: () => scene.emit("penButtonPressed"),
+          selected: hasActivePen
+        },
+        hubChannel.can("spawn_camera") && {
+          id: "camera",
+          icon: CameraIcon,
+          color: "accent5",
+          label: <FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />,
+          onSelect: () => scene.emit("action_toggle_camera"),
+          selected: hasActiveCamera
+        }
+      ];
 
-        let nextItems = [
-          hubChannel.can("spawn_drawing") && {
-            id: "pen",
-            icon: PenIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.pen" defaultMessage="Pen" />,
-            onSelect: () => scene.emit("penButtonPressed"),
-            selected: hasActivePen
+      if (hubChannel.can("spawn_and_move_media")) {
+        nextItems = [
+          ...nextItems,
+          // TODO: Create text/link dialog
+          // { id: "text", icon: TextIcon, color: "blue", label: "Text" },
+          // { id: "link", icon: LinkIcon, color: "blue", label: "Link" },
+          configs.integration("tenor") && {
+            id: "gif",
+            icon: GIFIcon,
+            color: "accent2",
+            label: <FormattedMessage id="place-popover.item-type.gif" defaultMessage="GIF" />,
+            onSelect: () => mediaSearchStore.sourceNavigate("gifs")
           },
-          false && hubChannel.can("spawn_camera") && {
-            id: "machine",
+          configs.integration("sketchfab") && {
+            id: "model",
             icon: ObjectIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.machine" defaultMessage="Machine" />,
-            onSelect: () => scene.emit("action_toggle_machine"),
-            selected: hasActiveMachine
+            color: "accent2",
+            label: <FormattedMessage id="place-popover.item-type.model" defaultMessage="3D Model" />,
+            onSelect: () => mediaSearchStore.sourceNavigate("sketchfab")
           },
-          false && hubChannel.can("spawn_camera") && {
-            id: "stopwatch",
-            icon: ObjectIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.stopwatch" defaultMessage="Stopwatch" />,
-            onSelect: () => scene.emit("action_toggle_stopwatch"),
-            selected: hasActiveStopwatch
+          {
+            id: "avatar",
+            icon: AvatarIcon,
+            color: "accent1",
+            label: <FormattedMessage id="place-popover.item-type.avatar" defaultMessage="Avatar" />,
+            onSelect: () => mediaSearchStore.sourceNavigate("avatars")
           },
-          false && hubChannel.can("spawn_camera") && {
-            id: "example",
-            icon: ObjectIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.example" defaultMessage="Example" />,
-            onSelect: () => scene.emit("action_toggle_example"),
-            selected: hasActiveExample
+          {
+            id: "scene",
+            icon: SceneIcon,
+            color: "accent1",
+            label: <FormattedMessage id="place-popover.item-type.scene" defaultMessage="Scene" />,
+            onSelect: () => mediaSearchStore.sourceNavigate("scenes")
           },
-          false && hubChannel.can("spawn_camera") && {
-            id: "robot",
-            icon: ObjectIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.robot" defaultMessage="Robot" />,
-            onSelect: () => scene.emit("action_toggle_robot"),
-            selected: hasActiveRobot
-          },
-          isTeacher && !isInLobby && hubChannel.can("spawn_camera") && {
-            id: "experiments",
-            icon: ExperimentIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.experiments" defaultMessage="Experimente" />,
-            onSelect: () => mediaSearchStore.sourceNavigate("experiments")
-          },
-          false && hubChannel.can("spawn_camera") && {
-            id: "debug",
-            icon: ObjectIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.feedback" defaultMessage="Feedback" />,
-            onSelect: () => scene.emit("gecolab_feedback", "0000"),
-          },
-          hubChannel.can("spawn_camera") && {
-            id: "camera",
-            icon: CameraIcon,
-            color: "accent5",
-            label: <FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />,
-            onSelect: () => scene.emit("action_toggle_camera"),
-            selected: hasActiveCamera
+          // TODO: Launch system file prompt directly
+          {
+            id: "upload",
+            icon: UploadIcon,
+            color: "accent3",
+            label: <FormattedMessage id="place-popover.item-type.upload" defaultMessage="Upload" />,
+            onSelect: () => showNonHistoriedDialog(ObjectUrlModalContainer, { scene })
           }
-         
         ];
-
-        if (hubChannel.can("spawn_and_move_media")) {
-          nextItems = [
-            ...nextItems,
-            // TODO: Create text/link dialog
-            // { id: "text", icon: TextIcon, color: "blue", label: "Text" },
-            // { id: "link", icon: LinkIcon, color: "blue", label: "Link" },
-            false &&  configs.integration("tenor") && {
-              id: "gif",
-              icon: GIFIcon,
-              color: "accent2",
-              label: <FormattedMessage id="place-popover.item-type.gif" defaultMessage="GIF" />,
-              onSelect: () => mediaSearchStore.sourceNavigate("gifs")
-            },
-            false && configs.integration("sketchfab") && {
-              id: "model",
-              icon: ObjectIcon,
-              color: "accent2",
-              label: <FormattedMessage id="place-popover.item-type.model" defaultMessage="3D Model" />,
-              onSelect: () => mediaSearchStore.sourceNavigate("sketchfab")
-            },
-            false && {
-              id: "avatar",
-              icon: AvatarIcon,
-              color: "accent1",
-              label: <FormattedMessage id="place-popover.item-type.avatar" defaultMessage="Avatar" />,
-              onSelect: () => mediaSearchStore.sourceNavigate("avatars")
-            },
-            false &&  {
-              id: "scene",
-              icon: SceneIcon,
-              color: "accent1",
-              label: <FormattedMessage id="place-popover.item-type.scene" defaultMessage="Scene" />,
-              onSelect: () => mediaSearchStore.sourceNavigate("scenes")
-            },
-            // TODO: Launch system file prompt directly
-            false &&  {
-              id: "upload",
-              icon: UploadIcon,
-              color: "accent3",
-              label: <FormattedMessage id="place-popover.item-type.upload" defaultMessage="Upload" />,
-              onSelect: () => showNonHistoriedDialog(ObjectUrlModalContainer, { scene })
-            }
-          ];
-        }
-
-        setItems(nextItems);
       }
 
-      hubChannel.addEventListener("permissions_updated", updateItems);
+      setItems(nextItems);
+    }
 
-      updateItems();
+    hubChannel.addEventListener("permissions_updated", updateItems);
 
-      function onSceneStateChange(event) {
-        if (event.detail === "camera" || event.detail === "pen") {
-          updateItems();
-        }
+    updateItems();
+
+    function onSceneStateChange(event) {
+      if (event.detail === "camera" || event.detail === "pen") {
+        updateItems();
       }
+    }
 
-      scene.addEventListener("stateadded", onSceneStateChange);
-      scene.addEventListener("stateremoved", onSceneStateChange);
+    scene.addEventListener("stateadded", onSceneStateChange);
+    scene.addEventListener("stateremoved", onSceneStateChange);
 
-      return () => {
-        hubChannel.removeEventListener("permissions_updated", updateItems);
-        scene.removeEventListener("stateadded", onSceneStateChange);
-        scene.removeEventListener("stateremoved", onSceneStateChange);
-      };
-    },
-    [hubChannel, mediaSearchStore, showNonHistoriedDialog, scene]
-  );
+    return () => {
+      hubChannel.removeEventListener("permissions_updated", updateItems);
+      scene.removeEventListener("stateadded", onSceneStateChange);
+      scene.removeEventListener("stateremoved", onSceneStateChange);
+    };
+  }, [hubChannel, mediaSearchStore, showNonHistoriedDialog, scene]);
 
   return <PlacePopoverButton items={items} />;
 }

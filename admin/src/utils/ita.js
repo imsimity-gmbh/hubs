@@ -16,7 +16,7 @@ const schemaCategories = [
 const serviceNames = configs.CONFIGURABLE_SERVICES.split(",");
 let currentAuthToken = null;
 
-const setAuthToken = function(token) {
+const setAuthToken = function (token) {
   currentAuthToken = token;
 };
 
@@ -67,8 +67,6 @@ function getCategoryDescription(category, provider) {
       return "Text that you can change.";
     case "features":
       return "Features that you can toggle.";
-    case "images":
-      return "Replace images in the app.";
     case "colors":
       return "Replace colors in the app.";
     case "links":
@@ -123,7 +121,14 @@ function getAdminInfo() {
 }
 
 function getEditableConfig(service) {
-  return fetchWithAuth(getEndpoint(`configs/${service}/ps`)).then(resp => resp.json());
+  return fetchWithAuth(getEndpoint(`configs/${service}/ps`))
+    .then(resp => {
+      if (resp.status === 200) {
+        resp.code = 200;
+        return resp.json();
+      } else return { error: true, code: resp.status };
+    })
+    .catch(e => console.error(e));
 }
 
 function getConfig(service) {

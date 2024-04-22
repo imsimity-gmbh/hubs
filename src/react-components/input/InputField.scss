@@ -12,6 +12,7 @@
   width: 100%;
   max-width: 300px;
   white-space: break-spaces;
+  line-height: 1.2rem;
 }
 
 :local(.fullWidth) {
@@ -26,10 +27,11 @@
 
 :local(.info) {
   margin-top: 8px;
-  color: theme.$text3-color;
+  color: theme.$text2-color;
   align-self: flex-start;
 }
 
-:local(.info), :local(.error) {
+:local(.info),
+:local(.error) {
   font-size: 10px;
 }

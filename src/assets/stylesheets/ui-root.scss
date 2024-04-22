@@ -52,13 +52,17 @@ body.vr-mode {
   pointer-events: auto;
 }
 
-:local(.avatar-editor-rpm) {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+:local(.bitecs-based-client-refresh-prompt) {
+  @extend %default-font;
   background: theme.$background1-color;
-  z-index: 11;
-  pointer-events: auto;
+  border: 3px solid theme.$border1-color;
+  border-radius: 16px;
+  color: theme.$text1-color;
+  left: 50%;
+  max-width: 70%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }

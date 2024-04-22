@@ -7,17 +7,14 @@ import { ReactComponent as EnterIcon } from "../icons/Enter.svg";
 import { ReactComponent as VRIcon } from "../icons/VR.svg";
 import { ReactComponent as ShowIcon } from "../icons/Show.svg";
 import { ReactComponent as SettingsIcon } from "../icons/Settings.svg";
-import { ReactComponent as HmcLogo } from "../icons/HmcLogo.svg";
 import styles from "./RoomEntryModal.scss";
 import styleUtils from "../styles/style-utils.scss";
 import { useCssBreakpoints } from "react-use-css-breakpoints";
 import { Column } from "../layout/Column";
+import { AppLogo } from "../misc/AppLogo";
 import { FormattedMessage } from "react-intl";
-import configs from "../../utils/configs";
 
 export function RoomEntryModal({
-  appName,
-  logoSrc,
   className,
   roomName,
   showJoinRoom,
@@ -26,21 +23,15 @@ export function RoomEntryModal({
   onEnterOnDevice,
   showSpectate,
   onSpectate,
-  showOptions,
-  onOptions,
+  showRoomSettings,
+  onRoomSettings,
   ...rest
 }) {
   const breakpoint = useCssBreakpoints();
-  const isHmc = configs.feature("show_cloud");
   return (
     <Modal className={classNames(styles.roomEntryModal, className)} disableFullscreen {...rest}>
       <Column center className={styles.content}>
-        {breakpoint !== "sm" &&
-          breakpoint !== "md" && (
-            <div className={styles.logoContainer}>
-              {isHmc ? <HmcLogo className="hmc-logo" /> : <img src={logoSrc} alt={appName} />}
-            </div>
-          )}
+        {breakpoint !== "sm" && breakpoint !== "md" && <AppLogo className={styles.logo} />}
         <div className={styles.roomName}>
           <h5>
             <FormattedMessage id="room-entry-modal.room-name-label" defaultMessage="Room Name" />
@@ -72,18 +63,17 @@ export function RoomEntryModal({
               </span>
             </Button>
           )}
-          {showOptions &&
-            breakpoint !== "sm" && (
-              <>
-                <hr className={styleUtils.showLg} />
-                <Button preset="transparent" className={styleUtils.showLg} onClick={onOptions}>
-                  <SettingsIcon />
-                  <span>
-                    <FormattedMessage id="room-entry-modal.options-button" defaultMessage="Options" />
-                  </span>
-                </Button>
-              </>
-            )}
+          {showRoomSettings && breakpoint !== "sm" && (
+            <>
+              <hr className={styleUtils.showLg} />
+              <Button preset="transparent" className={styleUtils.showLg} onClick={onRoomSettings}>
+                <SettingsIcon />
+                <span>
+                  <FormattedMessage id="room-entry-modal.room-settings-button" defaultMessage="Room Settings" />
+                </span>
+              </Button>
+            </>
+          )}
         </Column>
       </Column>
     </Modal>
@@ -91,8 +81,6 @@ export function RoomEntryModal({
 }
 
 RoomEntryModal.propTypes = {
-  appName: PropTypes.string,
-  logoSrc: PropTypes.string,
   className: PropTypes.string,
   roomName: PropTypes.string.isRequired,
   showJoinRoom: PropTypes.bool,
@@ -101,13 +89,13 @@ RoomEntryModal.propTypes = {
   onEnterOnDevice: PropTypes.func,
   showSpectate: PropTypes.bool,
   onSpectate: PropTypes.func,
-  showOptions: PropTypes.bool,
-  onOptions: PropTypes.func
+  showRoomSettings: PropTypes.bool,
+  onRoomSettings: PropTypes.func
 };
 
 RoomEntryModal.defaultProps = {
   showJoinRoom: true,
   showEnterOnDevice: true,
   showSpectate: true,
-  showOptions: true
+  showRoomSettings: true
 };

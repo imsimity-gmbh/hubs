@@ -8,8 +8,6 @@ import { showFullScreenIfWasFullScreen } from "../utils/fullscreen";
 import { AvatarUrlModalContainer } from "./room/AvatarUrlModalContainer";
 import { SceneUrlModalContainer } from "./room/SceneUrlModalContainer";
 import { ObjectUrlModalContainer } from "./room/ObjectUrlModalContainer";
-import { TeacherUrlModalContainer } from "./room/GecoLab/TeacherUrlModalContainer";
-import { TeacherExperimentModalContainer } from "./room/GecoLab/TeacherExperimentModalContainer";
 import { MediaBrowser } from "./room/MediaBrowser";
 import { IconButton } from "./input/IconButton";
 import { ReactComponent as UploadIcon } from "./icons/Upload.svg";
@@ -19,9 +17,6 @@ import { fetchReticulumAuthenticated, getReticulumFetchUrl } from "../utils/phoe
 import { proxiedUrlFor, scaledThumbnailUrlFor } from "../utils/media-url-utils";
 import { CreateTile, MediaTile } from "./room/MediaTiles";
 import { SignInMessages } from "./auth/SignInModal";
-
-import { HEROKU_DELETE_UPLOAD_URI, HEROKU_UPLOAD_URI, spawnOrDeleteExperiment } from "../utils/imsimity";
-
 const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 
@@ -62,16 +57,10 @@ const DEFAULT_FACETS = {
     { text: "Newest", params: { filter: "" } }
   ],
   favorites: [],
-  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }],
-  library: [
-    { text: "Images", params: { filter: "images"}},
-    { text: "Videos", params: { filter: "videos"}},
-    { text: "Audio", params: { filter: "audio"}},
-    { text: "Documents", params: { filter: "documents"}},
-    { text: "URLs", params: { filter: "urls"}},
-    { text: "Models", params: { filter: "models"}},
-  ],
-  experiments: []
+  scenes: [
+    { text: "Featured", params: { filter: "featured" } },
+    { text: "My Scenes", params: { filter: "my-scenes" } }
+  ]
 };
 
 const poweredByMessages = defineMessages({
@@ -102,10 +91,6 @@ const poweredByMessages = defineMessages({
   scenes: {
     id: "media-browser.powered_by.scenes",
     defaultMessage: "Made with {editorName}"
-  },
-  library: {
-    id: "media-browser.nav_title.digital_library",
-    defaultMessage: "Digital Library"
   }
 });
 
@@ -121,10 +106,6 @@ const customObjectMessages = defineMessages({
   avatar: {
     id: "media-browser.add_custom_avatar",
     defaultMessage: "Avatar GLB URL"
-  },
-  library: {
-    id: "media-browser.add_custom_library",
-    defaultMessage: "Teacher Upload"
   }
 });
 
@@ -151,7 +132,6 @@ const emptyMessages = defineMessages({
   }
 });
 
-
 // TODO: Migrate to use MediaGrid and media specific components like RoomTile
 class MediaBrowserContainer extends Component {
   static propTypes = {
@@ -163,9 +143,7 @@ class MediaBrowserContainer extends Component {
     performConditionalSignIn: PropTypes.func,
     showNonHistoriedDialog: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired,
-    presences:  PropTypes.object.isRequired,
-    sessionId:  PropTypes.string.isRequired
+    store: PropTypes.object.isRequired
   };
 
   state = { query: "", facets: [], showNav: true, selectNextResult: false, clearStashedQueryOnClose: false };
@@ -175,18 +153,6 @@ class MediaBrowserContainer extends Component {
     this.state = this.getStoreAndHistoryState(props);
     this.props.mediaSearchStore.addEventListener("statechanged", this.storeUpdated);
     this.props.mediaSearchStore.addEventListener("sourcechanged", this.sourceChanged);
-
-    const searchParams = new URLSearchParams(this.props.history.location.search);
-    const urlSource = this.getUrlSource(searchParams);
-
-    console.log("Media Browser Constructor");
-    console.log(urlSource);
-
-    if (urlSource === "library")
-    {
-      this.updateLibrary();
-    }
-
   }
 
   componentDidMount() {}
@@ -196,49 +162,7 @@ class MediaBrowserContainer extends Component {
     this.props.mediaSearchStore.removeEventListener("sourcechanged", this.sourceChanged);
   }
 
-  deleteLibraryEntry = async (e, entry) => {
-    
-    const herokuRes = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_DELETE_UPLOAD_URI}?file_id=${entry.id}`);
-
-    console.log(herokuRes);
-    // Update renderer
-    this.close();
-
-  }
-
-  updateLibrary = async () => {
-    const res = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}` ,  
-      { method: "GET"}
-    );
-
-    const libraryListing = await res.json();
-
-
-    var newState = this.state;
-
-    // If result is currently 'Internal server error'
-    if (!newState.result || typeof newState.result === "string")
-    {
-      newState.result = {};
-    }
-
-    newState.facets = DEFAULT_FACETS["library"]
-    newState.result.entries = libraryListing;
-
-    this.setState(newState);
-
-  }
-
   storeUpdated = () => {
-    
-    const searchParams = new URLSearchParams(this.props.history.location.search);
-    const urlSource = this.getUrlSource(searchParams);
-    // Avoid media-store overriding our own findings from Heroku
-    if (urlSource === "library")
-    {
-      return;
-    }
-
     const newState = this.getStoreAndHistoryState(this.props);
     this.setState(newState);
 
@@ -305,20 +229,6 @@ class MediaBrowserContainer extends Component {
   handleEntryClicked = (evt, entry) => {
     evt.preventDefault();
 
-    if (entry.type == "library_item")
-    {
-      var isTeacher = this.props.scene.systems["gecolab-manager"].isTeacher();
-
-      if (!isTeacher)
-      {
-        // if you are a student, just open in a new tab
-        var url = entry.url;
-      
-        window.open(url, '_blank').focus();
-        return;
-      }
-    }
-
     if (!entry.lucky_query) {
       this.selectEntry(entry);
     } else {
@@ -342,24 +252,10 @@ class MediaBrowserContainer extends Component {
   };
 
   handleSourceClicked = source => {
-    //TODO: Fix for Library
     this.props.mediaSearchStore.sourceNavigate(source);
-    const searchParams = new URLSearchParams(this.props.history.location.search);
-    const urlSource = this.getUrlSource(searchParams);
-    if (urlSource === "library")
-    {
-      this.updateLibrary();
-    }
   };
 
   handleFacetClicked = facet => {
-    const searchParams = new URLSearchParams(this.props.history.location.search);
-    const urlSource = this.getUrlSource(searchParams);
-    if (urlSource === "library")
-    {
-      this.librarySort(facet);
-    }
-
     this.setState({ query: "" }, () => {
       const searchParams = this.getSearchClearedSearchParams(true, true, true);
 
@@ -370,70 +266,6 @@ class MediaBrowserContainer extends Component {
       pushHistoryPath(this.props.history, this.props.history.location.pathname, searchParams.toString());
     });
   };
-
-  librarySort = async (facet) => {
-    console.log(facet);
-
-    const res = await fetch(`https://${configs.CORS_PROXY_SERVER}/${HEROKU_UPLOAD_URI}` ,  
-    { method: "GET"}
-    );
-
-    const libraryListing = await res.json();
-    let newlibraryListing = [];
-    
-    switch(facet.text){
-      case "Images":newlibraryListing = libraryListing.filter(this.filterLibImg);break;
-      case "Videos":newlibraryListing = libraryListing.filter(this.filterLibVid);break;
-      case "Audio":newlibraryListing = libraryListing.filter(this.filterLibAud);break;
-      case "Documents":newlibraryListing = libraryListing.filter(this.filterLibDoc);break;
-      case "URLs":newlibraryListing = libraryListing.filter(this.filterLibUrl);break;
-      case "Models":newlibraryListing = libraryListing.filter(this.filterLibMod);break;
-    }
-    console.log(newlibraryListing);
-
-    var newState = this.state;
-
-    // If result is currently 'Internal server error'
-    if (!newState.result || typeof newState.result === "string")
-    {
-      newState.result = {};
-    }
-
-    newState.facets = DEFAULT_FACETS["library"]
-    newState.result.entries = newlibraryListing;
-
-    this.setState(newState);
-  }
-
-  filterLibImg = ele =>{
-    console.log(this);
-    return ele.content_type.includes("image");
-  }
-
-  filterLibVid = ele =>{
-    console.log(this);
-    return ele.content_type.includes("video");
-  }
-
-  filterLibAud = ele =>{
-    console.log(this);
-    return ele.content_type.includes("audio");
-  }
-
-  filterLibDoc = ele =>{
-    console.log(this);
-    return ele.content_type.includes("application");
-  }
-
-  filterLibUrl = ele =>{
-    console.log(this);
-    return ele.content_type.includes("url");
-  }
-
-  filterLibMod = ele =>{
-    console.log(this);
-    return ele.content_type.includes("model");
-  }
 
   getSearchClearedSearchParams = (keepSource, keepNav, keepSelectAction) => {
     return this.props.mediaSearchStore.getSearchClearedSearchParams(
@@ -453,15 +285,11 @@ class MediaBrowserContainer extends Component {
     const isAvatarApiType = source === "avatars";
     this.pushExitMediaBrowserHistory(!isAvatarApiType);
 
-    console.log(source);
-
     if (source === "scenes") {
       this.props.showNonHistoriedDialog(SceneUrlModalContainer, { hubChannel });
     } else if (isAvatarApiType) {
       this.props.showNonHistoriedDialog(AvatarUrlModalContainer, { scene, store });
-    } else if (source === "library") {
-      this.props.showNonHistoriedDialog(TeacherUrlModalContainer, { scene });
-    } else{
+    } else {
       this.props.showNonHistoriedDialog(ObjectUrlModalContainer, { scene });
     }
   };
@@ -513,103 +341,8 @@ class MediaBrowserContainer extends Component {
     window.dispatchEvent(new CustomEvent("action_create_avatar"));
   };
 
-  onCreateAvatarRpm = () => {
-    window.dispatchEvent(new CustomEvent("action_create_avatar_rpm"));
-  }
-
-  onPlaceExperiment = (e, position_id, experiment) => {
-    const { scene } = this.props;
-    const { presences } = this.props;
-    const { sessionId } = this.props;
-    const { hubChannel } = this.props;
-
-    console.log(sessionId);
-    console.log("boop");
-    
-    this.props.showNonHistoriedDialog(TeacherExperimentModalContainer, { scene, location: position_id, presences: presences, sessionId: sessionId, hubChannel: hubChannel, experiment: experiment });
-
-    this.close();
-  }
-
-  onRemoveThirdExperiment = (e, position_id) => {
-    const { scene } = this.props;
-    const { hubChannel } = this.props;
-
-    console.log(position_id);
-
-    var thirdExpSystem = scene.systems["third-experiments"];
-    
-    var groupCode = thirdExpSystem.getCurrentGroupCodeForPosition(position_id);
-
-    console.log("Deleting " + groupCode);
-
-    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "third-experiment" };
-
-    // We are not the Moderator, we broadcast an event !
-    console.log("We broadcast a Despawn Request to all");
-
-    hubChannel.sendMessage(data, "gecolab-spawn");
-     
-    this.close();
-  }
-
-  onRemoveSecondExperiment = (e, position_id) => {
-    const { scene } = this.props;
-    const { hubChannel } = this.props;
-
-    console.log(position_id);
-
-    var secondExpSystem = scene.systems["second-experiments"];
-    
-    var groupCode = secondExpSystem.getCurrentGroupCodeForPosition(position_id);
-
-    console.log("Deleting " + groupCode);
-
-    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "second-experiment" };
-
-    // We are not the Moderator, we broadcast an event !
-    console.log("We broadcast a Despawn Request to all");
-
-    hubChannel.sendMessage(data, "gecolab-spawn");
-     
-    this.close();
-  }
-
-  onRemoveFirstExperiment = (e, position_id) => {
-    const { scene } = this.props;
-    const { hubChannel } = this.props;
-
-    console.log(position_id);
-
-    var firstExpSystem = scene.systems["first-experiments"];
-    
-    var groupCode = firstExpSystem.getCurrentGroupCodeForPosition(position_id);
-
-    console.log("Deleting " + groupCode);
-
-    var data = { position: position_id, groupCode: groupCode, broadcastToAll: true, experiment: "first-experiment" };
-
-    // We are not the Moderator, we broadcast an event !
-    console.log("We broadcast a Despawn Request to all");
-
-    hubChannel.sendMessage(data, "gecolab-spawn");
-     
-    this.close();
-  }
-
   processThumbnailUrl = (entry, thumbnailWidth, thumbnailHeight) => {
-    if (entry.type == "library_item")
-    {
-      console.log(entry);
-      if (entry.content_type === "image/png" || entry.content_type === "image/jpeg")
-        return scaledThumbnailUrlFor(entry.images.preview.url, thumbnailWidth, thumbnailHeight);
-      else
-      {
-        console.log("unsupported types, or ?");
-        return proxiedUrlFor(entry.images.preview.url);
-      }
-    }
-    else if (entry.images.preview.type === "mp4") {
+    if (entry.images.preview.type === "mp4") {
       return proxiedUrlFor(entry.images.preview.url);
     } else {
       return scaledThumbnailUrlFor(entry.images.preview.url, thumbnailWidth, thumbnailHeight);
@@ -617,40 +350,18 @@ class MediaBrowserContainer extends Component {
   };
 
   render() {
-   
     const intl = this.props.intl;
     const searchParams = new URLSearchParams(this.props.history.location.search);
     const urlSource = this.getUrlSource(searchParams);
     const isSceneApiType = urlSource === "scenes";
     const isFavorites = urlSource === "favorites";
-    var showCustomOption =
+    const showCustomOption =
       !isFavorites && (!isSceneApiType || this.props.hubChannel.canOrWillIfCreator("update_hub"));
     const entries = (this.state.result && this.state.result.entries) || [];
     const hideSearch = urlSource === "favorites";
     const showEmptyStringOnNoResult = urlSource !== "avatars" && urlSource !== "scenes";
 
-    const isInLibrary = urlSource === "library";
-    const isInExperiment = urlSource === "experiments";
-
-    const isTeacher = !!this.props.scene.systems["gecolab-manager"].isTeacher();
-    const isStudent = !!this.props.scene.systems["gecolab-manager"].isStudent();
-
-    var filteredSources = [...SOURCES];
-
-    if (isStudent)
-    {
-      // Pop the last item of the list for Students
-      filteredSources.pop();
-    }
-
-    if (isInLibrary && isStudent || isInExperiment) 
-    {
-      showCustomOption = false;
-    }
-
     const facets = this.state.facets && this.state.facets.length > 0 ? this.state.facets : undefined;
-
-    console.log(urlSource);
 
     // Don't render anything if we just did a feeling lucky query and are waiting on result.
     if (this.state.selectNextResult) return <div />;
@@ -674,132 +385,9 @@ class MediaBrowserContainer extends Component {
     const hasNext = !!(meta && meta.next_cursor);
     const hasPrevious = !!searchParams.get("cursor");
 
-    const customObjectType =
-      this.state.result && isSceneApiType ? "scene" : urlSource === "avatars" ? "avatar" : urlSource === "library" ? "library" : "object";
+    const customObjectType = isSceneApiType ? "scene" : urlSource === "avatars" ? "avatar" : "object";
 
     let searchDescription;
-
-    var firstExperimentSystem = this.props.scene.systems["first-experiments"];
-    var secondExperimentSystem = this.props.scene.systems["second-experiments"];
-    var thirdExperimentSystem = this.props.scene.systems["third-experiments"];
-
-    
-    var createFirstExperimentPosition01 = null;
-    var createFirstExperimentPosition02 = null;
-    var createSecondExperimentPosition01 = null;
-    var createSecondExperimentPosition02 = null;
-    var createThirdExperimentPosition01 = null;
-    var createThirdExperimentPosition02 = null;
-
-    var deleteFirstExperimentPostion01 = null;
-    var deleteFirstExperimentPosition02 = null;
-    var deleteSecondExperimentPosition01 = null;
-    var deleteSecondExperimentPosition02 = null;
-    var deleteThirdExperimentPostion01 = null;
-    var deleteThirdExperimentPosition02 = null;
-
-    var pos1occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_01") ?? thirdExperimentSystem.getCurrentGroupCodeForPosition("position_01"))!= null;
-    var pos2occupied = (firstExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? secondExperimentSystem.getCurrentGroupCodeForPosition("position_02") ?? thirdExperimentSystem.getCurrentGroupCodeForPosition("position_02")) != null;
-
-    if (firstExperimentSystem)
-    {
-      var groupCode01 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_01");
-      var groupCode02 = firstExperimentSystem.getCurrentGroupCodeForPosition("position_02");
-
-      deleteFirstExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveFirstExperiment(e, "position_01") : null;
-      deleteFirstExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveFirstExperiment(e, "position_02") : null;
-
-      createFirstExperimentPosition01 = (!pos1occupied && groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "first-experiment") : null;
-      createFirstExperimentPosition02 = (!pos2occupied && groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "first-experiment") : null;
-    }
-    if (secondExperimentSystem)
-    {
-      var groupCode01 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_01");
-      var groupCode02 = secondExperimentSystem.getCurrentGroupCodeForPosition("position_02");
-
-      deleteSecondExperimentPosition01 = (groupCode01 != null) ? e => this.onRemoveSecondExperiment(e, "position_01") : null;
-      deleteSecondExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveSecondExperiment(e, "position_02") : null;
-
-      createSecondExperimentPosition01 = (!pos1occupied &&groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "second-experiment") : null;
-      createSecondExperimentPosition02 = (!pos2occupied &&groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "second-experiment") : null;
-    }
-    if (thirdExperimentSystem)
-    {
-      var groupCode01 = thirdExperimentSystem.getCurrentGroupCodeForPosition("position_01");
-      var groupCode02 = thirdExperimentSystem.getCurrentGroupCodeForPosition("position_02");
-
-      deleteThirdExperimentPostion01 = (groupCode01 != null) ? e => this.onRemoveThirdExperiment(e, "position_01") : null;
-      deleteThirdExperimentPosition02 = (groupCode02 != null) ? e => this.onRemoveThirdExperiment(e, "position_02") : null;
-
-      createThirdExperimentPosition01 = (!pos1occupied && groupCode01 == null) ? e => this.onPlaceExperiment(e, "position_01", "third-experiment") : null;
-      createThirdExperimentPosition02 = (!pos2occupied && groupCode02 == null) ? e => this.onPlaceExperiment(e, "position_02", "third-experiment") : null;
-    }
-
-    let experiments = [
-      {
-        id: "001",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteFirstExperimentPostion01 == null) ? "Humusglühen - Arbeitsbereich 1" : "Humusglühen - Arbeitsbereich 1 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-      {
-        id: "002",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteFirstExperimentPosition02 == null) ? "Humusglühen - Arbeitsbereich 2" : "Humusglühen - Arbeitsbereich 2 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-      {
-        id: "003",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteSecondExperimentPosition01 == null) ? "Sieben - Arbeitsbereich 1" : "Sieben - Arbeitsbereich 1 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-      {
-        id: "004",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteSecondExperimentPosition02 == null) ? "Sieben - Arbeitsbereich 2" : "Sieben - Arbeitsbereich 2 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-      {
-        id: "005",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_01.png" } },
-        name: (deleteThirdExperimentPostion01 == null) ? "Pflanzenwachstumsreihe - Arbeitsbereich 1" : "Pflanzenwachstumsreihe - Arbeitsbereich 1 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-      {
-        id: "006",
-        attributions: null,
-        description: null,
-        images: { preview: { url: "https://cci.imsimity.com/gecolab/lab_positions/laboratory_pos_02.png" } },
-        name: (deleteThirdExperimentPosition02 == null) ? "Pflanzenwachstumsreihe - Arbeitsbereich 2" : "Pflanzenwachstumsreihe - Arbeitsbereich 2 - Schon Platziert",
-        project_id: null,
-        type: "experiment_listing",
-        url: "#"
-      },
-     
-    ] 
-
-    console.log(experiments);
 
     if (!hideSearch && urlSource !== "scenes" && urlSource !== "avatars" && urlSource !== "favorites") {
       searchDescription = (
@@ -864,7 +452,7 @@ class MediaBrowserContainer extends Component {
           }
         }}
         onClearSearch={() => this.handleQueryUpdated("", true)}
-        mediaSources={urlSource === "favorites" ? undefined : filteredSources}
+        mediaSources={urlSource === "favorites" ? undefined : SOURCES}
         selectedSource={urlSource}
         onSelectSource={this.handleSourceClicked}
         activeFilter={activeFilter}
@@ -877,8 +465,7 @@ class MediaBrowserContainer extends Component {
         }
         searchDescription={searchDescription}
         headerRight={
-          showCustomOption 
-          && (
+          showCustomOption && (
             <IconButton lg onClick={() => handleCustomClicked(urlSource)}>
               {["scenes", "avatars"].includes(urlSource) ? <LinkIcon /> : <UploadIcon />}
               <p>{intl.formatMessage(customObjectMessages[customObjectType])}</p>
@@ -895,62 +482,6 @@ class MediaBrowserContainer extends Component {
             : intl.formatMessage(emptyMessages.default)
         }
       >
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`001`}
-            entry={experiments[0]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createFirstExperimentPosition01}
-            onEdit={deleteFirstExperimentPostion01}
-          />
-        }
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`002`}
-            entry={experiments[1]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createFirstExperimentPosition02}
-            onEdit={deleteFirstExperimentPosition02}
-          />
-        }
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`003`}
-            entry={experiments[2]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createSecondExperimentPosition01}
-            onEdit={deleteSecondExperimentPosition01}
-          />
-        }
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`004`}
-            entry={experiments[3]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createSecondExperimentPosition02}
-            onEdit={deleteSecondExperimentPosition02}
-          />
-        }
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`005`}
-            entry={experiments[4]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createThirdExperimentPosition01}
-            onEdit={deleteThirdExperimentPostion01}
-          />
-        }
-        {urlSource === "experiments" &&
-          <MediaTile
-            key={`006`}
-            entry={experiments[5]}
-            processThumbnailUrl={this.processThumbnailUrl}
-            onClick={createThirdExperimentPosition02}
-            onEdit={deleteThirdExperimentPosition02}
-          />
-        }
-          
-
         {this.props.mediaSearchStore.isFetching ||
         this._sendQueryTimeout ||
         entries.length > 0 ||
@@ -959,36 +490,26 @@ class MediaBrowserContainer extends Component {
             {urlSource === "avatars" && (
               <CreateTile
                 type="avatar"
-                onClick={this.onCreateAvatarRpm}
-                label={<FormattedMessage id="media-browser.create-avatar-rpm" defaultMessage="Create new Avatar" />}
-              />  
-            )}
-            {urlSource === "avatars" && (
-              <CreateTile
-                type="avatar"
                 onClick={this.onCreateAvatar}
-                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Avatar Upload" />}
-              />  
+                label={<FormattedMessage id="media-browser.create-avatar" defaultMessage="Create Avatar" />}
+              />
             )}
-
-            {urlSource === "scenes" &&
-              configs.feature("enable_spoke") && (
-                <CreateTile
-                  as="a"
-                  href="/spoke/new"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  type="scene"
-                  label={
-                    <FormattedMessage
-                      id="media-browser.create-scene"
-                      defaultMessage="Create Scene with {editorName}"
-                      values={{ editorName: configs.translation("editor-name") }}
-                    />
-                  }
-                />
-              )}
-
+            {urlSource === "scenes" && configs.feature("enable_spoke") && (
+              <CreateTile
+                as="a"
+                href="/spoke/new"
+                rel="noopener noreferrer"
+                target="_blank"
+                type="scene"
+                label={
+                  <FormattedMessage
+                    id="media-browser.create-scene"
+                    defaultMessage="Create Scene with {editorName}"
+                    values={{ editorName: configs.translation("editor-name") }}
+                  />
+                }
+              />
+            )}
             {entries.map((entry, idx) => {
               const isAvatar = entry.type === "avatar" || entry.type === "avatar_listing";
               const isScene = entry.type === "scene" || entry.type === "scene_listing";
@@ -1013,22 +534,8 @@ class MediaBrowserContainer extends Component {
                   const spokeProjectUrl = getReticulumFetchUrl(`/spoke/projects/${entry.project_id}`);
                   window.open(spokeProjectUrl);
                 };
-              } else if (entry.type = "library_item") {
-
-                if (isTeacher)
-                {
-                  onEdit = e => {
-                    e.preventDefault();
-                    // Delete item
-                    this.deleteLibraryEntry(e, entry);
-                  }
-                }
-                else
-                {
-                  onEdit = null;
-                }
               }
-            
+
               let onCopy;
 
               if (isAvatar) {
@@ -1038,15 +545,15 @@ class MediaBrowserContainer extends Component {
               }
 
               return (
-                  <MediaTile
-                    key={`${entry.id}_${idx}`}
-                    entry={entry}
-                    processThumbnailUrl={this.processThumbnailUrl}
-                    onClick={e => this.handleEntryClicked(e, entry)}
-                    onEdit={onEdit}
-                    onShowSimilar={onShowSimilar}
-                    onCopy={onCopy}
-                  />
+                <MediaTile
+                  key={`${entry.id}_${idx}`}
+                  entry={entry}
+                  processThumbnailUrl={this.processThumbnailUrl}
+                  onClick={e => this.handleEntryClicked(e, entry)}
+                  onEdit={onEdit}
+                  onShowSimilar={onShowSimilar}
+                  onCopy={onCopy}
+                />
               );
             })}
           </>

@@ -1,4 +1,3 @@
-/* global fetch THREE */
 import URL_TICK from "../assets/sfx/tick.mp3";
 import URL_TELEPORT_LOOP from "../assets/sfx/teleport-loop.mp3";
 import URL_QUICK_TURN from "../assets/sfx/quickTurn.mp3";
@@ -15,22 +14,10 @@ import URL_TACK from "../assets/sfx/tack.mp3";
 import URL_MEDIA_LOADED from "../assets/sfx/A_bendUp.mp3";
 import URL_MEDIA_LOADING from "../assets/sfx/suspense.mp3";
 import URL_SPAWN_EMOJI from "../assets/sfx/emoji.mp3";
-import URL_FALSE_BUTTON from "../assets/sfx/failure.mp3";
-import URL_RIGHT_BUTTON from "../assets/sfx/success_machine.mp3";
-import URL_STOPWATCH_TICKING from "../assets/sfx/stopwatch-tick-loop.mp3";
-import URL_HOVER_ENTER from "../assets/sfx/GecoLab/HoverEnterSound.mp3";
-import URL_SNAP_ENTITY from "../assets/sfx/GecoLab/SnapEntity.mp3";
-import URL_GRIND_SOUND from "../assets/sfx/GecoLab/grind_sound.wav";
-import URL_BURNER_SOUND from "../assets/sfx/GecoLab/bunsen-burner-sound.mp3";
-import URL_ADD_SAMPLE from "../assets/sfx/GecoLab/add-sample.wav";
-import URL_POURING_SOIL from "../assets/sfx/GecoLab/pouring_soil.mp3";
-import URL_SCREWING_MACHINE from "../assets/sfx/GecoLab/screwing_machine.mp3";
-import URL_VIBRATING_MACHINE from "../assets/sfx/GecoLab/machine_vibrating.wav";
-
-//TODO_LAURA_SOUND: if you want to add new sounds, add their URL down there, and the files inside /assets/sfx/
-
+import URL_SPEAKER_TONE from "../assets/sfx/tone.mp3";
 import { setMatrixWorld } from "../utils/three-utils";
-import { isSafari } from "../utils/detect-safari";
+import { SourceType } from "../components/audio-params";
+import { getOverriddenPanningModelType } from "../update-audio-settings";
 
 let soundEnum = 0;
 export const SOUND_HOVER_OR_GRAB = soundEnum++;
@@ -58,20 +45,7 @@ export const SOUND_MEDIA_LOADED = soundEnum++;
 export const SOUND_CAMERA_TOOL_COUNTDOWN = soundEnum++;
 export const SOUND_PREFERENCE_MENU_HOVER = soundEnum++;
 export const SOUND_SPAWN_EMOJI = soundEnum++;
-export const SOUND_ERROR_BUTTON = soundEnum++;
-export const SOUND_SUCCESS_BUTTON = soundEnum++;
-export const SOUND_STOPWATCH_TICKING = soundEnum++;
-export const SOUND_HOVER_ENTER = soundEnum++;
-export const SOUND_SNAP_ENTITY = soundEnum++;
-export const SOUND_GRIND_SOUND = soundEnum++;
-export const SOUND_BURNER_SOUND = soundEnum++;
-export const SOUND_ADD_SAMPLE = soundEnum++;
-export const SOUND_POURING_SOIL = soundEnum++;
-export const SOUND_SCREWING_MACHINE = soundEnum++;
-export const SOUND_VIBRATING_MACHINE = soundEnum++;
-//TODO_LAURA_SOUND: then, in order, you need to add a new line like so:
-//export const SOUND_MY_SOUND = soundEnum++;
-
+export const SOUND_SPEAKER_TONE = soundEnum++;
 
 // Safari doesn't support the promise form of decodeAudioData, so we polyfill it.
 function decodeAudioData(audioContext, arrayBuffer) {
@@ -90,8 +64,6 @@ export class SoundEffectsSystem {
     this.audioContext = THREE.AudioContext.getContext();
     this.scene = scene;
 
-
-    //TODO_LAURA_SOUND: you then need to add your pair of SOUND_MY_SOUND, with your URL, at the end of this list
     const soundsAndUrls = [
       [SOUND_HOVER_OR_GRAB, URL_TICK],
       [SOUND_THAW, URL_TICK],
@@ -118,17 +90,7 @@ export class SoundEffectsSystem {
       [SOUND_MEDIA_LOADED, URL_MEDIA_LOADED],
       [SOUND_PREFERENCE_MENU_HOVER, URL_FREEZE],
       [SOUND_SPAWN_EMOJI, URL_SPAWN_EMOJI],
-      [SOUND_ERROR_BUTTON, URL_FALSE_BUTTON],
-      [SOUND_SUCCESS_BUTTON, URL_RIGHT_BUTTON],
-      [SOUND_STOPWATCH_TICKING, URL_STOPWATCH_TICKING],
-      [SOUND_HOVER_ENTER, URL_HOVER_ENTER],
-      [SOUND_SNAP_ENTITY, URL_SNAP_ENTITY],
-      [SOUND_GRIND_SOUND, URL_GRIND_SOUND],
-      [SOUND_BURNER_SOUND, URL_BURNER_SOUND],
-      [SOUND_ADD_SAMPLE, URL_ADD_SAMPLE],
-      [SOUND_POURING_SOIL, URL_POURING_SOIL],
-      [SOUND_SCREWING_MACHINE, URL_SCREWING_MACHINE],
-      [SOUND_VIBRATING_MACHINE, URL_VIBRATING_MACHINE]
+      [SOUND_SPEAKER_TONE, URL_SPEAKER_TONE]
     ];
     const loading = new Map();
     const load = url => {
@@ -168,7 +130,7 @@ export class SoundEffectsSystem {
     // https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode
     const source = this.audioContext.createBufferSource();
     source.buffer = audioBuffer;
-    source.connect(this.audioContext.destination);
+    this.scene.systems["hubs-systems"].audioSystem.addAudio({ sourceType: SourceType.SFX, node: source });
     source.loop = loop;
     this.pendingAudioSourceNodes.push(source);
     return source;
@@ -179,13 +141,23 @@ export class SoundEffectsSystem {
     const audioBuffer = this.sounds.get(sound);
     if (!audioBuffer) return null;
 
-    const disablePositionalAudio = isSafari() || window.APP.store.state.preferences.audioOutputMode === "audio";
+    const disablePositionalAudio = window.APP.store.state.preferences.disableLeftRightPanning;
     const positionalAudio = disablePositionalAudio
       ? new THREE.Audio(this.scene.audioListener)
       : new THREE.PositionalAudio(this.scene.audioListener);
     positionalAudio.setBuffer(audioBuffer);
     positionalAudio.loop = loop;
+    if (!disablePositionalAudio) {
+      const overriddenPanningModelType = getOverriddenPanningModelType();
+      if (overriddenPanningModelType !== null) {
+        positionalAudio.panner.panningModel = overriddenPanningModelType;
+      }
+    }
     this.pendingPositionalAudios.push(positionalAudio);
+    this.scene.systems["hubs-systems"].audioSystem.addAudio({
+      sourceType: SourceType.SFX,
+      node: positionalAudio
+    });
     return positionalAudio;
   }
 
@@ -221,7 +193,7 @@ export class SoundEffectsSystem {
     const gain = this.audioContext.createGain();
     source.buffer = audioBuffer;
     source.connect(gain);
-    gain.connect(this.audioContext.destination);
+    this.scene.systems["hubs-systems"].audioSystem.addAudio({ sourceType: SourceType.SFX, node: gain });
     source.loop = true;
     this.pendingAudioSourceNodes.push(source);
     return { gain, source };
@@ -233,6 +205,7 @@ export class SoundEffectsSystem {
       this.pendingAudioSourceNodes.splice(index, 1);
     } else {
       node.stop();
+      this.scene.systems["hubs-systems"].audioSystem.removeAudio({ node });
     }
   }
 
@@ -254,6 +227,7 @@ export class SoundEffectsSystem {
     this.positionalAudiosFollowingObject3Ds = this.positionalAudiosFollowingObject3Ds.filter(
       ({ positionalAudio }) => positionalAudio !== inPositionalAudio
     );
+    this.scene.systems["hubs-systems"].audioSystem.removeAudio({ node: inPositionalAudio });
   }
 
   stopAllPositionalAudios() {

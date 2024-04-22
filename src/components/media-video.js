@@ -1,13 +1,14 @@
-/* global performance THREE AFRAME NAF MediaStream setTimeout */
-import configs from "../utils/configs";
 import audioIcon from "../assets/images/audio.png";
 import { paths } from "../systems/userinput/paths";
 import HLS from "hls.js";
-import { MediaPlayer } from "dashjs";
-import { addAndArrangeMedia, createVideoOrAudioEl, hasAudioTracks } from "../utils/media-utils";
+import {
+  addAndArrangeMedia,
+  createVideoOrAudioEl,
+  createDashPlayer,
+  createHLSPlayer,
+  hasAudioTracks
+} from "../utils/media-utils";
 import { disposeTexture } from "../utils/material-utils";
-import { proxiedUrlFor } from "../utils/media-url-utils";
-import { buildAbsoluteURL } from "url-toolkit";
 import { SOUND_CAMERA_TOOL_TOOK_SNAPSHOT } from "../systems/sound-effects-system";
 import { applyPersistentSync } from "../utils/permissions-utils";
 import { refreshMediaMirror, getCurrentMirroredMedia } from "../utils/mirror-utils";
@@ -21,8 +22,7 @@ import { errorTexture } from "../utils/error-texture";
 import { scaleToAspectRatio } from "../utils/scale-to-aspect-ratio";
 import { isSafari } from "../utils/detect-safari";
 import { isIOS as detectIOS } from "../utils/is-mobile";
-
-import qsTruthy from "../utils/qs_truthy";
+import { Layers } from "../camera-layers";
 
 const ONCE_TRUE = { once: true };
 const TYPE_IMG_PNG = { type: "image/png" };
@@ -40,7 +40,7 @@ for (let i = 0; i <= 20; i++) {
   VOLUME_LABELS[i] = s;
 }
 
-function timeFmt(t) {
+export function timeFmt(t) {
   let s = Math.floor(t),
     h = Math.floor(s / 3600);
   s -= h * 3600;
@@ -52,7 +52,7 @@ function timeFmt(t) {
   return h === "00" ? `${m}:${s}` : `${h}:${m}:${s}`;
 }
 
-const MAX_MULTIPLIER = 2;
+const MAX_GAIN_MULTIPLIER = 2;
 
 AFRAME.registerComponent("media-video", {
   schema: {
@@ -80,10 +80,14 @@ AFRAME.registerComponent("media-video", {
     this.isMineOrLocal = this.isMineOrLocal.bind(this);
     this.updateSrc = this.updateSrc.bind(this);
 
+    this.seekForward = this.seekForward.bind(this);
+    this.seekBack = this.seekBack.bind(this);
     this.volumeUp = this.volumeUp.bind(this);
     this.volumeDown = this.volumeDown.bind(this);
+    this.snap = this.snap.bind(this);
     this.changeVolumeBy = this.changeVolumeBy.bind(this);
     this.togglePlaying = this.togglePlaying.bind(this);
+    this.setupAudio = this.setupAudio.bind(this);
 
     this.audioSystem = this.el.sceneEl.systems["hubs-systems"].audioSystem;
 
@@ -106,19 +110,19 @@ AFRAME.registerComponent("media-video", {
       this.playPauseButton = this.el.querySelector(".video-playpause-button");
       this.volumeUpButton = this.el.querySelector(".video-volume-up-button");
       this.volumeDownButton = this.el.querySelector(".video-volume-down-button");
-      //this.seekForwardButton = this.el.querySelector(".video-seek-forward-button");
-      //this.seekBackButton = this.el.querySelector(".video-seek-back-button");
-      //this.snapButton = this.el.querySelector(".video-snap-button");
+      this.seekForwardButton = this.el.querySelector(".video-seek-forward-button");
+      this.seekBackButton = this.el.querySelector(".video-seek-back-button");
+      this.snapButton = this.el.querySelector(".video-snap-button");
       this.timeLabel = this.el.querySelector(".video-time-label");
       this.volumeLabel = this.el.querySelector(".video-volume-label");
       this.linkButton = this.el.querySelector(".video-link-button");
 
       this.playPauseButton.object3D.addEventListener("interact", this.togglePlaying);
-      //this.seekForwardButton.object3D.addEventListener("interact", this.seekForward);
-      //this.seekBackButton.object3D.addEventListener("interact", this.seekBack);
+      this.seekForwardButton.object3D.addEventListener("interact", this.seekForward);
+      this.seekBackButton.object3D.addEventListener("interact", this.seekBack);
       this.volumeUpButton.object3D.addEventListener("interact", this.volumeUp);
       this.volumeDownButton.object3D.addEventListener("interact", this.volumeDown);
-      //this.snapButton.object3D.addEventListener("interact", this.snap);
+      this.snapButton.object3D.addEventListener("interact", this.snap);
 
       this.updateVolumeLabel();
       this.updateHoverMenu();
@@ -153,26 +157,29 @@ AFRAME.registerComponent("media-video", {
         this.updatePlaybackState();
       });
 
-    // from a-sound
-    const sceneEl = this.el.sceneEl;
-    sceneEl.audioListener = sceneEl.audioListener || new THREE.AudioListener();
-    if (sceneEl.camera) {
-      sceneEl.camera.add(sceneEl.audioListener);
-    }
-    sceneEl.addEventListener("camera-set-active", function(evt) {
-      evt.detail.cameraEl.getObject3D("camera").add(sceneEl.audioListener);
-    });
-
-    let audioOutputModePref = APP.store.state.preferences.audioOutputMode;
+    let { disableLeftRightPanning, audioPanningQuality } = APP.store.state.preferences;
     this.onPreferenceChanged = () => {
-      const newPref = APP.store.state.preferences.audioOutputMode;
-      const shouldRecreateAudio = audioOutputModePref !== newPref && this.audio && this.mediaElementAudioSource;
-      audioOutputModePref = newPref;
+      const newDisableLeftRightPanning = APP.store.state.preferences.disableLeftRightPanning;
+      const newAudioPanningQuality = APP.store.state.preferences.audioPanningQuality;
+
+      const shouldRecreateAudio =
+        disableLeftRightPanning !== newDisableLeftRightPanning && this.audio && this.mediaElementAudioSource;
+      const shouldUpdateAudioSettings = audioPanningQuality !== newAudioPanningQuality;
+
+      disableLeftRightPanning = newDisableLeftRightPanning;
+      audioPanningQuality = newAudioPanningQuality;
+
       if (shouldRecreateAudio) {
         this.setupAudio();
+      } else if (shouldUpdateAudioSettings) {
+        // updateAudioSettings() is called in this.setupAudio()
+        // so no need to call it if shouldRecreateAudio is true.
+        updateAudioSettings(this.el, this.audio);
       }
     };
+
     APP.store.addEventListener("statechanged", this.onPreferenceChanged);
+    this.el.addEventListener("audio_type_changed", this.setupAudio);
   },
 
   play() {
@@ -186,13 +193,28 @@ AFRAME.registerComponent("media-video", {
   ensureOwned() {
     return (
       !this.el.components.networked ||
-      ((this.networkedEl && NAF.utils.isMine(this.networkedEl)) || NAF.utils.takeOwnership(this.networkedEl))
+      (this.networkedEl && NAF.utils.isMine(this.networkedEl)) ||
+      NAF.utils.takeOwnership(this.networkedEl)
     );
+  },
+
+  seekForward() {
+    if (!this.videoIsLive && this.ensureOwned()) {
+      this.video.currentTime += 30;
+      this.el.setAttribute("media-video", "time", this.video.currentTime);
+    }
+  },
+
+  seekBack() {
+    if (!this.videoIsLive && this.ensureOwned()) {
+      this.video.currentTime -= 10;
+      this.el.setAttribute("media-video", "time", this.video.currentTime);
+    }
   },
 
   changeVolumeBy(v) {
     let gainMultiplier = APP.gainMultipliers.get(this.el);
-    gainMultiplier = THREE.Math.clamp(gainMultiplier + v, 0, MAX_MULTIPLIER);
+    gainMultiplier = THREE.MathUtils.clamp(gainMultiplier + v, 0, MAX_GAIN_MULTIPLIER);
     APP.gainMultipliers.set(this.el, gainMultiplier);
     this.updateVolumeLabel();
     const audio = APP.audios.get(this.el);
@@ -207,6 +229,23 @@ AFRAME.registerComponent("media-video", {
 
   volumeDown() {
     this.changeVolumeBy(-0.2);
+  },
+
+  async snap() {
+    if (this.isSnapping) return;
+    this.isSnapping = true;
+    this.el.sceneEl.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_CAMERA_TOOL_TOOK_SNAPSHOT);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = this.video.videoWidth;
+    canvas.height = this.video.videoHeight;
+    canvas.getContext("2d").drawImage(this.video, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve));
+    const file = new File([blob], "snap.png", TYPE_IMG_PNG);
+
+    this.localSnapCount++;
+    const { entity } = addAndArrangeMedia(this.el, file, "photo-snapshot", this.localSnapCount);
+    entity.addEventListener("image-loaded", this.onSnapImageLoaded, ONCE_TRUE);
   },
 
   togglePlaying() {
@@ -303,10 +342,8 @@ AFRAME.registerComponent("media-video", {
   },
 
   setupAudio() {
-    if (this.audio) {
-      this.audio.disconnect();
-      this.el.removeObject3D("sound");
-    }
+    this.removeAudio();
+
     APP.sourceType.set(this.el, SourceType.MEDIA_VIDEO);
 
     if (this.data.videoPaused) {
@@ -322,9 +359,9 @@ AFRAME.registerComponent("media-video", {
     } else {
       this.audio = new THREE.Audio(audioListener);
     }
-
-    this.audioSystem.removeAudio(this.audio);
-    this.audioSystem.addAudio(SourceType.MEDIA_VIDEO, this.audio);
+    // Default to being quiet so it fades in when volume is set by audio systems
+    this.audio.gain.gain.value = 0;
+    this.audioSystem.addAudio({ sourceType: SourceType.MEDIA_VIDEO, node: this.audio });
 
     this.audio.setNodeSource(this.mediaElementAudioSource);
     this.el.setObject3D("sound", this.audio);
@@ -336,6 +373,8 @@ AFRAME.registerComponent("media-video", {
 
     APP.audios.set(this.el, this.audio);
     updateAudioSettings(this.el, this.audio);
+    // Original audio source volume can now be restored as audio systems will take over
+    this.mediaElementAudioSource.mediaElement.volume = 1;
   },
 
   async updateSrc(oldData) {
@@ -424,6 +463,7 @@ AFRAME.registerComponent("media-video", {
 
     if (!this.mesh || projection !== oldData.projection) {
       const material = new THREE.MeshBasicMaterial();
+      material.toneMapped = false;
 
       let geometry;
 
@@ -438,6 +478,7 @@ AFRAME.registerComponent("media-video", {
       }
 
       this.mesh = new THREE.Mesh(geometry, material);
+      this.mesh.layers.set(Layers.CAMERA_LAYER_FX_MASK);
       this.el.setObject3D("mesh", this.mesh);
     }
 
@@ -468,6 +509,7 @@ AFRAME.registerComponent("media-video", {
     const contentType = this.data.contentType;
     let pollTimeout;
 
+    /* eslint-disable-next-line no-async-promise-executor*/
     return new Promise(async (resolve, reject) => {
       if (this._audioSyncInterval) {
         clearInterval(this._audioSyncInterval);
@@ -475,7 +517,7 @@ AFRAME.registerComponent("media-video", {
       }
 
       let resolved = false;
-      const failLoad = function(e) {
+      const failLoad = function (e) {
         if (resolved) return;
         resolved = true;
         clearTimeout(pollTimeout);
@@ -494,16 +536,6 @@ AFRAME.registerComponent("media-video", {
         texture = new THREE.VideoTexture(videoEl);
         texture.minFilter = THREE.LinearFilter;
         texture.encoding = THREE.sRGBEncoding;
-
-        // Firefox seems to have video play (or decode) performance issue.
-        // Somehow setting RGBA format improves the performance very well.
-        // Some tickets have been opened for the performance issue but
-        // I don't think it will be fixed soon. So we set RGBA format for Firefox
-        // as workaround so far.
-        // See https://github.com/mozilla/hubs/issues/3470
-        if (/firefox/i.test(navigator.userAgent)) {
-          texture.format = THREE.RGBAFormat;
-        }
 
         isReady = () => {
           if (texture.hls && texture.hls.streamController.audioOnly) {
@@ -545,76 +577,16 @@ AFRAME.registerComponent("media-video", {
         videoEl.srcObject = new MediaStream(stream.getVideoTracks());
         // If hls.js is supported we always use it as it gives us better events
       } else if (contentType.startsWith("application/dash")) {
-        const dashPlayer = MediaPlayer().create();
-        dashPlayer.extend("RequestModifier", function() {
-          return { modifyRequestHeader: xhr => xhr, modifyRequestURL: proxiedUrlFor };
-        });
-        dashPlayer.on(MediaPlayer.events.ERROR, failLoad);
-        dashPlayer.initialize(videoEl, url);
-        dashPlayer.setTextDefaultEnabled(false);
-
-        // TODO this countinously pings to get updated time, unclear if this is actually needed, but this preserves the default behavior
-        dashPlayer.clearDefaultUTCTimingSources();
-        dashPlayer.addUTCTimingSource(
-          "urn:mpeg:dash:utc:http-xsdate:2014",
-          proxiedUrlFor("https://time.akamai.com/?iso")
-        );
-        // We can also use our own HEAD request method like we use to sync NAF
-        // dashPlayer.addUTCTimingSource("urn:mpeg:dash:utc:http-head:2014", location.href);
-
-        texture.dash = dashPlayer;
+        texture.dash = createDashPlayer(url, videoEl, failLoad);
       } else if (AFRAME.utils.material.isHLS(url, contentType)) {
         if (HLS.isSupported()) {
-          const corsProxyPrefix = `https://${configs.CORS_PROXY_SERVER}/`;
-          const baseUrl = url.startsWith(corsProxyPrefix) ? url.substring(corsProxyPrefix.length) : url;
-          const setupHls = () => {
-            if (texture.hls) {
-              texture.hls.stopLoad();
-              texture.hls.detachMedia();
-              texture.hls.destroy();
-              texture.hls = null;
-            }
-
-            const hls = new HLS({
-              debug: qsTruthy("hlsDebug"),
-              xhrSetup: (xhr, u) => {
-                if (u.startsWith(corsProxyPrefix)) {
-                  u = u.substring(corsProxyPrefix.length);
-                }
-
-                // HACK HLS.js resolves relative urls internally, but our CORS proxying screws it up. Resolve relative to the original unproxied url.
-                // TODO extend HLS.js to allow overriding of its internal resolving instead
-                if (!u.startsWith("http")) {
-                  u = buildAbsoluteURL(baseUrl, u.startsWith("/") ? u : `/${u}`);
-                }
-
-                xhr.open("GET", proxiedUrlFor(u), true);
-              }
-            });
-
-            texture.hls = hls;
-            hls.loadSource(url);
-            hls.attachMedia(videoEl);
-
-            hls.on(HLS.Events.ERROR, function(event, data) {
-              if (data.fatal) {
-                switch (data.type) {
-                  case HLS.ErrorTypes.NETWORK_ERROR:
-                    // try to recover network error
-                    hls.startLoad();
-                    break;
-                  case HLS.ErrorTypes.MEDIA_ERROR:
-                    hls.recoverMediaError();
-                    break;
-                  default:
-                    failLoad(event);
-                    return;
-                }
-              }
-            });
-          };
-
-          setupHls();
+          if (texture.hls) {
+            texture.hls.stopLoad();
+            texture.hls.detachMedia();
+            texture.hls.destroy();
+            texture.hls = null;
+          }
+          texture.hls = createHLSPlayer(url, videoEl, failLoad);
         } else if (videoEl.canPlayType(contentType)) {
           videoEl.src = url;
           videoEl.onerror = failLoad;
@@ -697,19 +669,22 @@ AFRAME.registerComponent("media-video", {
     const isPinned = pinnableElement.components.pinnable && pinnableElement.components.pinnable.data.pinned;
     this.playbackControls.object3D.visible = !this.data.hidePlaybackControls && !!this.video;
     this.timeLabel.object3D.visible = !this.data.hidePlaybackControls;
-    this.volumeLabel.object3D.visible = this.volumeUpButton.object3D.visible = this.volumeDownButton.object3D.visible =
-      this.hasAudioTracks && !this.data.hidePlaybackControls && !!this.video;
+    this.volumeLabel.object3D.visible =
+      this.volumeUpButton.object3D.visible =
+      this.volumeDownButton.object3D.visible =
+        this.hasAudioTracks && !this.data.hidePlaybackControls && !!this.video;
 
-    /*
     this.snapButton.object3D.visible =
       !!this.video && !this.data.contentType.startsWith("audio/") && window.APP.hubChannel.can("spawn_and_move_media");
     this.seekForwardButton.object3D.visible = !!this.video && !this.videoIsLive;
-    */
 
     const mayModifyPlayHead =
       !!this.video && !this.videoIsLive && (!isPinned || window.APP.hubChannel.can("pin_objects"));
 
-    this.playPauseButton.object3D.visible = mayModifyPlayHead;
+    this.playPauseButton.object3D.visible =
+      this.seekForwardButton.object3D.visible =
+      this.seekBackButton.object3D.visible =
+        mayModifyPlayHead;
 
     this.linkButton.object3D.visible = !!mediaLoader.mediaOptions.href;
 
@@ -723,12 +698,12 @@ AFRAME.registerComponent("media-video", {
     this.volumeLabel.setAttribute(
       "text",
       "value",
-      gainMultiplier === 0 ? "MUTE" : VOLUME_LABELS[Math.floor(gainMultiplier / (MAX_MULTIPLIER / 20))]
+      gainMultiplier === 0 ? "MUTE" : VOLUME_LABELS[Math.floor(gainMultiplier / (MAX_GAIN_MULTIPLIER / 20))]
     );
   },
 
   tick: (() => {
-    return function() {
+    return function () {
       if (!this.video) return;
 
       const userinput = this.el.sceneEl.systems.userinput;
@@ -799,11 +774,7 @@ AFRAME.registerComponent("media-video", {
     APP.sourceType.delete(this.el);
     APP.supplementaryAttenuation.delete(this.el);
 
-    if (this.audio) {
-      this.el.removeObject3D("sound");
-      this.audioSystem.removeAudio(this.audio);
-      delete this.audio;
-    }
+    this.removeAudio();
 
     if (this.networkedEl) {
       this.networkedEl.removeEventListener("pinned", this.updateHoverMenu);
@@ -828,5 +799,14 @@ AFRAME.registerComponent("media-video", {
     }
 
     window.APP.store.removeEventListener("statechanged", this.onPreferenceChanged);
+    this.el.addEventListener("audio_type_changed", this.setupAudio);
+  },
+
+  removeAudio() {
+    if (this.audio) {
+      this.el.removeObject3D("sound");
+      this.audioSystem.removeAudio({ node: this.audio });
+      delete this.audio;
+    }
   }
 });

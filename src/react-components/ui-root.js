@@ -6,6 +6,7 @@ import { FormattedMessage } from "react-intl";
 import screenfull from "screenfull";
 
 import configs from "../utils/configs";
+import { isLockedDownDemoRoom } from "../utils/hub-utils";
 import { VR_DEVICE_AVAILABILITY } from "../utils/vr-caps-detect";
 import { canShare } from "../utils/share";
 import styles from "../assets/stylesheets/ui-root.scss";
@@ -29,9 +30,8 @@ import MediaBrowserContainer from "./media-browser";
 
 import EntryStartPanel from "./entry-start-panel.js";
 import AvatarEditor from "./avatar-editor";
-import AvatarEditorRpm from "./avatar-editor-rpm";
 import PreferencesScreen from "./preferences-screen.js";
-import PresenceLog from "./presence-log.js";
+import { PresenceLog } from "./presence-log.js";
 import PreloadOverlay from "./preload-overlay.js";
 import RTCDebugPanel from "./debug-panel/RtcDebugPanel.js";
 import { showFullScreenIfAvailable, showFullScreenIfWasFullScreen } from "../utils/fullscreen";
@@ -47,13 +47,11 @@ import { useAccessibleOutlineStyle } from "./input/useAccessibleOutlineStyle";
 import { ToolbarButton } from "./input/ToolbarButton";
 import { RoomEntryModal } from "./room/RoomEntryModal";
 import { EnterOnDeviceModal } from "./room/EnterOnDeviceModal";
-import { MicPermissionsModal } from "./room/MicPermissionsModal";
 import { MicSetupModalContainer } from "./room/MicSetupModalContainer";
 import { InvitePopoverContainer } from "./room/InvitePopoverContainer";
 import { MoreMenuPopoverButton, CompactMoreMenuButton, MoreMenuContextProvider } from "./room/MoreMenuPopover";
-import { ChatSidebarContainer, ChatContextProvider, ChatToolbarButtonContainer } from "./room/ChatSidebarContainer";
-import { DigitalLibraryButtonContainer } from "./room/GecoLab/DigitalLibraryButtonContainer";
-import { ContentMenu, PeopleMenuButton, ObjectsMenuButton } from "./room/ContentMenu";
+import { ChatSidebarContainer } from "./room/ChatSidebarContainer";
+import { ContentMenu, PeopleMenuButton, ObjectsMenuButton, ECSDebugMenuButton } from "./room/ContentMenu";
 import { ReactComponent as CameraIcon } from "./icons/Camera.svg";
 import { ReactComponent as AvatarIcon } from "./icons/Avatar.svg";
 import { ReactComponent as AddIcon } from "./icons/Add.svg";
@@ -72,14 +70,15 @@ import { ReactComponent as VRIcon } from "./icons/VR.svg";
 import { ReactComponent as LeaveIcon } from "./icons/Leave.svg";
 import { ReactComponent as EnterIcon } from "./icons/Enter.svg";
 import { ReactComponent as InviteIcon } from "./icons/Invite.svg";
+import hubsLogo from "../assets/images/hubs-logo.png";
 import { PeopleSidebarContainer, userFromPresence } from "./room/PeopleSidebarContainer";
-import { ObjectListProvider } from "./room/useObjectList";
+import { ObjectListProvider } from "./room/hooks/useObjectList";
 import { ObjectsSidebarContainer } from "./room/ObjectsSidebarContainer";
 import { ObjectMenuContainer } from "./room/ObjectMenuContainer";
 import { useCssBreakpoints } from "react-use-css-breakpoints";
 import { PlacePopoverContainer } from "./room/PlacePopoverContainer";
 import { SharePopoverContainer } from "./room/SharePopoverContainer";
-import { VoiceButtonContainer } from "./room/VoiceButtonContainer";
+import { AudioPopoverButtonContainer } from "./room/AudioPopoverButtonContainer";
 import { ReactionPopoverContainer } from "./room/ReactionPopoverContainer";
 import { SafariMicModal } from "./room/SafariMicModal";
 import { RoomSignInModalContainer } from "./auth/RoomSignInModalContainer";
@@ -93,20 +92,17 @@ import { UserProfileSidebarContainer } from "./room/UserProfileSidebarContainer"
 import { CloseRoomModal } from "./room/CloseRoomModal";
 import { WebVRUnsupportedModal } from "./room/WebVRUnsupportedModal";
 import { TweetModalContainer } from "./room/TweetModalContainer";
-import { TipContainer, FullscreenTip } from "./room/TipContainer";
+import { TipContainer, FullscreenTip, RecordModeTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
-
-import { NotebookPopoverContainer } from "./room/GecoLab/NotebookPopoverContainer";
-import { InventoryListPopoverContainer } from "./room/GecoLab/InventoryListPopoverContainer";
-import { StudentEntryModalContainer } from "./room/GecoLab/StudentEntryModalContainer";
-import { ChooseGlovesModalContainer } from "./room/GecoLab/ChooseGlovesModalContainer";
-import { TemperatureInfoModalContainer } from "./room/GecoLab/TemperatureInfoModalContainer";
-import { FeedbackModalContainer } from "./room/GecoLab/FeedbackModalContainer";
-import { EnterFormulaValuesModalContainer } from "./room/GecoLab/EnterFormulaValuesModalContainer";
-import { EnterFormulaGroundModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaGroundModalContainer";
-import { EnterFormulaSandModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaSandModalContainer";
-import { EnterFormulaClayModalContainer } from "./room/GecoLab/second-experiment/EnterFormulaClayModalContainer";
+import { MediaDevicesEvents } from "../utils/media-devices-utils";
+import { TERMS, PRIVACY } from "../constants";
+import { ECSDebugSidebarContainer } from "./debug-panel/ECSSidebar";
+import { NotificationsContainer } from "./room/NotificationsContainer";
+import { usePermissions } from "./room/hooks/usePermissions";
+import { ChatContextProvider } from "./room/contexts/ChatContext";
+import ChatToolbarButton from "./room/components/ChatToolbarButton/ChatToolbarButton";
+import SeePlansCTA from "./room/components/SeePlansCTA/SeePlansCTA";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -156,9 +152,9 @@ class UIRoot extends Component {
     subscriptions: PropTypes.object,
     initialIsFavorited: PropTypes.bool,
     showSignInDialog: PropTypes.bool,
-    signInMessage: PropTypes.string,
+    showBitECSBasedClientRefreshPrompt: PropTypes.bool,
+    signInMessage: PropTypes.object,
     onContinueAfterSignIn: PropTypes.func,
-    onSignInDialogVisibilityChanged: PropTypes.func,
     showSafariMicDialog: PropTypes.bool,
     onMediaSearchResultEntrySelected: PropTypes.func,
     onAvatarSaved: PropTypes.func,
@@ -171,17 +167,18 @@ class UIRoot extends Component {
     showPreload: PropTypes.bool,
     onPreloadLoadClicked: PropTypes.func,
     embed: PropTypes.bool,
-    embedToken: PropTypes.string,
     onLoaded: PropTypes.func,
     activeObject: PropTypes.object,
     selectedObject: PropTypes.object,
-    breakpoint: PropTypes.string
+    breakpoint: PropTypes.string,
+    canVoiceChat: PropTypes.bool
   };
 
   state = {
     enterInVR: false,
     entered: false,
     entering: false,
+    leaving: false,
     dialog: null,
     showShareDialog: false,
     linkCode: null,
@@ -194,6 +191,7 @@ class UIRoot extends Component {
     showPrefs: false,
     watching: false,
     isStreaming: false,
+    isRecordingMode: false,
 
     waitingOnAudio: false,
     audioTrackClone: null,
@@ -210,7 +208,9 @@ class UIRoot extends Component {
     objectInfo: null,
     objectSrc: "",
     sidebarId: null,
-    presenceCount: 0
+    presenceCount: 0,
+    chatPrefix: "",
+    chatAutofocus: false
   };
 
   constructor(props) {
@@ -220,7 +220,7 @@ class UIRoot extends Component {
 
     // An exit handler that discards event arguments and can be cleaned up.
     this.exitEventHandler = () => this.props.exitScene();
-    this.mediaDevicesManager = window.APP.mediaDevicesManager;
+    this.mediaDevicesManager = APP.mediaDevicesManager;
   }
 
   componentDidUpdate(prevProps) {
@@ -289,7 +289,7 @@ class UIRoot extends Component {
   }
 
   onConcurrentLoad = () => {
-    if (qsTruthy("allow_multi") || this.props.store.state.preferences["allowMultipleHubsInstances"]) return;
+    if (qsTruthy("allow_multi") || this.props.store.state.preferences.allowMultipleHubsInstances) return;
     this.startAutoExitTimer(AutoExitReason.concurrentSession);
   };
 
@@ -297,7 +297,7 @@ class UIRoot extends Component {
     if (
       this.props.disableAutoExitOnIdle ||
       this.state.isStreaming ||
-      this.props.store.state.preferences["disableIdleDetection"]
+      this.props.store.state.preferences.disableIdleDetection
     )
       return;
     this.startAutoExitTimer(AutoExitReason.idle);
@@ -313,6 +313,7 @@ class UIRoot extends Component {
     window.addEventListener("concurrentload", this.onConcurrentLoad);
     window.addEventListener("idle_detected", this.onIdleDetected);
     window.addEventListener("activity_detected", this.onActivityDetected);
+    window.addEventListener("focus_chat", this.onFocusChat);
     document.querySelector(".a-canvas").addEventListener("mouseup", () => {
       if (this.state.showShareDialog) {
         this.setState({ showShareDialog: false });
@@ -334,57 +335,23 @@ class UIRoot extends Component {
     this.props.scene.addEventListener("action_toggle_ui", () =>
       this.setState({ hide: !this.state.hide, hideUITip: false })
     );
+    this.props.scene.addEventListener("action_toggle_record", () => {
+      const cursor = document.querySelector("#right-cursor");
+      if (this.state.isRecordingMode) {
+        // If isRecordingMode is true then toggle it off.
+        cursor.object3D.children[1].material.visible = true;
+        this.setState({ hide: false, hideUITip: false, isRecordingMode: false });
+        document.querySelector(".rs-fps-counter").style.visibility = "visible";
+        document.querySelector(".rs-base").style.visibility = "visible";
+      } else {
+        cursor.object3D.children[1].material.visible = false;
+        this.setState({ hide: true, hideUITip: true, isRecordingMode: true });
+        document.querySelector(".rs-fps-counter").style.visibility = "hidden";
+        document.querySelector(".rs-base").style.visibility = "hidden";
+      }
+    });
     this.props.scene.addEventListener("devicechange", () => {
       this.forceUpdate();
-    });
-    this.props.scene.addEventListener("gecolab_choose_gloves", (event) => {
-      var groupCode = event.detail;
-
-      this.showNonHistoriedDialog(
-        ChooseGlovesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_temperature_info", (event) => {
-      var groupCode = event.detail;
-      
-      this.showNonHistoriedDialog(
-        TemperatureInfoModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_feedback", (event) => {
-      var groupCode = event.detail;
-      
-      this.showNonHistoriedDialog(
-        FeedbackModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_choose_formula", (event) => {
-      var groupCode = event.detail;
-      
-      this.showNonHistoriedDialog(
-        EnterFormulaValuesModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_second_experiment_modal_ground", (event) => {
-      var groupCode = event.detail;
-     
-      this.showNonHistoriedDialog(
-        EnterFormulaGroundModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_second_experiment_modal_sand", (event) => {
-      var groupCode = event.detail;
-     
-      this.showNonHistoriedDialog(
-        EnterFormulaSandModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
-    });
-    this.props.scene.addEventListener("gecolab_second_experiment_modal_clay", (event) => {
-      var groupCode = event.detail;
-     
-      this.showNonHistoriedDialog(
-        EnterFormulaClayModalContainer, { scene: this.props.scene, showNonHistoriedDialog: this.showNonHistoriedDialog, groupCode: groupCode  }
-      );
     });
 
     const scene = this.props.scene;
@@ -452,6 +419,7 @@ class UIRoot extends Component {
     window.removeEventListener("concurrentload", this.onConcurrentLoad);
     window.removeEventListener("idle_detected", this.onIdleDetected);
     window.removeEventListener("activity_detected", this.onActivityDetected);
+    window.removeEventListener("focus_chat", this.onFocusChat);
   }
 
   storeUpdated = () => {
@@ -459,11 +427,7 @@ class UIRoot extends Component {
   };
 
   showContextualSignInDialog = () => {
-    const { signInMessage, authChannel } = this.props;
-    const onCallback = () => {
-      const { onContinueAfterSignIn } = this.props;
-      (onContinueAfterSignIn && onContinueAfterSignIn()) || this.closeDialog();
-    };
+    const { signInMessage, authChannel, onContinueAfterSignIn } = this.props;
     this.showNonHistoriedDialog(RoomSignInModalContainer, {
       step: SignInStep.submit,
       message: signInMessage,
@@ -472,7 +436,7 @@ class UIRoot extends Component {
 
         this.showNonHistoriedDialog(RoomSignInModalContainer, {
           step: SignInStep.waitForVerification,
-          onClose: onCallback
+          onClose: onContinueAfterSignIn || this.closeDialog
         });
 
         await authComplete;
@@ -480,11 +444,11 @@ class UIRoot extends Component {
         this.setState({ signedIn: true });
         this.showNonHistoriedDialog(RoomSignInModalContainer, {
           step: SignInStep.complete,
-          onClose: onCallback,
-          onContinue: onCallback
+          onClose: onContinueAfterSignIn || this.closeDialog,
+          onContinue: onContinueAfterSignIn || this.closeDialog
         });
       },
-      onClose: onCallback
+      onClose: onContinueAfterSignIn || this.closeDialog
     });
   };
 
@@ -537,16 +501,12 @@ class UIRoot extends Component {
     this.setState({ showVideoShareFailed: true });
   };
 
-  toggleMute = () => {
-    APP.dialog.toggleMicrophone();
-  };
-
   shareVideo = mediaSource => {
     this.props.scene.emit(`action_share_${mediaSource}`);
   };
 
   endShareVideo = () => {
-    this.props.scene.emit("action_end_video_sharing");
+    this.props.scene.emit(MediaDevicesEvents.VIDEO_SHARE_ENDED);
   };
 
   spawnPen = () => {
@@ -563,7 +523,7 @@ class UIRoot extends Component {
   handleForceEntry = () => {
     console.log("Forced entry type: " + this.props.forcedVREntryType);
 
-    if (!this.props.forcedVREntryType) return;
+    if (!this.props.forcedVREntryType || !this.props.hubChannel.canEnterRoom(this.props.hub)) return;
 
     if (this.props.forcedVREntryType.startsWith("daydream")) {
       this.enterDaydream();
@@ -619,12 +579,12 @@ class UIRoot extends Component {
 
     if (hasGrantedMic) {
       if (!this.mediaDevicesManager.isMicShared) {
-        await this.mediaDevicesManager.startLastUsedMicShare();
+        await this.mediaDevicesManager.startMicShare({});
       }
       this.beginOrSkipAudioSetup();
     } else {
       this.onRequestMicPermission();
-      this.pushHistoryState("entry_step", "mic_grant");
+      this.pushHistoryState("entry_step", "audio");
     }
 
     this.setState({ waitingOnAudio: false });
@@ -649,15 +609,10 @@ class UIRoot extends Component {
     await this.performDirectEntryFlow(true);
   };
 
-  micDeviceChanged = async deviceId => {
-    this.mediaDevicesManager.startMicShare(deviceId);
-  };
-
   onRequestMicPermission = async () => {
-    console.log("Microphone permission requested");
-    // TODO: Show an error state if getting the microphone permissions fails
-    await this.mediaDevicesManager.startLastUsedMicShare();
-    this.beginOrSkipAudioSetup();
+    if (this.props.canVoiceChat) {
+      await this.mediaDevicesManager.startMicShare({});
+    }
   };
 
   beginOrSkipAudioSetup = () => {
@@ -681,20 +636,10 @@ class UIRoot extends Component {
       await showFullScreenIfAvailable();
     }
 
-     // If we are a Student (we first show the student entry modal)
-     let gecolabManager = this.props.scene.systems["gecolab-manager"];
-
-     if (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent())
-     {
-      await this.showNonHistoriedDialog(StudentEntryModalContainer, {scene: this.props.scene,showNonHistoriedDialog: this.showNonHistoriedDialog, securityRead: false, showAcceptBtn: false, 
-         showSecurity: false, showSecurityBtn: false, clothingWrapperLeftClassName: "selectableImage", clothingOptionLeftClassName: "clickable hidden", 
-         clothingWrapperRightClassName: "selectableImage", clothingOptionRightClassName: "clickable hidden", rightOptionCounter: 0}); 
-     }
-
     // Push the new history state before going into VR, otherwise menu button will take us back
     clearHistoryState(this.props.history);
 
-    const muteOnEntry = this.props.store.state.preferences["muteMicOnEntry"] || false;
+    const muteOnEntry = this.props.store.state.preferences.muteMicOnEntry;
     await this.props.enterScene(this.state.enterInVR, muteOnEntry);
 
     this.setState({ entered: true, entering: false, showShareDialog: false });
@@ -706,9 +651,6 @@ class UIRoot extends Component {
     if (this.mediaDevicesManager.isVideoShared) {
       console.log("Screen sharing enabled.");
     }
-
-
-   
   };
 
   attemptLink = async () => {
@@ -731,9 +673,6 @@ class UIRoot extends Component {
       this.setState({ dialog: null });
     }
 
-    const { onSignInDialogVisibilityChanged } = this.props;
-    onSignInDialogVisibilityChanged && onSignInDialogVisibilityChanged(false);
-
     if (isIn2DInterstitial()) {
       exit2DInterstitialAndEnterVR();
     } else {
@@ -742,8 +681,6 @@ class UIRoot extends Component {
   };
 
   showNonHistoriedDialog = (DialogClass, props = {}) => {
-    const { onSignInDialogVisibilityChanged } = this.props;
-    onSignInDialogVisibilityChanged && onSignInDialogVisibilityChanged(true);
     this.setState({
       dialog: <DialogClass {...{ onClose: this.closeDialog, ...props }} />
     });
@@ -838,7 +775,7 @@ class UIRoot extends Component {
   pushHistoryState = (k, v) => pushHistoryState(this.props.history, k, v);
 
   setSidebar(sidebarId, otherState) {
-    this.setState({ sidebarId, selectedUserId: null, ...otherState });
+    this.setState({ sidebarId, chatPrefix: "", chatAutofocus: false, selectedUserId: null, ...(otherState || {}) });
   }
 
   toggleSidebar(sidebarId, otherState) {
@@ -852,6 +789,18 @@ class UIRoot extends Component {
       };
     });
   }
+
+  onFocusChat = e => {
+    // Close chat sidebar when hotkey is pressed whilst chat input is not in focus
+    if (this.state.sidebarId === "chat") {
+      this.setSidebar(null);
+    } else {
+      this.setSidebar("chat", {
+        chatPrefix: e.detail.prefix,
+        chatAutofocus: true
+      });
+    }
+  };
 
   renderInterstitialPrompt = () => {
     return (
@@ -879,36 +828,32 @@ class UIRoot extends Component {
   };
 
   renderEntryStartPanel = () => {
-    const { hasAcceptedProfile, hasChangedName } = this.props.store.state.activity;
-    let promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedName;
-    let gecolabManager = this.props.scene.systems["gecolab-manager"];
-    
-    const isStudentFromGecolab = (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent());
-    const isTeacherFromGecolab = (gecolabManager && gecolabManager.isInit() && gecolabManager.isTeacher());
-
-    promptForNameAndAvatarBeforeEntry = (isStudentFromGecolab) ? false : promptForNameAndAvatarBeforeEntry;
-
-    console.log('Teacher from Gecolab ? ' + isTeacherFromGecolab);
-    console.log('Student from Gecolab ? ' + isStudentFromGecolab);
+    const { hasAcceptedProfile, hasChangedNameOrPronouns } = this.props.store.state.activity;
+    const isLockedDownDemo = isLockedDownDemoRoom();
+    const promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedNameOrPronouns;
 
     // TODO: What does onEnteringCanceled do?
     return (
       <>
         <RoomEntryModal
-          appName={configs.translation("app-name")}
-          logoSrc={configs.image("logo")}
           roomName={this.props.hub.name}
           showJoinRoom={!this.state.waitingOnAudio && !this.props.entryDisallowed}
           onJoinRoom={() => {
+            if (isLockedDownDemo) {
+              if (this.props.forcedVREntryType?.startsWith("vr")) {
+                this.setState({ enterInVR: true }, this.onAudioReadyButton);
+                return;
+              }
+              return this.onAudioReadyButton();
+            }
             if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
               this.setState({ entering: true });
               this.props.hubChannel.sendEnteringEvent();
-
               if (promptForNameAndAvatarBeforeEntry) {
                 this.pushHistoryState("entry_step", "profile");
               } else {
                 this.onRequestMicPermission();
-                this.pushHistoryState("entry_step", "mic_grant");
+                this.pushHistoryState("entry_step", "audio");
               }
             } else {
               this.handleForceEntry();
@@ -918,8 +863,8 @@ class UIRoot extends Component {
           onEnterOnDevice={() => this.attemptLink()}
           showSpectate={!this.state.waitingOnAudio}
           onSpectate={() => this.setState({ watching: true })}
-          showOptions={this.props.hubChannel.canOrWillIfCreator("update_hub")}
-          onOptions={() => {
+          showRoomSettings={this.props.hubChannel.canOrWillIfCreator("update_hub")}
+          onRoomSettings={() => {
             this.props.performConditionalSignIn(
               () => this.props.hubChannel.can("update_hub"),
               () => this.setSidebar("room-settings"),
@@ -973,17 +918,10 @@ class UIRoot extends Component {
   };
 
   renderAudioSetupPanel = () => {
-    const muteOnEntry = this.props.store.state.preferences["muteMicOnEntry"] || false;
     // TODO: Show HMD mic not chosen warning
     return (
       <MicSetupModalContainer
         scene={this.props.scene}
-        selectedMicrophone={this.mediaDevicesManager.selectedMicDeviceId}
-        microphoneOptions={this.mediaDevicesManager.micDevices}
-        onChangeMicrophone={this.micDeviceChanged}
-        microphoneEnabled={this.mediaDevicesManager.isMicShared}
-        microphoneMuted={muteOnEntry}
-        onChangeMicrophoneMuted={() => this.props.store.update({ preferences: { muteMicOnEntry: !muteOnEntry } })}
         onEnterRoom={this.onAudioReadyButton}
         onBack={() => this.props.history.goBack()}
       />
@@ -1033,7 +971,7 @@ class UIRoot extends Component {
 
   render() {
     const isGhost =
-      configs.feature("enable_lobby_ghosts") && (this.state.watching || (this.state.hide || this.props.hide));
+      configs.feature("enable_lobby_ghosts") && (this.state.watching || this.state.hide || this.props.hide);
     const hide = this.state.hide || this.props.hide;
 
     const rootStyles = {
@@ -1043,6 +981,13 @@ class UIRoot extends Component {
       isGhost,
       hide
     };
+    if (this.state.isRecordingMode) {
+      return (
+        <div className={classNames(rootStyles)}>
+          <RoomLayoutContainer scene={this.props.scene} store={this.props.store} viewport={<RecordModeTip />} />
+        </div>
+      );
+    }
     if (this.props.hide || this.state.hide) {
       return (
         <div className={classNames(rootStyles)}>
@@ -1102,8 +1047,8 @@ class UIRoot extends Component {
     const entered = this.state.entered;
     const watching = this.state.watching;
     const enteredOrWatching = entered || watching;
-    const showRtcDebugPanel = this.props.store.state.preferences["showRtcDebugPanel"];
-    const showAudioDebugPanel = this.props.store.state.preferences["showAudioDebugPanel"];
+    const showRtcDebugPanel = this.props.store.state.preferences.showRtcDebugPanel;
+    const showAudioDebugPanel = this.props.store.state.preferences.showAudioDebugPanel;
     const displayNameOverride = this.props.hubIsBound
       ? getPresenceProfileForSession(this.props.presences, this.props.sessionId).displayName
       : null;
@@ -1128,9 +1073,6 @@ class UIRoot extends Component {
           <StateRoute stateKey="entry_step" stateValue="device" history={this.props.history}>
             {this.renderDevicePanel()}
           </StateRoute>
-          <StateRoute stateKey="entry_step" stateValue="mic_grant" history={this.props.history}>
-            <MicPermissionsModal onBack={() => this.props.history.goBack()} />
-          </StateRoute>
           <StateRoute stateKey="entry_step" stateValue="audio" history={this.props.history}>
             {this.renderAudioSetupPanel()}
           </StateRoute>
@@ -1149,7 +1091,7 @@ class UIRoot extends Component {
                     this.handleForceEntry();
                   } else {
                     this.onRequestMicPermission();
-                    this.pushHistoryState("entry_step", "mic_grant");
+                    this.pushHistoryState("entry_step", "audio");
                   }
                 }}
                 showBackButton
@@ -1176,9 +1118,10 @@ class UIRoot extends Component {
 
     const streaming = this.state.isStreaming;
 
-    let gecolabManager = this.props.scene.systems["gecolab-manager"];
-    const isStudent = (gecolabManager && gecolabManager.isInit() && gecolabManager.isStudent());
-    const showObjectList = enteredOrWatching && !isStudent;
+    const isLockedDownDemo = isLockedDownDemoRoom();
+
+    const showObjectList = enteredOrWatching && !isLockedDownDemo;
+    const showECSObjectsMenuButton = qsTruthy("ecsDebug");
 
     const streamer = getCurrentStreamer();
     const streamerName = streamer && streamer.displayName;
@@ -1192,9 +1135,15 @@ class UIRoot extends Component {
     const moreMenu = [
       {
         id: "user",
-        label:
-          "You" +
-          (this.state.signedIn ? ` (Signed in as: ${maskEmail(this.props.store.state.credentials.email)})` : ""),
+        label: !this.state.signedIn ? (
+          <FormattedMessage id="more-menu.not-signed-in" defaultMessage="You are not signed in" />
+        ) : (
+          <FormattedMessage
+            id="more-menu.you-signed-in-as"
+            defaultMessage="Signed in as: {email}"
+            values={{ email: maskEmail(this.props.store.state.credentials.email) }}
+          />
+        ),
         items: [
           this.state.signedIn
             ? {
@@ -1222,7 +1171,7 @@ class UIRoot extends Component {
                 reason: LeaveReason.createRoom
               })
           },
-          {
+          !isLockedDownDemo && {
             id: "user-profile",
             label: <FormattedMessage id="more-menu.profile" defaultMessage="Change Name & Avatar" />,
             icon: AvatarIcon,
@@ -1247,7 +1196,14 @@ class UIRoot extends Component {
             label: <FormattedMessage id="more-menu.preferences" defaultMessage="Preferences" />,
             icon: SettingsIcon,
             onClick: () => this.setState({ showPrefs: true })
-          }
+          },
+          (this.props.breakpoint === "sm" || this.props.breakpoint === "md") &&
+            isLockedDownDemo && {
+              id: "see-plans",
+              label: <FormattedMessage id="more-menu.see-plans-cta" defaultMessage="See Plans" />,
+              icon: { src: hubsLogo, alt: "Logo" },
+              href: "https://hubs.mozilla.com/#subscribe"
+            }
         ].filter(item => item)
       },
       {
@@ -1341,7 +1297,7 @@ class UIRoot extends Component {
           },
           entered && {
             id: "start-tour",
-            label: <FormattedMessage id="more-menu.start-tour" defaultMessage="Show controls" />,
+            label: <FormattedMessage id="more-menu.start-tour" defaultMessage="Start Tour" />,
             icon: SupportIcon,
             onClick: () => this.props.scene.systems.tips.resetTips()
           },
@@ -1367,13 +1323,13 @@ class UIRoot extends Component {
             id: "tos",
             label: <FormattedMessage id="more-menu.tos" defaultMessage="Terms of Service" />,
             icon: TextDocumentIcon,
-            href: configs.link("terms_of_use", "https://github.com/mozilla/hubs/blob/master/TERMS.md")
+            href: configs.link("terms_of_use", TERMS)
           },
           configs.feature("show_privacy") && {
             id: "privacy",
             label: <FormattedMessage id="more-menu.privacy" defaultMessage="Privacy Notice" />,
             icon: ShieldIcon,
-            href: configs.link("privacy_notice", "https://github.com/mozilla/hubs/blob/master/PRIVACY.md")
+            href: configs.link("privacy_notice", PRIVACY)
           }
         ].filter(item => item)
       }
@@ -1383,15 +1339,14 @@ class UIRoot extends Component {
       <MoreMenuContextProvider>
         <ReactAudioContext.Provider value={this.state.audioContext}>
           <div className={classNames(rootStyles)}>
-            {preload &&
-              this.props.hub && (
-                <PreloadOverlay
-                  hubName={this.props.hub.name}
-                  hubScene={this.props.hub.scene}
-                  baseUrl={hubUrl(this.props.hub.hub_id).href}
-                  onLoadClicked={this.props.onPreloadLoadClicked}
-                />
-              )}
+            {preload && this.props.hub && (
+              <PreloadOverlay
+                hubName={this.props.hub.name}
+                hubScene={this.props.hub.scene}
+                baseUrl={hubUrl(this.props.hub.hub_id).href}
+                onLoadClicked={this.props.onPreloadLoadClicked}
+              />
+            )}
             {!this.state.dialog && (
               <StateRoute
                 stateKey="overlay"
@@ -1403,8 +1358,6 @@ class UIRoot extends Component {
                     signedIn={this.state.signedIn}
                     onSignIn={this.showContextualSignInDialog}
                     onSave={() => {
-
-
                       if (props.location.state.detail && props.location.state.detail.returnToProfile) {
                         this.props.history.goBack();
                       } else {
@@ -1424,61 +1377,27 @@ class UIRoot extends Component {
                 )}
               />
             )}
-            {!this.state.dialog && (
-              <StateRoute
-                stateKey="overlay"
-                stateValue="avatar-editor-rpm"
+            {!this.state.dialog && showMediaBrowser && (
+              <MediaBrowserContainer
                 history={this.props.history}
-                render={props => (
-                  <AvatarEditorRpm
-                    className={styles.avatarEditorRpm}
-                    signedIn={this.state.signedIn}
-                    onSignIn={this.showContextualSignInDialog}
-                    onSave={() => {
-
-                      // Fix for iFrame loading
-                      this.props.history.goBack();
-                      
-                      this.props.history.goBack();
-                    
-                      this.props.onAvatarSaved();
-                    }}
-                    onClose={() => {                     
-                      this.props.history.goBack();
-                    }}
-                    store={this.props.store}
-                    scene={this.props.scene}
-                    debug={avatarEditorDebug}
-                    avatarId={props.location.state.detail && props.location.state.detail.avatarId}
-                    hideDelete={props.location.state.detail && props.location.state.detail.hideDelete}
-                  />
-                )}
+                mediaSearchStore={this.props.mediaSearchStore}
+                hubChannel={this.props.hubChannel}
+                onMediaSearchResultEntrySelected={(entry, selectAction) => {
+                  if (entry.type === "room") {
+                    this.showNonHistoriedDialog(LeaveRoomModal, {
+                      destinationUrl: entry.url,
+                      reason: LeaveReason.joinRoom
+                    });
+                  } else {
+                    this.props.onMediaSearchResultEntrySelected(entry, selectAction);
+                  }
+                }}
+                performConditionalSignIn={this.props.performConditionalSignIn}
+                showNonHistoriedDialog={this.showNonHistoriedDialog}
+                store={this.props.store}
+                scene={this.props.scene}
               />
             )}
-            {!this.state.dialog &&
-              showMediaBrowser && (
-                <MediaBrowserContainer
-                  history={this.props.history}
-                  mediaSearchStore={this.props.mediaSearchStore}
-                  hubChannel={this.props.hubChannel}
-                  onMediaSearchResultEntrySelected={(entry, selectAction) => {
-                    if (entry.type === "room") {
-                      this.showNonHistoriedDialog(LeaveRoomModal, {
-                        destinationUrl: entry.url,
-                        reason: LeaveReason.joinRoom
-                      });
-                    } else {
-                      this.props.onMediaSearchResultEntrySelected(entry, selectAction);
-                    }
-                  }}
-                  performConditionalSignIn={this.props.performConditionalSignIn}
-                  showNonHistoriedDialog={this.showNonHistoriedDialog}
-                  store={this.props.store}
-                  scene={this.props.scene}
-                  presences={this.props.presences}
-                  sessionId={this.props.sessionId}
-                />
-              )}
             {this.props.hub && (
               <RoomLayoutContainer
                 scene={this.props.scene}
@@ -1500,9 +1419,16 @@ class UIRoot extends Component {
                         )}
                         <PeopleMenuButton
                           active={this.state.sidebarId === "people"}
-                          onClick={() => this.toggleSidebar("people")}
+                          disabled={isLockedDownDemo}
+                          onClick={!isLockedDownDemo ? () => this.toggleSidebar("people") : null}
                           presencecount={this.state.presenceCount}
                         />
+                        {showECSObjectsMenuButton && (
+                          <ECSDebugMenuButton
+                            active={this.state.sidebarId === "ecs-debug"}
+                            onClick={() => this.toggleSidebar("ecs-debug")}
+                          />
+                        )}
                       </ContentMenu>
                     )}
                     {!entered && !streaming && !isMobile && streamerName && <SpectatingLabel name={streamerName} />}
@@ -1518,10 +1444,34 @@ class UIRoot extends Component {
                         }}
                       />
                     )}
-                    {this.state.sidebarId !== "chat" &&
-                      this.props.hub && (
+                    {this.state.sidebarId !== "chat" && this.props.hub && (
+                      <PresenceLog
+                        preset={"InRoom"}
+                        exclude={isMobile ? [] : ["permission"]}
+                        presences={this.props.presences}
+                        entries={presenceLogEntries}
+                        hubId={this.props.hub.hub_id}
+                        history={this.props.history}
+                        onViewProfile={sessionId => this.setSidebar("user", { selectedUserId: sessionId })}
+                      />
+                    )}
+                    <NotificationsContainer>
+                      {(this.state.hide || this.state.hideUITip || !this.props.activeObject) && (
+                        <TipContainer
+                          inLobby={watching}
+                          inRoom={entered}
+                          isEmbedded={this.props.embed}
+                          isStreaming={streaming}
+                          hubId={this.props.hub.hub_id}
+                          presences={this.props.presences}
+                          scene={this.props.scene}
+                          store={this.props.store}
+                        />
+                      )}
+                      {!isMobile && !this.state.hide && (
                         <PresenceLog
-                          inRoom={true}
+                          preset={"Notifications"}
+                          include={["permission"]}
                           presences={this.props.presences}
                           entries={presenceLogEntries}
                           hubId={this.props.hub.hub_id}
@@ -1529,17 +1479,7 @@ class UIRoot extends Component {
                           onViewProfile={sessionId => this.setSidebar("user", { selectedUserId: sessionId })}
                         />
                       )}
-                    <TipContainer
-                      hide={this.props.activeObject}
-                      inLobby={watching}
-                      inRoom={entered}
-                      isEmbedded={this.props.embed}
-                      isStreaming={streaming}
-                      hubId={this.props.hub.hub_id}
-                      presences={this.props.presences}
-                      scene={this.props.scene}
-                      store={this.props.store}
-                    />
+                    </NotificationsContainer>
                     {(showRtcDebugPanel || showAudioDebugPanel) && (
                       <RTCDebugPanel
                         history={this.props.history}
@@ -1563,6 +1503,8 @@ class UIRoot extends Component {
                           canSpawnMessages={entered && this.props.hubChannel.can("spawn_and_move_media")}
                           scene={this.props.scene}
                           onClose={() => this.setSidebar(null)}
+                          autoFocus={this.state.chatAutofocus}
+                          initialValue={this.state.chatPrefix}
                         />
                       )}
                       {this.state.sidebarId === "objects" && (
@@ -1641,18 +1583,23 @@ class UIRoot extends Component {
                           onChangeScene={this.onChangeScene}
                         />
                       )}
+                      {this.state.sidebarId === "ecs-debug" && (
+                        <ECSDebugSidebarContainer onClose={() => this.setSidebar(null)} />
+                      )}
                     </>
-                  ) : (
-                    undefined
-                  )
+                  ) : undefined
                 }
                 modal={this.state.dialog}
                 toolbarLeft={
-                  <InvitePopoverContainer
-                    hub={this.props.hub}
-                    hubChannel={this.props.hubChannel}
-                    scene={this.props.scene}
-                  />
+                  <>
+                    <InvitePopoverContainer
+                      hub={this.props.hub}
+                      hubChannel={this.props.hubChannel}
+                      scene={this.props.scene}
+                      store={this.props.store}
+                    />
+                    {isLockedDownDemo && <SeePlansCTA />}
+                  </>
                 }
                 toolbarCenter={
                   <>
@@ -1678,59 +1625,68 @@ class UIRoot extends Component {
                     )}
                     {entered && (
                       <>
-                        <VoiceButtonContainer
-                          scene={this.props.scene}
-                          microphoneEnabled={this.mediaDevicesManager.isMicShared}
-                        />
-
-                        <InventoryListPopoverContainer />
-                        <NotebookPopoverContainer />
-                        <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
-                        <PlacePopoverContainer
-                          scene={this.props.scene}
-                          hubChannel={this.props.hubChannel}
-                          mediaSearchStore={this.props.mediaSearchStore}
-                          showNonHistoriedDialog={this.showNonHistoriedDialog}
-                        />
-                        {this.props.hubChannel.can("spawn_emoji") && <ReactionPopoverContainer />}
+                        {!isLockedDownDemo && (
+                          <>
+                            <AudioPopoverButtonContainer scene={this.props.scene} />
+                            <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
+                            <PlacePopoverContainer
+                              scene={this.props.scene}
+                              hubChannel={this.props.hubChannel}
+                              mediaSearchStore={this.props.mediaSearchStore}
+                              showNonHistoriedDialog={this.showNonHistoriedDialog}
+                            />
+                          </>
+                        )}
+                        {this.props.hubChannel.can("spawn_emoji") && (
+                          <ReactionPopoverContainer
+                            scene={this.props.scene}
+                            initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
+                          />
+                        )}
                       </>
                     )}
-                    {entered &&
-                      <DigitalLibraryButtonContainer onClick={() => this.props.mediaSearchStore.sourceNavigate("library")} />
-                    }
-                    <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} />
-                    {entered &&
-                      isMobileVR && (
-                        <ToolbarButton
-                          className={styleUtils.hideLg}
-                          icon={<VRIcon />}
-                          preset="accept"
-                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
-                          onClick={() => exit2DInterstitialAndEnterVR(true)}
-                        />
-                      )}
+                    {!isLockedDownDemo && (
+                      <ChatToolbarButton
+                        onClick={() => this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })}
+                        selected={this.state.sidebarId === "chat"}
+                      />
+                    )}
+                    {entered && isMobileVR && (
+                      <ToolbarButton
+                        className={styleUtils.hideLg}
+                        icon={<VRIcon />}
+                        preset="accept"
+                        label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
+                        onClick={() => exit2DInterstitialAndEnterVR(true)}
+                      />
+                    )}
                   </>
                 }
                 toolbarRight={
                   <>
-                    {entered &&
-                      isMobileVR && (
-                        <ToolbarButton
-                          icon={<VRIcon />}
-                          preset="accept"
-                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
-                          onClick={() => exit2DInterstitialAndEnterVR(true)}
-                        />
-                      )}
+                    {entered && isMobileVR && (
+                      <ToolbarButton
+                        icon={<VRIcon />}
+                        preset="accept"
+                        label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
+                        onClick={() => exit2DInterstitialAndEnterVR(true)}
+                      />
+                    )}
                     {entered && (
                       <ToolbarButton
                         icon={<LeaveIcon />}
-                        label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Exit Application" />}
+                        label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
                         preset="cancel"
+                        selected={!!this.state.leaving}
                         onClick={() => {
+                          this.setState({ leaving: true });
                           this.showNonHistoriedDialog(LeaveRoomModal, {
                             destinationUrl: "/",
-                            reason: LeaveReason.leaveRoom
+                            reason: LeaveReason.leaveRoom,
+                            onClose: () => {
+                              this.setState({ leaving: false });
+                              this.closeDialog();
+                            }
                           });
                         }}
                       />
@@ -1741,6 +1697,14 @@ class UIRoot extends Component {
               />
             )}
           </div>
+          {this.props.showBitECSBasedClientRefreshPrompt && (
+            <div className={styles.bitecsBasedClientRefreshPrompt}>
+              <FormattedMessage
+                id="ui-root.bitecs-based-client-refresh-prompt"
+                defaultMessage="This page will be reloaded in five seconds because the room owner toggled the bitECS based client activation flag."
+              />
+            </div>
+          )}
         </ReactAudioContext.Provider>
       </MoreMenuContextProvider>
     );
@@ -1750,10 +1714,11 @@ class UIRoot extends Component {
 function UIRootHooksWrapper(props) {
   useAccessibleOutlineStyle();
   const breakpoint = useCssBreakpoints();
+  const { voice_chat: canVoiceChat } = usePermissions();
 
-  useEffect(
-    () => {
-      const el = document.getElementById("preload-overlay");
+  useEffect(() => {
+    const el = document.getElementById("preload-overlay");
+    if (el) {
       el.classList.add("loaded");
 
       const sceneEl = props.scene;
@@ -1769,14 +1734,13 @@ function UIRootHooksWrapper(props) {
         clearTimeout(timeout);
         sceneEl.classList.remove(roomLayoutStyles.scene);
       };
-    },
-    [props.scene]
-  );
+    }
+  }, [props.scene]);
 
   return (
     <ChatContextProvider messageDispatch={props.messageDispatch}>
       <ObjectListProvider scene={props.scene}>
-        <UIRoot breakpoint={breakpoint} {...props} />
+        <UIRoot breakpoint={breakpoint} {...props} canVoiceChat={canVoiceChat} />
       </ObjectListProvider>
     </ChatContextProvider>
   );

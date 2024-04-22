@@ -41,15 +41,10 @@ const FACETS = {
     { text: "Newest", params: { filter: "" } }
   ],
   favorites: [],
-  scenes: [{ text: "Featured", params: { filter: "featured" } }, { text: "My Scenes", params: { filter: "my-scenes" } }],
-  library: [
-    { text: "Images", params: { filter: "images"}},
-    { text: "Videos", params: { filter: "videos"}},
-    { text: "Documents", params: { filter: "documents"}},
-    { text: "URLs", params: { filter: "urls"}},
-    { text: "Models", params: { filter: "models"}},
-  ],
-  experiments: []
+  scenes: [
+    { text: "Featured", params: { filter: "featured" } },
+    { text: "My Scenes", params: { filter: "my-scenes" } }
+  ]
 };
 
 const room = {
@@ -221,8 +216,7 @@ const sketchfabModel = {
   id: "a4c500d7358a4a199b6a5cd35f416466",
   images: {
     preview: {
-      url:
-        "https://media.sketchfab.com/models/a4c500d7358a4a199b6a5cd35f416466/thumbnails/6b41b00f0f474c058bea071db62097fd/d3a6f64b461f4cc8af7331a220a4122c.jpeg"
+      url: "https://media.sketchfab.com/models/a4c500d7358a4a199b6a5cd35f416466/thumbnails/6b41b00f0f474c058bea071db62097fd/d3a6f64b461f4cc8af7331a220a4122c.jpeg"
     }
   },
   name: "Ducky_MozillaHubs",
@@ -246,34 +240,7 @@ const gif = {
   url: "https://media.tenor.com/videos/004424225acc15896c846f6ab3740ad0/mp4"
 };
 
-const libraryItem = {
-  attributions: {},
-  id: "175836378",
-  images: {
-    preview: {
-      height: 178,
-      type: "mp4",
-      url: "https://media.tenor.com/videos/460a01cf67ea961ef7e4e0fc8680ca2d/mp4",
-      width: 320
-    }
-  },
-  name: "",
-  type: "library_item",
-  url: "https://media.tenor.com/videos/004424225acc15896c846f6ab3740ad0/mp4"
-};
-
-const experimentListing = {
-  id: "123",
-  attributions: null,
-  description: null,
-  images: { preview: { url: "https://hubs-upload-cdn.com/files/8b4efdc8-378e-4a44-a7a9-1006bf2dca7c.jpg" } },
-  name: "Experiment 1",
-  project_id: null,
-  type: "experiment_listing",
-  url: "#"
-};
-
-const mediaSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images", "library"];
+const mediaSources = ["sketchfab", "videos", "scenes", "avatars", "gifs", "images"];
 
 export const Favorites = () => (
   <MediaBrowser selectedSource={"favorites"}>
@@ -413,46 +380,5 @@ export const Gif = () => (
     <MediaTile entry={gif} />
     <MediaTile entry={gif} />
     <MediaTile entry={gif} />
-  </MediaBrowser>
-);
-
-export const Library = () => (
-  <MediaBrowser
-    searchPlaceholder="Search Digital Library..."
-    mediaSources={mediaSources}
-    selectedSource={"library"}
-    facets={FACETS.library}
-    headerRight={
-      <IconButton lg>
-        <LinkIcon />
-        <p>Custom Model</p>
-      </IconButton>
-    }
-    hasNext
-  >
-    <MediaTile entry={libraryItem} />
-    <MediaTile entry={libraryItem} />
-    <MediaTile entry={libraryItem} />
-    <MediaTile entry={libraryItem} />
-    <MediaTile entry={libraryItem} />
-    <MediaTile entry={libraryItem} />
-  </MediaBrowser>
-);
-
-
-export const ExperimentsListing = () => (
-  <MediaBrowser
-    searchPlaceholder="Search Experiments..."
-    mediaSources={mediaSources}
-    selectedSource={"experiments"}
-    facets={FACETS.experiments}
-    hasNext
-  >
-    <MediaTile entry={experimentListing} />
-    <MediaTile entry={experimentListing} />
-    <MediaTile entry={experimentListing} />
-    <MediaTile entry={experimentListing} />
-    <MediaTile entry={experimentListing} />
-    <MediaTile entry={experimentListing} />
   </MediaBrowser>
 );

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import classNames from "classnames";
 import configs from "../../utils/configs";
@@ -6,7 +6,6 @@ import { CreateRoomButton } from "./CreateRoomButton";
 import { PWAButton } from "./PWAButton";
 import { useFavoriteRooms } from "./useFavoriteRooms";
 import { usePublicRooms } from "./usePublicRooms";
-import { useActiveRooms } from "./useActiveRooms";
 import styles from "./HomePage.scss";
 import { AuthContext } from "../auth/AuthContext";
 import { createAndRedirectToNewHub } from "../../utils/phoenix-utils";
@@ -15,30 +14,23 @@ import { MediaTile } from "../room/MediaTiles";
 import { PageContainer } from "../layout/PageContainer";
 import { scaledThumbnailUrlFor } from "../../utils/media-url-utils";
 import { Column } from "../layout/Column";
-import { Button } from "../input/Button";
 import { Container } from "../layout/Container";
-import modalStyles from "../../react-components/modal/Modal.scss";
-import avatarImage from '../../assets/images/avatarImages/myavatar.png';
-import threeDIconImage  from '../../assets/images/icons/3d_icon.png';
-import crossplatformImage  from '../../assets/images/icons/crossplatform_icon.png';
-import permissionsImage  from '../../assets/images/icons/permissions_icon.png';
+import { SocialBar } from "../home/SocialBar";
+import { SignInButton } from "./SignInButton";
+import { AppLogo } from "../misc/AppLogo";
+import { isHmc } from "../../utils/isHmc";
+import maskEmail from "../../utils/mask-email";
 
 export function HomePage() {
-
   const auth = useContext(AuthContext);
   const intl = useIntl();
 
   const { results: favoriteRooms } = useFavoriteRooms();
   const { results: publicRooms } = usePublicRooms();
-  //const { results: activeRooms } = useActiveRooms();
 
   const sortedFavoriteRooms = Array.from(favoriteRooms).sort((a, b) => b.member_count - a.member_count);
   const sortedPublicRooms = Array.from(publicRooms).sort((a, b) => b.member_count - a.member_count);
-  //const sortedActiveRooms = Array.from(activeRooms).sort((a, b) => b.member_count - a.member_count);
-
-
- 
-
+  const wrapInBold = chunk => <b>{chunk}</b>;
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
 
@@ -54,26 +46,38 @@ export function HomePage() {
     }
 
     if (qs.has("new")) {
-      createAndRedirectToNewHub(null, null, true);
+      qs.delete("new");
+      createAndRedirectToNewHub(null, null, true, qs);
     }
   }, []);
 
   const canCreateRooms = !configs.feature("disable_room_creation") || auth.isAdmin;
-
+  const email = auth.email;
   return (
     <PageContainer className={styles.homePage}>
       <Container>
         <div className={styles.hero}>
+          {auth.isSignedIn ? (
+            <div className={styles.signInContainer}>
+              <span>
+                <FormattedMessage
+                  id="header.signed-in-as"
+                  defaultMessage="Signed in as {email}"
+                  values={{ email: maskEmail(email) }}
+                />
+              </span>
+              <a href="#" onClick={auth.signOut} className={styles.mobileSignOut}>
+                <FormattedMessage id="header.sign-out" defaultMessage="Sign Out" />
+              </a>
+            </div>
+          ) : (
+            <SignInButton mobile />
+          )}
           <div className={styles.logoContainer}>
-            <img alt={configs.translation("app-name")} src={configs.image("logo")} />
+            <AppLogo />
           </div>
           <div className={styles.appInfo}>
-            <div className={styles.appDescription}>
-              <FormattedMessage id="home-page.app-description" defaultMessage="CyberCinity - The immersive and collaborative communication platform for all devices" />
-            </div>
-              <Button lg preset="primary" as="a" href="/link">
-                <FormattedMessage id="home-page.have-code" defaultMessage="Have a room code?" />
-              </Button>
+            <div className={styles.appDescription}>{configs.translation("app-description")}</div>
             {canCreateRooms && <CreateRoomButton />}
             <PWAButton />
           </div>
@@ -101,14 +105,15 @@ export function HomePage() {
             <p>
               <FormattedMessage
                 id="home-page.rooms-blurb"
-                defaultMessage="Share virtual spaces with your friends, co-workers, and communities. When you create a room with Hubs, you’ll have a private virtual meeting space that you can instantly share - no downloads or VR headset necessary."
+                defaultMessage="Share virtual spaces with your friends, co-workers, and communities. When you create a room with Hubs, you’ll have a private virtual meeting space that you can instantly share <b>- no downloads or VR headset necessary.</b>"
+                values={{ b: wrapInBold }}
               />
             </p>
           </Column>
           <Column padding gap="xl" className={styles.card}>
             <img src={configs.image("landing_communicate_thumb")} />
             <h3>
-              <FormattedMessage id="home-page.communicate-title" defaultMessage="Communicate naturally" />
+              <FormattedMessage id="home-page.communicate-title" defaultMessage="Communicate and Collaborate" />
             </h3>
             <p>
               <FormattedMessage
@@ -134,7 +139,7 @@ export function HomePage() {
       {sortedPublicRooms.length > 0 && (
         <Container className={styles.roomsContainer}>
           <h3 className={styles.roomsHeading}>
-            <FormattedMessage id="home-page.public--rooms" defaultMessage="Current events" />
+            <FormattedMessage id="home-page.public--rooms" defaultMessage="Public Rooms" />
           </h3>
           <Column grow padding className={styles.rooms}>
             <MediaGrid center>
@@ -175,77 +180,11 @@ export function HomePage() {
           </Column>
         </Container>
       )}
-      <Container className={styles.featureContainer}>
-        <Column padding grow className={styles.featureMainColumn}>
-          <Column padding center grow className={styles.featureSingleColumn}>
-            <img
-              className={styles.avatarImage}
-              src={threeDIconImage}
-              alt='3D_icon'
-            />
-            <p className={styles.featureText}>
-              <FormattedMessage id="home-page.icon-3d" defaultMessage="Collaborative interaction & editing of virtual 3D objects" />
-            </p>
-          </Column>
-          <Column padding center grow className={styles.featureSingleColumn}>
-            <img
-              className={styles.avatarImage}
-              src={crossplatformImage}
-              alt='crossplatform_icon'
-            />
-            <p className={styles.featureText}>
-              <FormattedMessage id="home-page.icon-crossplatform" defaultMessage="Cross platform setup - participation via VR glasses or web browsers" />
-            </p>
-          </Column>
-          <Column padding center grow className={styles.featureSingleColumn}>
-            <img
-              className={styles.avatarImage}
-              src={permissionsImage}
-              alt='permissions_icon'
-            />
-            <p className={styles.featureText}>
-              <FormattedMessage id="home-page.icon-permissions" defaultMessage="Different permissions" />
-            </p>
-          </Column>
+      {isHmc() ? (
+        <Column center>
+          <SocialBar />
         </Column>
-      </Container>
-      {/* TODO: Write a small tutorial on how to use RPM ?
-      <Container className={styles.avatarContainer}>
-        <h3 className={styles.avatarHeading}>
-          <FormattedMessage id="home-page.my-avatar" defaultMessage="My avatar" />
-        </h3>
-        <Container className={styles.innerAvatarContainer}>
-          <Column left grow padding  className={styles.avatarColumn}>
-            <img
-              className={styles.avatarImage}
-              src={avatarImage}
-              alt='changeAvatarImage'
-            />
-
-          </Column>
-          <Column padding center grow className={styles.avatarColumn}>
-            <ol style={{textAlign: 'left'}}>
-            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
-              <FormattedMessage id="home-page.customzie-avatar" defaultMessage="1. Customize your avatar." />
-            </li>
-            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
-              <FormattedMessage id="home-page.copy-link-avatar" defaultMessage="2. Copy the link of your avatar." />
-            </li>
-            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
-              <FormattedMessage id="home-page.paste-link-avatar" defaultMessage="3. Paste this link in the avatar settings under 'Custom Avatar URL'." />
-            </li>
-            <li style={{paddingBottom: '20px', lineHeight: '130%'}}>
-              <FormattedMessage id="home-page.use-avatar" defaultMessage="4. After that step, you are able to use your new avatar." />
-            </li>
-          </ol>
-            <Button lg preset="primary" onClick={onClickChangeAvatarButton}>
-              <FormattedMessage id="change-avatar" defaultMessage="Create my avatar" />
-            </Button>
-          </Column>
-        </Container>
-      </Container>
-      */}
-
+      ) : null}
     </PageContainer>
   );
 }
