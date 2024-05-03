@@ -5,19 +5,19 @@ import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 //Models shared with first-experiment
-import mortarStickSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import mortarSrc from"../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import groundSampleInMortarSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import scaleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
+import mortarSrc from "../../../assets/models/GecoLab/mortar.glb";
+import groundSampleInMortarSrc from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
+import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
 //Models made for second-experiment
-import sieveBaseSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import sieve1Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import sieve2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import sieveMachineEmptySrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import sieveBaseSrc from "../../../assets/models/GecoLab/second-experiment/sieve_base.glb";
+import sieve1Src from "../../../assets/models/GecoLab/second-experiment/sieve_63µm.glb";
+import sieve2Src from "../../../assets/models/GecoLab/second-experiment/sieve_2mm.glb";
+import sieveMachineEmptySrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_empty.glb";
 import sieveMachineAnimsSrc from "../../../assets/models/GecoLab/second-experiment/sieve_machine_w_anims.glb";
-import clockSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import groundSampleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import clockSrc from "../../../assets/models/GecoLab/stopwatch.glb";
+import groundSampleSrc from "../../../assets/models/GecoLab/ground_sample_grinded.glb";
 
 
 import { THREE } from "aframe";

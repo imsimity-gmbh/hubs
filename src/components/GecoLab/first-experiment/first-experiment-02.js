@@ -5,23 +5,23 @@ import { waitForDOMContentLoaded } from "../../../utils/async-utils";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 //Initial Models:
-import mortarStickSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import groundSampleSrc1 from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import mortarStickSrc from "../../../assets/models/GecoLab/mortar_stick.glb";
+import groundSampleSrc1 from "../../../assets/models/GecoLab/ground-sample-coarse-1.glb";
 
-import groundSampleInMortar from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import groundSampleInMortar from "../../../assets/models/GecoLab/mortar_with_sample_1.glb";
 
-import bunsenBurnerSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import tripodSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import tripodPlateSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import tripodTriangleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import firelighterSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import glassStickSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import thermoSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb"; 
-import scaleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import curcibleSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import spoonSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import groundSampleSpoonSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
-import tongSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_cabinet.glb";
+import bunsenBurnerSrc from "../../../assets/models/GecoLab/bunsen_burner.glb";
+import tripodSrc from "../../../assets/models/GecoLab/tripod.glb";
+import tripodPlateSrc from "../../../assets/models/GecoLab/tripod_plate.glb";
+import tripodTriangleSrc from "../../../assets/models/GecoLab/tripod_triangle_V2.glb";
+import firelighterSrc from "../../../assets/models/GecoLab/lighter.glb";
+import glassStickSrc from "../../../assets/models/GecoLab/stick_w_collider.glb";
+import thermoSrc from "../../../assets/models/GecoLab/thermo_w_collider.glb"; 
+import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
+import curcibleSrc from "../../../assets/models/GecoLab/crucible.glb";
+import spoonSrc from "../../../assets/models/GecoLab/spoon_w_collider.glb";
+import groundSampleSpoonSrc from "../../../assets/models/GecoLab/ground-sample-spoon.glb";
+import tongSrc from "../../../assets/models/GecoLab/tong_w_collider.glb";
 import { THREE } from "aframe";
 
 // const robotModelPromise = waitForDOMContentLoaded().then(() => loadModel(robotModelSrc));

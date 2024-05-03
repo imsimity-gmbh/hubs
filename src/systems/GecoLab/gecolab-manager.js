@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { isNullUndefinedOrEmpty } from "../../utils/imsimity";
 
 const GECOLAB_DASHBOARD_API = "https://gecolab-dashboard.herokuapp.com"
-const GECOLAB_LOBBY_ID = "BEZcBg3";
+const GECOLAB_LOBBY_ID = "Fgfz8xC";
 
 AFRAME.registerSystem('gecolab-manager', {
     schema: {},  // System schema. Parses into `this.data`.
