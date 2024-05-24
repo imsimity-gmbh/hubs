@@ -4,15 +4,15 @@ import { loadModel } from "../.././gltf-model-plus";
 import { IMSIMITY_INIT_DELAY } from "../../../utils/imsimity";
 import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/network-helper";
 
-import plant1GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant2GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant3GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant1Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant2Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant3Co2Src from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant1TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant2TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
-import plant3TempSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import plant1GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_1.glb";
+import plant2GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_2.glb";
+import plant3GroundSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_ground_3.glb";
+import plant1Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_1.glb";
+import plant2Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_2.glb";
+import plant3Co2Src from "../../../assets/models/GecoLab/PlantGrowth/wheat_co2_3.glb";
+import plant1TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_1.glb";
+import plant2TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_2.glb";
+import plant3TempSrc from "../../../assets/models/GecoLab/PlantGrowth/wheat_temp_3.glb";
 
 const plant1GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant1GroundSrc));
 const plant2GroundPromise =  waitForDOMContentLoaded().then(() => loadModel(plant2GroundSrc));
@@ -258,14 +258,14 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
       {
         this.answerText0.setAttribute("text", { value: "Weizenpflanzen wachsen am besten bei einer Temperatur von 33°C."});
         this.answerText1.setAttribute("text", { value: "Alle  Weizenpflanzen zeigen eine vergleichbare Entwicklung."});
-        this.answerText2.setAttribute("text", { value: "Die Weizenpflanze 3, die den höchsten Temperaturen ausgesetzt ist, zeigt vereinzelte gelbe Flecken auf den Blättern."});
+        this.answerText2.setAttribute("text", { value: "Die Weizenpflanze, die den höchsten Temperaturen ausgesetzt ist, zeigt gelbe Flecken auf den Blättern."});
         this.rightAnswer = 2;
       }
       else if(this.chosen == 1)//CO₂
       {
         this.answerText0.setAttribute("text", { value: "Alle Weizenpflanzen haben das gleiche Erscheinungsbild."});
         this.answerText1.setAttribute("text", { value: "Die Weizenpflanze, die der höchsten CO2-Konzentration ausgesetzt ist, zeigt das stärkste Wachstum. "});
-        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen unter der aktuellen CO2-Konzentration am besten. "});
+        this.answerText2.setAttribute("text", { value: "Weizenpflanzen wachsen bei einer CO2-Konzentration von 419ppm am besten. "});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
@@ -554,9 +554,9 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         this.plant6Temp2.object3D.visible = true;
         this.plant6Temp3.object3D.visible = true;
 
-        this.plant6Temp1PNG.object3D.visible = true;
-        this.plant6Temp2PNG.object3D.visible = true;
-        this.plant6Temp3PNG.object3D.visible = true;
+        //this.plant6Temp1PNG.object3D.visible = true;
+        //this.plant6Temp2PNG.object3D.visible = true;
+        //this.plant6Temp3PNG.object3D.visible = true;
       } 
       else if (this.chosen == 1)
       {
@@ -564,9 +564,9 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         this.plant6Co22.object3D.visible = true;
         this.plant6Co23.object3D.visible = true;
 
-        this.plant6Co21PNG.object3D.visible = true;
-        this.plant6Co22PNG.object3D.visible = true;
-        this.plant6Co23PNG.object3D.visible = true;
+        //this.plant6Co21PNG.object3D.visible = true;
+        //this.plant6Co22PNG.object3D.visible = true;
+        //this.plant6Co23PNG.object3D.visible = true;
       }
       else if (this.chosen == 2)
       {
@@ -574,9 +574,9 @@ const plant3TempPromise =  waitForDOMContentLoaded().then(() => loadModel(plant3
         this.plant6Ground2.object3D.visible = true;
         this.plant6Ground3.object3D.visible = true;
 
-        this.plant6Ground1PNG.object3D.visible = true;
-        this.plant6Ground2PNG.object3D.visible = true;
-        this.plant6Ground3PNG.object3D.visible = true;
+        //this.plant6Ground1PNG.object3D.visible = true;
+        //this.plant6Ground2PNG.object3D.visible = true;
+        //this.plant6Ground3PNG.object3D.visible = true;
       }
       
       this.simpleAnims1 = this.thirdExpPart01.querySelector(".growth-Cabinet-1");

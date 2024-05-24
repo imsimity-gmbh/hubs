@@ -45,82 +45,82 @@ export var MANNEQUIN_TEXTS = [
   "",
   "",
   "",
-  "Hi! Schön, dass du den Weg in unser virtuelles Labor gefunden hast. Ich bin Erni und werde dir durch meine Anleitung helfen das Experiment zum Pflanzenwachstum durchzuführen. Während des Experiments wirst du einige Fragen beantworten, bei denen ich dich unterstützen kann und dir Feedback gebe.",
-  "Vor dir siehst du drei Wachstumsschränke. In einem Wachstumsschrank können natürliche, aber auch zukünftige klimatische Bedingungen präzise simuliert werden unter denen Pflanzen und Organismen wachsen können. Angesichts des sich verändernden Klimas können wir schauen, wie Pflanzen in Zukunft wachsen und, ob sie das überhaupt noch können.",
-  "Beginnen wir mit dem Experiment! Stell einen Topf mit einem Weizensamen in den dazugehörigen Wachstumsschrank.",
+  "Hi! Schön, dass du den Weg in unser virtuelles Labor gefunden hast. Ich bin Erni und werde dir durch meine Anleitung helfen den Versuch zum Pflanzenwachstum durchzuführen. Während des Experiments wirst du einige Fragen beantworten, bei denen ich dich unterstützen kann und dir Feedback gebe.",
+  "Vor dir siehst du drei Wachstumsschränke. In einem Wachstumsschrank können natürliche, aber auch zukünftige klimatische Wachstumsbedingungen für Pflanzen präzise simuliert werden. Angesichts des sich verändernden Klimas können wir schauen, wie Pflanzen in Zukunft wachsen und, ob sie das überhaupt noch können.",
+  "Beginnen wir mit dem Experiment! \nStell einen Topf mit einem Weizensamen in den dazugehörigen Wachstumsschrank.",
   "Schließ die Wachstumsschränke.",
-  "An jedem Wachstumsschrank findest du eine Anzeigetafel mit fünf verschiedenen Parametern,  die Einfluss auf das Wachstum von Pflanze haben. Um zu verstehen welcher Parameter das Wachstum beeinflusst, ändern wir immer nur einen Parameter, während die Anderen gleichbleiben. Ansonsten wissen wir nicht genau, was der Ursprung für die Veränderung ist.",
-  "Du kannst dich nun entscheiden, ob du den Einfluss der Temperatur, der Kohlenstoffdioxid-Konzentration oder der Bodenart näher untersuchen möchtest.",
+  "An jedem Wachstumsschrank findest du eine Anzeigetafel mit fünf verschiedenen Parametern, die Einfluss auf das Wachstum von Pflanzen haben. Um zu verstehen, wie welcher Parameter das Wachstum beeinflusst, ändern wir immer nur einen Parameter während die anderen gleichbleiben. Ansonsten können wir nicht genau wissen, was der Ursprung der Veränderung ist.",
+  "Du kannst dich nun entscheiden, ob du den Einfluss der Temperatur, der Kohlenstoffdioxid-Konzentration oder der Bodenart näher untersuchen möchtest. ",
   //CO₂_Konzentration
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die CO2-Konzentration wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
-  "Ich habe die unterschiedlichen CO2-Konzentrationen bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel.",
-  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere CO2- Konzentration auf das Wachstum von Weizen hat.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die CO2Konzentration wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen von Weizen entsprechen.",
+  "Ich habe die unterschiedlichen CO2-Konzentrationen bereits für dich ausgewählt und eingestellt. Du findest sie auf der Anzeigetafel.",
+  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere CO2- Konzentration auf das Wachstum von Weizenpflanzen hat.",
   "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
   //Temperatur
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Temperatur wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
-  "Ich habe die unterschiedlichen Temperaturen bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel.",
-  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere Temperatur auf das Wachstum von Weizen hat.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Temperatur wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen von Weizen entsprechen. ",
+  "Ich habe die unterschiedlichen Temperaturen bereits für dich ausgewählt und eingestellt. Du findest sie auf der Anzeigetafel.",
+  "In diesem Versuch untersuchen wir, welchen Einfluss eine höhere Temperatur auf das Wachstum von Weizenpflanzen hat. ",
   "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
   //Bodenart
-  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Bodenart wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen entsprechen.",
-  "Ich habe die unterschiedlichen Bodenarten bereits für dich ausgewählt. Du findest sie auf der Anzeigetafel. ",
-  "In diesem Versuch untersuchen wir, welchen Einfluss verschiedene Bodenarten auf das Wachstum von Weizen haben.",
+  "Auf den Anzeigetafeln der Wachstumsschränke kannst du die Einstellungen der Parameter sehen. Die Bodenart wird sich bei den drei Wachstumsschränken unterscheiden, während die anderen Parameter gleichbleiben und den idealen Wachstumsbedingungen von Weizen entsprechen.",
+  "Ich habe die unterschiedlichen Bodenarten bereits für dich ausgewählt und eingestellt. Du findest sie auf der Anzeigetafel.",
+  "In diesem Versuch untersuchen wir, welchen Einfluss verschiedene Bodenarten auf das Wachstum von Weizenpflanzen haben.",
   "Noch ein Tipp: Lies die Fragen und Antworten gründlich und aufmerksam, bevor du antwortest!",
-  "Für das Experiment nutzen wir einen Vorteil des virtuellen Labors. Normalerweise müssten wir jetzt mehrere Wochen warten, um eine Veränderung der Pflanzen zu beobachten und zu analysieren. Wir werden das Ganze einfach ein bisschen schneller machen und vorspulen.",
-  "Nach 6 Wochen kannst du bereits die ersten Veränderungen deiner Pflanzen sehen. Notiere dir, wie deine Pflanzen aussehen und welche Unterschiede es gibt.",
+  "Für das Experiment nutzen wir einen Vorteil des virtuellen Labors. Normalerweise müssten wir jetzt mehrere Wochen warten, um eine Veränderung der Pflanzen zu beobachten und zu analysieren. Wir werden einfach vorspulen.",
+  "Nach 6 Wochen kannst du bereits die ersten Veränderungen deiner Pflanzen sehen. Beschreibe das Aussehen der Pflanzen und notiere die Unterschiede.",
   //Feedback erste Runde
   "Sehr gute Beobachtung!",
-  "Deine Antwort ist leider nicht korrekt. Schau dir deine Pflanze doch nochmal genau an.",
+  "Das ist nicht die korrekte Antwort. Schau dir deine Pflanzen nochmal genau an. ",
   //Feedback zweite Runde 
-  "Sehr gut, deine Antwort ist korrekt.",
+  "Sehr gut! Deine Antwort ist korrekt.",
   //CO₂-Konzentartion
-  "Leider ist deine Antwort nicht korrekt. Alle Pflanzen haben das gleiche Erscheinungsbild. Für die Zukunft empfehle ich die, die Fragen und die Antworten sorgfältig und gründlich zu lesen.",
+  "Deine Antwort ist leider nicht korrekt. Nach 6 Wochen haben alle drei Weizenpflanzen das gleiche Erscheinungsbild. \nDenk beim nächsten Mal daran, die Fragen und möglichen Antworten gründlich zu lesen.",
   //Temperatur
-  "Leider ist deine Antwort nicht korrekt. Die Pflanze drei zeigt vereinzelte gelbe Flecken auf den Blättern. Für die Zukunft  empfehle ich dir, die Fragen und  Antworten sorgfältig und gründlich zu lesen.",
+  "Deine Antwort ist leider nicht korrekt. Bereits nach 6 Wochen kann man auf den Blättern bei Pflanze 3 vereinzelte gelbe Flecken erkennen. \nDenk beim nächsten Mal daran die Fragen und Antworten gründlich zu lesen.",
   //Bodenart
-  "Leider ist deine Antwort nicht korrekt. Lehmiger Tonboden schränkt das Wachstum der Weizenpflanzen ein.  Für die Zukunft empfehle ich dir, die Fragen und Antworten sorgfältig und gründlich zu lesen.",
+  "Deine Antwort ist leider nicht korrekt. Der lehmige Tonboden schränkt schon nach 6 Wochen das Wachstum der Weizenpflanze ein. \nDenk beim nächsten Mal daran die Fragen und Antworten gründlich zu lesen.",
   "Als nächstes schauen wir uns die Veränderungen nach 12 Wochen an.",
-  "Wir sehen zwar einen Unterschied im Wachstum der Pflanzen, allerdings wollen wir das Ganze auch noch wissenschaftlich überprüfen.",
-  /*70*/"Nimm die Schere und schneide damit den ganzen oberirdischen Teil deiner Weizenpflanze ab und leg ihn in die Petrischale. Wiederhol den Vorgang mit den anderen beiden Pflanzen.",
-  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
+  "Wir können zwar schon einen Unterschied im Wachstum der Pflanzen sehen, allerdings wollen wir das auch noch wissenschaftlich überprüfen, indem wir das Gewicht der Weizenpflanzen bestimmen.",
+  /*70*/"Nimm die Schere, schneide damit den ganzen oberirdischen Teil deiner Weizenpflanze ab und leg ihn in die Petrischale. Wiederhole den Vorgang mit den anderen beiden Pflanzen.",
+  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300 kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300 g bereits berücksichtigt.",
   //Feedback
   //CO₂-Konzentration
-  "Super, deine Antwort ist richtig.",
-  "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
-  "Top! Du hast die richtige Lösung. Mach weiter so und bleib aufmerksam beim Beantworten der Frage.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 3-2-1.",
+  "Super! Deine Antwort ist richtig.",
+  "Das ist nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
+  "Top! Du hast die richtige Lösung. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen. ",
+  "Leider ist deine Antwort nicht korrekt. Pflanze 3 wiegt 970 g bei einer Höhe von 87 cm und ist damit am stärksten gewachsen. Die richtige Reihenfolge ist daher 3-2-1.",
   //Temperatur
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-2-3.",
+  "Leider ist deine Antwort nicht korrekt. Mit einer Höhe von 80 cm und 800 g ist Pflanze 1 am stärksten gewachsen, wodurch die richtige Reihenfolge 1-2-3 ist.",
   //Bodenart
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge ist 1-3-2, da sich Pflanze 1 mit 800 g und einer Höhe von 80 cm am stärksten gewachsen ist.",
   //CO₂
   //Feedback erste Runde
-  /*78*/"Gut gemacht! Deine Antwort ist korrekt.",
+  /*78*/"Sehr gut! Deine Antwort ist korrekt.",
   "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Sehr gut! Du hast die Frage richtig beantwortet.",
-  "Leider ist deine Antwort nicht korrekt. Eine erhöhte CO2-Konzentration steigert das Wachstum von Weizenpflanzen, allerdings leidet die Qualität der Erträge darunter.",
+  "Gut gemacht! Du hast die Frage richtig beantwortet. ",
+  "Deine Antwort ist leider nicht korrekt. Eine erhöhte CO2-Konzentration steigert das Wachstum von Weizenpflanzen. Allerdings leidet die Qualität des Weizens darunter, was auch Auswirkungen auf die Höhe der Erträge hat.",
   //Temperatur - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Weizen wächst am besten bei 25° C. Jede Erhöhung der Temperatur führt dazu, dass Weizen nicht mehr so ideal wächst.",
+  "Deine Antwort ist leider nicht korrekt. Weizen wächst am besten bei 25 °C. Bei Temperaturen über 25 °C zeigen Weizenpflanzen erste Anzeichen für Hitzestress wie gelb gefärbte oder verwelkte Blätter.",
   //Bodenart - richtige Antworten gleich wie bei CO₂
   //Feedback erste Runde
   "Deine Antwort ist leider nicht korrekt. Versuch es gleich nochmal.",
   //Feedback zweite Runde
-  "Leider ist deine Antwort nicht korrekt. Jede Bodenart hat unterschiedliche Eigenschaften, sodass diese das Wachstum von Weizen beeinflusst. Einige Böden können aufgrund einer begrenzten Wasser-verfügbarkeit das Wachstum einschränken, während andere Bodenarten speziell angepasste Pflanzen unterstützen können.",
-  "Super, das Experiment ist geschafft!",
+  "Deine Antwort ist leider nicht korrekt. Jede Bodenart hat unterschiedliche Eigenschaften, die das Wachstum von Weizen beeinflussen. Für Weizenpflanzen sorgt ein schluffiger Lehmboden aufgrund seiner guten Wasserspeicherkapazität, seiner guten Durchwurzelbarkeit und der damit verbundenen einfachen Bearbeitung für ideales Wachstum.",
+  "Super du hast es geschafft!",
   //ThirdExp04
   /*87*/
-  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300g bereits berücksichtigt.",
-  "Ordne die Weizenpflanzen 1 bis 3 nach ihrem Entwicklungsstand und ihrem Gewicht in absteigender Reihenfolge.",
+  "Platzier die Petrischalen nacheinander auf der Waage und notiere das Gewicht. Beachte, dass das Anfangsgewicht der Waage einen Wert von -0,300 kg anzeigt. Wir haben das Eigengewicht der Petrischale von 300 g bereits berücksichtigt.",
+  "Ordne die Weizenpflanzen 1 bis 3 nach ihrer Größe und Gewicht in absteigender Reihenfolge.",
   "Super, deine Antwort ist richtig.",
   "Deine Antwort ist leider nicht korrekt. Denk daran, dass du die Pflanzen in absteigender Reihenfolge ordnen sollst. Die Pflanze mit dem höchsten Wert kommt also zuerst.",
-  "Top! Du hast die richtige Lösung.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 3-2-1.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-2-3.",
-  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge wäre 1-3-2.",
+  "Top! Du hast die richtige Lösung. Mach weiter so und bleib aufmerksam beim Beantworten der Fragen.",
+  "Leider ist deine Antwort nicht korrekt. Pflanze 3 wiegt 970 g bei einer Höhe von 87 cm und ist damit am stärksten gewachsen. Die richtige Reihenfolge ist daher 3-2-1.",
+  "Leider ist deine Antwort nicht korrekt. Mit einer Höhe von 80 cm und 800 g ist Pflanze 1 am stärksten gewachsen, wodurch die richtige Reihenfolge 1-2-3 ist.",
+  "Leider ist deine Antwort nicht korrekt. Die richtige Reihenfolge ist 1-3-2, da sich Pflanze 1 mit 800 g und einer Höhe von 80 cm am stärksten gewachsen ist.",
 ]
 
 

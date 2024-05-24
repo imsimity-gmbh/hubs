@@ -217,7 +217,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       }
       else if(this.chosen == 1)//CO₂
       {
-        this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte CO2-Konzentration auf das Wachstums der Weizenpflanzen ausgewirkt hat."});
+        this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte CO2-Konzentration auf das Wachstum der Weizenpflanzen ausgewirkt hat."});
         this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Weizenpflanzen anregen, indem es die Wirksamkeit der Fotosynthese verbessert."});
         this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum; es ist nur ein Abfallprodukt der tierischen Atmung."});
         this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Wachstum, da Weizen am besten bei 419 ppm wächst ."});
@@ -392,27 +392,27 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
         switch (this.localCountInfoField) {
           case 1:
             this.TippImage.object3D.visible = true;
-            this.infoFieldText.setAttribute("text", { value: "Stell sicher, dass du das Experiment sowie den Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst."});
+            this.infoFieldText.setAttribute("text", { value: "Stelle sicher, dass du das Experiment sowie den Ablauf vollständig verstehst, bevor du mit der Durchführung beginnst. "});
             break;
           case 2:
             this.TippImage.object3D.visible = false;
             this.TippImage2.object3D.visible = true;
-            this.infoFieldText.setAttribute("text", { value: "Trag stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe."});
+            this.infoFieldText.setAttribute("text", { value: "Trage stets die erforderliche Schutzausrüstung, einschließlich Laborkittel, Schutzbrille und Handschuhe. "});
             break;
           case 3:
             this.TippImage2.object3D.visible = false;
             this.TippImage3.object3D.visible = true;
-            this.infoFieldText.setAttribute("text", { value:  "Dokumentier sorgfältig alle Beobachtungen, Messwerte und deren Veränderungen."});
+            this.infoFieldText.setAttribute("text", { value:  "Dokumentiere sorgfältig alle Beobachtungen, Messwerte und deren Veränderungen. "});
             break;
           case 4:
             this.TippImage3.object3D.visible = false;
             this.TippImage4.object3D.visible = true;
-            this.infoFieldText.setAttribute("text", { value:  "Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen. In der Gruppe sind wir stark."});
+            this.infoFieldText.setAttribute("text", { value:  "Arbeite eng mit anderen im Labor zusammen, um Ideen auszutauschen und voneinander zu lernen. \nIn der Gruppe sind wir stark!"});
             break;
           case 5:
             this.TippImage4.object3D.visible = false;
             this.TippImage5.object3D.visible = true;
-            this.infoFieldText.setAttribute("text", { value: "Fehler gehören zum wissenschaftlichen Prozess dazu. Nutze Sie als Chance zur Verbesserung."});
+            this.infoFieldText.setAttribute("text", { value: "Fehler gehören zum wissenschaftlichen Prozess dazu. Nutze Sie als Chance zur Verbesserung!"});
             this.el.setAttribute("third-experiment-05", "skipBtnClicked", true);  
             break;
             default:

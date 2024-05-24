@@ -6,7 +6,7 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
 import scaleSrc from "../../../assets/models/GecoLab/scales.glb";
 
 import scissorSrc from "../../../assets/models/GecoLab/PlantGrowth/scissor_w_collider.glb";
-import solSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_growth_vase.glb";
+import solSrc from "../../../assets/models/GecoLab/PlantGrowth/geco_petri_dish.glb";
 import { faBreadSlice } from "@fortawesome/free-solid-svg-icons";
 
 const scaleModelPromise = waitForDOMContentLoaded().then(() => loadModel(scaleSrc));
@@ -364,7 +364,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       //this.simpleAnim1.playClip("03_long_cut", false, true);
 
       this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
-      /*
+      
       switch(this.chosen)
       {
         case 0:
@@ -382,7 +382,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
           this.simpleAnim2.playClip("wheat_ground_1_cutting", false, true);
           break;
-      }*/
+      }
 
       setTimeout(() => this.showSol1(),4000);
     },
@@ -412,7 +412,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       //this.simpleAnim1.playClip("03_long_cut", false, true);
 
       this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
-      /*
+      
       switch(this.chosen)
       {
         case 0:
@@ -430,7 +430,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
           this.simpleAnim2.playClip("wheat_ground_2_cutting", false, true);
           break;
-      }*/
+      }
 
       setTimeout(() => this.showSol2(),4000);
     },
@@ -460,7 +460,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
       //this.simpleAnim1.playClip("03_long_cut", false, true);
 
       this.thirdExpPart03 = this.expSystem.getTaskById("03", this.experimentData.groupCode);
-      /*
+      
       switch(this.chosen)
       {
         case 0:
@@ -478,7 +478,7 @@ const solModelPromise = waitForDOMContentLoaded().then(() => loadModel(solSrc));
           this.simpleAnim2 = this.simpleAnims2.components["simple-animation"];
           this.simpleAnim2.playClip("wheat_ground_3_cutting", false, true);
           break;
-      }*/
+      }
 
       setTimeout(() => this.showSol3(),4000);
     },
