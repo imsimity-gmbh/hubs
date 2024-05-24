@@ -210,26 +210,26 @@ import { decodeNetworkId, getNetworkIdFromEl } from "../../../utils/GecoLab/netw
       if(this.chosen == 0)//Temp
       {
         this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte Temperatur auf das Wachstum der Weizenpflanzen ausgewirkt hat."});
-        this.answerText0.setAttribute("text", { value: "Eine erhöhte Temperatur hat keinen Einfluss auf das Wachstum, da Weizen nicht auf seine Umgebungstemperatur reagiert."});
-        this.answerText1.setAttribute("text", { value: "Eine Erhöhung der Temperatur kann das Wachstum fördern, da Pflanzen in einer kürzeren Zeit schneller wachsen."});
-        this.answerText2.setAttribute("text", { value: "Eine Erhöhung der Temperatur bei Weizen führt zu einem Rückgang des Wachstums, da Weizen am besten bei 25° C wachsen kann."});
+        this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Weizen sich an verschiedene Bodenbedingungen anpassen kann."});
+        this.answerText1.setAttribute("text", { value: "Temperaturen über 30 °C haben keinen Einfluss auf Weizenpflanzen, da sie unabhängig von den Umgebungsbedingungen wachsen können."});
+        this.answerText2.setAttribute("text", { value: "Eine zu starke Erhöhung der Temperatur bei Weizen führt zu einem Rückgang des Wachstums, da Weizenpflanzen am besten bei 25 °C wachsen kann."});
         this.rightAnswer = 2;
       }
       else if(this.chosen == 1)//CO₂
       {
         this.questionText.setAttribute("text",{ value: "Erkläre, wie sich eine erhöhte CO2-Konzentration auf das Wachstum der Weizenpflanzen ausgewirkt hat."});
         this.answerText0.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration kann das Wachstum von Weizenpflanzen anregen, indem es die Wirksamkeit der Fotosynthese verbessert."});
-        this.answerText1.setAttribute("text", { value: "CO2 beeinflusst nicht das Wachstum; es ist nur ein Abfallprodukt der tierischen Atmung."});
-        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Wachstum, da Weizen am besten bei 419 ppm wächst ."});
+        this.answerText1.setAttribute("text", { value: "Eine erhöhte Temperatur kann das Wachstum fördern, da Pflanzen in einer kürzeren Zeit schneller wachsen."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Wachstum, da Weizenpflanzen am besten bei 419 ppm wächst."});
         this.rightAnswer = 0;
       }
       else if(this.chosen == 2)//Ground
       {
         this.questionText.setAttribute("text",{ value: "Erkläre, wie sich  eine Änderung der Bodenart auf das Wachstum der Weizenpflanze ausgewirkt hat."});
-        this.answerText0.setAttribute("text", { value: "Die Bodenart hat keinen Einfluss auf das Wachstum, da Weizen sich an verschiedene Bodenbedingungen anpassen kann."});
-        this.answerText1.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben von Weizen, da Weizen nur auf einem sandigen Boden gut wachsen kann."});
-        this.answerText2.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum von Weizen, weil verschiedene Boden-arten unterschiedliche Nährstoffe und Wasser-speicherkapazitäten bieten."});
-        this.rightAnswer = 2;
+        this.answerText0.setAttribute("text", { value: "Eine Bodenveränderung führt immer zu einem Absterben von Weizen, da Weizen nur auf einem sandigen Boden wachsen kann."});
+        this.answerText1.setAttribute("text", { value: "Eine Änderung der Bodenart beeinflusst das Wachstum von Weizen, weil verschiedene Bodenarten unterschiedliche Nährstoffe und Wasser-speicherkapazitäten bieten."});
+        this.answerText2.setAttribute("text", { value: "Eine erhöhte CO2-Konzentration hemmt das Wachstum, da Weizenpflanzen am besten bei 419 ppm wächst."});
+        this.rightAnswer = 1;
       }
 
       this.showQuestion();
