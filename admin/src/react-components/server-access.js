@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable @calm/react-intl/missing-formatted-message*/
-
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";

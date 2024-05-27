@@ -1,4 +1,3 @@
-/* eslint-disable @calm/react-intl/missing-formatted-message*/
 import React from "react";
 import { SceneLink, OwnedFileImage, OwnedFileSizeField } from "./fields";
 import { ApproveSceneButton } from "./approve-buttons";
@@ -33,10 +32,7 @@ export const SceneEdit = props => (
       <SelectInput
         label="Status"
         source="state"
-        choices={[
-          { id: "active", name: "active" },
-          { id: "removed", name: "removed" }
-        ]}
+        choices={[{ id: "active", name: "active" }, { id: "removed", name: "removed" }]}
       />
       <BooleanInput source="allow_remixing" />
       <BooleanInput source="allow_promotion" />
@@ -45,7 +41,7 @@ export const SceneEdit = props => (
 );
 
 export const SceneList = props => (
-  <List {...props} filters={<SceneFilter />} bulkActionButtons={false}>
+  <List {...props} filters={<SceneFilter />}>
     <Datagrid>
       <OwnedFileImage source="screenshot_owned_file_id" />
       <OwnedFileSizeField label="Model size" source="model_owned_file_id" />

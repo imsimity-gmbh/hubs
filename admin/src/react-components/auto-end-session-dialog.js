@@ -1,5 +1,3 @@
-/* eslint-disable @calm/react-intl/missing-formatted-message*/
-/* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withCommonStyles from "../utils/with-common-styles";

@@ -1,4 +1,3 @@
-/* eslint-disable @calm/react-intl/missing-formatted-message*/
 import React from "react";
 import { AvatarLink, OwnedFileImage, ConditionalReferenceField } from "./fields";
 import { FeatureAvatarListingButton } from "./feature-listing-buttons";
@@ -40,13 +39,7 @@ export const AvatarListingEdit = props => (
         </SimpleFormIterator>
       </ArrayInput>
       <NumberInput source="order" />
-      <SelectInput
-        source="state"
-        choices={[
-          { id: "active", name: "active" },
-          { id: "delisted", name: "delisted" }
-        ]}
-      />
+      <SelectInput source="state" choices={[{ id: "active", name: "active" }, { id: "delisted", name: "delisted" }]} />
     </SimpleForm>
   </Edit>
 );

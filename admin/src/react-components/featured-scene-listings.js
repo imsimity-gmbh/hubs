@@ -1,4 +1,3 @@
-/* eslint-disable @calm/react-intl/missing-formatted-message*/
 import React from "react";
 import { SceneLink, OwnedFileImage, OwnedFileSizeField } from "./fields";
 import { FeatureSceneListingButton } from "./feature-listing-buttons";
@@ -25,7 +24,7 @@ const SceneFilter = props => (
 );
 
 export const FeaturedSceneListingList = props => (
-  <List {...props} filters={<SceneFilter />} sort={{ field: "order", order: "ASC" }} bulkActionButtons={false}>
+  <List {...props} filters={<SceneFilter />} sort={{ field: "order", order: "ASC" }}>
     <Datagrid>
       <OwnedFileImage source="screenshot_owned_file_id" />
       <OwnedFileSizeField label="Model size" source="model_owned_file_id" />
