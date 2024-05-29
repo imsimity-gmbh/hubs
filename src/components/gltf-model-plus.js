@@ -876,10 +876,10 @@ export async function loadGLTF(src, contentType, onProgress, jsonPreprocessor) {
     .register(
       parser =>
         new GLTFLodExtension(parser, {
-          loadingMode: useRangeRequests ? "progressive" : "all",
+          loadingMode: false ? "progressive" : "all",
           onLoadMesh: (lod, mesh, level, lowestLevel) => {
             // Nothing to do for "all" mode
-            if (!useRangeRequests) {
+            if (!false) {
               return mesh;
             }
 
@@ -988,7 +988,7 @@ export async function loadGLTF(src, contentType, onProgress, jsonPreprocessor) {
 
       resolve(gltf);
     };
-    if (useRangeRequests) {
+    if (false) {
       GLBRangeRequests.load(gltfUrl, gltfLoader, onLoad, onProgress, reject);
     } else {
       gltfLoader.load(gltfUrl, onLoad, onProgress, reject);
