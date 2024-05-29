@@ -4,10 +4,11 @@ import SketchfabZipWorker from "../workers/sketchfab-zip.worker.js";
 import { getCustomGLTFParserURLResolver } from "../utils/media-url-utils";
 import { promisifyWorker } from "../utils/promisify-worker.js";
 import { MeshBVH, acceleratedRaycast } from "three-mesh-bvh";
-import { disposeNode, cloneObject3D } from "../utils/three-utils";
+import { disposeMaterial, cloneObject3D } from "../utils/three-utils";
 import HubsTextureLoader from "../loaders/HubsTextureLoader";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";//maybe rauswerfen?
 import { BasisTextureLoader } from "three/examples/jsm/loaders/BasisTextureLoader";
 
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
@@ -465,7 +466,7 @@ class GLTFHubsPlugin {
 
         node.extras.gltfIndex = i;
 
-        if (shouldUseNewLoader()) {
+        if (APP.hub?.user_data?.hubs_use_bitecs_based_client) {
           /**
            * This guarantees that components that add Object3Ds (ie. through addObject3DComponent) are not attached to non-Object3D
            * entities as it's not supported in the BitECS loader.
@@ -576,7 +577,7 @@ class GLTFHubsComponentsExtension {
           // That was supported in the previous loader but in the new loader it loads as two different entities.
           // This hack adds support for linked media using the new loader.
           // Note: For some reason this was not supported for PDFs. Not sure if it's random or if there is a reason.
-          if (shouldUseNewLoader()) {
+          if (APP.hub?.user_data?.hubs_use_bitecs_based_client) {
             if (Object.prototype.hasOwnProperty.call(ext, "link")) {
               if (["image", "video", "model"].includes(componentName)) {
                 ext["media-link"] = {
