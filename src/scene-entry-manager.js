@@ -167,7 +167,9 @@ export default class SceneEntryManager {
     if (this.scene.renderer) {
       this.scene.renderer.setAnimationLoop(null); // Stop animation loop, TODO A-Frame should do this
     }
+    console.log("Test_exit_suc");
     this.scene.parentNode.removeChild(this.scene);
+    console.log("Test_exit_suc_2");
   };
 
   _setupPlayerRig = () => {

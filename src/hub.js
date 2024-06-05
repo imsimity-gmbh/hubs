@@ -807,9 +807,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.APP.entryManager = entryManager;
 
   APP.dialog.on(DIALOG_CONNECTION_CONNECTED, () => {
+    console.log("Test_Dia_suc");
     scene.emit("didConnectToDialog");
   });
   APP.dialog.on(DIALOG_CONNECTION_ERROR_FATAL, () => {
+    console.log("Test_Dia_err");
     // TODO: Change the wording of the connect error to match dialog connection error
     // TODO: Tell the user that dialog is broken, but don't completely end the experience
     remountUI({ roomUnavailableReason: ExitReason.connectError });
